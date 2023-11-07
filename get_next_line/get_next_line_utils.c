@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:23 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/06 20:52:56 by bruno            ###   ########.fr       */
+/*   Updated: 2023/11/07 22:39:37 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
+/*  runs while it's not \n or until it's \n  */
 int	ft_strlen(char *str)
 {
 	int	i;
@@ -19,13 +19,14 @@ int	ft_strlen(char *str)
 	if (!str)
 		return (0);
 	i = 0;
-	while (str[i] && str[i] != '\n') //if it's not newline i++
+	while (str[i] && str[i] != '\n')
 		i++;
-	if (str[i] == '\n') // count for the newline length
+	if (str[i] == '\n')
 		i++;
 	return (i);
 }
 
+/*  normal strjoin except it stops when \n  */
 char	*ft_strjoin(char *line, char *buf)
 {
 	char	*str;
@@ -45,7 +46,7 @@ char	*ft_strjoin(char *line, char *buf)
 	while (buf && buf[j])
 	{
 		str[i++] = buf[j];
-		if (buf[j] == '\n')
+		if (buf[j] == '\n') 
 			break ;
 		j++;
 	}

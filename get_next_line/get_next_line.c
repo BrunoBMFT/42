@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:20 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/06 21:03:31 by bruno            ###   ########.fr       */
+/*   Updated: 2023/11/07 22:41:17 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-int	buffer(char	*buf) //???
+int	buffer(char	*buf)
 {
 	int	trig; //trigger for newline
 	int	i;
@@ -27,7 +27,7 @@ int	buffer(char	*buf) //???
 	j = 0;
 	while (buf[i])
 	{
-		if (trig == 1)
+		if (trig == 1) // it is \n
 		{
 			buf[j] = buf[i];
 			j++;
@@ -40,6 +40,7 @@ int	buffer(char	*buf) //???
 	return (trig);
 }
 
+/*  makes every index 0  */
 void	clearbuf(char *buf)
 {
 	int	i;
@@ -47,14 +48,14 @@ void	clearbuf(char *buf)
 	i = 0;
 	while (buf[i])
 	{
-		buf[i] = 0; // every index of buffer is 0
+		buf[i] = 0;
 		i++;
 	}
 }
 
 char	*get_next_line(int fd)
 {
-	static char	buf[BUFFER_SIZE + 1];	//buf is the size defined in .h + 1 because char
+	static char	buf[BUFFER_SIZE + 1];
 	char		*line;
 	int			trig;
 	
@@ -66,9 +67,9 @@ char	*get_next_line(int fd)
 	}
 	line = NULL;
 	trig = 0;
-	//
-	//
-	//if read is 0, means file is over
+	// if after buffer is run, trig is 1 (newline), it wont run again, but it will still print the rest of line because strjoin is modified to do so
+	// no idea why buf[0]
+	// if read is 0, means file is over
 	while (trig == 0 && (buf[0] || read(fd, buf, BUFFER_SIZE)))
 	{
 		line = ft_strjoin(line, buf);
