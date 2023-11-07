@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 13:39:19 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/03 16:03:17 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 15:11:07 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdarg.h>
+# include <stdio.h>
 
 int	ft_putchar(int c);
 int	format(va_list args, const char format);

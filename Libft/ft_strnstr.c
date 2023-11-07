@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 19:38:57 by brfernan          #+#    #+#             */
-/*   Updated: 2023/10/23 16:29:55 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:41:05 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*ft_strnstr(const char *str, const char *little, size_t n)
 {
 	size_t	pos;
 
+	if (!str)
+		return (NULL);
 	if (!*little)
 		return ((char *)str);
 	pos = ft_strlen((char *)little);

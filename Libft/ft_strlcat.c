@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 13:32:02 by brfernan          #+#    #+#             */
-/*   Updated: 2023/10/24 15:14:03 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:40:24 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	size_t	dest_length;
 	size_t	src_length;
 
+	if (!src)
+		return (0);
 	src_length = ft_strlen(src);
 	dest_length = ft_strlen(dest);
 	j = dest_length;

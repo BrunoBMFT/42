@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 13:39:34 by brfernan          #+#    #+#             */
-/*   Updated: 2023/10/23 16:26:16 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:40:59 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
 
+	if (!s1 || !s2)
+		return (0);
 	if (n == 0)
 		return (0);
 	i = 0;

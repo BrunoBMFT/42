@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 22:32:33 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/03 19:46:26 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:41:15 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int		i;
 	int		j;
 
+	if (!s1)
+		return (NULL);
 	ret = 0;
 	if (s1 && set)
 	{

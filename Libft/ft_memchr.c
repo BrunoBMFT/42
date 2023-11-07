@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 18:01:46 by bruno             #+#    #+#             */
-/*   Updated: 2023/10/23 15:29:45 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:36:36 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	size_t	i;
 	char	*p;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	p = (char *)s;
 	while (i < n)

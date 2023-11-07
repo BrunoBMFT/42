@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 18:34:43 by bruno             #+#    #+#             */
-/*   Updated: 2023/10/23 15:12:29 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:37:01 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	char	*d;
 	char	*s;
 
+	if (!src)
+		return (NULL);
 	if (dest == src || !n)
 		return (dest);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 19:43:47 by brfernan          #+#    #+#             */
-/*   Updated: 2023/10/23 16:18:42 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:40:21 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t n)
 {
 	size_t	i;
 
+	if (!src)
+		return (0);
 	i = 0;
 	if (n == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 18:40:49 by bruno             #+#    #+#             */
-/*   Updated: 2023/10/23 15:15:14 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:37:20 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	size_t	i;
 	char	*d;
 	char	*s;
-
+	
+	if (!src)
+		return (NULL);
 	if (dest == src || !n)
 		return (dest);
 	d = (char *)dest;

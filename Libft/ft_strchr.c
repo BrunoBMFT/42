@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 19:27:04 by brfernan          #+#    #+#             */
-/*   Updated: 2023/10/23 15:20:07 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:38:40 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*ft_strchr(const char *str, int c)
 {
 	int	i;
 
+	if (!str)
+		return (NULL);
 	i = 0;
 	while (str[i])
 	{
@@ -30,7 +32,7 @@ char	*ft_strchr(const char *str, int c)
 /*#include <stdio.h>
 int main ()
 {
-	const char str[] = "teste";
+	const char str[] = "";
 	int ch = 's';
 	char *ret;
 

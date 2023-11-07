@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 00:35:21 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/03 16:27:41 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 15:12:56 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	ft_printf(const char *str, ...)
 
 	i = 0;
 	len = 0;
+	if (!str)
+		return (-1);
 	va_start(args, str);
 	while (str[i])
 	{
