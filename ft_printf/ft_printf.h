@@ -6,12 +6,14 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 13:39:19 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/07 15:11:07 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 19:55:56 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
+
+# define POSSIBLE "cspdiuxX%"
 
 # include <unistd.h>
 # include <stdarg.h>

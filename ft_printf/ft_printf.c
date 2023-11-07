@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 00:35:21 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/07 15:12:56 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:00:09 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,20 @@ int	format(va_list args, const char format)
 	return (len);
 }
 
+static int	is_possible(char *str, char c)
+{
+	int	i;
+	
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	ft_printf(const char *str, ...)
 {
 	int		len;
@@ -55,7 +69,7 @@ int	ft_printf(const char *str, ...)
 	va_start(args, str);
 	while (str[i])
 	{
-		if (str[i] == '%')
+		if (str[i] == '%' && is_possible(POSSIBLE, str[i + 1]))
 		{
 			len += format(args, str[i + 1]);
 			i++;
@@ -68,4 +82,10 @@ int	ft_printf(const char *str, ...)
 	}
 	va_end(args);
 	return (len);
+}
+
+int	main(void)
+{
+	printf("%d\n", ft_printf("attempt %%% arguments = "));
+	printf("%d\n", printf("attempt %%% arguments = "));
 }
