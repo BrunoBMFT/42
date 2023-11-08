@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:23 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/07 22:39:37 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/08 16:34:07 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ char	*ft_strjoin(char *line, char *buf)
 	while (buf && buf[j])
 	{
 		str[i++] = buf[j];
-		if (buf[j] == '\n') 
+		if (buf[j] == '\n')
 			break ;
 		j++;
 	}
-	str[i] = '\0';
+	str[i] = 0;
 	free (line);
 	return (str);
 }
