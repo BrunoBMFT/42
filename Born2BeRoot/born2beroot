@@ -1,0 +1,79 @@
+Born2beroot
+
+uname = Unix name, prints the name, version and more details about machine and OS running
+uname -a = --all, shows all info including cpu and other stuff
+
+grep = global regular expression print, works like this: grep "to find" folder
+wc -l = shows how many lines there are
+
+grep "physical id" /proc/cpuinfo | wc -l = shows how many lines cpuinfo has, since we allocated 1 cpu core, it shows 1 as result
+
+RAM:
+free = shows info about rams state at the moment, including free space, used, shared etc...
+awk = programming language that doesn't require compiling
+$S1 == "Mem:" is checking if first line is mem or not 
+free --mega | awk '$1 == "Mem:" {print $3}
+print how many megabytes of ram memory, but only the 3rd column (which is free space)
+for total memory, change print $3 to $2
+for % of used memory, we change the command to this:
+free --mega | awkward '$1 == "Mem:" {printf("%.2f%%)\n, $3/$2*100}'
+this command used %.2f for 2 decimal points, and used $3/$2 to divide free by total memory
+
+Disk:
+df = disk filesystem, complete info of all partitions of diskspace. add -m for space in mb
+df -m | grep "/dev/" | grep -v "/boot" | awk '{memory_use += $3} END {print memory_use}' = include the lines that have /dev/ and dont have /boot, then use += to show all memory use
+
+df -m | grep "/dev/" | grep -v "/boot" | awk '{memory_result += $2} END {printf ("%.0fGb\n"), memory_result/1024}' = shows how much total memory in Gb
+
+df -m | grep "/dev/" | grep -v "/boot" | awk '{use += $3} {total += $2} END {printf("(%d%%)\n"), use/total*100}' = % of memory used
+
+CPU usage:
+vmstat: virtual mem stats, shows processes, mem usage, cpy activity, sys status
+vmstat 1 4 = every second it runs again
+tail -1 = shows only last output
+vmstat 1 4 | tail -1 | awk '{print $15}' = prints only word 15 for available mem usage
+
+Last reboot:
+who = shows currently logged in users and when they logged in. 1st col shows user, 2nd shows how they connected, 3 & 4 show date & time, 5th shows IP where user is connected
+who -b = shows last boot
+who -b | awk '$1 == "system" {print $3 " " $4}' = shows date and time of last boot if first word is system
+
+LVM active:
+lsblk = shows info of all block devices, HDD, SSD, etc, showing type of manager
+if [ $(lsblk | grep "lvm" | wc -l) -gt 0 ]; then echo yes; else echo no; fi = if there is more than 0 lines with lvm, it echoes yes, otherwise echo no
+
+TCP connections:
+ss = shows connections and network info
+-ta = shows only tcp connections
+ss -ta | grep ESTAB | wc -l = shows only the ones that start with ESTAB and only line count
+
+Number of users:
+users = shows name of all users
+users | wc -w = counts number of words
+
+IP address and MAC:
+hostname -I = host address
+ip link = Mac address
+ip link | grep "link/ether" | awk '{print $2}' = if line has link/ether, it prints 2nd column which is ,ac
+
+Number of commands:
+journalctl: shows system logs
+_COMM=sudo shows only sudo, _COMM being executable script
+journalctl _COMM=sudo | grep COMMAND | wc -l = shows number of lines that start with command of sudo logs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
