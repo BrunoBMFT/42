@@ -15,7 +15,7 @@ RM = rm -f
 %.o: %.c
 	$(CC) -c $(CFLAGS) $?
 
-all = $(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJS)
 		$(COMPRESS) $(NAME) $(OBJS)

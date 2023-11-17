@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 00:35:21 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/07 22:14:41 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/17 15:16:11 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,22 @@ int	ft_printf(const char *str, ...)
 	int		i;
 	va_list	args;
 
-	i = 0;
+	i = -1;
 	len = 0;
 	if (!str)
 		return (-1);
 	va_start(args, str);
-	while (str[i])
+	while (str[++i])
 	{
-		if (str[i] == '%' && is_possible(POSSIBLE, str[i + 1]))
+		if (str[i] == '%')
 		{
-			len += format(args, str[i + 1]);
-			i++;
+			while (!is_possible(POSSIBLE, str[i + 1]))
+				i++;
+			if (is_possible(POSSIBLE, str[i + 1]))
+				len += format(args, str[i++ + 1]);
 		}
 		else
 			len += ft_putchar(str[i]);
-		i++;
 	}
 	va_end(args);
 	return (len);
@@ -84,6 +85,6 @@ int	ft_printf(const char *str, ...)
 /*
 int	main(void)
 {
-	 printf("%d\n", ft_printf("\n\nattempt %%% carguments\n\n"));
-	 printf("%d\n", printf("attempt %%% carguments\n\n"));
+	printf("%d\n", ft_printf("attempt %%%&arguments\n\n"));
+	printf("%d\n", printf("attempt %%%&arguments\n\n"));
 }*/
