@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:20 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/17 19:05:44 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/17 18:53:09 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,3 +66,25 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
+/*
+int	main(void)
+{
+	int	fd;
+	char *ret;
+
+	fd = open("/nfs/homes/brfernan/Documents/example.txt", O_RDONLY);  //fd is defined in main
+	if (fd == -1) // -1 is always error
+	{
+		perror("Error in opening file");
+		return (1);
+	}
+	ret = get_next_line(fd);
+	while (ret) //runs while ret != \0 aka end of file
+	{
+		printf("%s", ret);
+		free(ret); // free so no mem leaks
+		ret = get_next_line(fd); //needs loop because it gets one line at a time
+	}
+	close(fd);
+	return (0);
+}*/
