@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/19 02:41:43 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/21 00:52:10 by bruno            ###   ########.fr       */
+/*   Created: 2023/10/02 13:12:35 by brfernan          #+#    #+#             */
+/*   Updated: 2023/10/23 15:01:25 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+int	ft_isdigit(int c)
 {
-    if (argc == 2)
-    {
-        printf("%s", argv[1]);
-    }
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }
+/*#include <stdio.h>
+int	main(void)
+{
+	printf("%d\n", ft_isdigit('a'));
+	printf("%d\n", ft_isdigit('1'));
+	printf("%d\n", ft_isdigit(0));
+}*/

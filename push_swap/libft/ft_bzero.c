@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/19 02:41:43 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/21 00:52:10 by bruno            ###   ########.fr       */
+/*   Created: 2023/10/03 13:37:41 by brfernan          #+#    #+#             */
+/*   Updated: 2023/10/23 14:52:58 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+void	ft_bzero(void *s, size_t n)
 {
-    if (argc == 2)
-    {
-        printf("%s", argv[1]);
-    }
+	ft_memset(s, '\0', n);
 }

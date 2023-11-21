@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/19 02:41:43 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/21 00:52:10 by bruno            ###   ########.fr       */
+/*   Created: 2023/10/03 13:49:26 by brfernan          #+#    #+#             */
+/*   Updated: 2023/10/23 14:57:41 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+void	*ft_calloc(size_t count, size_t size)
 {
-    if (argc == 2)
-    {
-        printf("%s", argv[1]);
-    }
+	void	*ptr;
+
+	ptr = (void *)malloc(count * size);
+	if (!ptr)
+		return (NULL);
+	ft_bzero(ptr, size * count);
+	return (ptr);
 }

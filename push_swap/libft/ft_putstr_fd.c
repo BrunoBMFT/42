@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/19 02:41:43 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/21 00:52:10 by bruno            ###   ########.fr       */
+/*   Created: 2023/10/06 14:04:32 by brfernan          #+#    #+#             */
+/*   Updated: 2023/10/26 15:23:41 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+void	ft_putstr_fd(char *s, int fd)
 {
-    if (argc == 2)
-    {
-        printf("%s", argv[1]);
-    }
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 }
+/*int main(void)
+{
+    ft_putstr_fd("hello", 1); 
+}*/

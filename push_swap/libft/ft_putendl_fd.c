@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/19 02:41:43 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/21 00:52:10 by bruno            ###   ########.fr       */
+/*   Created: 2023/10/06 15:38:38 by brfernan          #+#    #+#             */
+/*   Updated: 2023/10/23 15:17:36 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+void	ft_putendl_fd(char *s, int fd)
 {
-    if (argc == 2)
-    {
-        printf("%s", argv[1]);
-    }
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }
+/*int main(void)
+{
+    ft_putendl_fd("hello", 1);
+}*/

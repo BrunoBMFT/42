@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/19 02:41:43 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/21 00:52:10 by bruno            ###   ########.fr       */
+/*   Created: 2023/10/02 13:37:29 by brfernan          #+#    #+#             */
+/*   Updated: 2023/10/23 16:32:33 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+int	ft_tolower(int c)
 {
-    if (argc == 2)
-    {
-        printf("%s", argv[1]);
-    }
+	if (c >= 'A' && c <= 'Z')
+		c += 32;
+	return (c);
 }
+/*#include <stdio.h>
+int	main(void)
+{
+	printf("%c\n", ft_tolower('C'));
+}*/
