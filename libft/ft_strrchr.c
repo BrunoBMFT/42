@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/03 17:35:17 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/17 16:25:38 by brfernan         ###   ########.fr       */
+/*   Created: 2023/10/02 19:30:40 by brfernan          #+#    #+#             */
+/*   Updated: 2023/11/07 14:41:07 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
+#include "libft.h"
 
-# include <unistd.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
+char	*ft_strrchr(const char *s, int c)
+{
+	int	i;
 
-char	*get_next_line(int fd);
-char	*ft_strjoin(char *line, char *buf);
-int		buffer(char	*buf);
-char	*clearbuf(char *buf);
-
-#endif
+	if (!s)
+		return (NULL);
+	i = 0;
+	while (s[i])
+		i++;
+	while (i >= 0)
+	{
+		if (s[i] == (char)c)
+			return ((char *)(s + i));
+		i--;
+	}
+	return (NULL);
+}
+/*#include <stdio.h>
+#include <string.h>
+int	main(void)
+{
+	printf("%s\n", ft_strrchr("hello", 101));
+	printf("%s\n", strrchr("hello", 101));
+}*/

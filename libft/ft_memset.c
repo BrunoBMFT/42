@@ -1,29 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/03 17:35:17 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/17 16:25:38 by brfernan         ###   ########.fr       */
+/*   Created: 2023/10/03 17:44:53 by bruno             #+#    #+#             */
+/*   Updated: 2023/11/07 14:39:43 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
+#include "libft.h"
 
-# include <unistd.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
+void	*ft_memset(void *str, int c, size_t n)
+{
+	size_t	i;
 
-char	*get_next_line(int fd);
-char	*ft_strjoin(char *line, char *buf);
-int		buffer(char	*buf);
-char	*clearbuf(char *buf);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < n)
+	{
+		*(unsigned char *)(str + i) = (unsigned char)c;
+		i++;
+	}
+	return (str);
+}
+#include <stdio.h>
+#include <string.h>
 
-#endif
+int main () 
+{
+	char str[50];
+
+	strcpy(str,"");
+	puts(str);
+
+	ft_memset(str,'$',7);
+	puts(str);
+}

@@ -6,12 +6,11 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:23 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/17 18:55:35 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/17 18:53:20 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
 int	ft_strlen(char *str)
 {
 	int	i;
