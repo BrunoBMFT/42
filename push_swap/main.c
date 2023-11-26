@@ -6,17 +6,20 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:43 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/21 00:52:10 by bruno            ###   ########.fr       */
+/*   Updated: 2023/11/26 00:07:29 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <unistd.h>
+#include "push_swap.h"
 
 int main(int argc, char **argv)
 {
+    void    *content;
+	t_list	current;
     if (argc == 2)
     {
-        printf("%s", argv[1]);
+		 = argv[1];
     }
+	
 }
