@@ -3,27 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/24 22:54:47 by bruno            ###   ########.fr       */
+/*   Updated: 2023/11/27 17:08:26 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_h
+#ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
-
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-	struct s_list	*prev;
-}					t_list;
 
 # include "libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h> // maybe not needed
-#include <fcntl.h>
+# include <unistd.h>
+# include <fcntl.h>
+
+typedef struct s_dlist
+{
+	void			*content;
+	struct s_dlist	*next;
+	struct s_dlist	*prev;
+}					t_dlist;
+
+typedef struct s_pointer
+{
+	t_dlist *head;
+	t_dlist *tail;
+}		t_pointer;
 
 #endif
