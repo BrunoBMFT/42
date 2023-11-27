@@ -6,15 +6,11 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:20 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/17 18:53:09 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/27 13:28:18 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
 
 int	buffer(char	*buf)
 {
@@ -62,17 +58,18 @@ char	*get_next_line(int fd)
 	while (trig == 0 && (buf[0] || read(fd, buf, BUFFER_SIZE)))
 	{
 		line = ft_strjoin(line, buf);
+		if (!line)
+			return (NULL);
 		trig = buffer(buf);
 	}
 	return (line);
 }
-/*
-int	main(void)
+/*int	main(void)
 {
 	int	fd;
 	char *ret;
 
-	fd = open("/nfs/homes/brfernan/Documents/example.txt", O_RDONLY);  //fd is defined in main
+	fd = open("/nfs/homes/brfernan/Documents/example.txt", O_RDONLY);
 	if (fd == -1) // -1 is always error
 	{
 		perror("Error in opening file");

@@ -6,15 +6,11 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:20 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/17 18:53:32 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/27 13:28:49 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
 
 int	buffer(char	*buf)
 {
@@ -51,28 +47,33 @@ char	*clearbuf(char *buf)
 
 char	*get_next_line(int fd)
 {
-	static char	buf[BUFFER_SIZE + 1];
+	static char	buf[FOPEN_MAX][BUFFER_SIZE + 1];
 	char		*line;
 	int			trig;
 
-	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
-		return (clearbuf(buf));
+	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1 || FOPEN_MAX <= fd)
+	{
+		if (fd > 0 && FOPEN_MAX > fd)
+			clearbuf(buf[fd]);
+		return (NULL);
+	}
 	line = NULL;
 	trig = 0;
-	while (trig == 0 && (buf[0] || read(fd, buf, BUFFER_SIZE)))
+	while (trig == 0 && (buf[fd][0] || read(fd, buf[fd], BUFFER_SIZE)))
 	{
-		line = ft_strjoin(line, buf);
-		trig = buffer(buf);
+		line = ft_strjoin(line, buf[fd]);
+		if (!line)
+			return (NULL);
+		trig = buffer(buf[fd]);
 	}
 	return (line);
 }
-/*
-int	main(void)
+/*int	main(void)
 {
 	int	fd;
 	char *ret;
 
-	fd = open("/nfs/homes/brfernan/Documents/example.txt", O_RDONLY);  //fd is defined in main
+	fd = open("/nfs/homes/brfernan/Documents/example.txt", O_RDONLY);
 	if (fd == -1) // -1 is always error
 	{
 		perror("Error in opening file");

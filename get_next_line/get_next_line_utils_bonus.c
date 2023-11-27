@@ -6,11 +6,12 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:23 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/17 18:53:20 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/11/27 13:22:12 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
 int	ft_strlen(char *str)
 {
 	int	i;
@@ -35,7 +36,7 @@ char	*ft_strjoin(char *line, char *buf)
 	j = 0;
 	str = malloc(ft_strlen(line) + ft_strlen(buf) + 1);
 	if (!str)
-		return (0);
+		return (free (line), NULL);
 	while (line && line[i])
 	{
 		str[i] = line[i];
