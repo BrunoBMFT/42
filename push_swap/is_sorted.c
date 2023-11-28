@@ -1,41 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   is_sorted.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
+/*   Created: 2023/11/28 16:30:09 by brfernan          #+#    #+#             */
 /*   Updated: 2023/11/28 16:41:40 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
-
-# include "libft/libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <fcntl.h>
-
-typedef struct s_dlist
+int is_sorted(char **arr)
 {
-	void			*content;
-	struct s_dlist	*next;
-	struct s_dlist	*prev;
-}					t_dlist;
+	int	i;
 
-typedef struct s_pointer
-{
-	t_dlist *head;
-	t_dlist *tail;
-}					t_pointer;
-
-t_dlist	*lstnew(void *content);
-void	lstadd_back(t_pointer *ht, t_dlist *new);
-void	lstadd_front(t_pointer *ht, t_dlist *new);
-void	lstclear(t_pointer *ht);
-int 	is_sorted(char **arr);
-
-#endif
+	while (arr)
+	{
+		if (arr[i] > arr[i + 1] && arr[i + 1])
+		{
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}

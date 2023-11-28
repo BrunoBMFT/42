@@ -1,6 +1,6 @@
 NAME = 
 
-SRCS = push_swap.c
+SRCS = push_swap.c lists.c is_sorted.c
 
 OBJS = $(SRCS:-c=.o)
 
