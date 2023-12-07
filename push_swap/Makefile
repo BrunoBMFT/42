@@ -1,10 +1,10 @@
-NAME = 
+NAME = push_swap.a
 
-SRCS = push_swap.c lists.c is_sorted.c
+SRCS = main.c lists.c
 
-OBJS = $(SRCS:-c=.o)
+OBJS = $(SRCS:.c=.o)
 
-CC = CC
+CC = cc
 
 COMPRESS = ar rcs
 
@@ -12,12 +12,13 @@ CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
 
-%.o:$.CC	$(CC) -c $(CFLAGS) $?
+%.o: %.c
+	$(CC) -c $(CFLAGS) $< -o $@
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-			$(COMPRESSS) $(NAME) $(OBJS)
+			$(COMPRESS) $(NAME) $(OBJS)
 
 clean:
 			$(RM) $(OBJS)

@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 09:08:59 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/28 12:12:15 by brfernan         ###   ########.fr       */
+/*   Updated: 2023/12/07 15:08:21 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ t_dlist	*lstnew(void *content)
 
 	current = malloc(sizeof(t_dlist));
 	if (!current)
+	{
+   		perror("Error allocating memory");
 		return (NULL);
-	current->content = content;
+	}
+	current->content = ft_strdup(content);
 	current->next = NULL;
 	current->prev = NULL;
 	return (current);
@@ -64,6 +67,7 @@ void	lstclear(t_pointer *ht) //*ht is pointer to head
 	while (ht->head)
 	{
 		temp = ht->head->next;
+		free (ht->head->content);
 		free (ht->head);
 		ht->head = temp;
 	}

@@ -20,6 +20,7 @@ COMPRESS = ar rcs
 CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
+MV = mv
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $?
@@ -35,11 +36,14 @@ bonus: $(OBJS) $(BONUS_OBJS)
 	touch bonus
 
 clean:
-	$(RM) $(OBJS) $(BONUS_OBJS)
+	$(RM) $(OBJS) $(BONUS_OBJS) bonus
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) ../$(NAME)
 
-re:  fclean $(NAME)
+re:  fclean all
 
-.PHONY: all, clean, fclean, re
+install: $(NAME)
+	$(MV) $(NAME) ../
+
+.PHONY: all, clean, fclean, re, install
