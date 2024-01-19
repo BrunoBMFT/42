@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:15:03 by brfernan          #+#    #+#             */
-/*   Updated: 2024/01/03 17:42:31 by bruno            ###   ########.fr       */
+/*   Updated: 2024/01/19 15:41:49 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_printf(const char *str, ...)
 	va_start(args, str);
 	while (str[i])
 	{
-		if (str[i] == '%')
+		if (str[i] == '%') //check possible specifiers (make a flag)
 		{
 			len += format(str[i + 1], args);
 			i++;

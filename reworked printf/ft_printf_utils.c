@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 17:33:57 by bruno             #+#    #+#             */
-/*   Updated: 2024/01/03 17:36:49 by bruno            ###   ########.fr       */
+/*   Updated: 2024/01/19 15:40:24 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_hexa(size_t x, char xXp, int len)
 	else
 		base = "0123456789abcdef";
 	i = 0;
-	if (x == 0)
+	if (x == 0) // if (x == 0 && !isPtr) isPtr to check if it is pointer, since pointer null is nil and not 0
 		return (ft_putstr("0"));
 	if (!x)
 		return (ft_putstr("(nil)"));
