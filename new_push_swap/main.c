@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/01/20 18:15:12 by bruno            ###   ########.fr       */
+/*   Updated: 2024/01/23 01:51:14 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,16 @@ void	newNode(t_dlist *aStack, char *content)
 	t_dlist *nodetoadd = ft_lstnew(content);
 	ft_lstadd_back(&aStack, nodetoadd);
 }
+void	pushB(t_dlist *aStack, t_dlist **aStackHead, t_dlist *bStack)
+{
+	bStack->content = aStackHead; // ! head of astack doesnt update
+}
 
 int main(int argc, char* argv[])
 {
 	int	i = 1;
-	t_dlist *aStack = NULL; // change to double pointer according to daan
+	t_dlist *aStack = NULL;
+	t_dlist **aStackHead = &aStack;
 	t_dlist *bStack = NULL;
 	if (argc >= 2)
 	{
@@ -34,7 +39,7 @@ int main(int argc, char* argv[])
 			newNode(aStack, argv[i]);
 			i++;
 		}
-		t_dlist *temp = aStack; //from here down is testing
+		t_dlist *temp = aStack; // TODO from here down is testing
 		while (temp != NULL)
 		{
 			printf("%s", (char *)temp->content);
@@ -43,7 +48,7 @@ int main(int argc, char* argv[])
             free(to_free);
 			printf("\n\n");
 		}
-		// doesnt work from here on
+		// ! doesnt work from here on
 		printf("hello");
 		bStack->content = aStack->content;
 		t_dlist *tempo = bStack;
