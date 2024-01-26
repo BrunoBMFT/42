@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/01/25 18:06:26 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/01/26 00:18:02 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ void	newNode(t_dlist *aStack, char *content)
 	t_dlist *nodetoadd = ft_lstnew(content);
 	ft_lstadd_back(&aStack, nodetoadd);
 }
-
+// ! MUDAR PARA ADDTOP, ADDBOTTOM, REMOVETOP, REMOVEBOTTOM
+// ! funciona na mesma para push e rotate
+// ? rotate a é removeTop e addBottom
+// ? reverse rotate é removeBottom e addTop
+// ? push é removeTopA e addTopB ou vice versa (fazer com que função nao precise do a, tipo a push ja feita)
 void	push(t_dlist **from, t_dlist **to)
 {
 	if (!*from)

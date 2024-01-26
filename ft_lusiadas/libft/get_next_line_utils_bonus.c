@@ -1,24 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/03 17:35:23 by brfernan          #+#    #+#             */
-/*   Updated: 2024/01/22 21:41:30 by brfernan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line_bonus.h"
 
 int	ft_strlen_gnl(char *str)
 {
-	int	i;
-
+	int	i = 0;
 	if (!str)
 		return (0);
-	i = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
 	if (str[i] == '\n')
@@ -28,13 +14,8 @@ int	ft_strlen_gnl(char *str)
 
 char	*ft_strjoin_gnl(char *line, char *buf)
 {
-	char	*str;
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	str = malloc(ft_strlen_gnl(line) + ft_strlen_gnl(buf) + 1);
+	char	*str = malloc(ft_strlen_gnl(line) + ft_strlen_gnl(buf) + 1);
+	size_t	i = 0, j = 0;
 	if (!str)
 		return (free (line), NULL);
 	while (line && line[i])
