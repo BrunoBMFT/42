@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/01/26 00:18:02 by bruno            ###   ########.fr       */
+/*   Updated: 2024/01/26 18:41:02 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "push_swap.h"
 
-void	newNode(t_dlist *aStack, char *content)
+void	new_node(t_dlist *aStack, char *content)
 {
 	t_dlist *nodetoadd = ft_lstnew(content);
 	ft_lstadd_back(&aStack, nodetoadd);
@@ -23,7 +23,7 @@ void	newNode(t_dlist *aStack, char *content)
 // ? rotate a é removeTop e addBottom
 // ? reverse rotate é removeBottom e addTop
 // ? push é removeTopA e addTopB ou vice versa (fazer com que função nao precise do a, tipo a push ja feita)
-void	push(t_dlist **from, t_dlist **to)
+void	UnusedPush(t_dlist **from, t_dlist **to)
 {
 	if (!*from)
 		return;
@@ -36,7 +36,32 @@ void	push(t_dlist **from, t_dlist **to)
 	*to = temp;
 }
 
-void	rotateA(t_dlist *aStack, t_dlist **headA)
+void	add_top()
+{
+
+}
+
+void	add_bottom()
+{
+	
+}
+
+void	remove_top()
+{
+	
+}
+
+void	remove_bottom()
+{
+	
+}
+
+void	push(t_dlist **from, t_dlist **to)
+{
+	
+}
+
+void	rotate_A(t_dlist *aStack, t_dlist **headA)
 {
 	t_dlist *temp = *headA;
 	ft_lstadd_back(&aStack, temp);
@@ -56,12 +81,12 @@ int main(int argc, char* argv[])
 		i++;
 		while (i < argc)
 		{
-			newNode(aStack, argv[i]);
+			new_node(aStack, argv[i]);
 			i++;
 		}
 	}
 	push(headA, headB); //specify on the prints if it's pushb or pusha
-	rotateA(aStack, headA);
+//	rotate_a(aStack, headA);
 	// TODO from here down is testing
 	t_dlist *tempA = aStack;
 	printf("Stack a: \n");
