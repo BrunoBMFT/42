@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/01/27 12:44:46 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/01/16 19:11:01 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ typedef struct s_dlist
 	struct s_dlist	*next;
 	struct s_dlist	*prev;
 }					t_dlist;
-
-typedef struct s_ht
-{
-	struct s_dlist	*head;
-	struct s_dlist	*tail;
-}					t_ht;
 
 t_dlist	*ft_lstnew(void *content);
 t_dlist	*ft_lstlast(t_dlist *lst);
