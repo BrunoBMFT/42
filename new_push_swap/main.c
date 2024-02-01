@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/01/27 13:16:03 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/02/01 19:22:51 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,12 @@ void	new_node(t_dlist *aStack, char *content)
 // ? rotate a é removeTop e addBottom
 // ? reverse rotate é removeBottom e addTop
 // ? push é removeTopA e addTopB ou vice versa (fazer com que função nao precise do a, tipo a push ja feita)
-/*void	add_top(t_dlist **toadd, t_ht *ht)
+
+/*void	add_top(t_ht *toadd, t_ht *ht) //not working
 {
-	if (!*toadd)
+	if (!toadd && !toadd->head)
 		return;
-	t_dlist *temp = *toadd; // temp = head of **toadd
+	t_dlist *temp = toadd->head; // temp = head of **toadd
 	temp->next = ht->head; // next node of temp = head of *ht
 	if (ht->head)
 		(ht->head)->prev = temp; // if there is a **ht, the previous becomes temp, which is **toadd
@@ -37,6 +38,10 @@ void	new_node(t_dlist *aStack, char *content)
         ht->tail = temp;
 }
 
+void	remove_top(t_dlist *toremove, t_ht *ht)
+{
+	
+}
 void	add_bottom(t_dlist **toadd, t_dlist **tail)
 {
 	if (!*toadd)
@@ -46,21 +51,45 @@ void	add_bottom(t_dlist **toadd, t_dlist **tail)
 	*tail = temp; // makes tail = last value of stack
 }*/
 
-void	push(t_ht **from, t_ht **to)
+void	push(t_ht *from, t_ht *to) // ! WORKING
 {
-	if (!*from)
+	if (!from || !from->head)
 		return;
-	t_dlist *temp = (*from)->head; // temp = head of **from
-	(*from)->head = temp->next; // head of **from updates to the next node of stack
-	
-	temp->next = (*to)->head; // next node of temp = head of **to
-	if (*to && (*to)->head) 
-		(*to)->head->prev = temp; // if there is a **to, the previous becomes temp, which is prev head of **from
-	
-	temp->prev = NULL;
-	(*to)->head = temp; // makes **to = temp, which is previous head of **from
-	if (!(*to)->tail)
-		(*to)->tail = temp;
+
+	t_dlist *temp = from->head; // temp = head of *from
+	from->head = temp->next; // head of *from updates to the next node of stack
+
+	if (to)
+	{
+		temp->next = to->head; // next node of temp = head of *to
+		if (to->head)
+			to->head->prev = temp; // if there is a *to, the previous becomes temp, which is prev head of *from
+
+		temp->prev = NULL;
+		to->head = temp; // makes *to = temp, which is previous head of *from
+		if (!to->tail)
+			to->tail = temp;
+	}
+}
+
+void	rotate(t_ht *stack)
+{
+	if (!stack || !stack->head || !stack->tail)
+		return;
+
+	t_dlist *temp = stack->head;
+	stack->head = stack->head->next;
+
+	if (stack->head)
+		stack->head->prev = NULL;
+
+	temp->prev = stack->tail;
+	temp->next = NULL;
+	if (stack->tail) 
+	{
+		stack->tail->next = temp;
+	}
+	stack->tail = temp;
 }
 
 int main(int argc, char* argv[])
@@ -73,7 +102,9 @@ int main(int argc, char* argv[])
 	t_ht 	*htB = malloc(sizeof(t_ht));
 	
 	htA->head = NULL;
-	htB->head = bStack;
+	htA->tail = NULL;
+	htB->head = NULL;
+	htB->tail = NULL;
 	if (argc >= 2)
 	{
 		aStack = ft_lstnew(argv[i]);
@@ -84,12 +115,14 @@ int main(int argc, char* argv[])
 			new_node(aStack, argv[i]);
 			i++;
 		}
+		while (htA->tail && htA->tail->next) 
+    		htA->tail = htA->tail->next;
 	}
-//	t_dlist *node1 = malloc(sizeof(t_dlist));
-//	node1->content = "hi";
-	push(&htA, &htB);
+	
+//	push(htA, htB); // pushes htA head to htB head
+	rotate(htA);
 	// TODO from here down is testing
-	t_dlist *tempA = aStack;
+	t_dlist *tempA = htA->head;
 	printf("Stack a: \n");
 	while (tempA != NULL)
 	{
@@ -98,11 +131,10 @@ int main(int argc, char* argv[])
         tempA = tempA->next;
         free (to_freeA);
 	}
-	t_dlist *tempB = bStack;
+	t_dlist *tempB = htB->head;
 	printf("\nStack b: \n");
 	while (tempB != NULL)
 	{
-		printf("debug\n");
 		printf("%s", (char *)tempB->content);
         t_dlist *to_freeA = tempB;
         tempB = tempB->next;
