@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/01 19:22:51 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/02/02 18:09:45 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	add_bottom(t_dlist **toadd, t_dlist **tail)
 	*tail = temp; // makes tail = last value of stack
 }*/
 
-void	push(t_ht *from, t_ht *to) // ! WORKING
+/*void	push(t_ht *from, t_ht *to) // ! WORKING
 {
 	if (!from || !from->head)
 		return;
@@ -90,39 +90,58 @@ void	rotate(t_ht *stack)
 		stack->tail->next = temp;
 	}
 	stack->tail = temp;
-}
+}*/
 
 int main(int argc, char* argv[])
 {
 	int	i = 1;
 	// * NORM, instead of aStack, something like a_stack
 	t_dlist *aStack = NULL;
-	t_ht 	*htA = malloc(sizeof(t_ht));
-	t_dlist *bStack = NULL;
+	/*t_ht 	*htA = malloc(sizeof(t_ht));
+//	t_dlist *bStack = NULL;
 	t_ht 	*htB = malloc(sizeof(t_ht));
 	
 	htA->head = NULL;
 	htA->tail = NULL;
 	htB->head = NULL;
-	htB->tail = NULL;
+//	htB->tail = NULL;*/
+	char **str_args;
 	if (argc >= 2)
 	{
-		aStack = ft_lstnew(argv[i]);
-		htA->head = aStack;
-		i++;
-		while (i < argc)
+		if (argc == 2)
 		{
-			new_node(aStack, argv[i]);
+			str_args = ft_split(argv[1], ' '); // ! NOT WORKING
+			/*aStack = ft_lstnew(str_args[i]); // can make more efficient
+			htA->head = aStack;
 			i++;
+			while (str_args[i])
+			{
+				new_node(aStack, argv[i]);
+				i++;
+			}
+			while (htA->tail && htA->tail->next) 
+				htA->tail = htA->tail->next;*/
 		}
-		while (htA->tail && htA->tail->next) 
-    		htA->tail = htA->tail->next;
+		else if (argc >= 2)
+		{
+			aStack = ft_lstnew(argv[i]);
+			htA->head = aStack;
+			i++;
+			while (i < argc)
+			{
+				new_node(aStack, argv[i]);
+				i++;
+			}
+			while (htA->tail && htA->tail->next) 
+				htA->tail = htA->tail->next;
+		}
+		
 	}
 	
 //	push(htA, htB); // pushes htA head to htB head
-	rotate(htA);
+//	rotate(htA);
 	// TODO from here down is testing
-	t_dlist *tempA = htA->head;
+/*	t_dlist *tempA = htA->head;
 	printf("Stack a: \n");
 	while (tempA != NULL)
 	{
@@ -139,7 +158,7 @@ int main(int argc, char* argv[])
         t_dlist *to_freeA = tempB;
         tempB = tempB->next;
         free(to_freeA);
-	}
+	}*/
 	free (htA);
 	free (htB);
 }
