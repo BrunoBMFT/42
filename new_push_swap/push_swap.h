@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/01/27 12:44:46 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/02/02 17:59:24 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ typedef struct s_dlist
 
 typedef struct s_ht
 {
-	struct s_dlist	*head;
-	struct s_dlist	*tail;
+	t_dlist	*head;
+	t_dlist	*tail;
 }					t_ht;
 
 t_dlist	*ft_lstnew(void *content);
@@ -37,5 +37,6 @@ void	ft_lstadd_front(t_dlist **lst, t_dlist *new);
 void	ft_lstadd_back(t_dlist **lst, t_dlist *new);
 void	ft_lstdelone(t_dlist *lst);
 void	ft_lstclear(t_dlist **lst);
+char	**ft_split(char const *s, char c);
 
 #endif
