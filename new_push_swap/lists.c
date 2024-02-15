@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/15 14:13:56 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/02/15 17:08:30 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,28 @@ int	main(void)
 
 t_dlist *ft_lstrem_front(t_ht *lst)
 {
-	t_dlist *temp = lst->head;
+	/*t_dlist *temp = lst->head;
+	
 	lst->head = temp->next;
-	return (temp);
+//	lst->head->next->prev = NULL;
+	return (temp);*/
+
+	t_dlist	*temp;
+
+	temp = lst->head;
+	if (temp->next)
+	{
+		lst->head = temp->next;
+		temp->next->prev = NULL;
+	}
+	else
+	{
+		lst->head = NULL;
+		lst->tail = NULL;
+	}
+	temp->next = NULL;
+	temp->prev = NULL;
+	return (temp->content);
 }
 
 void	ft_lstadd_back(t_dlist **lst, t_dlist *new)

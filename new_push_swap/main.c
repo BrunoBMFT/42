@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/15 14:06:53 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/02/15 17:05:11 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,26 @@ void	new_node(t_dlist *aStack, char *content)
 	}
 }*/
 
+void	push(t_ht *from, t_ht *to)
+{
+	// t_dlist *node = malloc(sizeof(t_ht));
+	// node->content = ft_lstrem_front(from);
+	// ft_lstadd_front(to, node);
+}
+
 int main(int argc, char* argv[])
 {
 	int	i = 1;
 	// * NORM, instead of aStack, something like a_stack
 	t_dlist *aStack = NULL;
 	t_ht 	*htA = malloc(sizeof(t_ht));
-//	t_dlist *bStack = NULL;
+	t_dlist *bStack = NULL;
 	t_ht 	*htB = malloc(sizeof(t_ht));
 	
 	htA->head = NULL;
 	htA->tail = NULL;
 	htB->head = NULL;
-//	htB->tail = NULL;*/
-//	char **str_args;
+	htB->tail = NULL;
 	if (argc >= 2)
 	{
 		/*if (argc == 2)
@@ -86,11 +92,9 @@ int main(int argc, char* argv[])
 		}
 		
 	}
-	
-	t_dlist *node = malloc(sizeof(t_ht));
-	node->content = ft_lstrem_front(htA);	
-//	ft_lstadd_front(htB, node);
-	printf("%s", (char *)node->content);
+	htB->head = bStack;
+	push(htA, htB);
+//	printf("%s", (char *)node->content);
 //	push(htA, htB); // pushes htA head to htB head
 //	rotate(htA);
 
