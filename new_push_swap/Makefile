@@ -1,4 +1,4 @@
-NAME = push_swap.a
+NAME = push_swap
 
 SRCS = main.c lists.c libft_stuff.c
 
@@ -18,13 +18,13 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJS)
-			$(COMPRESS) $(NAME) $(OBJS)
+		$(CC) -o $(NAME) $(OBJS)
 
 clean:
-			$(RM) $(OBJS)
+		$(RM) $(OBJS)
 
 fclean: clean
-			$(RM) $(NAME)
+		$(RM) $(NAME)
 
 re:		fclean all
 
