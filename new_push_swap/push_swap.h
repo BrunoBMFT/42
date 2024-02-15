@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/02 17:59:24 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:07:48 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ typedef struct s_ht
 
 t_dlist	*ft_lstnew(void *content);
 t_dlist	*ft_lstlast(t_dlist *lst);
-void	ft_lstadd_front(t_dlist **lst, t_dlist *new);
-void	ft_lstadd_back(t_dlist **lst, t_dlist *new);
+void	ft_lstadd_front(t_ht *lst, t_dlist *new);
+void	ft_lstadd_back(t_dlist **lst, t_dlist *new); //to change
+t_dlist *ft_lstrem_front(t_ht *lst);
 void	ft_lstdelone(t_dlist *lst);
 void	ft_lstclear(t_dlist **lst);
 char	**ft_split(char const *s, char c);

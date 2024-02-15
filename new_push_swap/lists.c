@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/01/16 19:14:51 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/15 14:13:56 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,17 @@ int	main(void)
 }*/
 
 
-void	ft_lstadd_front(t_dlist **lst, t_dlist *new)
+void	ft_lstadd_front(t_ht *lst, t_dlist *new)
 {
 	t_dlist	*temp;
 
-	if (!*lst)
+	if (!lst)
 	{
-		*lst = new;
+		lst->head = new;
 		return ;
 	}
-	temp = *lst;
-	*lst = new;
+	temp = lst->head;
+	lst->head = new;
 	new->next = temp;
 }
 /*#include <stdio.h>
@@ -91,6 +91,12 @@ int	main(void)
 	free (node1);
 }*/
 
+t_dlist *ft_lstrem_front(t_ht *lst)
+{
+	t_dlist *temp = lst->head;
+	lst->head = temp->next;
+	return (temp);
+}
 
 void	ft_lstadd_back(t_dlist **lst, t_dlist *new)
 {

@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/02 18:09:45 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:06:53 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,37 +19,6 @@ void	new_node(t_dlist *aStack, char *content)
 	ft_lstadd_back(&aStack, toadd);
 }
 // ! MUDAR PARA ADDTOP, ADDBOTTOM, REMOVETOP, REMOVEBOTTOM
-// ! funciona na mesma para push e rotate
-// ? rotate a é removeTop e addBottom
-// ? reverse rotate é removeBottom e addTop
-// ? push é removeTopA e addTopB ou vice versa (fazer com que função nao precise do a, tipo a push ja feita)
-
-/*void	add_top(t_ht *toadd, t_ht *ht) //not working
-{
-	if (!toadd && !toadd->head)
-		return;
-	t_dlist *temp = toadd->head; // temp = head of **toadd
-	temp->next = ht->head; // next node of temp = head of *ht
-	if (ht->head)
-		(ht->head)->prev = temp; // if there is a **ht, the previous becomes temp, which is **toadd
-	temp->prev = NULL;
-	ht->head = temp;
-    if (!ht->tail)
-        ht->tail = temp;
-}
-
-void	remove_top(t_dlist *toremove, t_ht *ht)
-{
-	
-}
-void	add_bottom(t_dlist **toadd, t_dlist **tail)
-{
-	if (!*toadd)
-		return;
-	t_dlist *temp = *toadd;
-
-	*tail = temp; // makes tail = last value of stack
-}*/
 
 /*void	push(t_ht *from, t_ht *to) // ! WORKING
 {
@@ -70,26 +39,6 @@ void	add_bottom(t_dlist **toadd, t_dlist **tail)
 		if (!to->tail)
 			to->tail = temp;
 	}
-}
-
-void	rotate(t_ht *stack)
-{
-	if (!stack || !stack->head || !stack->tail)
-		return;
-
-	t_dlist *temp = stack->head;
-	stack->head = stack->head->next;
-
-	if (stack->head)
-		stack->head->prev = NULL;
-
-	temp->prev = stack->tail;
-	temp->next = NULL;
-	if (stack->tail) 
-	{
-		stack->tail->next = temp;
-	}
-	stack->tail = temp;
 }*/
 
 int main(int argc, char* argv[])
@@ -97,7 +46,7 @@ int main(int argc, char* argv[])
 	int	i = 1;
 	// * NORM, instead of aStack, something like a_stack
 	t_dlist *aStack = NULL;
-	/*t_ht 	*htA = malloc(sizeof(t_ht));
+	t_ht 	*htA = malloc(sizeof(t_ht));
 //	t_dlist *bStack = NULL;
 	t_ht 	*htB = malloc(sizeof(t_ht));
 	
@@ -105,13 +54,13 @@ int main(int argc, char* argv[])
 	htA->tail = NULL;
 	htB->head = NULL;
 //	htB->tail = NULL;*/
-	char **str_args;
+//	char **str_args;
 	if (argc >= 2)
 	{
-		if (argc == 2)
+		/*if (argc == 2)
 		{
 			str_args = ft_split(argv[1], ' '); // ! NOT WORKING
-			/*aStack = ft_lstnew(str_args[i]); // can make more efficient
+			aStack = ft_lstnew(str_args[i]); // can make more efficient
 			htA->head = aStack;
 			i++;
 			while (str_args[i])
@@ -120,9 +69,9 @@ int main(int argc, char* argv[])
 				i++;
 			}
 			while (htA->tail && htA->tail->next) 
-				htA->tail = htA->tail->next;*/
-		}
-		else if (argc >= 2)
+				htA->tail = htA->tail->next;
+		}*/
+		if (argc >= 2)
 		{
 			aStack = ft_lstnew(argv[i]);
 			htA->head = aStack;
@@ -138,10 +87,16 @@ int main(int argc, char* argv[])
 		
 	}
 	
+	t_dlist *node = malloc(sizeof(t_ht));
+	node->content = ft_lstrem_front(htA);	
+//	ft_lstadd_front(htB, node);
+	printf("%s", (char *)node->content);
 //	push(htA, htB); // pushes htA head to htB head
 //	rotate(htA);
+
+
 	// TODO from here down is testing
-/*	t_dlist *tempA = htA->head;
+	t_dlist *tempA = htA->head;
 	printf("Stack a: \n");
 	while (tempA != NULL)
 	{
@@ -158,7 +113,7 @@ int main(int argc, char* argv[])
         t_dlist *to_freeA = tempB;
         tempB = tempB->next;
         free(to_freeA);
-	}*/
+	}
 	free (htA);
 	free (htB);
 }
