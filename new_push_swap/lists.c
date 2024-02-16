@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/15 20:55:43 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:30:28 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	new_node(t_ht *lst, int content)
 
 void	ft_lstadd_front(t_ht *lst, t_dlist *new)
 {
-
 	if (!lst->head)
 	{
 		lst->head = new;
@@ -59,14 +58,8 @@ void	ft_lstadd_back(t_ht *lst, t_dlist *new)
 	lst->tail = new;
 }
 
-t_dlist *ft_lstrem_front(t_ht *lst)
+int ft_lstrem_front(t_ht *lst)
 {
-	/*t_dlist *temp = lst->head;
-	
-	lst->head = temp->next;
-//	lst->head->next->prev = NULL;
-	return (temp);*/
-
 	t_dlist	*temp;
 
 	temp = lst->head;
@@ -82,7 +75,27 @@ t_dlist *ft_lstrem_front(t_ht *lst)
 	}
 	temp->next = NULL;
 	temp->prev = NULL;
-	return (temp);
+	return (temp->content);
+}
+
+int	ft_lstrem_back(t_ht *lst)
+{
+	t_dlist *temp;
+
+	temp = lst->tail;
+	if (temp->prev)
+	{
+		lst->tail = temp->prev;
+		temp->prev->next = NULL;
+	}
+	else
+	{
+		lst->head = NULL;
+		lst->tail = NULL;
+	}
+	temp->prev = NULL;
+	temp->next = NULL;
+	return (temp->content);
 }
 
 /*void ft_lstdelone(t_dlist *lst)
