@@ -6,11 +6,39 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 19:00:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/01/16 19:01:00 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/16 16:25:02 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
+long	ft_atol(const char *str)//not real atol
+{
+	long	result;
+	int	sign;
+
+	result = 0;
+	sign = 1;
+	while ((*str >= 9 && *str <= 13) || *str == ' ')
+		str++;
+	if (*str == '-')
+		sign *= -1;
+	if (*str == '-' || *str == '+')
+		str++;
+	while (ft_isdigit(*str) && result <= INT_MAX)
+	{
+		result = result * 10 + (*str - '0');
+		str++;
+	}
+	return (sign * result);
+}
 
 size_t	ft_strlen(const char *str)
 {

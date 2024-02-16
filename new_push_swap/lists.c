@@ -6,13 +6,13 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/01/16 19:14:51 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/16 16:30:28 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_dlist	*ft_lstnew(void *content)
+t_dlist	*ft_lstnew(int content)
 {
 	t_dlist	*current;
 
@@ -21,190 +21,118 @@ t_dlist	*ft_lstnew(void *content)
 		return (NULL);
 	current->content = content;
 	current->next = NULL;
+	current->prev = NULL;
 	return (current);
 }
-/*#include <stdio.h>
-int	main(void) 
-{
-	char	*content = "This is a list";
-    t_list *current = ft_lstnew(content);
-	if (!current)
-		printf("no list");
-	printf("new node content: %s", (char *)current->content);
-	free(current);
-}*/
 
-
-t_dlist	*ft_lstlast(t_dlist *lst)
+void	new_node(t_ht *lst, int content)
 {
-	while (lst)
-	{
-		if (!lst->next)
-			break ;
-		lst = lst->next;
-	}
-	return (lst);
+	t_dlist *toadd = ft_lstnew(content);
+	ft_lstadd_back(lst, toadd);
 }
-/*#include <stdio.h>
-int	main(void)
+
+void	ft_lstadd_front(t_ht *lst, t_dlist *new)
 {
-	t_list *current = NULL;
-	t_list *node1 = malloc(sizeof(t_list));
-	t_list *node2 = malloc(sizeof(t_list));
-	node1->content = "node 1";
-	node1->next = node2;
-	node2->content = "last";
-	node2->next = NULL;
-	current = node1;
-	t_list *last_node = ft_lstlast(current);
-	printf("%s",(char *)last_node->content);
-	free (node1);
-	free (node2);
-}*/
+	if (!lst->head)
+	{
+		lst->head = new;
+		lst->tail = new;
+		return ;
+	}
+	new->next = lst->head;
+	lst->head->prev = new;
+	lst->head = new;
+}
 
+void	ft_lstadd_back(t_ht *lst, t_dlist *new)
+{
+	new->next = NULL;
+	if (!lst->tail)
+	{
+		lst->head = new;
+		lst->tail = new;
+		return ;
+	}
+	new->prev = lst->tail;
+	lst->tail->next = new;
+	lst->tail = new;
+}
 
-void	ft_lstadd_front(t_dlist **lst, t_dlist *new)
+int ft_lstrem_front(t_ht *lst)
 {
 	t_dlist	*temp;
 
-	if (!*lst)
+	temp = lst->head;
+	if (temp->next)
 	{
-		*lst = new;
-		return ;
+		lst->head = temp->next;
+		temp->next->prev = NULL;
 	}
-	temp = *lst;
-	*lst = new;
-	new->next = temp;
+	else
+	{
+		lst->head = NULL;
+		lst->tail = NULL;
+	}
+	temp->next = NULL;
+	temp->prev = NULL;
+	return (temp->content);
 }
-/*#include <stdio.h>
-int	main(void)
+
+int	ft_lstrem_back(t_ht *lst)
 {
-	t_list *current = NULL;
-	t_list *node1 = malloc(sizeof(t_list));
-	node1->content = "hi";
-	ft_lstadd_front(&current, node1);
-	while (current != NULL)
+	t_dlist *temp;
+
+	temp = lst->tail;
+	if (temp->prev)
 	{
-		printf("%s\n", (char *)current->content);
-		current = current->next;
+		lst->tail = temp->prev;
+		temp->prev->next = NULL;
 	}
-	free (node1);
+	else
+	{
+		lst->head = NULL;
+		lst->tail = NULL;
+	}
+	temp->prev = NULL;
+	temp->next = NULL;
+	return (temp->content);
+}
+
+/*void ft_lstdelone(t_dlist *lst)
+{
+	if (!lst)
+		return;
+	if (lst->content)
+		free(lst->content);
+	free(lst);
 }*/
 
+/*void	ft_lstclear(t_dlist **lst)
+{
+	t_dlist *temp;
 
-void	ft_lstadd_back(t_dlist **lst, t_dlist *new)
-{
-	if (*lst)
-		ft_lstlast(*lst)->next = new;
-	else
-		*lst = new;
-}
-/*#include <stdio.h>
-int	main(void)
-{
-	t_list *current = NULL;
-	t_list *listtoadd = NULL;
-	t_list *node1 = malloc(sizeof(t_list));
-	t_list *node2 = malloc(sizeof(t_list));
-	node1->content = "hello ";
-	node1->next = node2;
-	node2->content = "im ";
-	node2->next = NULL;
-	t_list *toadd = malloc(sizeof(t_list));
-	toadd->content = "dead ";
-	toadd->next = NULL;
-	ft_lstadd_back(&current, toadd);
-	t_list *temp = current;
-	while (temp != NULL)
+	if (!lst)
+		return;
+
+	while (lst && *lst)
 	{
-		printf("%s", (char *)temp->content);
+		temp = (*lst)->next;
+		free((*lst)->content);
+		free(*lst);
+		*lst = temp;
+	}
+
+	*lst = NULL;
+}*/
+
+void lst_print(t_ht *lst)
+{
+	t_dlist *temp;
+	
+	temp = lst->head;
+	while (temp)
+	{
+		printf("%d ", temp->content);
 		temp = temp->next;
 	}
-	free(node1);
-	free(node2);
-	free(toadd);
-}*/
-
-
-void ft_lstdelone(t_dlist *lst)
-{
-    if (!lst)
-        return;
-    if (lst->content)
-        free(lst->content);
-    free(lst);
 }
-/*#include <stdio.h>
-#include <string.h>
-int main(void)
-{
-    t_list *current = malloc(sizeof(t_list));
-    t_list *node1 = malloc(sizeof(t_list));
-    t_list *node2 = malloc(sizeof(t_list));
-    current->content = strdup("First node");
-    current->next = node1;
-    node1->content = strdup("Second node");
-    node1->next = node2;
-    node2->content = strdup("Third node");
-    node2->next = NULL;
-    t_list *temp = current;
-    t_list *prev = NULL;
-    while (temp != node1) 
-	{
-        prev = temp;
-        temp = temp->next;
-    }
-	if (prev)
-        prev->next = temp->next;
-    else
-        current = temp->next;
-    ft_lstdelone(node1, del);
-	temp = current;
-	while (temp != NULL)
-	{
-		printf("%s\n", (char *)temp->content);
-        t_list *prev = temp;
-		temp = temp->next;
-        free(prev->content);
-		free(prev);
-	}
-}*/
-
-
-void	ft_lstclear(t_dlist **lst)
-{
-    t_dlist *temp;
-
-    if (!lst)
-        return;
-
-    while (lst && *lst)
-    {
-        temp = (*lst)->next;
-        free((*lst)->content);
-        free(*lst);
-        *lst = temp;
-    }
-
-    *lst = NULL;
-}
-/*#include <stdio.h>
-#include <string.h>
-int	main(void)
-{
-	t_list *current = malloc(sizeof(t_list));
-	t_list *node1 = malloc(sizeof(t_list));
-	t_list *node2 = malloc(sizeof(t_list));
-
-    current->content = strdup("first node");
-    current->next = node1;
-    node1->content = strdup("second node");
-    node1->next = node2;
-    node2->content = strdup("third node");
-    node2->next = NULL;
-	ft_lstclear(&current, del);
-	if (!current)
-		printf("cleared");
-	else
-		printf("not cleared");
-}*/
