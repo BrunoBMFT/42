@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/16 16:38:56 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/15 20:56:23 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 #include "push_swap.h"
 
 // * change printf to ft_printf
+
+void	push(t_ht *from, t_ht *to)
+{
+	t_dlist *node = malloc(sizeof(t_ht));
+	node->content = ft_lstrem_front(from);
+	ft_lstadd_front(to, node);
+}
 
 int main(int ac, char **av)
 {
@@ -30,19 +37,19 @@ int main(int ac, char **av)
 	htB.tail = NULL;
 	htB.head = bStack;
 	
-	if (ac < 2)
-		return (0);
-	/*if (ac == 2) // not working with i
+	/*if (ac == 2)
 	{
-		char	**read;
-		read = ft_split(av[1], ' ');
-		while (read[i])
+		str_args = ft_split(av[1], ' '); // ! NOT WORKING
+		aStack = ft_lstnew(str_args[i]); // can make more efficient
+		htA->head = aStack;
+		i++;
+		while (str_args[i])
 		{
-			new_node(&htA, ft_atol(read[i]));
+			new_node(aStack, av[i]);
 			i++;
 		}
 	}*/
-	else if (ac >= 2)
+	if (ac >= 2)
 	{
 		new_node(&htA, ft_atol(av[i]));
 		i++;
@@ -52,15 +59,17 @@ int main(int ac, char **av)
 			i++;
 		}
 	}
-//	push(&htA, &htB);
-	revrotate(&htA);
+//	push(htA, htB);
+//	printf("%s", (char *)node->content);
+//	push(htA, htB); // pushes htA head to htB head
+//	rotate(htA);
 
-	
+
 	// TODO from here down is testing
 
-	printf("Stack A: ");
+	printf("Stack A:");
 	lst_print(&htA);
-	printf("\nStack B: ");
-	lst_print(&htB);
-	printf("\n");
+	printf("\nStack B:");
+//	lst_print(htB);
+
 }

@@ -1,6 +1,6 @@
 NAME = push_swap
 
-SRCS = main.c lists.c libft_stuff.c operations.c
+SRCS = main.c lists.c libft_stuff.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -19,7 +19,6 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 		$(CC) -o $(NAME) $(OBJS)
-		@echo $(NAME) ready!
 
 clean:
 		$(RM) $(OBJS)
