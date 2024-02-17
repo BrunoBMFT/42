@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/16 16:30:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/17 04:29:00 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ t_dlist	*ft_lstnew(int content)
 
 void	new_node(t_ht *lst, int content)
 {
-	t_dlist *toadd = ft_lstnew(content);
+	t_dlist	*toadd;
+
+	toadd = ft_lstnew(content);
 	ft_lstadd_back(lst, toadd);
 }
 
@@ -58,7 +60,7 @@ void	ft_lstadd_back(t_ht *lst, t_dlist *new)
 	lst->tail = new;
 }
 
-int ft_lstrem_front(t_ht *lst)
+int	ft_lstrem_front(t_ht *lst)
 {
 	t_dlist	*temp;
 
@@ -80,7 +82,7 @@ int ft_lstrem_front(t_ht *lst)
 
 int	ft_lstrem_back(t_ht *lst)
 {
-	t_dlist *temp;
+	t_dlist	*temp;
 
 	temp = lst->tail;
 	if (temp->prev)
@@ -124,11 +126,10 @@ int	ft_lstrem_back(t_ht *lst)
 
 	*lst = NULL;
 }*/
-
-void lst_print(t_ht *lst)
+void	lst_print(t_ht *lst)
 {
-	t_dlist *temp;
-	
+	t_dlist	*temp;
+
 	temp = lst->head;
 	while (temp)
 	{

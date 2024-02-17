@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 19:00:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/16 16:25:02 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/17 04:23:49 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_isdigit(int c)
 long	ft_atol(const char *str)//not real atol
 {
 	long	result;
-	int	sign;
+	int		sign;
 
 	result = 0;
 	sign = 1;
@@ -51,6 +51,7 @@ size_t	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
+
 static int	countword(const char *str, char c)
 {
 	int	count;

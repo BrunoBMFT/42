@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/16 16:39:54 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/17 04:29:05 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 typedef struct s_dlist
 {
-	int			content;
+	int				content;
 	struct s_dlist	*next;
 	struct s_dlist	*prev;
 }					t_dlist;
@@ -40,15 +40,12 @@ int		ft_lstrem_front(t_ht *lst);
 int		ft_lstrem_back(t_ht *lst);
 void	ft_lstdelone(t_dlist *lst);
 void	ft_lstclear(t_dlist **lst);
-void 	lst_print(t_ht *lst);
-
+void	lst_print(t_ht *lst);
 //operations
 void	push(t_ht *from, t_ht *to);
 void	rotate(t_ht *lst);
 void	revrotate(t_ht *lst);
-
-
-
+void	swap(t_ht *lst);
 //libft
 size_t	ft_strlen(const char *str);
 char	**ft_split(char const *s, char c);
