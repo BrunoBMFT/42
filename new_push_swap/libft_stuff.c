@@ -6,11 +6,24 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 19:00:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/17 04:37:19 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/17 19:34:54 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	ft_putstr(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		write(1, &s[i], 1);
+		i++;
+	}
+	return (1);
+}
 
 int	ft_isdigit(int c)
 {

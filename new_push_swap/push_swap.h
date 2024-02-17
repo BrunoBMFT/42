@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/17 04:31:34 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/17 19:35:24 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,7 @@ void	swap(t_ht *lst);
 size_t	ft_strlen(const char *str);
 char	**ft_split(char const *s, char c);
 long	ft_atol(const char *str);
+int	ft_isdigit(int c);
+int	ft_putstr(char *s);
 
 #endif
