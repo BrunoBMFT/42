@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/17 04:25:34 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/17 04:34:31 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "push_swap.h"
 
 /* * change printf to ft_printf
-* NORM, instead of aStack, something like a_stack*/
+! free issues*/
 
 int	main(int ac, char **av)
 {
@@ -53,10 +53,10 @@ int	main(int ac, char **av)
 			i++;
 		}
 	}
-//	push(&ht_a, &ht_b);
+	push(&ht_a, &ht_b);
 //	revrotate(&ht_a);
 //	rotate(&ht_a);
-	swap(&ht_a);
+//	swap(&ht_a);
 // TODO from here down is testing
 	printf("Stack A: ");
 	lst_print(&ht_a);

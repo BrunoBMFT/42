@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 19:00:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/17 04:23:49 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/17 04:37:19 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_isdigit(int c)
 	return (0);
 }
 
-long	ft_atol(const char *str)//not real atol
+long	ft_atol(const char *str)
 {
 	long	result;
 	int		sign;
