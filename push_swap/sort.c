@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/19 21:28:09 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/02/19 23:07:20 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void sort3(t_ht *ht_a)
 			rotate(ht_a);
 			swap(ht_a);
 		}
-		else if (ht_a->head->content > ht_a->head->next->next->content)
+		else if (ht_a->head->content > ht_a->head->next->next->content
+		)
 			rotate(ht_a);
 		else
 			swap(ht_a);

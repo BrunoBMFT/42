@@ -6,14 +6,13 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 16:38:20 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/19 19:52:51 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/02/19 23:10:02 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-// REMOVE ALL MALLOCS FROM THIS PART
 
-void	swap(t_ht *lst)//first two swap
+void	swap(t_ht *lst)// first two swap (t_ht *lst, char a_or_b)
 {
 	t_dlist	*node1;
 	t_dlist	*node2;
@@ -24,9 +23,15 @@ void	swap(t_ht *lst)//first two swap
 	node2 = ft_lstrem_front(lst);
 	ft_lstadd_front(lst, node1);
 	ft_lstadd_front(lst, node2);
+	/*if (a_or_b == a)
+		printf("sa");
+	else
+		printf("sb");*/
 }
 
-void	push(t_ht *from, t_ht *to)//stack to stack
+
+
+void	push(t_ht *from, t_ht *to)// stack to stack
 {
 	t_dlist	*node;
 
@@ -36,7 +41,7 @@ void	push(t_ht *from, t_ht *to)//stack to stack
 	ft_lstadd_front(to, node);
 }
 
-void	rotate(t_ht *lst)//front to back
+void	rotate(t_ht *lst)// front to back
 {
 	t_dlist	*node;
 
@@ -46,7 +51,7 @@ void	rotate(t_ht *lst)//front to back
 	ft_lstadd_back(lst, node);
 }
 
-void	revrotate(t_ht *lst)//back to front
+void	revrotate(t_ht *lst)// back to front
 {
 	t_dlist	*node;
 
