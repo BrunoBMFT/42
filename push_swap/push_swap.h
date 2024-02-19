@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/19 17:22:33 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/19 21:24:08 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	revrotate(t_ht *lst);
 void	swap(t_ht *lst);
 //sort
 void	sort(t_ht *ht_a, t_ht *ht_b, int count);
-void	sort3(t_ht *ht_a, t_ht *ht_b);
+void sort3(t_ht *ht_a);
 //libft
 size_t	ft_strlen(const char *str);
 char	**ft_split(char const *s, char c);
