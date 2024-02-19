@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/17 21:54:41 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/19 02:47:52 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int ac, char **av)
 			i++;
 		}
 	}
-//	push(&ht_a, &ht_b);
+	push(&ht_a, &ht_b);
 //	revrotate(&ht_a);
 //	rotate(&ht_a);
 //	swap(&ht_a);

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 16:38:20 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/17 04:32:07 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/19 02:38:08 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ void	swap(t_ht *lst)
 	t_dlist	*node1;
 	t_dlist	*node2;
 
-	node1 = malloc(sizeof(t_ht));
-	node2 = malloc(sizeof(t_ht));
-	if (!node1 || !node2)
-		return ;
 	node1 = ft_lstrem_front(lst);
 	node2 = ft_lstrem_back(lst);
 	ft_lstadd_front(lst, node2);
