@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:35:39 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/17 04:37:34 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/19 17:10:49 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_dlist	*ft_lstrem_front(t_ht *lst)
 {
 	t_dlist	*temp;
 
+	if (!lst->head)
+		return NULL;
 	temp = lst->head;
 	if (temp->next)
 	{
@@ -63,6 +65,8 @@ t_dlist	*ft_lstrem_back(t_ht *lst)
 {
 	t_dlist	*temp;
 
+	if (!lst->head)
+		return NULL;
 	temp = lst->tail;
 	if (temp->prev)
 	{

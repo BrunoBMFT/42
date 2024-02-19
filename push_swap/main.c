@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/19 16:47:47 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/19 17:20:48 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,17 @@ int	main(int ac, char **av)
 	ht_b.tail = NULL;
 	if (ac < 2)
 		return (0);
-	if (ac == 2) // not working with i, fix ./push 1 || && av[1][0] == 34
+	if (ac == 2) // not working with i, fix ./push 1
 	{
 		i--;
 		read = ft_split(av[1], ' ');
 		while (read[i])
 		{
-			if (!ft_isdigit(read[i][0]))
+			if (!ft_isdigit(read[i][0])) // fix "1a 2" and "a 1"
 				return (ft_putstr("Error\n"));
 			new_node(&ht_a, ft_atol(read[i]));
 			i++;
 		}
-		ft_lstclear(&ht_a); // printing needs to be done before this
 		ft_free_all(read);
 	}
 	else if (ac >= 2)/*this whole part can be a single function*/
@@ -58,13 +57,8 @@ int	main(int ac, char **av)
 			new_node(&ht_a, ft_atol(av[i]));
 			i++;
 		}
-		ft_lstclear(&ht_a); // printing needs to be done before this
-		
-		/*if (i == 4)
-		{
-			sort(ht_a, ht_b, i);
-		}*/
 	}
+	sort(&ht_a, &ht_b, i);
 //	push(&ht_a, &ht_b);
 //	revrotate(&ht_a);
 //	rotate(&ht_a);
@@ -75,4 +69,6 @@ int	main(int ac, char **av)
 	printf("\nStack B: ");
 	lst_print(&ht_b);
 	printf("\n");
+	ft_lstclear(&ht_a);
+	ft_lstclear(&ht_b);
 }

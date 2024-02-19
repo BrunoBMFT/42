@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/19 15:23:25 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/19 17:22:33 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	push(t_ht *from, t_ht *to);
 void	rotate(t_ht *lst);
 void	revrotate(t_ht *lst);
 void	swap(t_ht *lst);
-/*//sort
-void	sort(t_ht ht_a, t_ht ht_b, int count);
-void	sort3(t_ht ht_a, t_ht ht_b);*/
+//sort
+void	sort(t_ht *ht_a, t_ht *ht_b, int count);
+void	sort3(t_ht *ht_a, t_ht *ht_b);
 //libft
 size_t	ft_strlen(const char *str);
 char	**ft_split(char const *s, char c);
