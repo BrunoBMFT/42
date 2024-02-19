@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/19 02:47:52 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/19 16:47:47 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "push_swap.h"
 
 /* * change printf to ft_printf
-! free issues
 seperate instructons with \n only (pb \n ra)
 if error display "Error" and \n, aka duplicates, not ints or bigger than int*/
 
@@ -36,7 +35,7 @@ int	main(int ac, char **av)
 	ht_b.tail = NULL;
 	if (ac < 2)
 		return (0);
-	if (ac == 2) // not working with i
+	if (ac == 2) // not working with i, fix ./push 1 || && av[1][0] == 34
 	{
 		i--;
 		read = ft_split(av[1], ' ');
@@ -47,6 +46,8 @@ int	main(int ac, char **av)
 			new_node(&ht_a, ft_atol(read[i]));
 			i++;
 		}
+		ft_lstclear(&ht_a); // printing needs to be done before this
+		ft_free_all(read);
 	}
 	else if (ac >= 2)/*this whole part can be a single function*/
 	{
@@ -57,8 +58,14 @@ int	main(int ac, char **av)
 			new_node(&ht_a, ft_atol(av[i]));
 			i++;
 		}
+		ft_lstclear(&ht_a); // printing needs to be done before this
+		
+		/*if (i == 4)
+		{
+			sort(ht_a, ht_b, i);
+		}*/
 	}
-	push(&ht_a, &ht_b);
+//	push(&ht_a, &ht_b);
 //	revrotate(&ht_a);
 //	rotate(&ht_a);
 //	swap(&ht_a);

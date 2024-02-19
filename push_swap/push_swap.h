@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/17 19:35:24 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/19 15:23:25 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,22 @@ void	ft_lstadd_back(t_ht *lst, t_dlist *new);
 t_dlist	*ft_lstrem_front(t_ht *lst);
 t_dlist	*ft_lstrem_back(t_ht *lst);
 void	ft_lstdelone(t_dlist *lst);
-void	ft_lstclear(t_dlist **lst);
 void	lst_print(t_ht *lst);
+void	ft_lstclear(t_ht *ht_a);
 //operations
 void	push(t_ht *from, t_ht *to);
 void	rotate(t_ht *lst);
 void	revrotate(t_ht *lst);
 void	swap(t_ht *lst);
+/*//sort
+void	sort(t_ht ht_a, t_ht ht_b, int count);
+void	sort3(t_ht ht_a, t_ht ht_b);*/
 //libft
 size_t	ft_strlen(const char *str);
 char	**ft_split(char const *s, char c);
 long	ft_atol(const char *str);
 int	ft_isdigit(int c);
 int	ft_putstr(char *s);
+void	ft_free_all(char **tofree);
 
 #endif

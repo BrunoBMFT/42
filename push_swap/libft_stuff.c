@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 19:00:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/17 19:34:54 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/19 16:46:32 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,17 @@ char	**ft_split(char const *s, char c)
 	}
 	split[j] = 0;
 	return (split);
+}
+
+void	ft_free_all(char **tofree)
+{
+	int	i;
+
+	i = 0;
+	while (tofree && tofree[i])
+	{
+		free(tofree[i]);
+		i++;
+	}
+	free(tofree);
 }
