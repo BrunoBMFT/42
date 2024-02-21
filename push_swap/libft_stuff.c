@@ -6,12 +6,13 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 19:00:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/19 16:46:32 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/20 16:14:20 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+/*change for normal libft?*/
 int	ft_putstr(char *s)
 {
 	int	i;

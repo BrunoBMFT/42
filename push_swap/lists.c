@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/19 17:04:46 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/20 16:13:59 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,10 @@ void	new_node(t_ht *lst, int content)
 
 void	ft_lstclear(t_ht *ht_a)
 {
-	t_dlist *temp;
+	t_dlist	*temp;
 
 	if (!ht_a)
-		return;
-
+		return ;
 	while (ht_a->head)
 	{
 		temp = ht_a->head->next;
@@ -57,6 +56,7 @@ void	ft_lstclear(t_ht *ht_a)
 	}
 	ht_a->head = NULL;
 }
+
 void	lst_print(t_ht *lst)
 {
 	t_dlist	*temp;
