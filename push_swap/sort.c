@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/20 23:29:16 by bruno            ###   ########.fr       */
+/*   Updated: 2024/02/21 21:36:39 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,37 @@ void	sort3(t_ht *ht_a)
 	}
 }
 
+int	is_sorted(t_ht *ht_a)/*1 if sorted*/
+{
+	t_ht	*temp;
+
+	temp = ht_a;
+	while (temp->head)
+	{
+		temp = ht_a;
+		if (temp->head->next && temp->head->content > temp->head->next->content)
+			return (0);
+		temp->head = temp->head->next;
+	}
+	return (1);
+}
+
 void	sort(t_ht *ht_a, t_ht *ht_b, int count)
 {
-	if (count == 4)
-		sort3(ht_a);
-	else
+	if (!is_sorted(ht_a))
 	{
-		while (ht_a->head && ht_a->head->next)
+		if (count == 4)
+		sort3(ht_a);
+		else
 		{
-			if (ht_a->head->content > ht_a->head->next->content)
-			{
-				swap(ht_a, 'a');
-				push(ht_a, ht_b, 'b');
-			}
-			else
-			ht_a->head = ht_a->head->next;
-		}/*
-		while (ht_b->head)
-		{
-			push(ht_a, ht_b, 'b');
-		}*/
+			something_sort(*ht_a, *ht_b);
+		}
 	}
+	else
+		printf ("is sorted\n");
+	ht_b = NULL;
+	count = 0;
+	
 }
 
 /* // TODO testing sort3 */
