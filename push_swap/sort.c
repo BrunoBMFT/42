@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/21 21:36:39 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/03/02 01:49:31 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ void	sort3(t_ht *ht_a)
 			rotate(ht_a, 'a');
 			swap(ht_a, 'a');
 		}
-		else if (ht_a->head->content > ht_a->head->next->next->content
-		)
+		else if (ht_a->head->content > ht_a->head->next->next->content)
 			rotate(ht_a, 'a');
 		else
 			swap(ht_a, 'a');

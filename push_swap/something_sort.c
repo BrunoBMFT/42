@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   something_sort.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/02/21 21:38:35 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/03/02 01:50:00 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 	}
 	ht_b.head = NULL;
 }
-/**/
+/*//! FORGET RADIX */
 // to get the element with maximum value
 int getMax(int nums[], int n) {
     int max = nums[0];
