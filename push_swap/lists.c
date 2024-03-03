@@ -6,30 +6,30 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/20 16:13:59 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/02 16:37:10 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_dlist	*ft_lstnew(int content)
+t_dlist	*ft_lstnew(int value)
 {
 	t_dlist	*current;
 
 	current = malloc(sizeof(t_dlist));
 	if (!current)
 		return (NULL);
-	current->content = content;
+	current->value = value;
 	current->next = NULL;
 	current->prev = NULL;
 	return (current);
 }
 
-void	new_node(t_ht *lst, int content)
+void	new_node(t_ht *lst, int value)
 {
 	t_dlist	*toadd;
 
-	toadd = ft_lstnew(content);
+	toadd = ft_lstnew(value);
 	ft_lstadd_back(lst, toadd);
 }
 
@@ -37,8 +37,8 @@ void	new_node(t_ht *lst, int content)
 {
 	if (!lst)
 		return;
-	if (lst->content)
-		free(lst->content);
+	if (lst->value)
+		free(lst->value);
 	free(lst);
 }*/
 
@@ -64,7 +64,7 @@ void	lst_print(t_ht *lst)
 	temp = lst->head;
 	while (temp)
 	{
-		printf("%d ", temp->content);
+		printf("%d ", temp->value);
 		temp = temp->next;
 	}
 }

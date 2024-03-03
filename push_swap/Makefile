@@ -1,6 +1,6 @@
 NAME = push_swap
 
-SRCS = main.c lists.c libft_stuff.c operations.c lists2.c sort.c something_sort.c
+SRCS = main.c lists.c libft_stuff.c operations.c lists2.c sort.c sort_bestfriend.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -12,16 +12,20 @@ CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
 
+%.o: %.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
+all: $(NAME)
+
 t: fclean $(NAME)
 	./$(NAME) 10 5 9 4 7 2 3 8 5 1 6
 
 v: fclean $(NAME)
 	valgrind ./$(NAME) 10 5 9 4 7 2 3 8 5 1 6
 
-%.o: %.c
-	$(CC) -c $(CFLAGS) $< -o $@
-
-all: $(NAME)
+3: fclean $(NAME)
+	./$(NAME) 3 2 1
+	$(RM) $(OBJS)
 
 $(NAME): $(OBJS)
 		$(CC) -o $(NAME) $(OBJS)

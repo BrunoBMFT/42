@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/02/21 17:22:53 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:47:31 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ int	main(int ac, char **av)
 	rotate(&ht_a, 'a');
 	swap(&ht_a, 'a');*/
 /*// TODO from here down is testing*/
-	printf("Stack A: ");
+/*	printf("Stack A: ");
 	lst_print(&ht_a);
 	printf("\nStack B: ");
 	lst_print(&ht_b);
-	printf("\n");
+	printf("\n");*/
 	ft_lstclear(&ht_a);
 	ft_lstclear(&ht_b);
 }
