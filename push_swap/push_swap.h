@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/07 16:59:39 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/07 19:57:51 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ void	something_sort(t_ht ht_a, t_ht ht_b);
 int		bestfriend(t_ht ht_a, t_dlist *node_b);
 
 //cost
-int		cost_calc(t_ht ht_a, t_ht ht_b, t_dlist *node);
-int		cost_head(t_ht ht_a, t_ht ht_b, t_dlist *node);
+int	cost_calc(t_ht ht_a, t_ht ht_b, int bff, t_dlist *node);
+int		cost_head_a(t_ht ht_a, int bff);
+int		cost_head_b(t_ht ht_b, t_dlist *node);
 
 //libft
 size_t	ft_strlen(const char *str);
