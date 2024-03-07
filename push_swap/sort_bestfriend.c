@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/07 20:59:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/07 21:47:43 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,20 +89,22 @@ int	cost_tail_b(t_ht ht_b, t_dlist *node)
 }
 
 int	cost_calc(t_ht ht_a, t_ht ht_b, int bff, t_dlist *node)//cost of tail needs to be +1 because of rrr
-{
+{//separate head and tail costs (if cost head a and cost tail b are smaller, use thos)
 	int cost_head = 1;
 	int cost_tail = 1;
 	int head_a = cost_head_a(ht_a, bff);
 	int head_b = cost_head_b(ht_b, node);
-	cost_head = head_a + head_b + 1;
-//	printf("\thead cost: %d\n", cost_head);
+	cost_head = head_a + head_b + 2;
+	printf("\thead cost: %d\n", cost_head);
 
 	int tail_a = cost_tail_a(ht_a, bff);
 	int tail_b = cost_tail_b(ht_b, node);
-	if (cost_tail_a == 0 && cost_tail_b == 0)//2 on tail
+	/*if (cost_tail_a == 0 || cost_tail_b == 0)//2 on tail
 		cost_tail -= 1;
+	if (cost_tail_a == 0 && cost_tail_b == 0)//2 on tail
+		cost_tail -= 2;*/
 	cost_tail = tail_a + tail_b + 2;//+2 for rrr and pa (in the case that bff is present)
-//	printf("\ttail cost: %d \n\n", cost_tail);
+	printf("\ttail cost: %d \n\n", cost_tail);
 	if (cost_head <= cost_tail)
 		return (cost_head);
 	else if (cost_head > cost_tail)
@@ -125,7 +127,7 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 	temp_b.bff = bestfriend(ht_a, temp_b.head);
 	cost = cost_calc(ht_a, ht_b, temp_b.bff, temp_b.head);
 	min_cost = cost;
-	while (temp_b.head)
+	while (temp_b.head)//fix costs (when )
 	{
 		temp_b.bff = bestfriend(ht_a, temp_b.head);
 		cost = cost_calc(ht_a, ht_b, temp_b.bff, temp_b.head);
