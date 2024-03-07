@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/03 18:34:24 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/07 17:29:46 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	sort3(t_ht *ht_a)
 	if (ht_a->head->value < ht_a->head->next->value)
 	{
 		if (ht_a->head->value > ht_a->head->next->next->value)
-			revrotate(ht_a, 'a');
+			revrotate(ht_a, 'a');//!error
 		else if (ht_a->head->next->value > ht_a->head->next->next->value)
 		{
-			revrotate(ht_a, 'a');
+			revrotate(ht_a, 'a');//!error
 			swap(ht_a, 'a');
 		}
 	}
@@ -33,9 +33,10 @@ void	sort3(t_ht *ht_a)
 		}
 		else if (ht_a->head->value > ht_a->head->next->next->value)
 			rotate(ht_a, 'a');
-		else
+		else if (ht_a->head->value < ht_a->head->next->next->value)
 			swap(ht_a, 'a');
 	}
+
 }
 
 int	is_sorted(t_ht *ht_a)/*1 if sorted*/
@@ -60,9 +61,11 @@ void	sort(t_ht *ht_a, t_ht *ht_b, int count)
 	else if (!is_sorted(ht_a))
 		something_sort(*ht_a, *ht_b);
 	else
+	{
 		printf ("is sorted\n");
-	count = 0;
-	
+		return ;
+	}
+	return ;
 }
 
 /* // TODO testing sort3 */
@@ -71,11 +74,13 @@ if (ht_a->head->value < ht_a->head->next->value)// 1 2 3 || 1 3 2 || 2 3 1
 	{
 		if (ht_a->head->value > ht_a->head->next->next->value)// 2 3 1
 		{
+			//!error
 			printf("2 3 1\n");
 			revrotate(ht_a);
 		}
 		else if (ht_a->head->next->value > ht_a->head->next->next->value)// 1 3 2 
 		{
+			//!error
 			printf("1 3 2\n");
 			revrotate(ht_a);
 			swap(ht_a);

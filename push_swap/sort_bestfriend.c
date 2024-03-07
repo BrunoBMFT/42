@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/03 20:05:34 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/07 18:05:08 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,32 @@ int	bestfriend(t_ht ht_a, t_dlist *node_b)
 	return (bestfr);
 }
 
-int	cost_calc(t_ht ht_a, t_ht ht_b, t_dlist *node)
+int	cost_head(t_ht ht_a, t_ht ht_b, t_dlist *node)//node incorrect
 {
-	printf("node: %d, ", ht_b.head->value);
-	ht_b.bff = bestfriend(ht_a, node);
-	printf("bf: %d, ", ht_b.bff);
+	int count = 0;
+
 	t_ht temp_a = ht_a;
-	t_ht temp_b = ht_b;
-	int	cost = 1;
 	while (temp_a.head->value != ht_b.bff)
 	{
-		printf("a shift, ");
+		count++;
+		printf("ra, ");
 		temp_a.head = temp_a.head->next;
-		cost++;
 	}
-	while (temp_b.head != node)
-	{
-		printf("b shift, ");
-		temp_b.head = temp_b.head->next;
-		cost++;
-	}
-	return (cost);
+	temp_a = ht_b;
+	return (count);
 }
+
+/*int	cost_calc(t_ht ht_a, t_ht ht_b, t_dlist *node)
+{
+	ht_b.bff = bestfriend(ht_a, node);
+	printf("%d's bff: %d", node->value, ht_b.bff);
+	
+	int head = cost_head(ht_a, ht_b, node);
+	printf("cost: %d\n", head);
+	
+	ht_b.head->value = 1;
+	return (1);
+}*/
 
 void	something_sort(t_ht ht_a, t_ht ht_b)
 {
@@ -62,7 +66,10 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 	t_ht	temp_b = ht_b;
 	while (temp_b.head)
 	{
-		printf("cost: %d \n", cost_calc(ht_a, temp_b, temp_b.head));//not shifting through ht_b
+		int cost = cost_head(ht_a, _b, temp_b.head);
+		printf("cost to head: %d\n", cost);
+//		cost_calc(ht_a, ht_b, temp_b.head);
+//		printf("%d bff is %d\n", temp_b.head->value, temp_b.bff);
 		temp_b.head = temp_b.head->next;
 	}
 }
