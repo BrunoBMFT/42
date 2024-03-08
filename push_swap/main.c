@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/07 17:10:04 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/08 17:03:36 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,26 @@
 // TODO separate instructons with \n only (pb \n ra)
 // TODO if error display "Error" and \n, aka duplicates, not ints or bigger than int*/
 
+int	doubles(int *stack, int to_check)//0 if no doubles
+{
+	int	i;
+
+	i = 0;
+	while (stack[i])
+	{
+		if (to_check == stack[i])
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_ht	ht_a;
 	t_ht	ht_b;
 	int		i;
 	char	**read;
-/*	t_dlist	*b_stack;
-	t_dlist *a_stack = NULL;
-	b_stack = NULL;
-	ht_b.head = b_stack;*/
 	i = 1;
 	ht_a.head = NULL;
 	ht_a.tail = NULL;
@@ -52,7 +62,7 @@ int	main(int ac, char **av)
 	{
 		while (i < ac)
 		{
-			if (!ft_isdigit(av[i][0]))
+			if (!ft_isdigit(av[i][0]) || doubles((int *)av, (int)av[i]))
 				return (ft_putstr("Error\n"));
 			new_node(&ht_a, ft_atol(av[i]));
 			i++;

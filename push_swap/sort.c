@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/07 17:29:46 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/08 16:43:32 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ void	sort(t_ht *ht_a, t_ht *ht_b, int count)
 {
 	if (!is_sorted(ht_a) && count == 4)
 		sort3(ht_a);
-	else if (!is_sorted(ht_a))
+	/*else if (!is_sorted(ht_a))
 		something_sort(*ht_a, *ht_b);
 	else
 	{
 		printf ("is sorted\n");
 		return ;
-	}
+	}*/
 	return ;
 }
 

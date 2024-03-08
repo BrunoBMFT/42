@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/07 19:57:51 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/08 16:55:48 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_ht
 	int		bff;
 }					t_ht;
 
+//lists
 t_dlist	*ft_lstnew(int content);
 void	new_node(t_ht *lst, int content);
 void	ft_lstadd_front(t_ht *lst, t_dlist *new);
@@ -43,6 +44,8 @@ t_dlist	*ft_lstrem_back(t_ht *lst);
 void	ft_lstdelone(t_dlist *lst);
 void	lst_print(t_ht *lst);
 void	ft_lstclear(t_ht *ht_a);
+//parsing
+int	doubles(int *stack, int to_check);
 //operations
 void	push(t_ht *from, t_ht *to, char a_or_b);
 void	rotate(t_ht *lst, char a_or_b);
