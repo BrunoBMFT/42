@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/08 17:03:36 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/12 14:45:59 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // TODO separate instructons with \n only (pb \n ra)
 // TODO if error display "Error" and \n, aka duplicates, not ints or bigger than int*/
 
-int	doubles(int *stack, int to_check)//0 if no doubles
+/*int	doubles(int *stack, int to_check)//0 if no doubles
 {
 	int	i;
 
@@ -30,7 +30,7 @@ int	doubles(int *stack, int to_check)//0 if no doubles
 		i++;
 	}
 	return (0);
-}
+}*/
 
 int	main(int ac, char **av)
 {
@@ -62,7 +62,8 @@ int	main(int ac, char **av)
 	{
 		while (i < ac)
 		{
-			if (!ft_isdigit(av[i][0]) || doubles((int *)av, (int)av[i]))
+//			if (!ft_isdigit(av[i][0]) || doubles((int *)av, (int)av[i]))
+			if (!ft_isdigit(av[i][0]))
 				return (ft_putstr("Error\n"));
 			new_node(&ht_a, ft_atol(av[i]));
 			i++;
