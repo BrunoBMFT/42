@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/12 16:14:57 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/13 01:08:40 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ typedef struct s_ht
 	t_dlist	*head;
 	t_dlist	*tail;
 	int		bff;
+	int		size;
 }					t_ht;
 
 typedef struct s_cost
 {
-	bool 	direction;//1 is head dir, 0 is tail dir
+	bool 	direction_a;//1 is head dir, 0 is tail dir
+	bool 	direction_b;
 	int		cost;
 	int		b_count;
 	int		a_count;
@@ -67,7 +69,7 @@ void	something_sort(t_ht ht_a, t_ht ht_b);
 int		bestfriend(t_ht ht_a, t_dlist *node_b);
 
 //cost
-int		cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node);
+t_cost		cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node);
 int		cost_head_a(t_ht ht_a, int bff);
 int		cost_head_b(t_ht ht_b, t_dlist *node);
 t_cost	minimum_cost(t_ht ht_a, t_ht ht_b);

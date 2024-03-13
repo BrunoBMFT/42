@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/12 14:45:59 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/12 22:01:29 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main(int ac, char **av)
 //	rotate(&ht_a, 'a');
 //	swap(&ht_a, 'a');
 /*// TODO from here down is testing*/
-/*	printf("Stack A: ");
+	/*printf("Stack A: ");
 	lst_print(&ht_a);
 	printf("\nStack B: ");
 	lst_print(&ht_b);

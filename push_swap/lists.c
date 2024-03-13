@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/02 16:37:10 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/12 21:56:18 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	new_node(t_ht *lst, int value)
 {
 	t_dlist	*toadd;
 
+	lst->size++;
 	toadd = ft_lstnew(value);
 	ft_lstadd_back(lst, toadd);
 }
@@ -54,6 +55,7 @@ void	ft_lstclear(t_ht *ht_a)
 		free(ht_a->head);
 		ht_a->head = temp;
 	}
+	ht_a->size = 0;
 	ht_a->head = NULL;
 }
 

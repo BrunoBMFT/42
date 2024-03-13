@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 16:38:20 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/07 17:04:51 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/12 22:00:19 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	push(t_ht *from, t_ht *to, char a_or_b)
 		return ;
 	node = ft_lstrem_front(from);
 	ft_lstadd_front(to, node);
+	from->size--;
+	to->size++;
 	if (a_or_b == 'a')
 		printf("pa\n");
 	else if (a_or_b == 'b')
