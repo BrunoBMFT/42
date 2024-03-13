@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/12 22:01:29 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/13 19:07:47 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	main(int ac, char **av)
 	ht_a.tail = NULL;
 	ht_b.head = NULL;
 	ht_b.tail = NULL;
+	ht_a.size = 0;
+	ht_b.size = 0;
 	if (ac < 2)
 		return (0);
 	if (ac == 2)/*not working with i, fix ./push 1*/
