@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:35:39 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/12 21:59:21 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/14 22:01:44 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_dlist	*ft_lstrem_front(t_ht *lst)
 	return (temp);
 }
 
-t_dlist	*ft_lstrem_back(t_ht *lst)
+t_dlist	*ft_lstrem_back(t_ht *lst)//! error?????
 {
 	t_dlist	*temp;
 

@@ -6,12 +6,14 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/13 19:08:45 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/15 23:56:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+// ! something sort needs to run across ht_a.head and b.head????
+// ! doesnt work when no bff
 
 int	bestfriend(t_ht ht_a, t_dlist *node_b)
 {
@@ -111,10 +113,10 @@ t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)//cost of tail n
 	t_cost b;
 	b.cost = 1;
 	total.to_sort = node->value;
-	if (ht_b->bff == INT_MAX)
+	if (bff == INT_MAX)
 	{
-		ht_b->bff = find_small(*ht_b);
-//		printf("intmax ");
+		bff = find_small(*ht_a);
+//		printf("bff: %d ", bff);
 	}
 	int head_a = cost_head_a(*ht_a, bff);
 	int tail_a = cost_tail_a(*ht_a, bff) + 1;
@@ -122,14 +124,12 @@ t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)//cost of tail n
 	{
 		a.cost = head_a;
 		total.direction_a = 1;
-//		printf("a min cost: head: %d\n", a.cost);
 		total.a_count = a.cost;
 	}
 	else 
 	{
 		a.cost = tail_a;
 		total.direction_a = 0;
-//		printf("a min cost: tail: %d\n", a.cost);
 		total.a_count = a.cost;
 		if (a.cost != 1)
 			a.cost++;//rra
@@ -140,7 +140,6 @@ t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)//cost of tail n
 	{
 		b.cost = head_b;
 		total.direction_b = 1;
-//		printf("b min cost: head: %d\n", b.cost);
 		total.b_count = b.cost;
 		b.cost++;//pa
 	}
@@ -148,12 +147,10 @@ t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)//cost of tail n
 	{
 		b.cost = tail_b;
 		total.direction_b = 0;
-//		printf("b min cost: tail: %d\n", b.cost);
 		total.b_count = b.cost;
 		b.cost++;//rrb pa
 	}
 	total.cost = b.cost + a.cost;
-//	printf("total cost: %d\n", total.cost);
 	return (total);
 }
 
@@ -162,14 +159,12 @@ t_cost	minimum_cost(t_ht ht_a, t_ht ht_b)
 	t_ht	temp_b = ht_b;
 	t_cost	min;
 	t_cost 	cost;
-//	printf("irrelavent\n");
 	cost = cost_calc(&ht_a, &ht_b, temp_b.bff, temp_b.head);//this here to make everything in min = cost
 	min = cost;
-//	printf("irrelavent\n");
 	min.cost = INT_MAX;
 	while (temp_b.head)
 	{
-//		printf("\nnode: %d\n", temp_b.head->value);
+//		printf("node: %d\n", temp_b.head->value);
 		temp_b.bff = bestfriend(ht_a, temp_b.head);
 		cost = cost_calc(&ht_a, &ht_b, temp_b.bff, temp_b.head);
 		if (cost.cost <= min.cost)
@@ -185,18 +180,17 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 {
 	while (ht_a.size > 3)
 		push(&ht_a, &ht_b, 'b');
-//	sort3(&ht_a); fix sort 3
-	t_cost min = minimum_cost(ht_a, ht_b);//error when slot 2 is bigger than slot 1
+	sort3(&ht_a);
+//	t_cost min = minimum_cost(ht_a, ht_b);
 //	printf("\nminimum cost: %d\n", min.cost);
-//	printf("node to sort: %d\n", min.to_sort);
 //	printf("a direction: %d\n", min.direction_a);
 //	printf("b direction: %d\n", min.direction_b);
-//	printf("a count: %d\n", min.a_count);//fix count
+//	printf("a count: %d\n", min.a_count);
 //	printf("b count: %d\n", min.b_count);
 	
 	while (ht_b.head)
-	{//error when slot 2 is bigger than slot 1
-		t_cost min = minimum_cost(ht_a, ht_b);//needs to move along ht_a and ht_b
+	{
+		t_cost min = minimum_cost(ht_a, ht_b);//needs to move along ht_a and ht_b (??????)(in hindsight, maybe not needed to move along)
 		if (min.direction_a == 1)
 		{
 			while (min.a_count > 0)
@@ -234,6 +228,13 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 	int small = find_small(ht_a);
 	while (ht_a.head->value != small)
 	{
-		rotate(&ht_a, 'a');
+		if (cost_head_a(ht_a, small) < cost_tail_a(ht_a, small))
+		{
+			rotate(&ht_a, 'a');
+		}
+		else if (cost_head_a(ht_a, small) > cost_tail_a(ht_a, small))
+		{
+			revrotate(&ht_a, 'a');
+		}
 	}
 }

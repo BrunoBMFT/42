@@ -6,32 +6,19 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/13 19:07:47 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/15 23:23:06 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "push_swap.h"
-
-/*// ! seg fault if more pushes than there are items in list
+// ! FIX MEMORY LEAKS
+// ! seg fault if more pushes than there are items in list
 // TODO  change printf to ft_printf
-// TODO separate instructons with \n only (pb \n ra)
 // TODO if error display "Error" and \n, aka duplicates, not ints or bigger than int*/
-
-/*int	doubles(int *stack, int to_check)//0 if no doubles
-{
-	int	i;
-
-	i = 0;
-	while (stack[i])
-	{
-		if (to_check == stack[i])
-			return (1);
-		i++;
-	}
-	return (0);
-}*/
-
+// TODO remove lstprint
+// TODO make sort and something sort smaller and less functions
+// TODO make normalizer
 int	main(int ac, char **av)
 {
 	t_ht	ht_a;
@@ -64,7 +51,6 @@ int	main(int ac, char **av)
 	{
 		while (i < ac)
 		{
-//			if (!ft_isdigit(av[i][0]) || doubles((int *)av, (int)av[i]))
 			if (!ft_isdigit(av[i][0]))
 				return (ft_putstr("Error\n"));
 			new_node(&ht_a, ft_atol(av[i]));

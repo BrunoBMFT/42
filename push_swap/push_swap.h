@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/13 18:52:18 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/15 23:36:59 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ t_dlist	*ft_lstrem_back(t_ht *lst);
 void	ft_lstdelone(t_dlist *lst);
 void	lst_print(t_ht *lst);
 void	ft_lstclear(t_ht *ht_a);
-//parsing
-int	doubles(int *stack, int to_check);
+
 //operations
 void	push(t_ht *from, t_ht *to, char a_or_b);
 void	rotate(t_ht *lst, char a_or_b);
