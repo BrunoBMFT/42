@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/15 23:23:06 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/16 13:59:19 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,25 @@
 // TODO remove lstprint
 // TODO make sort and something sort smaller and less functions
 // TODO make normalizer
+
+void	initiate(t_ht *ht_a, t_ht *ht_b)
+{
+	ht_a->head = NULL;
+	ht_a->tail = NULL;
+	ht_b->head = NULL;
+	ht_b->tail = NULL;
+	ht_a->size = 0;
+	ht_b->size = 0;
+}
 int	main(int ac, char **av)
 {
 	t_ht	ht_a;
 	t_ht	ht_b;
 	int		i;
 	char	**read;
+	
+	initiate(&ht_a, &ht_b);
 	i = 1;
-	ht_a.head = NULL;
-	ht_a.tail = NULL;
-	ht_b.head = NULL;
-	ht_b.tail = NULL;
-	ht_a.size = 0;
-	ht_b.size = 0;
 	if (ac < 2)
 		return (0);
 	if (ac == 2)/*not working with i, fix ./push 1*/
@@ -58,11 +64,8 @@ int	main(int ac, char **av)
 		}
 	}
 	sort(&ht_a, &ht_b, i);
-//	push(&ht_a, &ht_b, 'b');
-//	revrotate(&ht_a, 'a');
-//	rotate(&ht_a, 'a');
-//	swap(&ht_a, 'a');
-/*// TODO from here down is testing*/
+
+// TODO from here down is testing
 	/*printf("Stack A: ");
 	lst_print(&ht_a);
 	printf("\nStack B: ");

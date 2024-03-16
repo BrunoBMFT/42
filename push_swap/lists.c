@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/12 21:56:18 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/16 11:35:23 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,6 @@ void	new_node(t_ht *lst, int value)
 	toadd = ft_lstnew(value);
 	ft_lstadd_back(lst, toadd);
 }
-
-/*void ft_lstdelone(t_dlist *lst)
-{
-	if (!lst)
-		return;
-	if (lst->value)
-		free(lst->value);
-	free(lst);
-}*/
 
 void	ft_lstclear(t_ht *ht_a)
 {

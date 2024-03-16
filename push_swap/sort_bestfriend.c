@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/16 01:37:44 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/16 14:06:29 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,10 @@ int	cost_head_a(t_ht ht_a, int bff)
 
 	t_ht temp_a = ht_a;
 	if (bff == INT_MAX)
-	{
 		return (0);
-	}
 	while (temp_a.head && temp_a.head->value != bff)
 	{
 		count++;
-//		printf("ra, ");
 		temp_a.head = temp_a.head->next;
 	}
 	return (count);
@@ -69,7 +66,6 @@ int	cost_head_b(t_ht ht_b, t_dlist *node)
 	while (temp_b.head && temp_b.head->value != node->value)
 	{
 		count++;
-//		printf("rb, ");
 		temp_b.head = temp_b.head->next;
 	}
 	return (count);
@@ -80,13 +76,10 @@ int	cost_tail_a(t_ht ht_a, int bff)
 
 	t_ht temp_a = ht_a;
 	if (bff == INT_MAX)
-	{
 		return (0);
-	}
 	while (temp_a.tail && temp_a.tail->value != bff)
 	{
 		count++;
-//		printf("rra, ");
 		temp_a.tail = temp_a.tail->prev;
 	}
 	return (count);
@@ -99,7 +92,6 @@ int	cost_tail_b(t_ht ht_b, t_dlist *node)
 	while (temp_b.tail && temp_b.tail->value != node->value)
 	{
 		count++;
-//		printf("rrb, ");
 		temp_b.tail = temp_b.tail->prev;
 	}
 	return (count);
@@ -114,10 +106,7 @@ t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)//cost of tail n
 	b.cost = 1;
 	total.to_sort = node->value;
 	if (bff == INT_MAX)
-	{
 		bff = find_small(*ht_a);
-//		printf("bff: %d ", bff);
-	}
 	int head_a = cost_head_a(*ht_a, bff);
 	int tail_a = cost_tail_a(*ht_a, bff) + 1;
 	if (head_a < tail_a)// <= ??
@@ -181,16 +170,9 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 	while (ht_a.size > 3)
 		push(&ht_a, &ht_b, 'b');
 	sort3(&ht_a);
-//	t_cost min = minimum_cost(ht_a, ht_b);
-//	printf("\nminimum cost: %d\n", min.cost);
-//	printf("a direction: %d\n", min.direction_a);
-//	printf("b direction: %d\n", min.direction_b);
-//	printf("a count: %d\n", min.a_count);
-//	printf("b count: %d\n", min.b_count);
-	
 	while (ht_b.head)
 	{
-		t_cost min = minimum_cost(ht_a, ht_b);//needs to move along ht_a and ht_b (??????)(in hindsight, maybe not needed to move along)
+		t_cost min = minimum_cost(ht_a, ht_b);
 		if (min.direction_a == 1)
 		{
 			while (min.a_count > 0)
@@ -229,12 +211,8 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 	while (ht_a.head->value != small)
 	{
 		if (cost_head_a(ht_a, small) < cost_tail_a(ht_a, small))
-		{
 			rotate(&ht_a, 'a');
-		}
 		else if (cost_head_a(ht_a, small) > cost_tail_a(ht_a, small))
-		{
 			revrotate(&ht_a, 'a');
-		}
 	}
 }
