@@ -3,17 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   sort_bestfriend.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/16 14:06:29 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/16 17:55:36 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// ! something sort needs to run across ht_a.head and b.head????
-// ! doesnt work when no bff
+//!FIX if p 9 8 7 6 5 4 3 2 1, and then lstprint, only 9 is stored
+//!FIX
+//!FIX
+//!FIX
+//!FIX
+//!FIX
+//!FIX
+//!FIX
+//!FIX
+//!FIX
+//!FIX
+//!FIX
 
 int	bestfriend(t_ht ht_a, t_dlist *node_b)
 {

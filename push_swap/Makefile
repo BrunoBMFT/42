@@ -8,14 +8,17 @@ CC = cc
 
 COMPRESS = ar rcs
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 RM = rm -f
 
 %.o: %.c
-	$(CC) -c     $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@
 
 all: $(NAME)
+
+v: 
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes
 
 $(NAME): $(OBJS)
 		$(CC) -o $(NAME) $(OBJS)

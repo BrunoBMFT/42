@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/16 13:59:32 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/16 19:38:20 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ typedef struct s_cost
 	int		a_count;
 }				t_cost;
 
+//parsing
+int	parse_digit(char *str);
+int	parse_doubles(char **str, int content, t_ht *stack);
 //lists
 void	initiate(t_ht *ht_a, t_ht *ht_b);
 t_dlist	*ft_lstnew(int content);
@@ -63,6 +66,7 @@ void	push(t_ht *from, t_ht *to, char a_or_b);
 void	rotate(t_ht *lst, char a_or_b);
 void	revrotate(t_ht *lst, char a_or_b);
 void	swap(t_ht *lst, char a_or_b);
+
 //sort
 int		is_sorted(t_ht *ht_a);
 void	sort(t_ht *ht_a, t_ht *ht_b, int count);
@@ -78,11 +82,8 @@ int		cost_head_b(t_ht ht_b, t_dlist *node);
 t_cost	minimum_cost(t_ht ht_a, t_ht ht_b);
 
 //libft
-size_t	ft_strlen(const char *str);
-char	**ft_split(char const *s, char c);
 long	ft_atol(const char *str);
 int		ft_isdigit(int c);
 int		ft_putstr(char *s);
-void	ft_free_all(char **tofree);
 
 #endif

@@ -4,7 +4,7 @@
 
 int	main(void)
 {
-	int	fd = open("/home/bruno/42/ft_lusiadas/lusiadas.txt", O_RDONLY), count = -2;
+	int	fd = open("/home/brfernan/git_42/ft_lusiadas/lusiadas.txt", O_RDONLY), count = -2;
 	char *ret = get_next_line(fd);
 	while (ret)
 	{
