@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/16 19:38:10 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/03/16 19:39:31 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,12 @@ int	parse_doubles(char **str, int content, t_ht *stack)//1 is no doubles
 		while (temp)
 		{
 			if (temp->value == content)
-				return (0);
+				return (free (temp), 0);
 			temp = temp->next;
 		}
 		i++;
 	}
+	free (temp);
 	return (1);
 }
 
