@@ -6,23 +6,13 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/17 04:01:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/17 17:59:30 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 //!FIX if p 9 8 7 6 5 4 3 2 1, and then lstprint, only 9 is stored
-//!FIX
-//!FIX
-//!FIX
-//!FIX
-//!FIX
-//!FIX
-//!FIX
-//!FIX
-//!FIX
-//!FIX
 //!FIX
 
 int	bestfriend(t_ht ht_a, t_dlist *node_b)
@@ -43,28 +33,28 @@ int	bestfriend(t_ht ht_a, t_dlist *node_b)
 int	find_small(t_ht stack)
 {
 	int smallest = INT_MAX;
-	t_ht temp = stack;
+	t_dlist	*temp = stack.head;
 
-	while (temp.head)
+	while (temp)
 	{
-		if (temp.head->value < smallest)
-			smallest = temp.head->value;
-		temp.head = temp.head->next;
+		if (temp->value < smallest)
+			smallest = temp->value;
+		temp = temp->next;
 	}
 	return (smallest);
 }
-
+//add frees to costs
 int	cost_head_a(t_ht ht_a, int bff)
 {
 	int count = 0;
 
-	t_ht temp_a = ht_a;
+	t_dlist *temp_a = ht_a.head;
 	if (bff == INT_MAX)
 		return (0);
-	while (temp_a.head && temp_a.head->value != bff)
+	while (temp_a && temp_a->value != bff)
 	{
 		count++;
-		temp_a.head = temp_a.head->next;
+		temp_a = temp_a->next;
 	}
 	return (count);
 }
@@ -72,11 +62,11 @@ int	cost_head_b(t_ht ht_b, t_dlist *node)
 {
 	int count = 0;
 
-	t_ht temp_b = ht_b;
-	while (temp_b.head && temp_b.head->value != node->value)
+	t_dlist *temp_b = ht_b.head;
+	while (temp_b && temp_b->value != node->value)
 	{
 		count++;
-		temp_b.head = temp_b.head->next;
+		temp_b = temp_b->next;
 	}
 	return (count);
 }
@@ -84,13 +74,13 @@ int	cost_tail_a(t_ht ht_a, int bff)
 {
 	int count = 0;
 
-	t_ht temp_a = ht_a;
+	t_dlist *temp_a = ht_a.head;
 	if (bff == INT_MAX)
 		return (0);
-	while (temp_a.tail && temp_a.tail->value != bff)
+	while (temp_a && temp_a->value != bff)
 	{
 		count++;
-		temp_a.tail = temp_a.tail->prev;
+		temp_a = temp_a->prev;
 	}
 	return (count);
 }
@@ -98,11 +88,11 @@ int	cost_tail_b(t_ht ht_b, t_dlist *node)
 {
 	int count = 0;
 
-	t_ht temp_b = ht_b;
-	while (temp_b.tail && temp_b.tail->value != node->value)
+	t_dlist *temp_b = ht_b.head;
+	while (temp_b && temp_b->value != node->value)
 	{
 		count++;
-		temp_b.tail = temp_b.tail->prev;
+		temp_b = temp_b->prev;
 	}
 	return (count);
 }
@@ -163,7 +153,6 @@ t_cost	minimum_cost(t_ht ht_a, t_ht ht_b)
 	min.cost = INT_MAX;
 	while (temp_b.head)
 	{
-//		printf("node: %d\n", temp_b.head->value);
 		temp_b.bff = bestfriend(ht_a, temp_b.head);
 		cost = cost_calc(&ht_a, &ht_b, temp_b.bff, temp_b.head);
 		if (cost.cost <= min.cost)
@@ -172,6 +161,7 @@ t_cost	minimum_cost(t_ht ht_a, t_ht ht_b)
 		}
 		temp_b.head = temp_b.head->next;
 	}
+	ft_lstclear(&temp_b);
 	return (min);
 }
 
@@ -180,7 +170,7 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 	while (ht_a.size > 3)
 		push(&ht_a, &ht_b, 'b');
 	sort3(&ht_a);
-	while (ht_b.head)
+	while (ht_b.head)//while loop before if dir condition, so save a while loop
 	{
 		t_cost min = minimum_cost(ht_a, ht_b);
 		if (min.direction_a == min.direction_b)
@@ -203,7 +193,6 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 					min.b_count--;
 				}
 			}
-				
 		}
 		if (min.direction_a == 1)
 		{
@@ -239,12 +228,21 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 		}
 		push(&ht_b, &ht_a, 'a');
 	}
-	int small = find_small(ht_a);
+	t_ht temp;
+	temp = ht_a;
+	int small = find_small(temp);
 	while (ht_a.head->value != small)
 	{
-		if (cost_head_a(ht_a, small) < cost_tail_a(ht_a, small))
+		if (cost_head_a(ht_a, small) <= cost_tail_a(ht_a, small))
 			rotate(&ht_a, 'a');
 		else if (cost_head_a(ht_a, small) > cost_tail_a(ht_a, small))
 			revrotate(&ht_a, 'a');
 	}
+	printf("Stack A: ");
+	lst_print(&ht_a);
+	printf("\nStack B: ");
+	lst_print(&ht_b);
+	printf("\n");
+	ft_lstclear(&ht_a);
+	ft_lstclear(&ht_b);
 }
