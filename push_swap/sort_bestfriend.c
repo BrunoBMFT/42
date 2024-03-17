@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_bestfriend.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/16 17:55:36 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/03/17 04:01:09 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,28 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 	while (ht_b.head)
 	{
 		t_cost min = minimum_cost(ht_a, ht_b);
+		if (min.direction_a == min.direction_b)
+		{
+			if (min.direction_a == 1)
+			{
+				while (min.a_count > 0 && min.b_count > 0)
+				{
+					bothrotate(ht_a, ht_b);
+					min.a_count--;
+					min.b_count--;
+				}
+			}
+			if (min.direction_a == 0)
+			{
+				while (min.a_count > 0 && min.b_count > 0)
+				{
+					bothrevrotate(ht_a, ht_b);
+					min.a_count--;
+					min.b_count--;
+				}
+			}
+				
+		}
 		if (min.direction_a == 1)
 		{
 			while (min.a_count > 0)

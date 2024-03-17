@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/16 23:32:17 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/17 03:43:47 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	sort(t_ht *ht_a, t_ht *ht_b, int count)//make better
 		ft_lstclear(ht_b);
 		exit(0);
 	}
-	if (count == 4)
+	if (count == 4)//dont need this if, since in something sort it already does check this (maybe not sure)
 		sort3(ht_a);
 	else
 		something_sort(*ht_a, *ht_b);

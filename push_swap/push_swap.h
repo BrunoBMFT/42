@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/17 00:30:20 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/17 04:04:19 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	push(t_ht *from, t_ht *to, char a_or_b);
 void	rotate(t_ht *lst, char a_or_b);
 void	revrotate(t_ht *lst, char a_or_b);
 void	swap(t_ht *lst, char a_or_b);
+void	bothrotate(t_ht ht_a, t_ht ht_b);
+void	bothrevrotate(t_ht ht_a, t_ht ht_b);
 
 //sort
 int		is_sorted(t_ht *ht_a);
@@ -75,6 +77,7 @@ void	sort3(t_ht *ht_a);
 void	something_sort(t_ht ht_a, t_ht ht_b);
 int		bestfriend(t_ht ht_a, t_dlist *node_b);
 int		find_small(t_ht ht_a);
+//void	place_nodes(t_cost min, t_ht *ht_a, t_ht *ht_b);
 
 //cost
 t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node);

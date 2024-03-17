@@ -17,9 +17,6 @@ RM = rm -f
 
 all: $(NAME)
 
-v: 
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes
-
 $(NAME): $(OBJS)
 		$(CC) -o $(NAME) $(OBJS)
 		@echo $(NAME) ready!

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/17 00:17:59 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/17 04:06:14 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,22 @@ int	main(int ac, char **av)
 		while (i < ac)
 		{
 			if (parse_digit(av[i]) == 0 || parse_doubles(av, ft_atol(av[i]), &ht_a) == 0)
-				return (ft_putstr("Error\n"));
+			{
+				ft_lstclear(&ht_a);
+				return (ft_putstr("Error\n"));//i think not supposed to print, not sure
+			}
 			new_node(&ht_a, ft_atol(av[i]));
 			i++;
 		}
 	}
-	ht_a = normalizer(&ht_a);
+//	ht_a = normalizer(&ht_a);
 
 	sort(&ht_a, &ht_b, i);
-	printf("Stack A: ");
+	/*printf("Stack A: ");
 	lst_print(&ht_a);
 	printf("\nStack B: ");
 	lst_print(&ht_b);
-	printf("\n");
+	printf("\n");*/
 	ft_lstclear(&ht_a);
 	ft_lstclear(&ht_b);
 }
