@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/16 18:43:22 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/03/16 23:32:17 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void	sort(t_ht *ht_a, t_ht *ht_b, int count)//make better
 {
 	if (is_sorted(ht_a))
 	{
-		printf ("is sorted\n");//isnt supposed to print anything if sorted
-		return ;//change to exit so doesnt do anything else
+		printf ("is sorted\n");//! isnt supposed to print anything if sorted
+		return ;//change to exit so doesnt do anything else??
 	}
-	if (count == 3)
+	if (count == 3)//make better
 	{
 		swap(ht_a, 'a');
 		ft_lstclear(ht_a);

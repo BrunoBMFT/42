@@ -63,6 +63,8 @@
     "array": "c",
     "string_view": "c",
     "initializer_list": "c",
-    "utility": "c"
+    "utility": "c",
+    "stdio.h": "c",
+    "algorithm": "c"
   }
 }

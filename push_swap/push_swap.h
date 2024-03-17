@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/16 19:38:20 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/03/17 00:30:20 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_cost
 //parsing
 int	parse_digit(char *str);
 int	parse_doubles(char **str, int content, t_ht *stack);
+//t_ht	normalizer(t_ht *stack);
 //lists
 void	initiate(t_ht *ht_a, t_ht *ht_b);
 t_dlist	*ft_lstnew(int content);

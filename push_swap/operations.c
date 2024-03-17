@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 16:38:20 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/16 18:40:35 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/03/16 23:28:03 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	swap(t_ht *lst, char a_or_b)
 	ft_lstadd_front(lst, node1);
 	ft_lstadd_front(lst, node2);
 	if (a_or_b == 'a')
-		printf("sa\n");
+		ft_putstr("sa");
 	else if (a_or_b == 'b')
-		printf("sb\n");
+		ft_putstr("sb");
 }
 
 void	push(t_ht *from, t_ht *to, char a_or_b)
@@ -46,9 +46,9 @@ void	push(t_ht *from, t_ht *to, char a_or_b)
 	from->size--;
 	to->size++;
 	if (a_or_b == 'a')
-		printf("pa\n");
+		ft_putstr("pa");
 	else if (a_or_b == 'b')
-		printf("pb\n");
+		ft_putstr("pb");
 }
 
 void	rotate(t_ht *lst, char a_or_b)
@@ -60,9 +60,9 @@ void	rotate(t_ht *lst, char a_or_b)
 	node = ft_lstrem_front(lst);
 	ft_lstadd_back(lst, node);
 	if (a_or_b == 'a')
-		printf("ra\n");
+		ft_putstr("ra");
 	else if (a_or_b == 'b')
-		printf("rb\n");
+		ft_putstr("rb");
 }
 
 void	revrotate(t_ht *lst, char a_or_b)
@@ -74,8 +74,8 @@ void	revrotate(t_ht *lst, char a_or_b)
 	node = ft_lstrem_back(lst);
 	ft_lstadd_front(lst, node);
 	if (a_or_b == 'a')
-		printf("rra\n");
+		ft_putstr("rra");
 	else if (a_or_b == 'b')
-		printf("rrb\n");
+		ft_putstr("rrb");
 }
 

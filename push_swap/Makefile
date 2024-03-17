@@ -1,6 +1,6 @@
 NAME = push_swap
 
-SRCS = main.c lists.c libft_stuff.c operations.c lists2.c sort.c sort_bestfriend.c
+SRCS = main.c lists.c operations.c lists2.c sort.c sort_bestfriend.c parser.c
 
 OBJS = $(SRCS:.c=.o)
 
