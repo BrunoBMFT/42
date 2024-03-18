@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/17 03:46:30 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/18 00:29:18 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,19 @@ long	ft_atol(const char *str)
 	return (sign * result);
 }
 
-void	lst_print(t_ht *lst)//to remove
+void	lst_print(t_ht *lst, char a_or_b)//to remove
 {
 	t_dlist	*temp;
 
+	if (a_or_b == 'a')
+		printf("Stack A: ");
+	else if (a_or_b == 'b')
+		printf("Stack B: ");
 	temp = lst->head;
 	while (temp)
 	{
 		printf("%d ", temp->value);
 		temp = temp->next;
 	}
+	printf("\n");
 }

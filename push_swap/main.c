@@ -6,18 +6,48 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/17 17:55:32 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/18 02:28:11 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "push_swap.h"
 
-// ! FIX MEMORY LEAKS
+// ! LIST START (pointer to first node)
+// ! LIST START (pointer to first node)
+// ! LIST START (pointer to first node)
+// ! LIST START (pointer to first node)
+// ! LIST START (pointer to first node)
+// ! LIST START (pointer to first node)
+
+// TODO create median calc
 // TODO remove lstprint
 // TODO make sort and something sort smaller and less functions
 // TODO make normalizer
+// TODO remove checker and visualizer
 // *change ht_a name
+//BROKEN NORMALIZER
+void	normalizer(t_ht *stack)
+{
+	t_dlist	*temp;
+	t_dlist	*temp2;
+	int		count;
+
+	temp = stack->head;
+	while (temp)
+	{
+		count = 1;
+		temp2 = stack->head;
+		while (temp2)
+		{
+			if (temp2->value < temp->value)
+				count++;
+			temp2 = temp2->next;
+		}
+		temp->value = count;
+		temp = temp->next;
+	}
+}
 
 int	main(int ac, char **av)
 {
@@ -42,7 +72,17 @@ int	main(int ac, char **av)
 			i++;
 		}
 	}
-//	ht_a = normalizer(&ht_a);
+	
+	normalizer(&ht_a);
+
+//	ht_a.start = find_small(&ht_a);
+	
+
+//	lst_print(&ht_a, 'a');
+//	lst_print(&ht_b, 'b');
+//	ht_a.head = ht_a.start;
+//	lst_print(&ht_a, 'a');
+//	lst_print(&ht_b, 'b');
 
 	sort(&ht_a, &ht_b, i);
 }

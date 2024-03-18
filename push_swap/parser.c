@@ -6,54 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:31:04 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/17 02:53:33 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/18 02:12:05 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-/*t_ht	normalizer(t_ht *stack)
-{
-	t_ht	normal;
-	int i;
-	int count;
-
-	i = 0;
-	count = 1;
-	normal = *stack;
-	while (normal.head)
-	{
-		i = normal.head->value;
-		while (normal.head)
-		{
-			if (i > normal.head->value)
-				count++;
-			normal.head->value;
-		}
-		normal.head->value = count;
-		normal.head = normal.head->next;
-	}
-	return (normal);
-}
-
-	t_dlist	*temp;
-	t_dlist	*temp2;
-	int		count;
-
-	temp = stack->head;
-	while (temp)
-	{
-		count = 1;
-		temp2 = stack->head;
-		while (temp2)
-		{
-			if (temp2->nbr < temp->nbr)
-				count++;
-			temp2 = temp2->next;
-		}
-		temp->value = count;
-		temp = temp->next;
-	}*/
 
 void	initiate(t_ht *ht_a, t_ht *ht_b)
 {

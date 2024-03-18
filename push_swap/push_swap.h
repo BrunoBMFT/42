@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/17 04:04:19 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/18 02:16:32 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_ht
 {
 	t_dlist	*head;
 	t_dlist	*tail;
+	int		start;
 	int		bff;
 	int		size;
 	int		smallest;
@@ -38,9 +39,10 @@ typedef struct s_ht
 
 typedef struct s_cost
 {
-	int		to_sort;
 	bool 	direction_a;
 	bool 	direction_b;
+	bool	no_bff;//1 if no bff found
+	int		to_sort;
 	int		cost;
 	int		b_count;
 	int		a_count;
@@ -49,7 +51,7 @@ typedef struct s_cost
 //parsing
 int	parse_digit(char *str);
 int	parse_doubles(char **str, int content, t_ht *stack);
-//t_ht	normalizer(t_ht *stack);
+void	normalizer(t_ht *stack);
 //lists
 void	initiate(t_ht *ht_a, t_ht *ht_b);
 t_dlist	*ft_lstnew(int content);
@@ -59,7 +61,7 @@ void	ft_lstadd_back(t_ht *lst, t_dlist *new);
 t_dlist	*ft_lstrem_front(t_ht *lst);
 t_dlist	*ft_lstrem_back(t_ht *lst);
 void	ft_lstdelone(t_dlist *lst);
-void	lst_print(t_ht *lst);
+void	lst_print(t_ht *lst, char a_or_b);
 void	ft_lstclear(t_ht *ht_a);
 
 //operations
@@ -76,8 +78,8 @@ void	sort(t_ht *ht_a, t_ht *ht_b, int count);
 void	sort3(t_ht *ht_a);
 void	something_sort(t_ht ht_a, t_ht ht_b);
 int		bestfriend(t_ht ht_a, t_dlist *node_b);
-int		find_small(t_ht ht_a);
-//void	place_nodes(t_cost min, t_ht *ht_a, t_ht *ht_b);
+int		find_small(t_ht *ht_a);
+bool	is_biggest(t_ht *stack);
 
 //cost
 t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node);

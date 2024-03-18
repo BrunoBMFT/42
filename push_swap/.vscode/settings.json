@@ -65,6 +65,8 @@
     "initializer_list": "c",
     "utility": "c",
     "stdio.h": "c",
-    "algorithm": "c"
+    "algorithm": "c",
+    "bitset": "c",
+    "chrono": "c"
   }
 }
