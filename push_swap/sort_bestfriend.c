@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/20 16:01:05 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/20 17:59:07 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,59 +57,6 @@ int	bestfriend(t_ht ht_a, t_dlist *node_b)
 		bestfr = find_small(&ht_a);
 	return (bestfr);
 }
-//add frees to costs (??)
-int	cost_head_a(t_ht ht_a, int bff)
-{
-	int count = 0;
-
-	t_dlist *temp_a = ht_a.head;
-	if (bff == INT_MAX)
-		return (0);
-	while (temp_a && temp_a->value != bff)
-	{
-		count++;
-		temp_a = temp_a->next;
-	}
-	return (count);
-}
-int	cost_head_b(t_ht ht_b, t_dlist *node)
-{
-	int count = 0;
-
-	t_dlist *temp_b = ht_b.head;
-	while (temp_b && temp_b->value != node->value)
-	{
-		count++;
-		temp_b = temp_b->next;
-	}
-	return (count);
-}
-int	cost_tail_a(t_ht ht_a, int bff)
-{
-	int count = 0;
-
-	t_dlist *temp_a = ht_a.head;
-	if (bff == INT_MAX)
-		return (0);
-	while (temp_a && temp_a->value != bff)
-	{
-		count++;
-		temp_a = temp_a->prev;
-	}
-	return (count);
-}
-int	cost_tail_b(t_ht ht_b, t_dlist *node)
-{
-	int count = 0;
-
-	t_dlist *temp_b = ht_b.head;
-	while (temp_b && temp_b->value != node->value)
-	{
-		count++;
-		temp_b = temp_b->prev;
-	}
-	return (count);
-}
 //skips first in case that slot 1 bigger than slot 2
 t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)//cost of tail needs to be +1 because of rrr
 {
@@ -121,7 +68,7 @@ t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)//cost of tail n
 	total.to_sort = node->value;
 	int head_a = cost_head_a(*ht_a, bff);
 	int tail_a = cost_tail_a(*ht_a, bff) + 1;
-	if (head_a < tail_a)// <= ??
+	if (head_a <= tail_a)// <= ??
 	{
 		a.cost = head_a;
 		total.direction_a = 1;
@@ -137,7 +84,7 @@ t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)//cost of tail n
 	}
 	int head_b = cost_head_b(*ht_b, node);
 	int tail_b = cost_tail_b(*ht_b, node) + 1;
-	if (head_b < tail_b)
+	if (head_b <= tail_b)
 	{
 		b.cost = head_b;
 		total.direction_b = 1;
@@ -184,6 +131,7 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 	while (ht_b.head)//improve: while loop before if dir condition, so save a while loop
 	{
 		t_cost min = minimum_cost(ht_a, ht_b);
+//		printf("node: %d ", min.to_sort);
 		/*if (min.direction_a == min.direction_b)
 		{
 			if (min.direction_a == 1)
@@ -223,11 +171,11 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 			min.b_count--;
 		}
 		push(&ht_b, &ht_a, 'a');
-		/*if (min.no_bff == 1)
+		if (min.no_bff == 1)
 		{
 			rotate(&ht_a, 'a');
 			printf("nobff");
-		}*/
+		}
 	}
 	t_ht temp;
 	temp = ht_a;
