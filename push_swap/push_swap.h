@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/18 02:16:32 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/20 14:28:01 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_ht
 {
 	t_dlist	*head;
 	t_dlist	*tail;
-	int		start;
 	int		bff;
 	int		size;
 	int		smallest;

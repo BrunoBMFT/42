@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/18 00:56:18 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/20 16:01:05 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	bestfriend(t_ht ht_a, t_dlist *node_b)
 		temp.head = temp.head->next;
 	}
 	if (bestfr == INT_MAX)
-		bestfr = ht_a.start;
+		bestfr = find_small(&ht_a);
 	return (bestfr);
 }
 //add frees to costs (??)
@@ -239,11 +239,9 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 		else if (cost_head_a(ht_a, small) > cost_tail_a(ht_a, small))
 			revrotate(&ht_a, 'a');
 	}
-	/*printf("Stack A: ");
-	lst_print(&ht_a);
-	printf("\nStack B: ");
-	lst_print(&ht_b);
-	printf("\n");*/
+//	lst_print(&ht_a, 'a');
+//	lst_print(&ht_b, 'b');
+//	printf("\n");
 	/*if (!is_sorted(&ht_a))//! REMOVE THERE SHOULD BE NO NEED TO RUN AGAN
 		something_sort(ht_a, ht_b);
 	else
@@ -252,7 +250,7 @@ void	something_sort(t_ht ht_a, t_ht ht_b)
 		ft_lstclear(&ht_a);
 		ft_lstclear(&ht_b);
 	}*/
-		printf("C");
+//		printf("C");
 	ft_lstclear(&ht_a);
 	ft_lstclear(&ht_b);
 }

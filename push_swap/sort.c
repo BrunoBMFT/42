@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/17 18:59:48 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/20 16:02:13 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	sort(t_ht *ht_a, t_ht *ht_b, int count)//make better
 {
 	if (is_sorted(ht_a))
 	{
-		printf ("is sorted\n");//! isnt supposed to print anything if sorted
+//		printf ("is sorted\n");//! isnt supposed to print anything if sorted
 //		return ;//change to exit so doesnt do anything else??
 	}
 	else if (count == 3)//make better, also error (v 1 2)
