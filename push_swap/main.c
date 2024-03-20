@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/18 02:28:11 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/20 14:14:08 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 // TODO make normalizer
 // TODO remove checker and visualizer
 // *change ht_a name
+//fix
 //BROKEN NORMALIZER
 void	normalizer(t_ht *stack)
 {
