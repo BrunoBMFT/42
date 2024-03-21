@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_bestfriend.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/20 17:59:07 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/21 15:56:23 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)//cost of tail n
 	else 
 	{
 		a.cost = tail_a;
+		a.cost--;
 		total.direction_a = 0;
 		total.a_count = a.cost;
 		if (a.cost != 1)
@@ -115,7 +116,7 @@ t_cost	minimum_cost(t_ht ht_a, t_ht ht_b)
 	{
 		temp_b.bff = bestfriend(ht_a, temp_b.head);
 		cost = cost_calc(&ht_a, &ht_b, temp_b.bff, temp_b.head);
-		if (cost.cost <= min.cost)
+		if (cost.cost < min.cost)
 			min = cost;
 		temp_b.head = temp_b.head->next;
 	}

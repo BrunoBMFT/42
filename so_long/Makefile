@@ -1,2 +1,2 @@
 all: 
-	gcc test4.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext
+	gcc img_test.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext
