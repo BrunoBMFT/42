@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/22 18:47:34 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/03/22 23:44:22 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_ht
 	t_dlist	*tail;
 	int		size;
 	int		median;
+	int		bff;
 }					t_ht;
 
 typedef struct s_cost
@@ -71,8 +72,8 @@ int		is_sorted(t_ht *ht_a);
 void	sort(t_ht *ht_a, t_ht *ht_b, int count);
 void	sort3(t_ht *ht_a);
 void 	sort_bestfriend(t_ht *ht_a, t_ht *ht_b);
-void 	sort_list(t_dlist *head);
-int 	find_median(t_ht *stack);
+//void 	sort_list(t_dlist *head);
+//int 	find_median(t_ht *stack);
 
 
 //cost

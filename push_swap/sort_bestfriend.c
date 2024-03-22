@@ -3,24 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sort_bestfriend.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/22 19:26:25 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/03/22 23:54:31 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-
-/*t_cost		cost_calc(t_ht *ht_a, t_ht *ht_b)
-{
-	t_cost min;
-	
-	return (min);
-}*/
-
-void sort_list(t_dlist *head)
+/*void sort_list(t_dlist *head)
 {
 	t_dlist	*t1;
 	t_dlist	*t2;
@@ -69,25 +61,67 @@ int find_median(t_ht *stack)
 		return ((temp->value + temp->prev->value) / 2);
 	else
 		return (temp->value);
+}*/
+
+/*t_cost		cost_calc(t_ht *ht_a, t_ht *ht_b)
+{
+	t_cost min;
+	
+	return (min);
+}*/
+
+/*t_cost min_cost(t_ht *ht_a, t_ht *ht_b)
+{
+	t_cost min;
+
+	return (min);
+}*/
+
+/*int	cost_head_a(t_ht *ht_a, int bff)
+{
+	
+}*/
+
+int	find_bestfriend(t_ht *ht_a, t_ht *ht_b)
+{
+	t_dlist *temp;
+	int		node;
+	int		bff;
+
+	temp = ht_a->head;
+	node = ht_b->head->value;
+	bff = INT_MAX;
+	while (temp)
+	{
+		if (node < temp->value && temp->value < bff)
+			bff = temp->value;
+		temp = temp->next;
+	}
+
+	return (bff);
 }
 
 void sort_bestfriend(t_ht *ht_a, t_ht *ht_b)
 {
-	int	median;
+//	t_cost min;
+// ! median not working
+	/*int	median;
 	while (ht_a->size > 3)
 	{
 		median = find_median(ht_a);
-		push(ht_a, ht_b, 'b');
-		/*median = find_median(ht_a);//median of a
 		if (ht_a->head->value < median)
 			push(ht_a, ht_b, 'b');
-		else
-			rotate(ht_a, 'a');*/
-		/*median = find_median(ht_b->head);//median of b
-		if (ht_b->head->value <= median)
-			rotate(ht_b, 'b');*/
+		else if (ht_a->head->value >= median)
+			rotate(ht_a, 'a');
+	}*/
+	while (ht_a->size > 3)
+	{
+		push(ht_a, ht_b, 'b');
 	}
-	printf("median %d ", median);
+//	find_bestfriend(ht_a, ht_b);
+//	printf("%d's bff is : %d\n", ht_b->head->value, ht_b->bff);
+//	min = min_cost(ht_a, ht_b);
+	
 	return ;
 /*
 	while ht_b
