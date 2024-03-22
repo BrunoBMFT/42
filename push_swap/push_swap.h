@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/20 17:21:24 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/22 18:47:34 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,15 @@ typedef struct s_ht
 {
 	t_dlist	*head;
 	t_dlist	*tail;
-	int		bff;
 	int		size;
-	int		smallest;
+	int		median;
 }					t_ht;
 
 typedef struct s_cost
 {
-	bool 	direction_a;
-	bool 	direction_b;
-	bool	no_bff;//1 if no bff found
-	int		to_sort;
 	int		cost;
-	int		b_count;
-	int		a_count;
+	int		adir;
+	int		bdir;
 }				t_cost;
 
 //parsing
@@ -75,18 +70,12 @@ void	bothrevrotate(t_ht ht_a, t_ht ht_b);
 int		is_sorted(t_ht *ht_a);
 void	sort(t_ht *ht_a, t_ht *ht_b, int count);
 void	sort3(t_ht *ht_a);
-void	something_sort(t_ht ht_a, t_ht ht_b);
-int		bestfriend(t_ht ht_a, t_dlist *node_b);
-int		find_small(t_ht *ht_a);
-bool	is_biggest(t_ht *stack);
+void 	sort_bestfriend(t_ht *ht_a, t_ht *ht_b);
+void 	sort_list(t_dlist *head);
+int 	find_median(t_ht *stack);
+
 
 //cost
-t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node);
-int		cost_head_a(t_ht ht_a, int bff);
-int		cost_head_b(t_ht ht_b, t_dlist *node);
-int		cost_tail_a(t_ht ht_a, int bff);
-int		cost_tail_b(t_ht ht_b, t_dlist *node);
-t_cost	minimum_cost(t_ht ht_a, t_ht ht_b);
 
 //libft
 long	ft_atol(const char *str);

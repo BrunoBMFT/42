@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/20 16:02:13 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/22 17:47:44 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,38 +38,35 @@ void	sort3(t_ht *ht_a)
 	}
 }
 
-int	is_sorted(t_ht *ht_a)
+int	is_sorted(t_ht *ht_a)//1 if sorted
 {
-	t_ht	temp;
+	t_dlist	*temp;
 
-	temp = *ht_a;
-	while (temp.head)
+	temp = ht_a->head;
+	while (temp->next)
 	{
-		if (temp.head->next && temp.head->value > temp.head->next->value)
+		if (temp->value > temp->next->value)
 			return (0);
-		temp.head = temp.head->next;
+		temp = temp->next;
 	}
 	return (1);
 }
 
-void	sort(t_ht *ht_a, t_ht *ht_b, int count)//make better
+void	sort(t_ht *ht_a, t_ht *ht_b, int count)
 {
-	if (is_sorted(ht_a))
+	if (!is_sorted(ht_a))
 	{
-//		printf ("is sorted\n");//! isnt supposed to print anything if sorted
-//		return ;//change to exit so doesnt do anything else??
+		if (count == 3)
+			swap(ht_a, 'a');
+		else if (count == 4)
+			sort3(ht_a);
+		else
+			sort_bestfriend(ht_a, ht_b);
 	}
-	else if (count == 3)//make better, also error (v 1 2)
-	{
-		swap(ht_a, 'a');
-	}
-	else if (count == 4)//dont need this if, since in something sort it already does check this (maybe not sure)
-		sort3(ht_a);
 	else
-	{
-		something_sort(*ht_a, *ht_b);
-		exit(0);
-	}
+		printf("sorted");
+	lst_print(ht_a, 'a');
+	lst_print(ht_b, 'b');
 	ft_lstclear(ht_a);
 	ft_lstclear(ht_b);
 	return ;

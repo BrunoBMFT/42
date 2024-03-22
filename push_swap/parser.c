@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:31:04 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/18 02:12:05 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/22 17:06:38 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	initiate(t_ht *ht_a, t_ht *ht_b)
 	ht_a->tail = NULL;
 	ht_b->head = NULL;
 	ht_b->tail = NULL;
-	ht_a->bff = 0;
+/*	ht_a->bff = 0;
 	ht_b->bff = 0;
 	ht_a->smallest = 0;
-	ht_b->smallest = 0;
+	ht_b->smallest = 0;*/
 	ht_a->size = 0;
 	ht_b->size = 0;
 }

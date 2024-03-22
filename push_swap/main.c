@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/20 15:57:25 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/22 17:48:42 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 
 // LIST START (pointer to first node)
-// TODO create median calc
+// TODO for functions sending lists, send only the pointer to head
 // TODO remove lstprint
 // TODO make sort and something sort smaller and less functions
 // TODO make normalizer
@@ -76,11 +76,6 @@ int	main(int ac, char **av)
 //	ht_a.start = find_small(&ht_a);
 	
 
-//	lst_print(&ht_a, 'a');
-//	lst_print(&ht_b, 'b');
-//	ht_a.head = ht_a.start;
-//	lst_print(&ht_a, 'a');
-//	lst_print(&ht_b, 'b');
 
 	sort(&ht_a, &ht_b, i);
 }

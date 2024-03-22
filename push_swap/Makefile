@@ -2,7 +2,9 @@ NAME = push_swap
 
 SRCS = main.c lists.c operations.c lists2.c sort.c sort_bestfriend.c parser.c sort_cost.c
 
-OBJS = $(SRCS:.c=.o)
+OBJDIR = ./objs
+
+OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 CC = cc
 
@@ -12,8 +14,8 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 RM = rm -f
 
-%.o: %.c
-	$(CC) -c $(CFLAGS) $< -o $@
+$(OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
 
