@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/22 23:57:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/23 00:39:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ void	sort(t_ht *ht_a, t_ht *ht_b, int count)
 		else if (count == 4)
 			sort3(ht_a);
 		else
-			sort_bestfriend(ht_a, ht_b);
+			sort_bestfriend(*ht_a, *ht_b);
 	}
 	else
 		printf("sorted");
-	lst_print(ht_a, 'a');
-	lst_print(ht_b, 'b');
-	ft_lstclear(ht_a);
-	ft_lstclear(ht_b);
+//	lst_print(ht_a, 'a');
+//	lst_print(ht_b, 'b');
+//	ft_lstclear(ht_a);
+//	ft_lstclear(ht_b);
 	return ;
 }

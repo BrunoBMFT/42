@@ -6,133 +6,213 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/22 23:54:31 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/23 01:20:20 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/*void sort_list(t_dlist *head)
+
+int	find_small(t_ht *stack)
 {
-	t_dlist	*t1;
-	t_dlist	*t2;
+	int smallest = INT_MAX;
+	t_dlist	*temp = stack->head;
+
+	while (temp)
+	{
+		if (temp->value < smallest)
+			smallest = temp->value;
+		temp = temp->next;
+	}
+	return (smallest);
+}
+
+int	bestfriend(t_ht ht_a, t_dlist *node_b)
+{
+	t_dlist	*temp;
+	temp = ht_a.head;
+	
+	int	friend = node_b->value;
+	int bestfr = INT_MAX;
+	while (temp)
+	{
+		if (friend < temp->value && temp->value < bestfr)
+			bestfr = temp->value;
+		temp = temp->next;
+	}
+	if (bestfr == INT_MAX)
+		bestfr = find_small(&ht_a);
+	return (bestfr);
+}
+//skips first in case that slot 1 bigger than slot 2
+t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)//cost of tail needs to be +1 because of rrr
+{
+	t_cost total;
+	t_cost a;
+	t_cost b;
+	a.cost = 1;
+	b.cost = 1;
+	total.to_sort = node->value;
+	int head_a = cost_head_a(*ht_a, bff);
+	int tail_a = cost_tail_a(*ht_a, bff) + 1;
+	if (head_a <= tail_a)// <= ??
+	{
+		a.cost = head_a;
+		total.direction_a = 1;
+		total.a_node = bff;
+	}
+	else 
+	{
+		a.cost = tail_a;
+		a.cost--;
+		total.direction_a = 0;
+		if (a.cost != 1)
+			a.cost++;//rra
+	}
+	int head_b = cost_head_b(*ht_b, node);
+	int tail_b = cost_tail_b(*ht_b, node) + 1;
+	if (head_b <= tail_b)
+	{
+		b.cost = head_b;
+		total.direction_b = 1;
+		b.cost++;//pa
+	}
+	else 
+	{
+		b.cost = tail_b;
+		total.direction_b = 0;
+		b.cost++;//rrb pa
+	}
+	total.a_node = bff;
+	total.b_node = node->value;
+	total.cost = b.cost + a.cost;
+	return (total);
+}
+
+t_cost	minimum_cost(t_ht ht_a, t_ht ht_b)
+{
+	t_dlist	*temp_b;
+	temp_b = ht_b.head;
+	t_cost	min;
+	t_cost 	cost;
+	min.no_bff = 0;
+//	cost = cost_calc(&ht_a, &ht_b, bestfriend(ht_a, temp_b), temp_b);//this here to make everything in min = cost
+//	min = cost;
+	min.cost = INT_MAX;
+	while (temp_b)
+	{
+		cost = cost_calc(&ht_a, &ht_b, bestfriend(ht_a, temp_b), temp_b);
+		if (cost.cost < min.cost)
+			min = cost;
+		temp_b = temp_b->next;
+	}
+	return (min);
+}
+
+/*void sort_list(t_ht stack)
+{
+	t_ht	t1;
+	t_ht	t2;
 	int		temp;
 	
-	t1 = head;
-	while (t1->next)
+	t1 = stack;
+	while (t1.head->next)
 	{
-		t2 = t1->next;
-		while (t2)
+		t2.head = t1.head->next;
+		while (t2.head)
 		{
-			if (t1->value > t2->value) 
+			if (t1.head->value > t2.head->value) 
 			{
-				temp = t1->value;
-				t1->value = t2->value;
-				t2->value = temp;
+				temp = t1.head->value;
+				t1.head->value = t2.head->value;
+				t2.head->value = temp;
 			}
-			t2 = t2->next;
+			t2.head = t2.head->next;
 		}
-		t1 = t1->next;
+		t1.head = t1.head->next;
 	}
 }
 
-int find_median(t_ht *stack)
+int find_median(t_ht stack)
 {
 	int 	count;
 	int		i;
-	t_dlist	*temp;
+	t_ht	temp;
 	
 	count = 0;
-	temp = stack->head;
+	temp = stack;
 	sort_list(temp);
-	while (temp != NULL) 
+	while (temp.head != NULL) 
 	{
 		count++;
-		temp = temp->next;
+		temp.head = temp.head->next;
 	}
-	temp = stack->head;
+	temp = stack;
 	i = 0;
 	while (i < count / 2)
 	{
-		temp = temp->next;
+		temp.head = temp.head->next;
 		i++;
 	}
+//	printf("%d, ", temp->value);
 	if (count % 2 == 0)
-		return ((temp->value + temp->prev->value) / 2);
+		return ((temp.head->value + temp.head->prev->value) / 2);
 	else
-		return (temp->value);
+		return (temp.head->value);
 }*/
 
-/*t_cost		cost_calc(t_ht *ht_a, t_ht *ht_b)
+//change every function to pointers
+void	sort_bestfriend(t_ht ht_a, t_ht ht_b)
 {
-	t_cost min;
-	
-	return (min);
-}*/
-
-/*t_cost min_cost(t_ht *ht_a, t_ht *ht_b)
-{
-	t_cost min;
-
-	return (min);
-}*/
-
-/*int	cost_head_a(t_ht *ht_a, int bff)
-{
-	
-}*/
-
-int	find_bestfriend(t_ht *ht_a, t_ht *ht_b)
-{
-	t_dlist *temp;
-	int		node;
-	int		bff;
-
-	temp = ht_a->head;
-	node = ht_b->head->value;
-	bff = INT_MAX;
-	while (temp)
-	{
-		if (node < temp->value && temp->value < bff)
-			bff = temp->value;
-		temp = temp->next;
-	}
-
-	return (bff);
-}
-
-void sort_bestfriend(t_ht *ht_a, t_ht *ht_b)
-{
-//	t_cost min;
-// ! median not working
-	/*int	median;
-	while (ht_a->size > 3)
+	/*// ! median not working
+	int	median;
+	while (ht_a.size > 3)
 	{
 		median = find_median(ht_a);
-		if (ht_a->head->value < median)
-			push(ht_a, ht_b, 'b');
-		else if (ht_a->head->value >= median)
-			rotate(ht_a, 'a');
+		printf("%d, ", ht_a.head->value);
+		if (ht_a.head->value > median)
+			rotate(&ht_a, 'a');
+		else if (ht_a.head->value < median)
+			push(&ht_a, &ht_b, 'b');
 	}*/
-	while (ht_a->size > 3)
+	while (ht_a.size > 3)
+		push(&ht_a, &ht_b, 'b');
+	sort3(&ht_a);
+	while (ht_b.head)
 	{
-		push(ht_a, ht_b, 'b');
+		t_cost min = minimum_cost(ht_a, ht_b);
+//if both counts are equal, make another function
+		while (ht_a.head->value != min.a_node)
+		{
+			if (min.direction_a == 1)
+				rotate(&ht_a, 'a');
+			else if (min.direction_a == 0)
+				revrotate(&ht_a, 'a');
+		}
+		while (ht_b.head->value != min.b_node)
+		{
+			if (min.direction_b == 1)
+				rotate(&ht_b, 'b');
+			else if (min.direction_b == 0)
+				revrotate(&ht_b, 'b');
+		}
+		push(&ht_b, &ht_a, 'a');
+		if (min.no_bff == 1)
+			rotate(&ht_a, 'a');
 	}
-//	find_bestfriend(ht_a, ht_b);
-//	printf("%d's bff is : %d\n", ht_b->head->value, ht_b->bff);
-//	min = min_cost(ht_a, ht_b);
-	
-	return ;
-/*
-	while ht_b
-		push (order median)
-	min = cost calc
-	sort everything
-	while hta value != 1
-		rotate
-	
-*/
 
-//	t_cost min = cost_calc(&ht_a, &ht_b);
-//	printf("min cost: %d\n", min.cost);
+	t_ht temp;
+	temp = ht_a;
+	int small = find_small(&temp);
+	while (ht_a.head->value != small)//NOT REALLY WORKING
+	{
+		if (cost_head_a(ht_a, small) <= cost_tail_a(ht_a, small))
+			rotate(&ht_a, 'a');
+		else if (cost_head_a(ht_a, small) > cost_tail_a(ht_a, small))
+			revrotate(&ht_a, 'a');
+	}
+//	lst_print(&ht_a, 'a');
+//	lst_print(&ht_b, 'b');
+	ft_lstclear(&ht_a);
+	ft_lstclear(&ht_b);
 }
