@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/23 01:20:20 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/24 18:10:01 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,14 @@ t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)//cost of tail n
 	{
 		a.cost = head_a;
 		total.direction_a = 1;
-		total.a_node = bff;
 	}
 	else 
 	{
 		a.cost = tail_a;
-		a.cost--;
+//		a.cost--;
 		total.direction_a = 0;
-		if (a.cost != 1)
-			a.cost++;//rra
+//		if (a.cost != 1)
+//			a.cost++;//rra
 	}
 	int head_b = cost_head_b(*ht_b, node);
 	int tail_b = cost_tail_b(*ht_b, node) + 1;
@@ -75,13 +74,13 @@ t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)//cost of tail n
 	{
 		b.cost = head_b;
 		total.direction_b = 1;
-		b.cost++;//pa
+//		b.cost++;//pa
 	}
 	else 
 	{
 		b.cost = tail_b;
 		total.direction_b = 0;
-		b.cost++;//rrb pa
+//		b.cost++;//rrb pa
 	}
 	total.a_node = bff;
 	total.b_node = node->value;
@@ -109,7 +108,7 @@ t_cost	minimum_cost(t_ht ht_a, t_ht ht_b)
 	return (min);
 }
 
-/*void sort_list(t_ht stack)
+void sort_list(t_ht stack)
 {
 	t_ht	t1;
 	t_ht	t2;
@@ -155,16 +154,17 @@ int find_median(t_ht stack)
 		i++;
 	}
 //	printf("%d, ", temp->value);
+	int ret;
 	if (count % 2 == 0)
-		return ((temp.head->value + temp.head->prev->value) / 2);
+		ret =(temp.head->value + temp.head->prev->value) / 2;
 	else
-		return (temp.head->value);
-}*/
+		ret = temp.head->value;
+	return (ret);
+}
 
 //change every function to pointers
 void	sort_bestfriend(t_ht ht_a, t_ht ht_b)
 {
-	/*// ! median not working
 	int	median;
 	while (ht_a.size > 3)
 	{
@@ -174,8 +174,8 @@ void	sort_bestfriend(t_ht ht_a, t_ht ht_b)
 			rotate(&ht_a, 'a');
 		else if (ht_a.head->value < median)
 			push(&ht_a, &ht_b, 'b');
-	}*/
-	while (ht_a.size > 3)
+	}
+	/*while (ht_a.size > 3)
 		push(&ht_a, &ht_b, 'b');
 	sort3(&ht_a);
 	while (ht_b.head)
@@ -197,8 +197,8 @@ void	sort_bestfriend(t_ht ht_a, t_ht ht_b)
 				revrotate(&ht_b, 'b');
 		}
 		push(&ht_b, &ht_a, 'a');
-		if (min.no_bff == 1)
-			rotate(&ht_a, 'a');
+//		if (min.no_bff == 1)
+//			rotate(&ht_a, 'a');
 	}
 
 	t_ht temp;
@@ -210,7 +210,7 @@ void	sort_bestfriend(t_ht ht_a, t_ht ht_b)
 			rotate(&ht_a, 'a');
 		else if (cost_head_a(ht_a, small) > cost_tail_a(ht_a, small))
 			revrotate(&ht_a, 'a');
-	}
+	}*/
 //	lst_print(&ht_a, 'a');
 //	lst_print(&ht_b, 'b');
 	ft_lstclear(&ht_a);

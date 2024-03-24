@@ -6,13 +6,13 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/23 00:48:57 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/24 17:29:40 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
-
+//take useless functions from header (functions not used on other files)
 # include <stdio.h>//remove
 # include <stdlib.h>
 # include <unistd.h>
