@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/28 01:07:26 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/28 18:44:15 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,4 +218,5 @@ void	sort_bestfriend(t_ht ht_a, t_ht ht_b)
 	}
 	ft_lstclear(&ht_a);
 	ft_lstclear(&ht_b);
+	exit (0);
 }

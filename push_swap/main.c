@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/28 01:06:15 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/28 18:07:16 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 // TODO make normalizer
 // TODO remove checker and visualizer
 // *change ht_a name
-void	normalizer(t_ht *stack)
+/*void	normalizer(t_ht *stack)
 {
 	t_dlist	*temp;
 	t_dlist	*temp2;
@@ -44,7 +44,7 @@ void	normalizer(t_ht *stack)
 		temp->value = count;
 		temp = temp->next;
 	}
-}
+}*/
 
 int	main(int ac, char **av)
 {
@@ -71,8 +71,6 @@ int	main(int ac, char **av)
 	}
 	
 //	normalizer(&ht_a);
-
-//	ht_a.start = find_small(&ht_a);
 
 	sort(&ht_a, &ht_b, i);
 }

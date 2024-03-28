@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/22 23:06:43 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/28 18:07:33 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	ft_lstclear(t_ht *ht_a)
 		free(ht_a->head);
 		ht_a->head = temp;
 	}
-	ht_a->size = 0;
 	ht_a->head = NULL;
 }
 
@@ -85,7 +84,7 @@ long	ft_atol(const char *str)
 	return (sign * result);
 }
 
-void	lst_print(t_ht *lst, char a_or_b)//to remove
+/*void	lst_print(t_ht *lst, char a_or_b)//to remove
 {
 	t_dlist	*temp;
 
@@ -100,4 +99,4 @@ void	lst_print(t_ht *lst, char a_or_b)//to remove
 		temp = temp->next;
 	}
 	printf("\n");
-}
+}*/

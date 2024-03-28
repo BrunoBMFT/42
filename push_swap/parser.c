@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:31:04 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/22 23:57:42 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/28 18:09:31 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ void	initiate(t_ht *ht_a, t_ht *ht_b)
 	ht_a->tail = NULL;
 	ht_b->head = NULL;
 	ht_b->tail = NULL;
-	ht_a->bff = 0;
-	ht_b->bff = 0;
-/*	ht_a->smallest = 0;
-	ht_b->smallest = 0;*/
 	ht_a->size = 0;
 	ht_b->size = 0;
 }
