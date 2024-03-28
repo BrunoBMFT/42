@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 16:38:20 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/17 03:43:52 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/28 00:55:07 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,17 @@ void	revrotate(t_ht *lst, char a_or_b)
 		ft_putstr("rrb");
 }
 
-void	bothrotate(t_ht ht_a, t_ht ht_b)
+void	bothrotate(t_ht *ht_a, t_ht *ht_b)
 {
-	rotate(&ht_a, 'r');
-	rotate(&ht_b, 'r');
+	rotate(ht_a, 'r');
+	rotate(ht_b, 'r');
 	ft_putstr("rr");
 }
 
-void	bothrevrotate(t_ht ht_a, t_ht ht_b)
+void	bothrevrotate(t_ht *ht_a, t_ht *ht_b)
 {
-	revrotate(&ht_a, 'r');
-	revrotate(&ht_b, 'r');
+	revrotate(ht_a, 'r');
+	revrotate(ht_b, 'r');
 	ft_putstr("rrr");
 }
 

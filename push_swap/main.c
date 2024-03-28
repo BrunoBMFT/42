@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/24 17:23:59 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/28 01:06:15 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 // ! BROKEN NORMALIZER
 
 
-// LIST START (pointer to first node)
 // TODO for functions sending lists, send only the pointer to head
 // TODO remove lstprint
 // TODO make sort and something sort smaller and less functions

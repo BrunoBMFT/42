@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/24 17:29:40 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/28 00:54:51 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ typedef struct s_cost
 {
 	bool 	direction_a;
 	bool 	direction_b;
-	bool	no_bff;//1 if no bff found
-	int		to_sort;
 	int		cost;
 	int		b_node;
 	int		a_node;
@@ -69,8 +67,8 @@ void	push(t_ht *from, t_ht *to, char a_or_b);
 void	rotate(t_ht *lst, char a_or_b);
 void	revrotate(t_ht *lst, char a_or_b);
 void	swap(t_ht *lst, char a_or_b);
-void	bothrotate(t_ht ht_a, t_ht ht_b);
-void	bothrevrotate(t_ht ht_a, t_ht ht_b);
+void	bothrotate(t_ht *ht_a, t_ht *ht_b);
+void	bothrevrotate(t_ht *ht_a, t_ht *ht_b);
 
 //sort
 int		is_sorted(t_ht *ht_a);
@@ -86,10 +84,10 @@ bool	is_biggest(t_ht *stack);
 
 //cost
 t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node);
-int		cost_head_a(t_ht ht_a, int bff);
-int		cost_head_b(t_ht ht_b, t_dlist *node);
-int		cost_tail_a(t_ht ht_a, int bff);
-int		cost_tail_b(t_ht ht_b, t_dlist *node);
+int		cost_head_a(t_dlist *a_node, int bff);
+int		cost_head_b(t_dlist *b_node, t_dlist *node);
+int		cost_tail_a(t_dlist *a_node, int bff);
+int		cost_tail_b(t_dlist *b_node, t_dlist *node);
 t_cost	minimum_cost(t_ht ht_a, t_ht ht_b);
 
 //libft
