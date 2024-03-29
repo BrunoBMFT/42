@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:04:00 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/27 21:52:19 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/29 23:15:29 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 //add frees to costs (??)
 int	cost_head_a(t_dlist *a_node, int bff)
 {
-	int count = 0;
+	int		count;
+	t_dlist	*temp_a;
 
-	t_dlist *temp_a = a_node;
+	count = 0;
+	temp_a = a_node;
 	if (bff == INT_MAX)
 		return (0);
 	while (temp_a && temp_a->value != bff)
@@ -27,11 +29,14 @@ int	cost_head_a(t_dlist *a_node, int bff)
 	}
 	return (count);
 }
+
 int	cost_head_b(t_dlist *b_node, t_dlist *node)
 {
-	int count = 0;
+	int		count;
+	t_dlist	*temp_b;
 
-	t_dlist *temp_b = b_node;
+	count = 0;
+	temp_b = b_node;
 	while (temp_b && temp_b->value != node->value)
 	{
 		count++;
@@ -39,11 +44,14 @@ int	cost_head_b(t_dlist *b_node, t_dlist *node)
 	}
 	return (count);
 }
+
 int	cost_tail_a(t_dlist *a_node, int bff)
 {
-	int count = 0;
+	int		count;
+	t_dlist	*temp_a;
 
-	t_dlist *temp_a = a_node;
+	count = 0;
+	temp_a = a_node;
 	if (bff == INT_MAX)
 		return (0);
 	while (temp_a && temp_a->value != bff)
@@ -51,17 +59,20 @@ int	cost_tail_a(t_dlist *a_node, int bff)
 		count++;
 		temp_a = temp_a->prev;
 	}
-	return (count);
+	return (count + 1);
 }
+
 int	cost_tail_b(t_dlist *b_node, t_dlist *node)
 {
-	int count = 0;
+	int		count;
+	t_dlist	*temp_b;
 
-	t_dlist *temp_b = b_node;
+	count = 0;
+	temp_b = b_node;
 	while (temp_b && temp_b->value != node->value)
 	{
 		count++;
 		temp_b = temp_b->prev;
 	}
-	return (count);
+	return (count + 1);
 }

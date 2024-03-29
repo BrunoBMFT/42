@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/28 18:07:33 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/29 23:39:49 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,20 @@ void	new_node(t_ht *lst, int value)
 	ft_lstadd_back(lst, toadd);
 }
 
-void	ft_lstclear(t_ht *ht_a)
+void	ft_lstclear(t_ht *stack)
 {
 	t_dlist	*temp;
 
-	if (!ht_a)
+	if (!stack)
 		return ;
-	while (ht_a->head)
+	while (stack->head)
 	{
-		temp = ht_a->head->next;
-		free(ht_a->head);
-		ht_a->head = temp;
+		temp = stack->head->next;
+		free(stack->head);
+		stack->head = temp;
 	}
-	ht_a->head = NULL;
+	stack->head = NULL;
+	stack->tail = NULL;
 }
 
 int	ft_putstr(char *s)
@@ -83,20 +84,3 @@ long	ft_atol(const char *str)
 	}
 	return (sign * result);
 }
-
-/*void	lst_print(t_ht *lst, char a_or_b)//to remove
-{
-	t_dlist	*temp;
-
-	if (a_or_b == 'a')
-		printf("Stack A: ");
-	else if (a_or_b == 'b')
-		printf("Stack B: ");
-	temp = lst->head;
-	while (temp)
-	{
-		printf("%d ", temp->value);
-		temp = temp->next;
-	}
-	printf("\n");
-}*/

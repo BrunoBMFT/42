@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:31:04 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/28 18:09:31 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/29 22:49:43 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,10 @@ int	parse_digit(char *str)//1 is only digit
 
 int	parse_doubles(char **str, int content, t_ht *stack)//1 is no doubles
 {
-	int	i;
+	t_dlist	*temp;
+	int		i;
 
 	i = 0;
-	t_dlist *temp;
-
 	temp = stack->head;
 	while (str[i])
 	{

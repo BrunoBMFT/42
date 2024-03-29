@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:35:39 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/16 11:35:29 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/29 23:01:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,11 @@ t_dlist	*ft_lstrem_back(t_ht *lst)
 	temp->prev = NULL;
 	temp->next = NULL;
 	return (temp);
+}
+
+void	bothrevrotate(t_ht *ht_a, t_ht *ht_b)
+{
+	revrotate(ht_a, 'r');
+	revrotate(ht_b, 'r');
+	ft_putstr("rrr");
 }

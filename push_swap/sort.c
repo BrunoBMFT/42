@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/28 18:11:43 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/29 23:13:42 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	sort3(t_ht *ht_a)
 	}
 }
 
-int	is_sorted(t_ht *ht_a)//1 if sorted
+int	is_sorted(t_ht *ht_a)
 {
 	t_dlist	*temp;
 
