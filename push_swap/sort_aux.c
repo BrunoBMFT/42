@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 23:02:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/30 15:18:54 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/30 18:11:42 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,39 +38,37 @@ void	sort_list(t_ht *stack)
 
 int	find_median(t_dlist *head_a)
 {
-	int		count;
-	int		i;
-	int		ret;
+	t_ht	lst;
 	t_dlist	*temp;
-	t_ht 	lst;
 
-	count = 0;
-	i = 0;
 	temp = head_a;
-	while (temp)
-	{
-		count++;
-		temp = temp->next;
-	}
-	lst.head = NULL;
+	
 	lst.tail = NULL;
-	temp = head_a;
-	while (temp)
+	lst.head = head_a;
+	lst.size = 1;
+	if (!temp->next)
 	{
+		return (temp->value);
+	}
+
+	temp = temp->next;
+	while (temp)
+	{		
 		new_node(&lst, temp->value);
 		temp = temp->next;
 	}
 	sort_list(&lst);
-	while (i < count / 2)
+	int i = 0;
+	temp = lst.head;
+	while (i < lst.size / 2)
 	{
-		lst.head = lst.head->next;
+		temp = temp->next;
 		i++;
 	}
-	if (count % 2 == 0)
-		ret = (lst.head->value + lst.head->prev->value) / 2;
-	else
-		ret = lst.head->value;
-	return (ret);
+	int value = temp->value;
+	ft_lstclear(&lst);
+//	ft_putnbr(value);
+	return (value);
 }
 
 void	push_to_b(t_ht *ht_a, t_ht *ht_b)
@@ -84,9 +82,10 @@ void	push_to_b(t_ht *ht_a, t_ht *ht_b)
 		else
 		{
 			push(ht_a, ht_b, 'b');
-			median = find_median(ht_b->head);
-			if (ht_b->head->value < median)
-				rotate(ht_b, 'b');
+//			ft_putstr("heeeeeeeeeee");
+//			median = find_median(ht_b->head);
+//			if (ht_b->head->value >= median)
+//				rotate(ht_b, 'b');
 		}
 	}
 }

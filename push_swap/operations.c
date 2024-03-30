@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 16:38:20 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/29 23:01:32 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/30 18:03:35 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	swap(t_ht *lst, char a_or_b)
 	ft_lstadd_front(lst, node1);
 	ft_lstadd_front(lst, node2);
 	if (a_or_b == 'a')
-		ft_putstr("sa");
+		ft_printf("sa\n");
 	else if (a_or_b == 'b')
-		ft_putstr("sb");
+		ft_printf("sb\n");
 }
 
 void	push(t_ht *from, t_ht *to, char a_or_b)
@@ -46,9 +46,9 @@ void	push(t_ht *from, t_ht *to, char a_or_b)
 	from->size--;
 	to->size++;
 	if (a_or_b == 'a')
-		ft_putstr("pa");
+		ft_printf("pa\n");
 	else if (a_or_b == 'b')
-		ft_putstr("pb");
+		ft_printf("pb\n");
 }
 
 void	rotate(t_ht *lst, char a_or_b)
@@ -60,9 +60,9 @@ void	rotate(t_ht *lst, char a_or_b)
 	node = ft_lstrem_front(lst);
 	ft_lstadd_back(lst, node);
 	if (a_or_b == 'a')
-		ft_putstr("ra");
+		ft_printf("ra\n");
 	else if (a_or_b == 'b')
-		ft_putstr("rb");
+		ft_printf("rb\n");
 }
 
 void	revrotate(t_ht *lst, char a_or_b)
@@ -74,14 +74,14 @@ void	revrotate(t_ht *lst, char a_or_b)
 	node = ft_lstrem_back(lst);
 	ft_lstadd_front(lst, node);
 	if (a_or_b == 'a')
-		ft_putstr("rra");
+		ft_printf("rra\n");
 	else if (a_or_b == 'b')
-		ft_putstr("rrb");
+		ft_printf("rrb\n");
 }
 
 void	bothrotate(t_ht *ht_a, t_ht *ht_b)
 {
 	rotate(ht_a, 'r');
 	rotate(ht_b, 'r');
-	ft_putstr("rr");
+	ft_printf("rr\n");
 }

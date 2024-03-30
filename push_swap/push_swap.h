@@ -6,16 +6,16 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/30 14:10:19 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/30 18:01:16 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 /*take useless functions from header (functions not used on other files)*/
-# include <stdio.h>//remove
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdarg.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <stdbool.h>
@@ -45,6 +45,8 @@ typedef struct s_cost
 	int		b_node;
 	int		a_node;
 }				t_cost;
+
+void	ft_putnbr(int n);
 
 //parsing
 int		parse_digit(char *str);
@@ -80,6 +82,7 @@ int		cost_tail_a(t_dlist *a_node, int bff);
 int		cost_tail_b(t_dlist *b_node, t_dlist *node);
 //libft
 long	ft_atol(const char *str);
-int		ft_putstr(char *s);
+int		ft_printf(const char *str, ...);
+int	ft_putstr(char *str);
 
 #endif

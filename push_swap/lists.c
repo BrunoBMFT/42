@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/29 23:39:49 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/30 17:57:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,6 @@ void	ft_lstclear(t_ht *stack)
 	}
 	stack->head = NULL;
 	stack->tail = NULL;
-}
-
-int	ft_putstr(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		write(1, &s[i], 1);
-		i++;
-	}
-	write(1, "\n", 1);
-	return (1);
 }
 
 long	ft_atol(const char *str)

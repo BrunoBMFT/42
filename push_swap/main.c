@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/29 23:19:57 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/30 17:59:18 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int ac, char **av)
 			{
 				ft_lstclear(&ht_a);
 				/*i think not supposed to print, not sure*/
-				return (ft_lstclear(&ht_a), ft_putstr("Error\n"));
+				return (ft_lstclear(&ht_a), ft_printf("Error\n"));
 			}
 			new_node(&ht_a, ft_atol(av[i]));
 			i++;

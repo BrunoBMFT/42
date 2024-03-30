@@ -1,6 +1,7 @@
 NAME = push_swap
 
-SRCS = main.c lists.c operations.c lists2.c sort.c sort_bestfriend.c parser.c sort_cost.c sort_aux.c
+SRCS = main.c lists.c operations.c lists2.c sort.c sort_bestfriend.c parser.c \
+sort_cost.c sort_aux.c ft_printf.c
 
 OBJDIR = ./objs
 

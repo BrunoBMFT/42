@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:35:39 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/29 23:01:45 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/30 18:03:25 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,5 @@ void	bothrevrotate(t_ht *ht_a, t_ht *ht_b)
 {
 	revrotate(ht_a, 'r');
 	revrotate(ht_b, 'r');
-	ft_putstr("rrr");
+	ft_printf("rrr\n");
 }

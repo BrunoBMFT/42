@@ -68,5 +68,6 @@
     "algorithm": "c",
     "bitset": "c",
     "chrono": "c"
-  }
+  },
+  "cmake.configureOnOpen": true
 }
