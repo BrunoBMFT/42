@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/29 23:44:20 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/30 14:10:19 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	sort(t_ht *ht_a, t_ht *ht_b, int count);
 void	sort3(t_ht *ht_a);
 void	sort_bestfriend(t_ht ht_a, t_ht ht_b);
 int		find_small(t_ht *stack);
-int		find_median(t_dlist *head_a);
 void	push_to_b(t_ht *ht_a, t_ht *ht_b);
 void	prep_push(t_ht *ht_a, t_ht *ht_b, t_cost min);
 void	rotate_to_first(t_ht *ht_a);

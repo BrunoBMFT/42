@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 23:02:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/29 23:44:59 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/30 15:18:54 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	find_median(t_dlist *head_a)
 	int		i;
 	int		ret;
 	t_dlist	*temp;
-	t_ht	lst;
+	t_ht 	lst;
 
 	count = 0;
 	i = 0;
@@ -52,9 +52,9 @@ int	find_median(t_dlist *head_a)
 		count++;
 		temp = temp->next;
 	}
-	temp = head_a;
 	lst.head = NULL;
 	lst.tail = NULL;
+	temp = head_a;
 	while (temp)
 	{
 		new_node(&lst, temp->value);
@@ -70,21 +70,22 @@ int	find_median(t_dlist *head_a)
 		ret = (lst.head->value + lst.head->prev->value) / 2;
 	else
 		ret = lst.head->value;
-	ft_lstclear(&lst);
-	free (temp);
 	return (ret);
 }
 
 void	push_to_b(t_ht *ht_a, t_ht *ht_b)
 {
+	int median;
 	while (ht_a->size > 3)
 	{
-		if (ht_a->head->value >= find_median(ht_a->head))
+		median = find_median(ht_a->head);
+		if (ht_a->head->value >= median)
 			rotate(ht_a, 'a');
 		else
 		{
 			push(ht_a, ht_b, 'b');
-			if (ht_b->head->value < find_median(ht_b->head))
+			median = find_median(ht_b->head);
+			if (ht_b->head->value < median)
 				rotate(ht_b, 'b');
 		}
 	}
