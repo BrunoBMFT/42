@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/30 18:01:16 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/01 00:18:47 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	ft_putnbr(int n);
 //parsing
 int		parse_digit(char *str);
 int		parse_doubles(char **str, int content, t_ht *stack);
+void	normalizer(t_dlist *head_a);
 //lists
 void	initiate(t_ht *ht_a, t_ht *ht_b);
 void	new_node(t_ht *lst, int content);
@@ -71,10 +72,10 @@ void	sort(t_ht *ht_a, t_ht *ht_b, int count);
 void	sort3(t_ht *ht_a);
 void	sort_bestfriend(t_ht ht_a, t_ht ht_b);
 int		find_small(t_ht *stack);
+int		find_median(t_dlist *head_a);
 void	push_to_b(t_ht *ht_a, t_ht *ht_b);
 void	prep_push(t_ht *ht_a, t_ht *ht_b, t_cost min);
 void	rotate_to_first(t_ht *ht_a);
-
 //cost
 int		cost_head_a(t_dlist *a_node, int bff);
 int		cost_head_b(t_dlist *b_node, t_dlist *node);
@@ -83,6 +84,6 @@ int		cost_tail_b(t_dlist *b_node, t_dlist *node);
 //libft
 long	ft_atol(const char *str);
 int		ft_printf(const char *str, ...);
-int	ft_putstr(char *str);
+int		ft_putstr(char *str);
 
 #endif

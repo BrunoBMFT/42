@@ -6,27 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/03/29 23:44:50 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/01 00:18:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-int	find_small(t_ht *stack)
-{
-	int		smallest;
-	t_dlist	*temp;
-
-	smallest = INT_MAX;
-	temp = stack->head;
-	while (temp)
-	{
-		if (temp->value < smallest)
-			smallest = temp->value;
-		temp = temp->next;
-	}
-	return (smallest);
-}
 
 int	bestfriend(t_ht ht_a, t_dlist *node_b)
 {
@@ -48,6 +32,20 @@ int	bestfriend(t_ht ht_a, t_dlist *node_b)
 	return (bestfr);
 }
 
+void	cost_calc_aux(t_ht *ht_a, t_cost *a, t_cost *total, int bff)
+{
+	if (cost_head_a(ht_a->head, bff) <= cost_tail_a(ht_a->tail, bff))
+	{
+		a->cost = cost_head_a(ht_a->head, bff);
+		total->direction_a = 1;
+	}
+	else
+	{
+		a->cost = cost_tail_a(ht_a->tail, bff);
+		total->direction_a = 0;
+	}
+}
+
 t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)
 {
 	t_cost	total;
@@ -56,16 +54,7 @@ t_cost	cost_calc(t_ht *ht_a, t_ht *ht_b, int bff, t_dlist *node)
 
 	a.cost = 1;
 	b.cost = 1;
-	if (cost_head_a(ht_a->head, bff) <= cost_tail_a(ht_a->tail, bff))
-	{
-		a.cost = cost_head_a(ht_a->head, bff);
-		total.direction_a = 1;
-	}
-	else
-	{
-		a.cost = cost_tail_a(ht_a->tail, bff);
-		total.direction_a = 0;
-	}
+	cost_calc_aux(ht_a, &a, &total, bff);
 	if (cost_head_b(ht_b->head, node) <= cost_tail_b(ht_b->tail, node))
 	{
 		b.cost = cost_head_b(ht_b->head, node);
