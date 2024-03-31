@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/30 17:59:18 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/31 19:47:36 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,37 @@
 // TODO for functions sending lists, send only the pointer to head
 // TODO make normalizer
 // *change ht_a name
-/*void	normalizer(t_ht *stack)
+void	normalizer(t_dlist *head_a)
 {
-	t_dlist	*temp;
-	t_dlist	*temp2;
+	t_dlist	*t1;
+	t_dlist	*t2;
+	t_ht	lst;
 	int		count;
 
-	temp = stack->head;
-	while (temp)
+	t1 = head_a;
+	lst.tail = NULL;
+	lst.head = head_a;
+	while (t1)
+	{		
+		new_node(&lst, t1->value);
+		t1 = t1->next;
+	}
+	t1 = lst.head;
+	while (t1)
 	{
 		count = 1;
-		temp2 = stack->head;
-		while (temp && temp2)
+		t2 = lst.head->next;
+		while (t1 && t2)
 		{
-			if (temp2->value < temp->value)
+			if (t2->value < t1->value)
 				count++;
-			temp2 = temp2->next;
-			printf("%d, ", count);
+			t2 = t2->next;
 		}
-		printf("\n%d\n", count);
-		temp->value = count;
-		temp = temp->next;
+		t1->value = count;
+		t1 = t1->next;
 	}
-}*/
+	ft_lstclear(&lst);
+}
 
 int	main(int ac, char **av)
 {
@@ -64,6 +72,6 @@ int	main(int ac, char **av)
 			i++;
 		}
 	}
-	/*normalizer(&ht_a);*/
+	normalizer(ht_a.head);
 	sort(&ht_a, &ht_b, i);
 }

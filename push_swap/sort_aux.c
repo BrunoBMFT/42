@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 23:02:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/30 18:11:42 by bruno            ###   ########.fr       */
+/*   Updated: 2024/03/31 19:43:14 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,11 @@ int	find_median(t_dlist *head_a)
 	t_dlist	*temp;
 
 	temp = head_a;
-	
 	lst.tail = NULL;
 	lst.head = head_a;
 	lst.size = 1;
 	if (!temp->next)
-	{
 		return (temp->value);
-	}
-
 	temp = temp->next;
 	while (temp)
 	{		
@@ -67,7 +63,6 @@ int	find_median(t_dlist *head_a)
 	}
 	int value = temp->value;
 	ft_lstclear(&lst);
-//	ft_putnbr(value);
 	return (value);
 }
 
