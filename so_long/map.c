@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:45:17 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/02 00:05:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/02 00:06:13 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,14 +230,14 @@ bool	validate_map(t_map *map)
 	return (true);
 }
 
-bool	parser(int ac, char **av, t_map *map)
+bool	parser(int ac, char **av)
 {
 	if (ac != 2)
 		return (false);//putendl com flags criadas pelo fontao
 	if (!check_filename(av[1]))
 		return (false);
-	if (!get_file(av[1], map))// ! not working
-		return (false);
+//	if (!get_file(av[1], map))// ! not working
+//		return (false);
 //	if (!get_args(map))//not needed
 //		return (false);
 //	if (!validate_map(map))
@@ -250,7 +250,7 @@ int	main(int ac, char **av)
 	t_map	map;
 
 	init(&map);
-	if (!parser(ac, av, &map))
+	if (!parser(ac, av))
 		return (free_parser(&map), 1);
 	else
 		printf("ran without problems");
