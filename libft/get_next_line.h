@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 13:39:19 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/17 14:37:47 by brfernan         ###   ########.fr       */
+/*   Created: 2023/11/03 17:35:17 by brfernan          #+#    #+#             */
+/*   Updated: 2023/11/17 16:25:38 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-
-# define POSSIBLE "cspdiuxX%"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
 
 # include <unistd.h>
-# include <stdarg.h>
+# include <fcntl.h>
 # include <stdio.h>
+# include <stdlib.h>
 
-int	ft_putchar(int c);
-int	format(va_list args, const char format);
-int	ft_printf(const char *str, ...);
-int	ft_putstr(char *str);
-int	ft_putnbr(int n);
-int	putnbr_len(int n);
-int	ft_unsigned_int(unsigned int u);
-int	unsigned_len(unsigned int num);
-int	ft_pointer(size_t pointer);
-int	ft_hexa(unsigned int x, char x_or_x);
+char	*get_next_line(int fd);
+char	*ft_strjoin(char *line, char *buf);
+int		buffer(char	*buf);
+char	*clearbuf(char *buf);
+
 #endif
