@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 00:35:21 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/01 17:17:10 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/01 23:56:42 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,3 @@ int	ft_printf(const char *str, ...)
 	va_end(args);
 	return (len);
 }
-/*
-int	main(void)
-{
-	printf("%d\n", ft_printf("attempt %%%&arguments\n\n"));
-	printf("%d\n", printf("attempt %%%&arguments\n\n"));
-}*/

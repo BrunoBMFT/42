@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 18:01:46 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/07 14:36:36 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:56:24 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,3 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (NULL);
 }
-/*
-#include <stdio.h>
-#include <string.h>
-int	main(void)
-{
-	char	str[] = "hello";
-	char	c = 'e';
-	char	*ft_ret;
-	char	*ret;
-
-	ft_ret = ft_memchr(str, c, 5);
-	printf("%s\n", ft_ret);
-	ret = memchr(str, c, 5);
-	printf("%s\n", ret);
-}*/

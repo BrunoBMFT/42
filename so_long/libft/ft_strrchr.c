@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 19:30:40 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/07 14:41:07 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:57:32 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,3 @@ char	*ft_strrchr(const char *s, int c)
 	}
 	return (NULL);
 }
-/*#include <stdio.h>
-#include <string.h>
-int	main(void)
-{
-	printf("%s\n", ft_strrchr("hello", 101));
-	printf("%s\n", strrchr("hello", 101));
-}*/

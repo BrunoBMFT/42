@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 19:27:04 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/07 14:38:40 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:57:04 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,3 @@ char	*ft_strchr(const char *str, int c)
 		return ((char *)(str + i));
 	return (0);
 }
-/*#include <stdio.h>
-int main ()
-{
-	const char str[] = "";
-	int ch = 's';
-	char *ret;
-
-	ret = ft_strchr(str, ch);
-
-	printf("String after %c is - %s\n", ch, ret);
-
-	return(0);
-}*/

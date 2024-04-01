@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:44:33 by brfernan          #+#    #+#             */
-/*   Updated: 2023/10/23 15:18:02 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:56:54 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,3 @@ void	ft_putnbr_fd(int n, int fd)
 		write(fd, &c, 1);
 	}
 }
-/*#include <unistd.h>
-int main(void)
-{
-    ft_putnbr_fd(12345678, 1);
-    write(1, "\n", 1);
-    ft_putnbr_fd(-2147483648, 1);
-    write(1, "\n", 1);
-    ft_putnbr_fd(0, 1);
-    write(1, "\n", 1);
-}*/

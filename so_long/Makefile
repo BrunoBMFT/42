@@ -36,7 +36,7 @@ MLX_DIR = ./includes/minilibx-linux
 MLX = $(MLX_DIR)/libmlx_Linux.a -lmlx_Linux-lXext -lX11 -lm
 
 clean:
-		$(RM) -r$(OBJS)
+		$(RM) -r $(OBJS)
 
 fclean: clean
 		$(RM) $(NAME)
@@ -44,9 +44,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all bonus fclean clean re
-
-
-
-
-
+	
 	gcc img_test.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext

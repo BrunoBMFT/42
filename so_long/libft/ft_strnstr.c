@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 19:38:57 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/07 14:41:05 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:57:30 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,3 @@ char	*ft_strnstr(const char *str, const char *little, size_t n)
 	}
 	return (NULL);
 }
-/*#include <stdio.h>
-int	main(void)
-{
-	char	*big = "hello world";
-	char	*little = "wo";
-	char	*ftptr;
-	char	*ptr;
-	ftptr = ft_strnstr(big, little, 10);
-	printf("%s\n", ftptr);
-}*/

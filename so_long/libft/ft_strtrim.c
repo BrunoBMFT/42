@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 22:32:33 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/07 14:41:15 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:57:35 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	}
 	return (ret);
 }
-/*#include <stdio.h>
-int	main(void)
-{
-	char	*ret;
-	char	*str;
-	char	*set;
-
-	str = "123hello321";
-	set = "123";
-	ret = ft_strtrim(str, set);
-	printf("%s\n", ret);
-	free (ret);
-}*/

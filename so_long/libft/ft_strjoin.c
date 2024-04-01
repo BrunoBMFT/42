@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:19:13 by brfernan          #+#    #+#             */
-/*   Updated: 2023/10/23 23:11:49 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/01 23:57:11 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str[i + j] = '\0';
 	return (str);
 }
-/*#include <stdio.h>
-int	main(void)
-{
-	char	*str;
-
-	str = ft_strjoin("hello ", "world");
-	printf("%s\n", str);
-	free (str);
-}*/
