@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.c                                              :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/01 16:45:17 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/02 00:06:13 by bruno            ###   ########.fr       */
+/*   Created: 2024/04/02 04:33:45 by bruno             #+#    #+#             */
+/*   Updated: 2024/04/02 04:34:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ void	free_parser(t_map *map)
 
 bool	check_filename(char *file)
 {
-	int	len;
+	int		len;
+	char	*temp;
 
+	temp = file;
 	len = ft_strlen(file);
-	file = file + len -4;
-	if (len < 4 || ft_strncmp(file, ".ber", 4))
-		return (false);//putendl com flags criadas pelo fontao
+	temp = temp + len -4;
+	if (len < 4 || ft_strncmp(temp, ".ber", 4))//change to ber
+		return (ft_putendl_fd(INV_MAPNAME, 2), false);
 	return (true);
 }
 
@@ -80,15 +82,15 @@ bool	get_file(char *file, t_map *map)
 	int		fd;
 	char	*new;
 
-	new = ft_strjoin("maps/", file);
+	new = ft_strjoin("/home/bruno/42/so_long/maps/", file);
 	if (!new)
-		return (false);//putendl com flags criadas pelo fontao
+		return (ft_putendl_fd(ERR_ALLOC, 2), false);
 	fd = open(new, O_RDONLY);
 	free (new);
-	if (fd == -1)
-		return (false);//putendl com flags criadas pelo fontao
+	if (fd < 0)
+		return (ft_putendl_fd(INV_FILE, 2), false);
 	if (!read_file(map, fd, 0))
-		return (close(fd), false);//putendl com flags criadas pelo fontao
+		return (close(fd), ft_putendl_fd(ERR_FILE, 2), false);
 	close(fd);
 	return (true);
 }
@@ -118,17 +120,17 @@ bool	check_char(t_map *map)
 		while (map->map[y][x])
 		{
 			if (!is_in_array(VALID, map->map[y][x]))
-				return (false);//putendl com flags criadas pelo fontao
+				return (ft_putendl_fd(INV_CHAR, 2), false);
 			if (is_in_array("P", map->map[y][x]))//DEFINE PLAYER
 				player++;
 			if (player > 1)
-				return (false);//putendl com flags criadas pelo fontao
+				return (ft_putendl_fd(INV_PLAYER, 2), false);
 			x++;
 		}
 		y++;
 	}
 	if (player == 0)
-		return (false);//putendl com flags criadas pelo fontao
+		return (ft_putendl_fd(INV_PLAYER, 2), false);
 	return (true);
 }
 
@@ -160,7 +162,7 @@ bool	initiate_flood(t_map *map)
 		col++;
 	map->visited = ft_calloc(sizeof(bool *), col + 1);
 	if (!map->visited)
-		return (false);//putendl com flags criadas pelo fontao
+		return (ft_putendl_fd(ERR_ALLOC, 2), false);
 	col--;
 	while (col >= 0)
 	{
@@ -169,7 +171,7 @@ bool	initiate_flood(t_map *map)
 			row++;
 		map->visited[col] = malloc(row * sizeof(bool));//change to ft_calloc
 		if (!map->visited[col])
-			return (false);//putendl com flags criadas pelo fontao
+			return (ft_putendl_fd(ERR_ALLOC, 2), false);
 		col--;
 	}
 	set_visitied(map);
@@ -203,14 +205,14 @@ bool	check_surroundings(t_map *map)//get col and row as parameter?
 	col = 0;
 	while (map->map[col])
 	{
-		row++;
+		row = 0;
 		while (map->map[col][row])
 		{
 			if ((map->map[col][row] || is_in_array("P", map->map[col][row]))
 			&& map->visited[col][row] == false)
 			{
 				if (!flood_fill(map, col, row))
-					return (false);//putendl com flags criadas pelo fontao
+					return (ft_putendl_fd(ERR_MAP, 2), false);
 			}
 			row++;
 		}
@@ -230,29 +232,17 @@ bool	validate_map(t_map *map)
 	return (true);
 }
 
-bool	parser(int ac, char **av)
+bool	parser(int ac, char **av, t_map *map)
 {
 	if (ac != 2)
-		return (false);//putendl com flags criadas pelo fontao
+		return (ft_putendl_fd(INV_ARGS, 2), false);
 	if (!check_filename(av[1]))
 		return (false);
-//	if (!get_file(av[1], map))// ! not working
-//		return (false);
+	if (!get_file(av[1], map))
+		return (false);
 //	if (!get_args(map))//not needed
 //		return (false);
-//	if (!validate_map(map))
-//		return (false);
+	if (!validate_map(map))
+		return (false);
 	return (true);
-}
-
-int	main(int ac, char **av)
-{
-	t_map	map;
-
-	init(&map);
-	if (!parser(ac, av))
-		return (free_parser(&map), 1);
-	else
-		printf("ran without problems");
-	free_parser(&map);
 }

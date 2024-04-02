@@ -11,7 +11,6 @@ typedef struct s_data
 	int		color;
 }				t_data;
 
-
 int	f(int keysym, t_data *data)
 {
 	if (keysym == XK_Escape)
@@ -38,7 +37,6 @@ int	change_color(t_data *data)
 		data->color = 0x0000FF;
 	else
 		data->color = 0xFF0000;
-	
 	return (0);
 }
 

@@ -91,7 +91,6 @@ int	main(void)
 	if (!vars.win)
 		return (free_windows(&vars));
 
-
 // gets pointer to the image
 	vars.img.img_ptr = mlx_new_image(vars.mlx, SIDE_LEN, SIDE_LEN);
 	if (!vars.img.img_ptr)
