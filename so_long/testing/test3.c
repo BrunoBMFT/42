@@ -1,8 +1,4 @@
-#include "minilibx-linux/mlx.h"
-#include <X11/keysym.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "so_long.h"
 
 typedef struct s_data
 {

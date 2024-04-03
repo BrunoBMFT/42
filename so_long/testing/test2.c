@@ -1,7 +1,4 @@
-#include "minilibx-linux/mlx.h"
-#include <X11/X.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "so_long.h"
 
 #define WIDTH	400
 #define HEIGHT	400

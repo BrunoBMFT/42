@@ -7,10 +7,12 @@ OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 CC = cc
 COMPRESS = ar rcs
 CFLAGS = -Wall -Wextra -Werror
+#CFLAGS = 
 RM = rm -f
 
 MLX_DIR = ./minilibx-linux
 MLX = $(MLX_DIR)/libmlx_Linux.a -lXext -lX11 -lm -lz
+
 
 LIBFT_DIR = ./libft
 

@@ -1,10 +1,4 @@
-#include "minilibx-linux/mlx.h"
-#include <X11/keysym.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-#define SIDE_LEN 600
+#include "so_long.h"
 
 typedef struct s_img
 {

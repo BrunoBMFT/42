@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 04:33:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/02 04:34:45 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/03 17:43:10 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ bool	check_filename(char *file)
 	temp = file;
 	len = ft_strlen(file);
 	temp = temp + len -4;
-	if (len < 4 || ft_strncmp(temp, ".ber", 4))//change to ber
+	if (len < 4 || ft_strncmp(temp, ".ber", 4))
 		return (ft_putendl_fd(INV_MAPNAME, 2), false);
 	return (true);
 }
@@ -64,7 +64,7 @@ bool	read_file(t_map *map, int fd, int loop)
 	}
 	else
 	{
-		map->map = ft_calloc((loop + 1), sizeof(char *));//map->buffer
+		map->map = ft_calloc((loop + 1), sizeof(char *));//map->buffer && change to ft_calloc
 		if (!map->map)//map->buffer
 			return (false);
 	}
@@ -121,7 +121,7 @@ bool	check_char(t_map *map)
 		{
 			if (!is_in_array(VALID, map->map[y][x]))
 				return (ft_putendl_fd(INV_CHAR, 2), false);
-			if (is_in_array("P", map->map[y][x]))//DEFINE PLAYER
+			if (is_in_array("P", map->map[y][x]))//DEFINE PLAYER??
 				player++;
 			if (player > 1)
 				return (ft_putendl_fd(INV_PLAYER, 2), false);
@@ -160,7 +160,7 @@ bool	initiate_flood(t_map *map)
 	col = 0;
 	while (map->map[col])
 		col++;
-	map->visited = ft_calloc(sizeof(bool *), col + 1);
+	map->visited = ft_calloc(sizeof(bool *), col + 1);// change to ft_calloc
 	if (!map->visited)
 		return (ft_putendl_fd(ERR_ALLOC, 2), false);
 	col--;
@@ -242,7 +242,7 @@ bool	parser(int ac, char **av, t_map *map)
 		return (false);
 //	if (!get_args(map))//not needed
 //		return (false);
-	if (!validate_map(map))
-		return (false);
+//	if (!validate_map(map))
+//		return (false);
 	return (true);
 }

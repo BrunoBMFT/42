@@ -1,16 +1,4 @@
-#include "minilibx-linux/mlx.h"
-#include <X11/keysym.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-#define SIDE_LEN 600
-
-typedef struct s_data
-{
-	void	*mlx;
-	void	*win;
-}				t_data;
+#include "so_long.h"
 
 int	f(int keysym, t_data *data)
 {

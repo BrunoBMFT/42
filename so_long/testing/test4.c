@@ -1,10 +1,4 @@
-#include "minilibx-linux/mlx.h"
-#include <X11/keysym.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-#define SIDE_LEN 800
+#include "so_long.h"
 
 // struct contains all image stuff that will buffer the pixels
 typedef struct s_img
