@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:45:17 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/03 19:31:13 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/05 17:46:12 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 //need to make check if game is rectangular
 //need to check if player is inbounds (caught in flood)
 
-
 int	free_windows(t_data *vars)
 {
 //	mlx_destroy_image(vars->mlx, vars->img);
-	mlx_destroy_window(vars->mlx, vars->win);
-	mlx_destroy_display(vars->mlx);
+	if (!vars->win)
+		mlx_destroy_window(vars->mlx, vars->win);
+	if (!vars->mlx)
+		mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	exit(1);
 }
@@ -90,21 +91,6 @@ void	render_map_condition(t_data *vars, t_img *img, int x, int y)
 		create_img(img, vars->map->wall, (x * SCALE)
 				+ BORDER, (y * SCALE) + BORDER);
 	}
-	/*else if (vars->map->map[y][x] == '0')
-	{
-		create_img(img, vars->map->wall, (x * SCALE)
-				+ BORDER, (y * SCALE) + BORDER);
-	}
-	else if (vars->map->map[y][x] == 'C')
-	{
-		create_img(img, vars->map->wall, (x * SCALE)
-				+ BORDER, (y * SCALE) + BORDER);
-	}
-	else if (vars->map->map[y][x] == 'E')
-	{
-		create_img(img, vars->map->wall, (x * SCALE)
-				+ BORDER, (y * SCALE) + BORDER);
-	}*/
 }
 
 void	render_map(t_data *vars, t_img *src)
@@ -114,7 +100,7 @@ void	render_map(t_data *vars, t_img *src)
 	while (vars->map->map[y])
 	{
 		int x = 0;
-		while (x < vars->map->map[y][x])
+		while (vars->map->map[y][x])
 		{
 			render_map_condition(vars, src, x, y);
 			x++;
@@ -129,7 +115,7 @@ void	map_init(t_data *vars)
 	vars->map->visited = NULL;//not needed
 
 	//below is just for wall
-	vars->map->wall.img = mlx_xpm_file_to_image(vars->mlx, "./assets/edited/wall.xpm",
+	vars->map->wall.img = mlx_xpm_file_to_image(vars->mlx, "./assets/edited/wall_north.xpm",
 				&vars->map->wall.width, &vars->map->wall.height);
 	if (vars->map->wall.img == NULL)
 	{
@@ -143,16 +129,18 @@ void	map_init(t_data *vars)
 
 void	mlx_init_vars(t_data *vars, t_map *map)
 {
-	int	width;
-	int height;
+	int	height;
+	int width;
 
 	vars->map = map;
 	vars->width = map->col * SCALE + BORDER * 2;
 	vars->height = map->row * SCALE + BORDER * 2;
-	if (!(vars->mlx = mlx_init()))
+	vars->mlx = mlx_init();
+	if (!vars->mlx)
 		clean_everything(map, vars);
 	mlx_get_screen_size(vars->mlx, &width, &height);
-	if (!(vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "so_long")))
+	vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "so_long");
+	if (!vars->win)
 		clean_everything(map, vars);
 }
 
@@ -160,7 +148,7 @@ void	mlx_init_image(t_data *vars, t_img *img, int width, int height)
 {
 	img->img = mlx_new_image(vars->mlx, width, height);
 	img->address = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_len, &img->endian);
-	vars->win = img;
+//	vars->win = img;
 }
 
 int	main(int ac, char **av)
