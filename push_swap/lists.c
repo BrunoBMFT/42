@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:57:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/30 17:57:45 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/05 23:57:55 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,4 @@ void	ft_lstclear(t_ht *stack)
 	}
 	stack->head = NULL;
 	stack->tail = NULL;
-}
-
-long	ft_atol(const char *str)
-{
-	long	result;
-	int		sign;
-
-	result = 0;
-	sign = 1;
-	while ((*str >= 9 && *str <= 13) || *str == ' ')
-		str++;
-	if (*str == '-')
-		sign *= -1;
-	if (*str == '-' || *str == '+')
-		str++;
-	while (*str >= '0' && *str <= '9' && result <= INT_MAX)
-	{
-		result = result * 10 + (*str - '0');
-		str++;
-	}
-	return (sign * result);
 }

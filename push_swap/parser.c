@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:31:04 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/31 23:57:13 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/06 00:11:59 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,23 @@ void	initiate(t_ht *ht_a, t_ht *ht_b)
 	ht_b->size = 0;
 }
 
-int	parse_digit(char *str)//1 is only digit
+int	parse_digit(char *str)
 {
 	int	i;
 
 	i = 0;
+	if (str[0] == '-')
+		i++;
 	while (str[i])
 	{
-		if (!(str[i] >= '0' && str[i] <= '9') && str[i] != '-')
+		if (!(str[i] >= '0' && str[i] <= '9') && str[i] == '-')
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-int	parse_doubles(char **str, int content, t_ht *stack)//1 is no doubles
+int	parse_doubles(char **str, int content, t_ht *stack)
 {
 	t_dlist	*temp;
 	int		i;

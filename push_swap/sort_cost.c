@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   sort_cost.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:04:00 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/01 00:01:31 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/05 23:59:08 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-//add frees to costs (??)
 int	cost_head_a(t_dlist *a_node, int bff)
 {
 	int		count;

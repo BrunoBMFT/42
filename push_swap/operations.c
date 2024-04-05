@@ -3,21 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 16:38:20 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/30 18:03:35 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/05 23:58:13 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/*
-swap: first two swap (t_ht *lst, char a_or_b)
-push: from stack to stack
-rot:  front to back
-rrot: back to front
-*/
 void	swap(t_ht *lst, char a_or_b)
 {
 	t_dlist	*node1;

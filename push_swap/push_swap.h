@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/01 00:18:47 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/05 23:30:04 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <stdbool.h>
+# include "libft/libft.h"
 
 typedef struct s_dlist
 {
@@ -45,8 +46,6 @@ typedef struct s_cost
 	int		b_node;
 	int		a_node;
 }				t_cost;
-
-void	ft_putnbr(int n);
 
 //parsing
 int		parse_digit(char *str);

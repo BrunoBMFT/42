@@ -1,34 +1,42 @@
 NAME = push_swap
 
 SRCS = main.c lists.c operations.c lists2.c sort.c sort_bestfriend.c parser.c \
-sort_cost.c sort_aux.c ft_printf.c median.c
+sort_cost.c sort_aux.c median.c
 
 OBJDIR = ./objs
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
+LIBFT_DIR = ./libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
 CC = cc
-
 COMPRESS = ar rcs
-
 CFLAGS = -Wall -Wextra -Werror -g
-
 RM = rm -f
-
-$(OBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-		$(CC) -o $(NAME) $(OBJS)
+$(NAME): $(OBJS) $(LIBFT)
+		@$(CC) -o $(NAME) $(OBJS) $(LIBFT)
 		@echo $(NAME) ready!
 
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
+	@echo libft compiled and ready!
+
 clean:
-		$(RM) $(OBJS)
+	@$(RM) -r $(OBJDIR)
+	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
+	@echo objects clean
 
 fclean: clean
-		$(RM) $(NAME)
+	@$(RM) $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
+	@echo push_swap fclean
 
 re:		fclean all
 
