@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:45:17 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/05 17:46:12 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/06 00:20:33 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ int	main(int ac, char **av)
 //	vars.img = mlx_xpm_file_to_image(vars.mlx, path, &img_width, &img_height);
 //	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 
+	ft_putstr_fd("reeee", 1);
 	render_map(&vars, vars.map->wall.img);
 
 
