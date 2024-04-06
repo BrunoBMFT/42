@@ -6,14 +6,14 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 10:25:50 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/01 17:16:43 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/02 04:19:38 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 10
 # endif
 # define POSSIBLE "cspdiuxX%"
 # include <unistd.h>

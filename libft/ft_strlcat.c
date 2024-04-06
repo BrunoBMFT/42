@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 13:32:02 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/07 14:40:24 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:57:14 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,3 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 		dest_length = size;
 	return (dest_length + src_length);
 }
-/*#include <stdio.h>
-#include <string.h>
-int main(void)
-{
-    char first[] = "This is ";
-    char last[] = "a potentially long string";
-    int r;
-    int size = 16;
-    char buffer[size];
-
-    strcpy(buffer, first);
-    r = ft_strlcat(buffer, last, size);
-
-    puts(buffer);
-    printf("Value returned: %d\n", r);
-    if( r > size )
-        puts("String truncated");
-    else
-        puts("String was fully copied");
-
-    return(0);
-}*/

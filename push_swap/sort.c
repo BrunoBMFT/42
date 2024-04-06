@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/03/29 23:13:42 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/06 01:29:26 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ int	is_sorted(t_ht *ht_a)
 	return (1);
 }
 
-void	sort(t_ht *ht_a, t_ht *ht_b, int count)
+void	sort(t_ht *ht_a, t_ht *ht_b)
 {
 	if (!is_sorted(ht_a))
 	{
-		if (count == 3)
+		if (ht_a->size == 3)
 			swap(ht_a, 'a');
-		else if (count == 4)
+		else if (ht_a->size == 4)
 			sort3(ht_a);
 		else
 			sort_bestfriend(*ht_a, *ht_b);

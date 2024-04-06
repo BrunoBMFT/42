@@ -6,13 +6,13 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:23 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/01 17:13:33 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/02 04:20:57 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
-int	ft_strlen(char *str)
+int	gnl_ft_strlen(char *str)
 {
 	int	i;
 
@@ -34,7 +34,7 @@ char	*gnl_ft_strjoin(char *line, char *buf)
 
 	i = 0;
 	j = 0;
-	str = malloc(ft_strlen(line) + ft_strlen(buf) + 1);
+	str = malloc(gnl_ft_strlen(line) + gnl_ft_strlen(buf) + 1);
 	if (!str)
 		return (free (line), NULL);
 	while (line && line[i])

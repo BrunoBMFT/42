@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 18:22:18 by bruno             #+#    #+#             */
-/*   Updated: 2023/11/07 14:41:39 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:56:27 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,3 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	}
 	return (0);
 }
-/*#include <stdio.h>
-#include <string.h>
-int	main(void)
-{  
-	char str1[15];
-	char str2[15];
-	int ret;
-	int ft_ret;
-
-	ft_ret = ft_memcmp("t\200", "t\0", 2);
-	if(ft_ret > 0) {
-		printf("str2 is less than str1\n");
-	} else if(ft_ret < 0) {
-		printf("str1 is less than str2\n");
-	} else {
-		printf("str1 is equal to str2\n");
-	}
-	
-	ret = memcmp("t\200", "t\0", 2);
-	if(ret > 0) {
-		printf("str2 is less than str1\n");
-	} else if(ret < 0) {
-		printf("str1 is less than str2\n");
-	} else {
-		printf("str1 is equal to str2\n");
-	}
-}*/

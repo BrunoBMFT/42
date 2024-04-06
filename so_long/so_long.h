@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/06 00:22:09 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/06 18:18:03 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ typedef struct s_data
 bool	parser(int ac, char **av, t_map *map);
 void	free_parser(t_map *map);
 void	init(t_map *map);
+void	free_file(char **arr);
 
 #endif

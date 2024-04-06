@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/03 17:35:17 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/17 16:25:38 by brfernan         ###   ########.fr       */
+/*   Created: 2024/04/05 23:56:34 by brfernan          #+#    #+#             */
+/*   Updated: 2024/04/05 23:56:53 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
+#include "libft.h"
 
-# include <unistd.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
+long	ft_atol(const char *str)
+{
+	long	result;
+	int		sign;
 
-char	*get_next_line(int fd);
-char	*ft_strjoin(char *line, char *buf);
-int		buffer(char	*buf);
-char	*clearbuf(char *buf);
-
-#endif
+	result = 0;
+	sign = 1;
+	while ((*str >= 9 && *str <= 13) || *str == ' ')
+		str++;
+	if (*str == '-')
+		sign *= -1;
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str >= '0' && *str <= '9' && result <= INT_MAX)
+	{
+		result = result * 10 + (*str - '0');
+		str++;
+	}
+	return (sign * result);
+}

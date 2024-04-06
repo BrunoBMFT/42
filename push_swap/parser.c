@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:31:04 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/06 00:11:59 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/06 16:55:10 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,41 +58,24 @@ int	parse_doubles(char **str, int content, t_ht *stack)
 	return (1);
 }
 
-void	normalizer_aux(t_dlist *t1, t_dlist *t2, t_ht *lst, int count)
+bool	parser(int ac, char **av, t_ht *ht_a)
 {
-	while (t1)
+	int		i;
+	
+	i = 1;
+	if (ac <= 2)
+		return (0);
+	else if (ac >= 3)
 	{
-		count = 1;
-		t2 = lst->head->next;
-		while (t1 && t2)
+		while (i < ac)
 		{
-			if (t2->value < t1->value)
-				count++;
-			t2 = t2->next;
+			if (parse_digit(av[i]) == 0
+				|| parse_doubles(av, ft_atol(av[i]), ht_a) == 0
+				|| ft_atol(av[i]) > INT_MAX || ft_atol(av[i]) < INT_MIN)
+				return (ft_lstclear(ht_a), ft_printf("Error\n"), false);
+			new_node(ht_a, ft_atol(av[i]));
+			i++;
 		}
-		t1->value = count;
-		t1 = t1->next;
 	}
-}
-
-void	normalizer(t_dlist *head_a)
-{
-	t_dlist	*t1;
-	t_dlist	*t2;
-	t_ht	lst;
-	int		count;
-
-	t1 = head_a;
-	lst.tail = NULL;
-	lst.head = head_a;
-	count = 1;
-	while (t1)
-	{
-		new_node(&lst, t1->value);
-		t1 = t1->next;
-	}
-	t1 = lst.head;
-	t2 = lst.head->next;
-	normalizer_aux(t1, t2, &lst, count);
-	ft_lstclear(&lst);
+	return (true);
 }

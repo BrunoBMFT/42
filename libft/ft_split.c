@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 12:34:46 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/18 18:18:12 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/01 23:57:01 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,3 @@ char	**ft_split(char const *s, char c)
 	split[j] = 0;
 	return (split);
 }
-/*#include <stdio.h>
-int	main(void)
-{
-	char	*str = "    hello    there    !  ";
-	char	**arr;
-	int		i;
-
-	i = 0;
-	arr = ft_split(str, ' ');
-	while (arr && arr[i])
-	{
-		printf("%s\n", arr[i]);
-		free (arr[i]);
-		i++;
-	}
-	free (arr);
-}*/

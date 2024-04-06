@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/05 23:30:04 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/06 16:54:45 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_cost
 }				t_cost;
 
 //parsing
+bool	parser(int ac, char **av, t_ht *ht_a);
 int		parse_digit(char *str);
 int		parse_doubles(char **str, int content, t_ht *stack);
 void	normalizer(t_dlist *head_a);
@@ -67,7 +68,7 @@ void	swap(t_ht *lst, char a_or_b);
 void	bothrotate(t_ht *ht_a, t_ht *ht_b);
 void	bothrevrotate(t_ht *ht_a, t_ht *ht_b);
 //sort
-void	sort(t_ht *ht_a, t_ht *ht_b, int count);
+void	sort(t_ht *ht_a, t_ht *ht_b);
 void	sort3(t_ht *ht_a);
 void	sort_bestfriend(t_ht ht_a, t_ht ht_b);
 int		find_small(t_ht *stack);

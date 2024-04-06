@@ -34,9 +34,11 @@ $(LIBFT):
 
 clean:
 		$(RM) -r $(OBJS_DIR)
+		@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
 
 fclean: clean
 		$(RM) $(NAME)
+		@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
 
 re: fclean all
 

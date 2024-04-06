@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 19:43:47 by brfernan          #+#    #+#             */
-/*   Updated: 2023/11/07 14:40:21 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:57:18 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,3 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t n)
 		i++;
 	return (i);
 }
-/*#include <stdio.h>
-#include <string.h>
-int	main(void)
-{
-    char src[] = "Hello there";
-    char ftdest[19];
-    char dest[19];
-    int r;
-    int ftr;
-
-    ftr = ft_strlcpy(ftdest, src, 10);
-    r = ft_strlcpy(ftdest, src, 10);
-    printf("%d\n", ftr);
-    printf("%d\n", r);
-}*/

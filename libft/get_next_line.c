@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:20 by brfernan          #+#    #+#             */
-/*   Updated: 2023/12/07 13:44:04 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/02 04:24:06 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 int	buffer(char	*buf)
 {
@@ -57,7 +57,7 @@ char	*get_next_line(int fd)
 	trig = 0;
 	while (trig == 0 && (buf[0] || read(fd, buf, BUFFER_SIZE)))
 	{
-		line = ft_strjoin(line, buf);
+		line = gnl_ft_strjoin(line, buf);
 		if (!line)
 			return (NULL);
 		trig = buffer(buf);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 18:00:21 by brfernan          #+#    #+#             */
-/*   Updated: 2023/10/23 15:03:47 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:55:50 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,3 @@ char	*ft_itoa(int n)
 	}
 	return (str);
 }
-/*#include <stdio.h>
-
-int	main(void)
-{
-	char	*str;
-
-	str = ft_itoa(12345);
-	printf("%s\n", str);
-}*/

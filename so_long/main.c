@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:45:17 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/06 00:20:33 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/06 18:21:35 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,24 @@
 //need to make check if game is rectangular
 //need to check if player is inbounds (caught in flood)
 
-int	free_windows(t_data *vars)
+int	free_windows(t_data *vars)//make 1 function for clean
 {
-//	mlx_destroy_image(vars->mlx, vars->img);
-	if (!vars->win)
+	if (vars->win)
 		mlx_destroy_window(vars->mlx, vars->win);
-	if (!vars->mlx)
+	if (vars->mlx)
 		mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	exit(1);
 }
 void	clean_everything(t_map *map, t_data *vars)
 {
-	free_parser(map);
 	free_windows(vars);
+	if (map->map)
+		free_file(map->map);
+	if (map->visited)
+		free_file((char **)map->visited);
+	free(vars->mlx);
+	exit(1);
 }
 int	button_press(int button, int x, int y)
 {
@@ -129,8 +133,8 @@ void	map_init(t_data *vars)
 
 void	mlx_init_vars(t_data *vars, t_map *map)
 {
-	int	height;
-	int width;
+//	int	height;
+//	int width;
 
 	vars->map = map;
 	vars->width = map->col * SCALE + BORDER * 2;
@@ -138,10 +142,11 @@ void	mlx_init_vars(t_data *vars, t_map *map)
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 		clean_everything(map, vars);
-	mlx_get_screen_size(vars->mlx, &width, &height);
-	vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "so_long");
-	if (!vars->win)
-		clean_everything(map, vars);
+//	mlx_get_screen_size(vars->mlx, &width, &height);
+//	vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "so_long");
+	vars->win = mlx_new_window(vars->mlx, 600, 600, "so_long");
+//	if (!vars->win)
+//		clean_everything(map, vars);
 }
 
 void	mlx_init_image(t_data *vars, t_img *img, int width, int height)
@@ -159,22 +164,16 @@ int	main(int ac, char **av)
 
 	init(&map);//just for parser
 	if (!parser(ac, av, &map))
-		return (ft_printf("reeee"), clean_everything(&map, &vars), 1);
-
-	t_img img;
+		return (ft_printf("failed successfully"), clean_everything(&map, &vars), 1);
+///	t_img img;
 	mlx_init_vars(&vars, &map);
-	mlx_init_image(&vars, &img, vars.width, vars.height);
-	map_init(&vars);
+///	mlx_init_image(&vars, &img, vars.width, vars.height);
+///	map_init(&vars);
 	
 //	vars.img = mlx_xpm_file_to_image(vars.mlx, path, &img_width, &img_height);
 //	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 
-	ft_putstr_fd("reeee", 1);
-	render_map(&vars, vars.map->wall.img);
-
-
-
-
+///	render_map(&vars, vars.map->wall.img);
 
 	mlx_key_hook(vars.win, handle_input, &vars);
 	mlx_hook(vars.win, ButtonPress, ButtonPressMask, &button_press, &vars);

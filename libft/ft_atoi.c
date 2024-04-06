@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 14:10:30 by brfernan          #+#    #+#             */
-/*   Updated: 2023/10/23 14:58:55 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/06 01:40:39 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_atoi(const char *str)
 
 	result = 0;
 	sign = 1;
-	while ((*str >= 9 && *str <= 13) || *str == ' ')
+	while ((*str >= 9 && *str <= 13) || *str == ' ' || *str == '\t')
 		str++;
 	if (*str == '-')
 		sign *= -1;
@@ -32,11 +32,3 @@ int	ft_atoi(const char *str)
 	}
 	return (sign * result);
 }
-/*#include <stdlib.h>
-#include <stdio.h>
-
-int	main(void)
-{
-	printf("%d\n", ft_atoi(("    -1234a5")));
-	printf("%d\n", atoi("    -1234a5"));
-}*/
