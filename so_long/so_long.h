@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/06 18:18:03 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/07 11:53:29 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@
 
 # define VALID "01PEC"
 # define SIDE_LEN 600
-# define SCALE 50
-# define BORDER 50
+# define SCALE 32
 # define TRANSPARENT 0xFF000000
 
 typedef struct s_img

@@ -1,4 +1,13 @@
-#include "so_long.h"
+
+# include "minilibx-linux/mlx.h"
+# include <X11/keysym.h>
+#include <X11/X.h>
+# include <unistd.h>
+# include <stdio.h>//remove
+# include <stdlib.h>
+# include <stdbool.h>
+# include <stdarg.h>
+# include <fcntl.h>
 
 typedef struct s_img
 {

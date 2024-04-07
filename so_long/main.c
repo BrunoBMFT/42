@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:45:17 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/06 18:21:35 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/07 12:16:18 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	clean_everything(t_map *map, t_data *vars)
 	if (map->visited)
 		free_file((char **)map->visited);
 	free(vars->mlx);
-	exit(1);
+	exit(0);//if game fail, make exit 1, else if closes apropriately exit 0
 }
 int	button_press(int button, int x, int y)
 {
@@ -54,22 +54,24 @@ int	handle_input(int keysym, t_data *vars)
 	return (0);
 }
 
-int	get_pixel(t_img * img, int x, int y)
+int	get_pixel(t_img *img, int x, int y)
 {
 	char	*dst;
 	dst = img->address + (y * img->line_len + x * (img->bits_per_pixel / 8));
 	return (*(unsigned int *)dst);
 }
 
-void	my_pixel_put(t_img * img, int x, int y, int color)
+void	my_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
+	ft_printf("%d", color);
 	dst = img->address + (y * img->line_len + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
+	ft_putstr_fd("erwwww", 1);
 }
 
-void	create_img(t_img *img, t_img src, int x, int y)
+void	create_img(t_img *img, t_img src, int x, int y)//does the texture/each block
 {
 	int		i = 0;
 	unsigned int	color;
@@ -79,28 +81,25 @@ void	create_img(t_img *img, t_img src, int x, int y)
 		int j = 0;
 		while (j < src.height)
 		{
-			color = get_pixel(&src, i, j);
+			color = get_pixel(&src, i, j);//finds where pixel is
 			if (color != TRANSPARENT)
-				my_pixel_put(img, x + i, y + j, color);
+				my_pixel_put(img, x + i, y + j, color);//puts the color for the pixel
 			j++;
 		}
 		i++;
 	}
 }
 
-void	render_map_condition(t_data *vars, t_img *img, int x, int y)
+void	render_map_condition(t_data *vars, t_img *img, int x, int y)//decides which texture is where
 {
 	if (vars->map->map[y][x] == '1')
-	{
-		create_img(img, vars->map->wall, (x * SCALE)
-				+ BORDER, (y * SCALE) + BORDER);
-	}
+		create_img(img, vars->map->wall, (x * SCALE), (y * SCALE));
 }
 
-void	render_map(t_data *vars, t_img *src)
+void	render_map(t_data *vars, t_img *src)//does whole map for screen
 {
 	int	y = 0;
-	
+
 	while (vars->map->map[y])
 	{
 		int x = 0;
@@ -115,8 +114,8 @@ void	render_map(t_data *vars, t_img *src)
 
 void	map_init(t_data *vars)
 {
-	vars->map->map = NULL;//maybe not needed?
-	vars->map->visited = NULL;//not needed
+//	vars->map->map = NULL;//maybe not needed?
+//	vars->map->visited = NULL;//not needed
 
 	//below is just for wall
 	vars->map->wall.img = mlx_xpm_file_to_image(vars->mlx, "./assets/edited/wall_north.xpm",
@@ -133,20 +132,19 @@ void	map_init(t_data *vars)
 
 void	mlx_init_vars(t_data *vars, t_map *map)
 {
-//	int	height;
-//	int width;
+	int	height;
+	int width;
 
 	vars->map = map;
-	vars->width = map->col * SCALE + BORDER * 2;
-	vars->height = map->row * SCALE + BORDER * 2;
+	vars->width = map->col * SCALE;
+	vars->height = map->row * SCALE;
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 		clean_everything(map, vars);
-//	mlx_get_screen_size(vars->mlx, &width, &height);
-//	vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "so_long");
-	vars->win = mlx_new_window(vars->mlx, 600, 600, "so_long");
-//	if (!vars->win)
-//		clean_everything(map, vars);
+	mlx_get_screen_size(vars->mlx, &width, &height);
+	vars->win = mlx_new_window(vars->mlx, width, height, "so_long");
+	if (!vars->win)
+		clean_everything(map, vars);
 }
 
 void	mlx_init_image(t_data *vars, t_img *img, int width, int height)
@@ -159,21 +157,19 @@ void	mlx_init_image(t_data *vars, t_img *img, int width, int height)
 int	main(int ac, char **av)
 {
 	t_map	map;
-	t_data vars;//change name
-//	char	*path = "./assets/edited/wall_north.xpm";
+	t_data vars;
 
 	init(&map);//just for parser
 	if (!parser(ac, av, &map))
 		return (ft_printf("failed successfully"), clean_everything(&map, &vars), 1);
-///	t_img img;
+
 	mlx_init_vars(&vars, &map);
-///	mlx_init_image(&vars, &img, vars.width, vars.height);
-///	map_init(&vars);
+	map_init(&vars);
 	
 //	vars.img = mlx_xpm_file_to_image(vars.mlx, path, &img_width, &img_height);
 //	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 
-///	render_map(&vars, vars.map->wall.img);
+	render_map(&vars, vars.map->wall.img);
 
 	mlx_key_hook(vars.win, handle_input, &vars);
 	mlx_hook(vars.win, ButtonPress, ButtonPressMask, &button_press, &vars);

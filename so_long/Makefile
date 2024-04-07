@@ -44,4 +44,4 @@ re: fclean all
 
 .PHONY: all bonus fclean clean re
 	
-	gcc img_test.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext
+	gcc pixel_test.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext
