@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:45:17 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/07 12:16:18 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:09:57 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,8 @@ void	my_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
-	ft_printf("%d", color);
 	dst = img->address + (y * img->line_len + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
-	ft_putstr_fd("erwwww", 1);
 }
 
 void	create_img(t_img *img, t_img src, int x, int y)//does the texture/each block

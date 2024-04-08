@@ -22,7 +22,10 @@ $(OBJS_DIR)/%.o: %.c
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-all: $(NAME)
+#all: $(NAME)
+
+all: 
+	gcc pixel_2.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext && valgrind --leak-check=full --track-origins=yes ./a.out
 
 $(NAME): $(MLX) $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(MLX)
@@ -44,4 +47,4 @@ re: fclean all
 
 .PHONY: all bonus fclean clean re
 	
-	gcc pixel_test.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext
+	gcc pixel_2.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext

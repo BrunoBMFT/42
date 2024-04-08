@@ -8,6 +8,7 @@
 # include <stdbool.h>
 # include <stdarg.h>
 # include <fcntl.h>
+#define SIDE_LEN 600
 
 typedef struct s_img
 {
@@ -25,7 +26,14 @@ typedef struct s_data
 	t_img	img;
 }				t_data;
 
-void	my_pixel_put(t_img * img, int x, int y, int color)
+int	get_pixel(t_img *img, int x, int y)
+{
+	char	*dst;
+	dst = img->img_ptr + (y * img->line_len + x * (img->bits_per_pixel / 8));
+	return (*(unsigned int *)dst);
+}
+
+void	my_pixel_put(t_img *img, int x, int y, int color)
 {
 	int offset;
 	offset = (img->line_len * y) + (x * (img->bits_per_pixel / 8));
@@ -33,40 +41,26 @@ void	my_pixel_put(t_img * img, int x, int y, int color)
 	*((unsigned int *)(offset + img->img_pixels_ptr)) = color;
 }
 
-
-void	color_screen(t_data *data, int color)
+void	put_image_to_window(t_img *img, t_img src)
 {
+	int color;
 	int	y = 0;
 	while (y < SIDE_LEN)
 	{
 		int x = 0;
 
-		if (y == 0 || y == SIDE_LEN - 1)
-		{
 			while (x < SIDE_LEN)
 			{
-				my_pixel_put(&data->img, x, y, 0x00FF00);
+//				color = get_pixel(&src, x, y);
+				my_pixel_put(img, x, y, 0x0000FF);
 				x++;
 			}
-		}
-		else
-		{
-			while (x < SIDE_LEN)
-			{
-				if (x == 0 || x == SIDE_LEN - 1)
-					my_pixel_put(&data->img, x, y, 0x00FF00);
-				else
-					my_pixel_put(&data->img, x, y, color);
-				x++;
-			}
-		}
 		y++;
 	}
 }
 
 int	f(int keysym, t_data *data)
-{	
-	color_screen(data, 0x000000);
+{
 	if (keysym == XK_Escape)
 	{
 		mlx_destroy_window(data->mlx, data->win);
@@ -98,18 +92,24 @@ int	main(void)
 		return (free_windows(&vars));
 
 
-	vars.img.img_ptr = mlx_new_image(vars.mlx, SIDE_LEN, SIDE_LEN);
-	if (!vars.img.img_ptr)
-		return (free_windows(&vars));
+
+
+	void	*img;
+	char	*path = "./amogus.xpm";
+	int		img_width;
+	int		img_height;
+	vars.img.img_ptr = mlx_xpm_file_to_image(vars.mlx, path, &img_width, &img_height);
+
 
 	vars.img.img_pixels_ptr = mlx_get_data_addr(vars.img.img_ptr, &vars.img.bits_per_pixel, 
 												&vars.img.line_len, &vars.img.endian);
 	if (!vars.img.img_pixels_ptr)
 		return (free_windows(&vars));
-												
 
-	printf("Line_len %d <-> Side_len %d\nbits per pixel %d\nendian %d\n", 
-			vars.img.line_len, SIDE_LEN, vars.img.bits_per_pixel, vars.img.endian);
+
+	put_image_to_window(img, vars.img);
+
+
 
 	mlx_key_hook(vars.win, f, &vars);
 
