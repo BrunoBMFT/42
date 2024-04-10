@@ -6,17 +6,11 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 04:33:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/07 11:53:14 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/10 19:34:41 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	init(t_map *map)
-{
-	map->map = NULL;
-	map->visited = NULL;
-}
 
 void	free_file(char **arr)
 {
@@ -242,7 +236,7 @@ bool	parser(int ac, char **av, t_map *map)
 		return (false);
 //	if (!get_args(map))//not needed
 //		return (false);
-//	if (!validate_map(map))
-//		return (false);
+	if (!validate_map(map))
+		return (false);
 	return (true);
 }

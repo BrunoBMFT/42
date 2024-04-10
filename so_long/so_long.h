@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/07 11:53:29 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/10 19:34:56 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SO_LONG_H
 # include "minilibx-linux/mlx.h"
 # include <X11/keysym.h>
-#include <X11/X.h>
+# include <X11/X.h>
 # include <unistd.h>
 # include <stdio.h>//remove
 # include <stdlib.h>
@@ -23,12 +23,8 @@
 # include <fcntl.h>
 # include "./libft/libft.h"
 # include "messages.h"
-//# include "./.minilibx-linux/mlx.h"
 
 # define VALID "01PEC"
-# define SIDE_LEN 600
-# define SCALE 32
-# define TRANSPARENT 0xFF000000
 
 typedef struct s_img
 {
@@ -50,20 +46,19 @@ typedef struct	s_map
 	t_img 	wall;
 }				t_map;
 
-typedef struct s_data
+typedef struct s_vars
 {
 	void	*mlx;
 	void	*win;
 	int		width;
 	int		height;
 	t_map	*map;
-}				t_data;
-
-
+}				t_vars;
 
 bool	parser(int ac, char **av, t_map *map);
-void	free_parser(t_map *map);
-void	init(t_map *map);
 void	free_file(char **arr);
+void	init(t_map *map);
+void	free_parser(t_map *map);
+void	map_init(t_map *map);
 
 #endif
