@@ -51,8 +51,8 @@ void	put_image_to_window(t_img *img, t_img src)
 
 			while (x < SIDE_LEN)
 			{
-//				color = get_pixel(&src, x, y);
-				my_pixel_put(img, x, y, 0x0000FF);
+				color = get_pixel(&src, x, y);
+				my_pixel_put(img, x, y, color);
 				x++;
 			}
 		y++;
@@ -60,16 +60,17 @@ void	put_image_to_window(t_img *img, t_img src)
 }
 
 int	f(int keysym, t_data *data)
+
 {
 	if (keysym == XK_Escape)
 	{
-		mlx_destroy_window(data->mlx, data->win);
+		mlx_destroy_window(data->mlx, data->win);//free everything that needs freeing
 		mlx_destroy_display(data->mlx);
 		free (data->mlx);
 		exit(1);
 	}
 
-	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
+//	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }
 int	free_windows(t_data *vars)
@@ -91,13 +92,12 @@ int	main(void)
 	if (!vars.win)
 		return (free_windows(&vars));
 
-
-
-
 	void	*img;
 	char	*path = "./amogus.xpm";
 	int		img_width;
 	int		img_height;
+
+
 	vars.img.img_ptr = mlx_xpm_file_to_image(vars.mlx, path, &img_width, &img_height);
 
 
@@ -106,8 +106,11 @@ int	main(void)
 	if (!vars.img.img_pixels_ptr)
 		return (free_windows(&vars));
 
-
 	put_image_to_window(img, vars.img);
+
+
+
+
 
 
 

@@ -6,15 +6,12 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:09 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/06 16:54:30 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:30:25 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "push_swap.h"
-
-// TODO for functions sending lists, send only the pointer to head
-// *change ht_a name
 
 int	main(int ac, char **av)
 {

@@ -6,13 +6,12 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/06 16:54:45 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:55:13 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
-/*take useless functions from header (functions not used on other files)*/
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdarg.h>
@@ -49,8 +48,6 @@ typedef struct s_cost
 
 //parsing
 bool	parser(int ac, char **av, t_ht *ht_a);
-int		parse_digit(char *str);
-int		parse_doubles(char **str, int content, t_ht *stack);
 void	normalizer(t_dlist *head_a);
 //lists
 void	initiate(t_ht *ht_a, t_ht *ht_b);

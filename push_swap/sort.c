@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 04:38:12 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/06 01:29:26 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:25:13 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	sort(t_ht *ht_a, t_ht *ht_b)
 {
 	if (!is_sorted(ht_a))
 	{
-		if (ht_a->size == 3)
+		if (ht_a->size == 2)
 			swap(ht_a, 'a');
-		else if (ht_a->size == 4)
+		else if (ht_a->size == 3)
 			sort3(ht_a);
 		else
 			sort_bestfriend(*ht_a, *ht_b);

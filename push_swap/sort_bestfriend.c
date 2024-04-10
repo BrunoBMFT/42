@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_bestfriend.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:07:22 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/01 00:18:45 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/10 15:10:17 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_cost	minimum_cost(t_ht ht_a, t_ht ht_b)
 	while (temp_b)
 	{
 		cost = cost_calc(&ht_a, &ht_b, bestfriend(ht_a, temp_b), temp_b);
-		if (cost.cost <= min.cost)
+		if (cost.cost < min.cost)
 			min = cost;
 		temp_b = temp_b->next;
 	}

@@ -99,9 +99,21 @@ int	main(void)
 		return (free_windows(&vars));
 
 
+
+
+
+
+
 	vars.img.img_ptr = mlx_new_image(vars.mlx, SIDE_LEN, SIDE_LEN);
 	if (!vars.img.img_ptr)
 		return (free_windows(&vars));
+
+
+
+
+
+
+
 
 	vars.img.img_pixels_ptr = mlx_get_data_addr(vars.img.img_ptr, &vars.img.bits_per_pixel, 
 												&vars.img.line_len, &vars.img.endian);

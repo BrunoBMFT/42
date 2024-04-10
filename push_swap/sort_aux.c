@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 23:02:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/01 00:20:51 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/09 17:06:07 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	push_to_b(t_ht *ht_a, t_ht *ht_b)
 	while (ht_a->size > 3)
 	{
 		median = find_median(ht_a->head);
-		if (ht_a->head->value >= median)
+		if (ht_a->head->value > median)
 			rotate(ht_a, 'a');
 		else
 			push(ht_a, ht_b, 'b');
@@ -65,10 +65,10 @@ void	rotate_to_first(t_ht *ht_a)
 	while (ht_a->head->value != small)
 	{
 		if (cost_head_a(ht_a->head, small)
-			<= cost_tail_a(ht_a->head, small))
+			<= cost_tail_a(ht_a->tail, small))
 			rotate(ht_a, 'a');
 		else if (cost_head_a(ht_a->head, small)
-			> cost_tail_a(ht_a->head, small))
+			> cost_tail_a(ht_a->tail, small))
 			revrotate(ht_a, 'a');
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 23:31:04 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/06 16:55:10 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/09 18:12:36 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	initiate(t_ht *ht_a, t_ht *ht_b)
 	ht_b->size = 0;
 }
 
-int	parse_digit(char *str)
+bool	parse_digit(char *str)
 {
 	int	i;
 
@@ -31,14 +31,14 @@ int	parse_digit(char *str)
 		i++;
 	while (str[i])
 	{
-		if (!(str[i] >= '0' && str[i] <= '9') && str[i] == '-')
-			return (0);
+		if ((str[i] < '0' || str[i] > '9') || str[i] == '-')
+			return (false);
 		i++;
 	}
-	return (1);
+	return (true);
 }
 
-int	parse_doubles(char **str, int content, t_ht *stack)
+bool	parse_doubles(char **str, int content, t_ht *stack)
 {
 	t_dlist	*temp;
 	int		i;
@@ -50,18 +50,18 @@ int	parse_doubles(char **str, int content, t_ht *stack)
 		while (temp)
 		{
 			if (temp->value == content)
-				return (0);
+				return (false);
 			temp = temp->next;
 		}
 		i++;
 	}
-	return (1);
+	return (true);
 }
 
 bool	parser(int ac, char **av, t_ht *ht_a)
 {
 	int		i;
-	
+
 	i = 1;
 	if (ac <= 2)
 		return (0);
@@ -69,8 +69,10 @@ bool	parser(int ac, char **av, t_ht *ht_a)
 	{
 		while (i < ac)
 		{
-			if (parse_digit(av[i]) == 0
-				|| parse_doubles(av, ft_atol(av[i]), ht_a) == 0
+			if (ac <= 2)
+				return (0);
+			if (!parse_digit(av[i])
+				|| !parse_doubles(av, ft_atol(av[i]), ht_a)
 				|| ft_atol(av[i]) > INT_MAX || ft_atol(av[i]) < INT_MIN)
 				return (ft_lstclear(ht_a), ft_printf("Error\n"), false);
 			new_node(ht_a, ft_atol(av[i]));

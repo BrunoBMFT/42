@@ -33,9 +33,21 @@ int	main(void)
 	if (!vars.win)
 		return (free_windows(&vars));
 
+
+
+
+
+
+
 	img = mlx_xpm_file_to_image(vars.mlx, path, &img_width, &img_height);
 
 	mlx_put_image_to_window(vars.mlx, vars.win, img, 0, 0);
+
+
+
+
+
+	
 
 	mlx_key_hook(vars.win, f, &vars);
 
