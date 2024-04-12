@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:50:02 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/12 14:23:04 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:28:43 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ bool	mlx_init_vars(t_vars *vars)
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 		return (ft_putendl("he"), false);
+	return (true);
 }
 
 int	main(int ac, char **av)

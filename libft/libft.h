@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 10:25:50 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/06 00:07:26 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:26:09 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_memset(void *str, int c, size_t n);
-void	ft_putchar_fd(char c, int fd);
-void	ft_putendl_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
-void	ft_putstr_fd(char *s, int fd);
 char	**ft_split(const char *s, char c);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strdup(char const*s1);
@@ -73,10 +69,10 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 int		ft_printf(const char *str, ...);
-int		ft_putchar(int c);
+int		ft_printf_putchar(int c);
 int		format(va_list args, const char format);
-int		ft_putstr(char *str);
-int		ft_putnbr(int n);
+int		ft_printf_putstr(char *str);
+int		ft_printf_putnbr(int n);
 int		putnbr_len(int n);
 int		ft_unsigned_int(unsigned int u);
 int		unsigned_len(unsigned int num);
@@ -87,5 +83,9 @@ char	*gnl_ft_strjoin(char *line, char *buf);
 int		buffer(char	*buf);
 char	*clearbuf(char *buf);
 long	ft_atol(const char *str);
+void	ft_putchar(char c);
+void	ft_putendl(char *s);
+void	ft_putnbr(int n);
+void	ft_putstr(char *s);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 04:33:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/10 19:34:41 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:30:30 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	check_filename(char *file)
 	len = ft_strlen(file);
 	temp = temp + len -4;
 	if (len < 4 || ft_strncmp(temp, ".ber", 4))
-		return (ft_putendl_fd(INV_MAPNAME, 2), false);
+		return (ft_putendl(INV_MAPNAME), false);
 	return (true);
 }
 
@@ -78,13 +78,13 @@ bool	get_file(char *file, t_map *map)
 
 	new = ft_strjoin("/home/brfernan/42/so_long/maps/", file);
 	if (!new)
-		return (ft_putendl_fd(ERR_ALLOC, 2), false);
+		return (ft_putendl(ERR_ALLOC), false);
 	fd = open(new, O_RDONLY);
 	free (new);
 	if (fd < 0)
-		return (ft_putendl_fd(INV_FILE, 2), false);
+		return (ft_putendl(INV_FILE), false);
 	if (!read_file(map, fd, 0))
-		return (close(fd), ft_putendl_fd(ERR_FILE, 2), false);
+		return (close(fd), ft_putendl(ERR_FILE), false);
 	close(fd);
 	return (true);
 }
@@ -114,17 +114,17 @@ bool	check_char(t_map *map)
 		while (map->map[y][x])
 		{
 			if (!is_in_array(VALID, map->map[y][x]))
-				return (ft_putendl_fd(INV_CHAR, 2), false);
+				return (ft_putendl(INV_CHAR), false);
 			if (is_in_array("P", map->map[y][x]))//DEFINE PLAYER??
 				player++;
 			if (player > 1)
-				return (ft_putendl_fd(INV_PLAYER, 2), false);
+				return (ft_putendl(INV_PLAYER), false);
 			x++;
 		}
 		y++;
 	}
 	if (player == 0)
-		return (ft_putendl_fd(INV_PLAYER, 2), false);
+		return (ft_putendl(INV_PLAYER), false);
 	return (true);
 }
 
@@ -156,7 +156,7 @@ bool	initiate_flood(t_map *map)
 		col++;
 	map->visited = ft_calloc(sizeof(bool *), col + 1);// change to ft_calloc
 	if (!map->visited)
-		return (ft_putendl_fd(ERR_ALLOC, 2), false);
+		return (ft_putendl(ERR_ALLOC), false);
 	col--;
 	while (col >= 0)
 	{
@@ -165,7 +165,7 @@ bool	initiate_flood(t_map *map)
 			row++;
 		map->visited[col] = malloc(row * sizeof(bool));//change to ft_calloc
 		if (!map->visited[col])
-			return (ft_putendl_fd(ERR_ALLOC, 2), false);
+			return (ft_putendl(ERR_ALLOC), false);
 		col--;
 	}
 	set_visitied(map);
@@ -206,7 +206,7 @@ bool	check_surroundings(t_map *map)//get col and row as parameter?
 			&& map->visited[col][row] == false)
 			{
 				if (!flood_fill(map, col, row))
-					return (ft_putendl_fd(ERR_MAP, 2), false);
+					return (ft_putendl(ERR_MAP), false);
 			}
 			row++;
 		}
@@ -229,7 +229,7 @@ bool	validate_map(t_map *map)
 bool	parser(int ac, char **av, t_map *map)
 {
 	if (ac != 2)
-		return (ft_putendl_fd(INV_ARGS, 2), false);
+		return (ft_putendl(INV_ARGS), false);
 	if (!check_filename(av[1]))
 		return (false);
 	if (!get_file(av[1], map))
