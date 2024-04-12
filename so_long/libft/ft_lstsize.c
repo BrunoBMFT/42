@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 13:30:14 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/09 16:00:32 by brfernan         ###   ########.fr       */
+/*   Created: 2023/10/12 17:25:33 by bruno             #+#    #+#             */
+/*   Updated: 2024/04/01 23:56:21 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_lstsize(t_list *lst)
 {
-	size_t	i;
+	int	n;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	n = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		n++;
+	}
+	return (n);
 }
-/*#include <stdio.h>
-#include <string.h>
-int	main(void)
-{
-	char *s;
-	s = NULL;
-	printf("%zu\n", strlen(s));
-}*/

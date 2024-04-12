@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 13:30:14 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/09 16:00:32 by brfernan         ###   ########.fr       */
+/*   Created: 2023/10/12 17:25:19 by bruno             #+#    #+#             */
+/*   Updated: 2024/04/01 23:56:01 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	size_t	i;
+	t_list	*temp;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	if (!lst)
+		return ;
+	while (lst && *lst)
+	{
+		temp = (*lst)->next;
+		if (del)
+			del((*lst)->content);
+		free(*lst);
+		*lst = temp;
+	}
+	*lst = NULL;
 }
-/*#include <stdio.h>
-#include <string.h>
-int	main(void)
-{
-	char *s;
-	s = NULL;
-	printf("%zu\n", strlen(s));
-}*/

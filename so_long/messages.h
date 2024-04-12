@@ -6,13 +6,13 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:52:23 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/10 19:36:08 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:02:50 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MESSAGES_H
 # define MESSAGES_H
-
+//parser
 # define INV_MAPNAME "Invalid map name"
 # define INV_ARGS "Invalid number of arguments"
 # define INV_FILE "File not found"
@@ -22,7 +22,9 @@
 # define INV_CHAR "Invalid character in map"
 # define ERR_MAP "Error validating map"
 # define INV_PLAYER "Invalid player count"
-
+//textures
 # define INV_WALL "Invalid wall"
+//mlx
+# define MLX_INIT
 
 #endif

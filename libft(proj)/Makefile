@@ -30,6 +30,8 @@ $(NAME): $(OBJS)
 bonus: $(OBJS) $(BONUS_OBJS)
 	$(COMPRESS) $(NAME) $(OBJS) $(BONUS_OBJS)
 
+	touch bonus
+	
 clean:
 	$(RM) $(OBJS) $(BONUS_OBJS)
 

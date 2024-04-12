@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 12:34:46 by brfernan          #+#    #+#             */
-/*   Updated: 2023/12/10 18:32:13 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:59:29 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	**ft_split(char const *s, char c)
 	split[j] = 0;
 	return (split);
 }
-/*#include <stdio.h>
+#include <stdio.h>
 int	main(void)
 {
 	char	*str = "    hello    there    !  ";
@@ -87,4 +87,4 @@ int	main(void)
 		i++;
 	}
 	free (arr);
-}*/
+}
