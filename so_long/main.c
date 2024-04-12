@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:50:02 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/12 14:03:19 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:23:04 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	mlx_init_vars(t_vars *vars)
 {
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
-		return (ft_putendl(), false);
+		return (ft_putendl("he"), false);
 }
 
 int	main(int ac, char **av)
@@ -42,7 +42,7 @@ int	main(int ac, char **av)
 	t_vars	vars;
 
 	if (!mlx_init_vars(&vars))
-		return ();
+		return (0);
 	map_init(&map);// TODO init vars instead of map and make map already be in vars
 	if (!parser(ac, av, &map))
 		return(ft_printf("failed successfully"), 1);
