@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 10:25:50 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/02 04:19:38 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/06 00:07:26 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <limits.h>
 
 typedef struct s_list
 {
@@ -71,19 +72,20 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-int	ft_printf(const char *str, ...);
-int	ft_putchar(int c);
-int	format(va_list args, const char format);
-int	ft_putstr(char *str);
-int	ft_putnbr(int n);
-int	putnbr_len(int n);
-int	ft_unsigned_int(unsigned int u);
-int	unsigned_len(unsigned int num);
-int	ft_pointer(size_t pointer);
-int	ft_hexa(unsigned int x, char x_or_x);
+int		ft_printf(const char *str, ...);
+int		ft_putchar(int c);
+int		format(va_list args, const char format);
+int		ft_putstr(char *str);
+int		ft_putnbr(int n);
+int		putnbr_len(int n);
+int		ft_unsigned_int(unsigned int u);
+int		unsigned_len(unsigned int num);
+int		ft_pointer(size_t pointer);
+int		ft_hexa(unsigned int x, char x_or_x);
 char	*get_next_line(int fd);
 char	*gnl_ft_strjoin(char *line, char *buf);
 int		buffer(char	*buf);
 char	*clearbuf(char *buf);
+long	ft_atol(const char *str);
 
 #endif

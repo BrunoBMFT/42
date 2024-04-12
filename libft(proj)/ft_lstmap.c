@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 14:10:30 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/01 23:55:30 by bruno            ###   ########.fr       */
+/*   Created: 2023/10/12 17:25:28 by bruno             #+#    #+#             */
+/*   Updated: 2024/04/01 23:56:14 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	int	result;
-	int	sign;
+	t_list	*first;
+	t_list	*new;
+	t_list	*temp;
 
-	result = 0;
-	sign = 1;
-	while ((*str >= 9 && *str <= 13) || *str == ' ')
-		str++;
-	if (*str == '-')
-		sign *= -1;
-	if (*str == '-' || *str == '+')
-		str++;
-	while (ft_isdigit(*str))
+	if (!f || !del)
+		return (NULL);
+	first = NULL;
+	while (lst)
 	{
-		result = result * 10 + (*str - '0');
-		str++;
+		temp = ((*f)(lst->content));
+		new = ft_lstnew(temp);
+		if (!new)
+		{
+			(*del)(temp);
+			ft_lstclear(&first, (del));
+			return (NULL);
+		}
+		ft_lstadd_back(&first, new);
+		lst = lst->next;
 	}
-	return (sign * result);
+	return (first);
 }
