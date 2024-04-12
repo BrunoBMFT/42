@@ -1,5 +1,5 @@
 NAME = so_long
-SRCS = main.c parser.c init.c
+SRCS = main.c parser.c init.c handle_input.c
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 CC = cc
@@ -29,12 +29,14 @@ $(LIBFT):
 	@echo libft compiled and ready!
 
 clean:
-	$(RM) -r $(OBJS_DIR)
+	@$(RM) -r $(OBJS_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
+	@echo objects clean
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
+	@echo push_swap fclean
 
 re: fclean all
 

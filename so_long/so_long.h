@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/10 19:34:56 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:06:52 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ bool	parser(int ac, char **av, t_map *map);
 void	free_file(char **arr);
 void	init(t_map *map);
 void	free_parser(t_map *map);
-void	map_init(t_map *map);
+void	map_init(t_map *map, t_vars *vars);
+
+
+int	handle_input(int key, t_vars *vars);
 
 #endif
