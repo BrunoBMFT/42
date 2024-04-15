@@ -1,5 +1,5 @@
 NAME = so_long
-SRCS = main.c parser.c init.c handle_input.c
+SRCS = main.c parser.c
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 CC = cc
@@ -7,10 +7,10 @@ COMPRESS = ar rcs
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
-MLX_DIR = ./minilibx-linux
+MLX_DIR = ./includes/minilibx-linux
 MLX = $(MLX_DIR)/libmlx_Linux.a -lXext -lX11 -lm -lz
 
-LIBFT_DIR = ./libft
+LIBFT_DIR = ./includes/libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
@@ -36,12 +36,8 @@ clean:
 fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
-	@echo push_swap fclean
+	@echo so_long fclean
 
 re: fclean all
 
 .PHONY: all bonus fclean clean re
-	
-	gcc pixel_2.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext
-
-	gcc pixel_2.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext && valgrind --leak-check=full --track-origins=yes ./a.out

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 00:35:21 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/01 23:56:42 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/12 14:26:05 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_putchar(int c)
+int	ft_printf_putchar(int c)
 {
 	write(1, &c, 1);
 	return (1);
@@ -24,13 +24,13 @@ int	format(va_list args, const char format)
 
 	len = 0;
 	if (format == 'c')
-		len += ft_putchar(va_arg(args, int));
+		len += ft_printf_putchar(va_arg(args, int));
 	if (format == 's')
-		len += ft_putstr(va_arg(args, char *));
+		len += ft_printf_putstr(va_arg(args, char *));
 	if (format == 'p')
 		len += ft_pointer(va_arg(args, size_t));
 	if (format == 'd' || format == 'i')
-		len += ft_putnbr(va_arg(args, int));
+		len += ft_printf_putnbr(va_arg(args, int));
 	if (format == 'u')
 		len += ft_unsigned_int(va_arg(args, unsigned int));
 	if (format == 'x')
@@ -38,7 +38,7 @@ int	format(va_list args, const char format)
 	if (format == 'X')
 		len += ft_hexa(va_arg(args, unsigned int), 'X');
 	if (format == '%')
-		len += ft_putchar('%');
+		len += ft_printf_putchar('%');
 	return (len);
 }
 
@@ -77,7 +77,7 @@ int	ft_printf(const char *str, ...)
 				len += format(args, str[i++ + 1]);
 		}
 		else
-			len += ft_putchar(str[i]);
+			len += ft_printf_putchar(str[i]);
 	}
 	va_end(args);
 	return (len);
