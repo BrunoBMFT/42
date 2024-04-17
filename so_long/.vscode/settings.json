@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "messages.h": "c"
+        "messages.h": "c",
+        "so_long.h": "c",
+        "libft.h": "c",
+        "stdbool.h": "c"
     }
 }

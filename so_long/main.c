@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:18:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/15 18:05:22 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/17 19:18:02 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,15 @@ void	mlx_init_vars(t_vars *vars, t_map *map)
 	vars->mlx = mlx_init();
 	mlx_get_screen_size(vars->mlx, &width, &height);//check if works with fixed values
 	vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "so_long");//check if works with fixed values
+	if (!vars->win)
+		ft_putstr("new window failed");
 }
 
 void	init_img(t_vars *vars, t_img *img, int width, int height)
 {
 	img->img = mlx_new_image(vars->mlx, width, height);
+	if (!img->img)//use putendl + defined string
+		ft_putstr("new image failed");
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_len, &img->endian);
 //	vars->load_img = img;
@@ -38,7 +42,7 @@ void	map_init(t_vars *vars)
 	//wall_init(vars);
 	//floor_init(vars);
 	vars->map->wall.img = mlx_xpm_file_to_image(vars->mlx,
-			"./assets/edited/wall_north.xpm", &vars->map->wall.width,
+			"./assets/CENTER.xpm", &vars->map->wall.width,
 			&vars->map->wall.height);
 	if (vars->map->wall.img == NULL)
 		ft_putendl(INV_WALL);
@@ -111,7 +115,7 @@ void	put_to_screen(t_vars *vars, t_img *img)
 
 void	render(t_vars *vars, t_img *img)
 {
-	render_map(vars, img);	
+	render_map(vars, img);
 //	render_packman(vars, img);
 	put_to_screen(vars, img);
 }
@@ -133,17 +137,27 @@ int	clean(t_vars *vars)//make my own
 //	while (ctd < 16)
 //		mlx_destroy_image(vars->mlx, vars->packman->img[ctd++].img);
 //	mlx_destroy_image(vars->mlx, vars->load_img->img);
-	mlx_destroy_image(vars->mlx, vars->map->wall.img);
+	if (vars->map)
+		mlx_destroy_image(vars->mlx, vars->map->wall.img);
 //	mlx_destroy_image(vars->mlx, vars->map->floor.img);
 //	mlx_destroy_image(vars->mlx, vars->map->collectible.img);
 //	mlx_destroy_image(vars->mlx, vars->map->exit.img);
 //	mlx_destroy_image(vars->mlx, vars->map->border_vertical.img);
 //	mlx_destroy_image(vars->mlx, vars->map->border_horizontal.img);
-	mlx_destroy_window(vars->mlx, vars->win);
-	mlx_destroy_display(vars->mlx);
+	if (vars->win)
+		mlx_destroy_window(vars->mlx, vars->win);
+	if (vars->mlx)
+		mlx_destroy_display(vars->mlx);
 //	free(vars->packman);
 	free(vars->mlx);
 	freemap(vars->map);
+	return (0);
+}
+
+int	handle_input(int keysym, t_vars *vars)
+{
+	if (keysym == XK_Escape)
+		clean(vars);
 	return (0);
 }
 
@@ -160,5 +174,7 @@ int	main(int ac, char **av)
 	map_init(&vars);
 	render(&vars, &img);
 	mlx_hook(vars.win, 17, 1L << 17, clean, &vars);
+	mlx_key_hook(vars.win, handle_input, &vars);
 	mlx_loop(vars.mlx);
+	ft_putstr("\nno crash here\n");
 }

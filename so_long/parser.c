@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 04:33:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/15 14:43:59 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/17 18:05:44 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,8 @@ bool	check_surroundings(t_map *map)//get col and row as parameter?
 		}
 		col++;
 	}
+	map->col = col;
+	map->row = row;
 	return (true);
 }
 
