@@ -1,3 +1,17 @@
+for walls: do different wall calc in render map condition:
+if (y == 0)
+  wall north;
+if (x == 0)
+  wall east;
+if (y == len)
+  wall south;
+and corners
+etc...
+
+
+
+
+
 create map
 parser map and inputs
 create vars and img
