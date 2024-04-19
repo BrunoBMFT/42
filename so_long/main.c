@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:18:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/17 19:18:02 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/19 21:06:27 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,15 @@ void	init_img(t_vars *vars, t_img *img, int width, int height)
 
 void	map_init(t_vars *vars)
 {
-	//wall_init(vars);
+	wall_init(vars);
+	floor_init(vars);
+	/*wall_CENTER_init(vars);
+	wall_north_init(vars);
+	wall_north_east_init(vars);
+	wall_east_init(vars);
+	wall_north_west_init(vars);
+	wall_west_init(vars);*/
 	//floor_init(vars);
-	vars->map->wall.img = mlx_xpm_file_to_image(vars->mlx,
-			"./assets/CENTER.xpm", &vars->map->wall.width,
-			&vars->map->wall.height);
-	if (vars->map->wall.img == NULL)
-		ft_putendl(INV_WALL);
-	vars->map->wall.addr = mlx_get_data_addr(vars->map->wall.img,
-			&vars->map->wall.bits_per_pixel, &vars->map->wall.line_len,
-			&vars->map->wall.endian);
 }
 
 int	get_pixel(t_img *img, int x, int y)
@@ -88,6 +87,14 @@ void	make_img(t_img *img, t_img src, int x, int y)//makes each block
 	}
 }
 
+void	render_map_textures(t_vars *vars, t_img *img, int x, int y)
+{
+	if (vars->map->map[y][x] == '1')
+		make_img(img, vars->map->wall, (x * SCALE), (y * SCALE));
+	if (vars->map->map[y][x] == '0' || vars->map->map[y][x] == 'P')
+		make_img(img, vars->map->floor, (x * SCALE), (y * SCALE));
+}
+
 void	render_map(t_vars *vars, t_img *img)
 {
 	int	x;
@@ -99,8 +106,7 @@ void	render_map(t_vars *vars, t_img *img)
 		x = 0;
 		while (vars->map->map[y][x])
 		{
-//			render_map_condition(vars, img, x, y);
-			make_img(img, vars->map->wall, (x * SCALE), (y * SCALE));
+			render_map_textures(vars, img, x, y);
 			x++;
 		}
 		y++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   messages.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:52:23 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/12 14:02:50 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/19 20:53:10 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@
 # define INV_PLAYER "Invalid player count"
 //textures
 # define INV_WALL "Invalid wall"
+# define INV_FLOOR "Invalid floor"
+/*# define INV_WALL "Invalid wall"//invalid floor?
+# define INV_WALL_N "Invalid N wall"
+# define INV_WALL_NE "Invalid NE wall"
+# define INV_WALL_E "Invalid E wall"
+# define INV_WALL_NW "Invalid NW wall"
+# define INV_WALL_W "Invalid W wall"*/
 //mlx
 # define MLX_INIT
 

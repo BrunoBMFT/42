@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 04:33:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/17 18:05:44 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:07:08 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ bool	get_file(char *file, t_map *map)
 	int		fd;
 	char	*new;
 
-	new = ft_strjoin("/home/brfernan/42/so_long/maps/", file);
+	new = ft_strjoin("/home/bruno/42/so_long/maps/", file);
 	if (!new)
 		return (ft_putendl(ERR_ALLOC), false);
 	fd = open(new, O_RDONLY);
