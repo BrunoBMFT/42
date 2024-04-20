@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:18:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/19 21:06:27 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/20 19:00:24 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	init_img(t_vars *vars, t_img *img, int width, int height)
 		ft_putstr("new image failed");
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_len, &img->endian);
-//	vars->load_img = img;
+	vars->load = img;
 }
 
 void	map_init(t_vars *vars)
@@ -48,43 +48,6 @@ void	map_init(t_vars *vars)
 	wall_north_west_init(vars);
 	wall_west_init(vars);*/
 	//floor_init(vars);
-}
-
-int	get_pixel(t_img *img, int x, int y)
-{
-	char	*dst;
-
-	dst = img->addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
-	return (*(unsigned int *)dst);
-}
-
-void	put_pixel(t_img *img, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = img->addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-void	make_img(t_img *img, t_img src, int x, int y)//makes each block
-{
-	int				i;
-	int				j;
-	unsigned int	color;
-
-	i = 0;
-	while (i < src.width)
-	{
-		j = 0;
-		while (j < src.height)
-		{
-			color = get_pixel(&src, i, j);
-//			if (color != TRANSvarsENT)
-				put_pixel(img, x + i, y + j, color);
-			j++;
-		}
-		i++;
-	}
 }
 
 void	render_map_textures(t_vars *vars, t_img *img, int x, int y)
@@ -122,50 +85,10 @@ void	put_to_screen(t_vars *vars, t_img *img)
 void	render(t_vars *vars, t_img *img)
 {
 	render_map(vars, img);
-//	render_packman(vars, img);
+	render_player(vars, img);//just put make img here to save 1 function??
 	put_to_screen(vars, img);
 }
 
-void	freemap(t_map *map)//make my own
-{
-	int	ctd;
-
-	ctd = 0;
-	while (map->map[ctd])
-		free(map->map[ctd++]);
-	free(map->map);
-	exit(0);
-}
-
-int	clean(t_vars *vars)//make my own
-{
-//	int	ctd = 0;
-//	while (ctd < 16)
-//		mlx_destroy_image(vars->mlx, vars->packman->img[ctd++].img);
-//	mlx_destroy_image(vars->mlx, vars->load_img->img);
-	if (vars->map)
-		mlx_destroy_image(vars->mlx, vars->map->wall.img);
-//	mlx_destroy_image(vars->mlx, vars->map->floor.img);
-//	mlx_destroy_image(vars->mlx, vars->map->collectible.img);
-//	mlx_destroy_image(vars->mlx, vars->map->exit.img);
-//	mlx_destroy_image(vars->mlx, vars->map->border_vertical.img);
-//	mlx_destroy_image(vars->mlx, vars->map->border_horizontal.img);
-	if (vars->win)
-		mlx_destroy_window(vars->mlx, vars->win);
-	if (vars->mlx)
-		mlx_destroy_display(vars->mlx);
-//	free(vars->packman);
-	free(vars->mlx);
-	freemap(vars->map);
-	return (0);
-}
-
-int	handle_input(int keysym, t_vars *vars)
-{
-	if (keysym == XK_Escape)
-		clean(vars);
-	return (0);
-}
 
 int	main(int ac, char **av)
 {
@@ -176,11 +99,12 @@ int	main(int ac, char **av)
 	parser(ac, av, &map);
 	mlx_init_vars(&vars, &map);
 	init_img(&vars, &img, vars.width, vars.height);
-//	pacman_init(&vars);
+	if (!player_init(&vars))
+		return (1);
 	map_init(&vars);
 	render(&vars, &img);
+	mlx_loop_hook(vars.mlx, handle_move, &vars);
 	mlx_hook(vars.win, 17, 1L << 17, clean, &vars);
 	mlx_key_hook(vars.win, handle_input, &vars);
 	mlx_loop(vars.mlx);
-	ft_putstr("\nno crash here\n");
 }

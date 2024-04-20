@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/19 20:53:43 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/20 19:00:37 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include "messages.h"
 
 # define VALID "01PEC"
-# define SCALE 50
+# define SCALE 96
 
 typedef struct s_img
 {
@@ -53,13 +53,25 @@ typedef struct	s_map
 	int		col;
 }				t_map;
 
+typedef struct s_player
+{
+	t_img	img;
+	char	dir;//N, E, S, W
+	int		x;
+	int		y;
+	int		input;
+	//moves, next, prev (next is to calculate next move)
+}				t_player;
+
 typedef struct s_vars
 {
-	void	*mlx;
-	void	*win;
-	int		width;
-	int		height;
-	t_map	*map;
+	void		*mlx;
+	void		*win;
+	int			width;
+	int			height;
+	t_map		*map;
+	t_player	*player;
+	t_img		*load;
 }				t_vars;
 
 bool	parser(int ac, char **av, t_map *map);
@@ -74,5 +86,21 @@ void	wall_west_init(t_vars *vars);
 void	wall_CENTER_init(t_vars *vars);*/
 void	wall_init(t_vars *vars);
 void	floor_init(t_vars *vars);
+
+
+//inputs
+int	handle_input(int keysym, t_vars *vars);
+
+//clean
+void	freemap(t_map *map);//make my own
+int	clean(t_vars *vars);//make my own
+
+//image
+void	make_img(t_img *img, t_img src, int x, int y);
+
+//player
+bool	player_init(t_vars *vars);
+void	render_player(t_vars *vars, t_img *img);
+int		handle_move(t_vars *vars);
 
 #endif

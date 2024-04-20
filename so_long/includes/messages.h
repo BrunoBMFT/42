@@ -6,12 +6,15 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:52:23 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/19 20:53:10 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/20 17:06:15 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MESSAGES_H
 # define MESSAGES_H
+
+//player
+# define ERR_ALLOC_PLAYER "Error allocating player memory"
 //parser
 # define INV_MAPNAME "Invalid map name"
 # define INV_ARGS "Invalid number of arguments"

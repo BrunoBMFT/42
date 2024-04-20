@@ -1,5 +1,5 @@
 NAME = so_long
-SRCS = main.c parser.c init_textures.c
+SRCS = main.c parser.c init_textures.c handle_inputs.c clean.c make_img.c player.c
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 CC = cc
