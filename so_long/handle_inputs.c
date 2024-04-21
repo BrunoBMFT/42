@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:34:50 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 19:18:18 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 19:47:27 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	handle_move(t_vars *vars)//might not need?
 {
 	render(vars, vars->load);
+	return (1);
 }
 
 void	check_moves(t_vars *vars, int x, int y)

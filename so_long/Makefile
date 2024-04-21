@@ -4,8 +4,7 @@ OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 CC = cc
 COMPRESS = ar rcs
-CFLAGS =
-#CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 MLX_DIR = ./includes/minilibx-linux

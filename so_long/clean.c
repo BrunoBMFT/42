@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:36:08 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 19:21:07 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 19:47:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,20 @@
 
 void	freemap(t_map *map)//make my own
 {
-	int	ctd;
+	int	i;
 
-	ctd = 0;
-	while (map->map[ctd])
-		free(map->map[ctd++]);
+	i = 0;
+	while (map->map[i])
+	{
+		free(map->map[i]);
+		free(map->visited[i++]);
+	}
 	free(map->map);
+	free(map->visited);
 	exit(0);
 }
 
-int	clean(t_vars *vars)//make my own
+int	clean(t_vars *vars)
 {
 	if (vars->player)
 		mlx_destroy_image(vars->mlx, vars->player->img.img);
@@ -35,6 +39,8 @@ int	clean(t_vars *vars)//make my own
 		mlx_destroy_image(vars->mlx, vars->map->collectible.img);
 	if (vars->map->exit.img)
 		mlx_destroy_image(vars->mlx, vars->map->exit.img);
+	if (vars->load->img)
+		mlx_destroy_image(vars->mlx, vars->load->img);
 	if (vars->win)
 		mlx_destroy_window(vars->mlx, vars->win);
 	if (vars->mlx)

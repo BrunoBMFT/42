@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:18:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 19:20:02 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 19:40:17 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 // ! turn every function to bool
 // ! image flickering
 // TODO use putendl + defined string
-// TODO Collectible
 // remove exit from the check
 void	mlx_init_vars(t_vars *vars, t_map *map)
 {
