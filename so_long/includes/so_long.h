@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 18:31:37 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 19:17:27 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ typedef struct	s_map
 	t_img 	collectible;
 	t_img 	exit;
 	bool	**visited;
+	bool	has_player;
+	bool	has_collectible;
+	bool	has_exit;
 	int		row;
 	int		col;
 }				t_map;
@@ -58,6 +61,7 @@ typedef struct s_player
 	int		y;
 	int		input;
 	int		moves;
+	bool	can_exit;
 }				t_player;
 
 typedef struct s_vars

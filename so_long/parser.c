@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 04:33:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 18:33:46 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 19:10:40 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ bool	read_file(t_map *map, int fd, int loop)
 	}
 	else
 	{
-		map->map = ft_calloc((loop + 1), sizeof(char *));//map->buffer && change to ft_calloc
-		if (!map->map)//map->buffer
+		map->map = ft_calloc((loop + 1), sizeof(char *));
+		if (!map->map)
 			return (false);
 	}
-	if (map->map)//map->buffer
+	if (map->map)
 	{
-		map->map[loop] = ft_strtrim(line, "\n");//not sure if use strtrim
+		map->map[loop] = ft_strtrim(line, "\n");
 		free(line);
 		return (true);
 	}
@@ -106,9 +106,11 @@ bool	check_char(t_map *map)
 	int		x;
 	int		player;
 	int		exit;
+	int		collectible;
 
 	player = 0;
 	exit = 0;
+	collectible = 0;
 	y = 0;
 	while (map->map[y])
 	{
@@ -121,16 +123,18 @@ bool	check_char(t_map *map)
 				player++;
 			if (is_in_array("E", map->map[y][x]))
 				exit++;
+			if (is_in_array("C", map->map[y][x]))
+				collectible++;
 			x++;
 		}
 		y++;
 	}
-	if (player == 0 || exit == 0 || player > 1 || exit > 1)
-		return (ft_putendl(INV_PLAYEREXIT), false);
+	if (player == 0 || exit == 0 || player > 1 || exit > 1 || collectible == 0 || collectible > 1)
+		return (ft_putendl(INV_PLAYEREXITCOLL), false);
 	return (true);
 }
 
-void	set_visited(t_map *map)//get col and row as parameter
+void	set_visited(t_map *map)
 {
 	int	col;
 	int	row;
@@ -174,30 +178,34 @@ bool	initiate_flood(t_map *map)
 	return (true);
 }
 
-bool	flood_fill(t_map *map, int col, int row, bool found_exit)
+bool	flood_fill(t_map *map, int col, int row)
 {
 	if (col < 0 || row < 0 || !map->map[col]
 		|| row >= (int)ft_strlen(map->map[col]))
 		return (false);
 	if (map->map[col][row] == 'E')
-		found_exit = true;
+		map->has_exit = true;
+	if (map->map[col][row] == 'C')
+		map->has_collectible = true;
+	if (map->map[col][row] == 'P')
+		map->has_player = true;
 	if (map->map[col][row] == '1' || map->visited[col][row])
 		return (true);
 	map->visited[col][row] = true;
-	if (!flood_fill(map, col + 1, row, found_exit))
+	if (!flood_fill(map, col + 1, row))//maybe all this could be one big if
 		return (false);
-	if (!flood_fill(map, col - 1, row, found_exit))
+	if (!flood_fill(map, col - 1, row))
 		return (false);
-	if (!flood_fill(map, col, row + 1, found_exit))
+	if (!flood_fill(map, col, row + 1))
 		return (false);
-	if (!flood_fill(map, col, row - 1, found_exit))
+	if (!flood_fill(map, col, row - 1))
 		return (false);
-	if (!found_exit)
+	if (!map->has_exit || !map->has_collectible || !map->has_player)
 		return (false);
 	return (true);
 }
 
-bool	check_surroundings(t_map *map)//get col and row as parameter?
+bool	check_surroundings(t_map *map)
 {
 	int	col;
 	int	row;
@@ -208,10 +216,10 @@ bool	check_surroundings(t_map *map)//get col and row as parameter?
 		row = 0;
 		while (map->map[col][row])
 		{
-			if ((map->map[col][row] || is_in_array("P", map->map[col][row]) || is_in_array("E", map->map[col][row]))
-			&& map->visited[col][row] == false)
+			if ((map->map[col][row] || is_in_array("P", map->map[col][row]) || is_in_array("E", map->map[col][row])
+			|| is_in_array("C", map->map[col][row])) && map->visited[col][row] == false)
 			{
-				if (!flood_fill(map, col, row, false))
+				if (!flood_fill(map, col, row))
 					return (ft_putendl(ERR_MAP), false);
 			}
 			row++;
