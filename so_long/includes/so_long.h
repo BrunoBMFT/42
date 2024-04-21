@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/20 19:00:37 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 17:14:41 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ typedef struct s_img
 typedef struct	s_map
 {
 	char	**map;
-	/*t_img 	wall_north;
-	t_img 	wall_north_east;
-	t_img 	wall_east;
-	t_img 	wall_north_west;
-	t_img 	wall_west;*/
 	t_img 	wall;
 	t_img 	floor;
 	bool	**visited;
@@ -56,11 +51,11 @@ typedef struct	s_map
 typedef struct s_player
 {
 	t_img	img;
-	char	dir;//N, E, S, W
+	char	dir;
 	int		x;
 	int		y;
 	int		input;
-	//moves, next, prev (next is to calculate next move)
+	int		moves;
 }				t_player;
 
 typedef struct s_vars
@@ -78,15 +73,8 @@ bool	parser(int ac, char **av, t_map *map);
 
 
 //inits
-/*void	wall_north_init(t_vars *vars);
-void	wall_north_east_init(t_vars *vars);
-void	wall_east_init(t_vars *vars);
-void	wall_north_west_init(t_vars *vars);
-void	wall_west_init(t_vars *vars);
-void	wall_CENTER_init(t_vars *vars);*/
 void	wall_init(t_vars *vars);
 void	floor_init(t_vars *vars);
-
 
 //inputs
 int	handle_input(int keysym, t_vars *vars);
@@ -102,5 +90,6 @@ void	make_img(t_img *img, t_img src, int x, int y);
 bool	player_init(t_vars *vars);
 void	render_player(t_vars *vars, t_img *img);
 int		handle_move(t_vars *vars);
+void	render(t_vars *vars, t_img *img);
 
 #endif

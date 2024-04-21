@@ -6,12 +6,13 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:18:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/20 19:00:24 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 17:03:10 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/so_long.h"
 // ! turn every function to bool
+// ! image flickering
 void	mlx_init_vars(t_vars *vars, t_map *map)
 {
 	int	width;
@@ -104,7 +105,7 @@ int	main(int ac, char **av)
 	map_init(&vars);
 	render(&vars, &img);
 	mlx_loop_hook(vars.mlx, handle_move, &vars);
-	mlx_hook(vars.win, 17, 1L << 17, clean, &vars);
 	mlx_key_hook(vars.win, handle_input, &vars);
+	mlx_hook(vars.win, 17, 1L << 17, clean, &vars);
 	mlx_loop(vars.mlx);
 }

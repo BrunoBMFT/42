@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:03:22 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/20 17:41:39 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 17:14:25 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,7 @@ bool	player_init(t_vars *vars)
 		return (ft_putendl(ERR_ALLOC_PLAYER), false);
     find_start(vars);
     vars->player->dir = 'N';
-	/*vars->packman->dir = 's';
-	vars->packman->next = 's';
-	vars->packman->prev = 's';
-	vars->packman->moves = 0;*/
-
+	vars->player->moves = 1;
     vars->player->img.img = mlx_xpm_file_to_image(vars->mlx,
 			"./assets/player.xpm", &vars->player->img.width,
 			&vars->player->img.height);
