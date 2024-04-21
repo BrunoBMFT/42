@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:52:23 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/20 17:06:15 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 18:29:27 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,12 @@
 # define ERR_ALLOC "Error allocating memory"
 # define INV_CHAR "Invalid character in map"
 # define ERR_MAP "Error validating map"
-# define INV_PLAYER "Invalid player count"
+# define INV_PLAYEREXIT "Invalid player or exit count"
 //textures
 # define INV_WALL "Invalid wall"
 # define INV_FLOOR "Invalid floor"
-/*# define INV_WALL "Invalid wall"//invalid floor?
-# define INV_WALL_N "Invalid N wall"
-# define INV_WALL_NE "Invalid NE wall"
-# define INV_WALL_E "Invalid E wall"
-# define INV_WALL_NW "Invalid NW wall"
-# define INV_WALL_W "Invalid W wall"*/
+# define INV_COLLECTIBLE "Invalid collectible"
+# define INV_EXIT "Invalid exit"
 //mlx
 # define MLX_INIT
 

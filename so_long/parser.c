@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 04:33:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/19 15:07:08 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 18:33:46 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,10 @@ bool	check_char(t_map *map)
 	int		y;
 	int		x;
 	int		player;
+	int		exit;
 
 	player = 0;
+	exit = 0;
 	y = 0;
 	while (map->map[y])
 	{
@@ -115,20 +117,20 @@ bool	check_char(t_map *map)
 		{
 			if (!is_in_array(VALID, map->map[y][x]))
 				return (ft_putendl(INV_CHAR), false);
-			if (is_in_array("P", map->map[y][x]))//DEFINE PLAYER??
+			if (is_in_array("P", map->map[y][x]))
 				player++;
-			if (player > 1)
-				return (ft_putendl(INV_PLAYER), false);
+			if (is_in_array("E", map->map[y][x]))
+				exit++;
 			x++;
 		}
 		y++;
 	}
-	if (player == 0)
-		return (ft_putendl(INV_PLAYER), false);
+	if (player == 0 || exit == 0 || player > 1 || exit > 1)
+		return (ft_putendl(INV_PLAYEREXIT), false);
 	return (true);
 }
 
-void	set_visitied(t_map *map)//get col and row as parameter
+void	set_visited(t_map *map)//get col and row as parameter
 {
 	int	col;
 	int	row;
@@ -168,25 +170,29 @@ bool	initiate_flood(t_map *map)
 			return (ft_putendl(ERR_ALLOC), false);
 		col--;
 	}
-	set_visitied(map);
+	set_visited(map);
 	return (true);
 }
 
-bool	flood_fill(t_map *map, int col, int row)
+bool	flood_fill(t_map *map, int col, int row, bool found_exit)
 {
 	if (col < 0 || row < 0 || !map->map[col]
 		|| row >= (int)ft_strlen(map->map[col]))
 		return (false);
+	if (map->map[col][row] == 'E')
+		found_exit = true;
 	if (map->map[col][row] == '1' || map->visited[col][row])
 		return (true);
 	map->visited[col][row] = true;
-	if (!flood_fill(map, col + 1, row))
+	if (!flood_fill(map, col + 1, row, found_exit))
 		return (false);
-	if (!flood_fill(map, col - 1, row))
+	if (!flood_fill(map, col - 1, row, found_exit))
 		return (false);
-	if (!flood_fill(map, col, row + 1))
+	if (!flood_fill(map, col, row + 1, found_exit))
 		return (false);
-	if (!flood_fill(map, col, row - 1))
+	if (!flood_fill(map, col, row - 1, found_exit))
+		return (false);
+	if (!found_exit)
 		return (false);
 	return (true);
 }
@@ -202,10 +208,10 @@ bool	check_surroundings(t_map *map)//get col and row as parameter?
 		row = 0;
 		while (map->map[col][row])
 		{
-			if ((map->map[col][row] || is_in_array("P", map->map[col][row]))
+			if ((map->map[col][row] || is_in_array("P", map->map[col][row]) || is_in_array("E", map->map[col][row]))
 			&& map->visited[col][row] == false)
 			{
-				if (!flood_fill(map, col, row))
+				if (!flood_fill(map, col, row, false))
 					return (ft_putendl(ERR_MAP), false);
 			}
 			row++;

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 17:14:41 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 18:31:37 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct	s_map
 	char	**map;
 	t_img 	wall;
 	t_img 	floor;
+	t_img 	collectible;
+	t_img 	exit;
 	bool	**visited;
 	int		row;
 	int		col;
@@ -75,6 +77,8 @@ bool	parser(int ac, char **av, t_map *map);
 //inits
 void	wall_init(t_vars *vars);
 void	floor_init(t_vars *vars);
+void	exit_init(t_vars *vars);
+void	collectible_init(t_vars *vars);
 
 //inputs
 int	handle_input(int keysym, t_vars *vars);

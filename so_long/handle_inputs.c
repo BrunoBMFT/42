@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:34:50 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 17:14:02 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 18:15:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	check_moves(t_vars *vars, int x, int y)
 {
 	if (vars->player->x != x || vars->player->y != y)
 		ft_printf("%d\n", vars->player->moves++);
+	if (vars->map->map[vars->player->y / SCALE][vars->player->x / SCALE] == 'E')
+		return (clean(vars), exit(1));
 }
 
 void	move_player(t_vars *vars)
