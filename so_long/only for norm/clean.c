@@ -6,13 +6,13 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:36:08 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 19:47:45 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 22:23:58 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/so_long.h"
 
-void	freemap(t_map *map)//make my own
+void	clean_map(t_map *map)
 {
 	int	i;
 
@@ -47,6 +47,6 @@ int	clean(t_vars *vars)
 		mlx_destroy_display(vars->mlx);
 	free(vars->player);
 	free(vars->mlx);
-	freemap(vars->map);
+	clean_map(vars->map);
 	return (0);
 }

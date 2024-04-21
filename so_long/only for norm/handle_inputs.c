@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:34:50 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 19:47:27 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 22:41:03 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,18 @@ void	check_moves(t_vars *vars, int x, int y)
 		ft_printf("%d\n", vars->player->moves++);
 	if (vars->map->map[vars->player->y / SCALE][vars->player->x / SCALE] == 'C')
 		vars->player->can_exit = true;
-	if (vars->player->can_exit && vars->map->map[vars->player->y / SCALE][vars->player->x / SCALE] == 'E')
+	if (vars->player->can_exit
+		&& vars->map->map[vars->player->y / SCALE][vars->player->x / SCALE] == 'E')
 		return (clean(vars), exit(1));
 }
 
 void	move_player(t_vars *vars)
 {
-	int	x = vars->player->x;
-	int	y = vars->player->y;
+	int	x;
+	int	y;
+
+	y = vars->player->y;
+	x = vars->player->x;
 	if (vars->player->input == 'N' && vars->map->map[vars->player->y / SCALE - 1][vars->player->x / SCALE] != '1')//might be wrong (low lft corner)
 		vars->player->y -= 1 * SCALE;
 	if (vars->player->input == 'S' && vars->map->map[vars->player->y / SCALE + 1][vars->player->x / SCALE] != '1')

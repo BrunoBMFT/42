@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 19:24:31 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/21 22:33:02 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,29 +75,45 @@ typedef struct s_vars
 	t_img		*load;
 }				t_vars;
 
+//parser
+bool	check_filename(char *file);
+bool	read_file(t_map *map, int fd, int loop);
+bool	get_file(char *file, t_map *map);
 bool	parser(int ac, char **av, t_map *map);
-
-
+bool	is_in_array(char *arr, char c);
+bool	check_char(t_map *map);
+void	free_file(char **arr);
+void	free_parser(t_map *map);
+//flood
+void	set_visited(t_map *map);
+bool	initiate_flood(t_map *map);
+bool	flood_fill(t_map *map, int col, int row);
+bool	check_surroundings(t_map *map);
+bool	validate_map(t_map *map);
 //inits
-void	wall_init(t_vars *vars);
-void	floor_init(t_vars *vars);
-void	exit_init(t_vars *vars);
-void	collectible_init(t_vars *vars);
-
-//inputs
-int	handle_input(int keysym, t_vars *vars);
-
-//clean
-void	freemap(t_map *map);//make my own
-int	clean(t_vars *vars);//make my own
-
-//image
-void	make_img(t_img *img, t_img src, int x, int y);
-
-//player
+void	find_start(t_vars *vars);
 bool	player_init(t_vars *vars);
-void	render_player(t_vars *vars, t_img *img);
-int		handle_move(t_vars *vars);
+bool	mlx_init_vars(t_vars *vars, t_map *map);
+bool	init_img(t_vars *vars, t_img *img, int width, int height);
+bool	wall_init(t_vars *vars);
+bool	floor_init(t_vars *vars);
+bool	collectible_init(t_vars *vars);
+bool	exit_init(t_vars *vars);
+bool	map_init(t_vars *vars);
+//image
+int	get_pixel(t_img *img, int x, int y);
+void	put_pixel(t_img *img, int x, int y, int color);
+void	make_img(t_img *img, t_img src, int x, int y);
+void	render_map_textures(t_vars *vars, t_img *img, int x, int y);
+void	render_map(t_vars *vars, t_img *img);
 void	render(t_vars *vars, t_img *img);
+//moves
+int	handle_move(t_vars *vars);
+void	check_moves(t_vars *vars, int x, int y);
+void	move_player(t_vars *vars);
+int	handle_input(int keysym, t_vars *vars);
+//clean
+void	clean_map(t_map *map);
+int	clean(t_vars *vars);
 
 #endif
