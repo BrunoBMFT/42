@@ -3,37 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   init_vars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:50:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 00:07:20 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 18:32:28 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	find_start(t_vars *vars)
+bool	find_start(t_vars *vars)
 {
 	int	x;
 	int	y;
 
 	y = 0;
-	while (y < vars->map->row)
+	while (y < vars->map->col)
 	{
 		x = 0;
-		while (x < vars->map->col)
+		while (x < vars->map->row)
 		{
 			if (vars->map->map[y][x] == 'P')
 			{
 				vars->player->x = x * SCALE;
 				vars->player->y = y * SCALE;
 				vars->map->map[y][x] = '0';
-				return ;
+				return (true);
 			}
 			x++;
 		}
 		y++;
 	}
+	return (false);
 }
 
 bool	player_init(t_vars *vars)
@@ -41,7 +42,8 @@ bool	player_init(t_vars *vars)
 	vars->player = malloc(sizeof(t_player));
 	if (!vars->player)
 		return (ft_putendl(ERR_ALLOC_PLAYER), false);
-	find_start(vars);
+	if (!find_start(vars))
+		return (ft_putendl(INV_PLAYERPOS), false);
 	vars->player->dir = 'N';
 	vars->player->moves = 1;
 	vars->player->can_exit = false;
@@ -63,8 +65,8 @@ bool	mlx_init_vars(t_vars *vars, t_map *map)
 	int	height;
 
 	vars->map = map;
-	vars->width = map->col * SCALE;
-	vars->height = map->row * SCALE;
+	vars->width = map->row * SCALE;
+	vars->height = map->col * SCALE;
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 		return (ft_putendl(ERR_MLX), false);

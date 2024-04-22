@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 02:36:45 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 18:29:16 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_vars
 	t_player	*player;
 	t_img		*load;
 }				t_vars;
-void	free_file(char **arr);
+void	free_file(char **arr);//might not need?
 
 //parser
 bool	check_filename(char *file);
@@ -93,7 +93,7 @@ bool	flood_fill(t_map *map, int col, int row);
 bool	check_surroundings(t_map *map);
 bool	validate_map(t_map *map);
 //inits
-void	find_start(t_vars *vars);
+bool	find_start(t_vars *vars);
 bool	player_init(t_vars *vars);
 bool	mlx_init_vars(t_vars *vars, t_map *map);
 bool	init_img(t_vars *vars, t_img *img, int width, int height);

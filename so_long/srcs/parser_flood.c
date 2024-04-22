@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_flood.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 22:22:13 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 02:00:08 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 19:50:09 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,26 @@ bool	initiate_flood(t_map *map)
 
 bool	flood_fill(t_map *map, int col, int row)
 {
+//	ft_printf("y: %d, x: %d\n", col, row);
 	if (col < 0 || row < 0 || !map->map[col]
 		|| row >= (int)ft_strlen(map->map[col]))
 		return (false);
-	if (map->map[col][row] == 'E')
+	if (map->map[col][row] == 'E')//all of this is wrong
 		map->has_exit = true;
 	if (map->map[col][row] == 'C')
 		map->has_collectible = true;
 	if (map->map[col][row] == 'P')
 		map->has_player = true;
+	map->visited[col][row] = true;
 	if (map->map[col][row] == '1' || map->visited[col][row])
 		return (true);
-	map->visited[col][row] = true;
-	if (!flood_fill(map, col + 1, row))
+	if (!flood_fill(map, col, row + 1))
 		return (false);
 	if (!flood_fill(map, col - 1, row))
 		return (false);
-	if (!flood_fill(map, col, row + 1))
-		return (false);
 	if (!flood_fill(map, col, row - 1))
+		return (false);
+	if (!flood_fill(map, col + 1, row))
 		return (false);
 	if (!map->has_exit || !map->has_collectible || !map->has_player)
 		return (false);

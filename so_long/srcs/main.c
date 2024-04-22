@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:18:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 00:09:22 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 20:24:28 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 // TODO use putendl + defined string
 // remove exit from the check
 // TODO mem leak when parsing doesnt work
-// TODO check if rectangular
+// TODO map validates even if player is trapped
 int	main(int ac, char **av)
 {
 	t_map	map;
 	t_vars	vars;
 	t_img	img;
-
+	
 	if (!parser(ac, av, &map))
 		return (1);
 	if (!mlx_init_vars(&vars, &map))

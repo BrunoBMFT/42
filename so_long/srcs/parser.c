@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 04:33:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 02:36:34 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 17:57:15 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ bool	get_file(char *file, t_map *map)
 	int		fd;
 	char	*new;
 
-	new = ft_strjoin("/home/bruno/42/so_long/maps/", file);
+	new = ft_strjoin("/home/brfernan/42/so_long/maps/", file);
 	if (!new)
-		return (ft_putendl(ERR_ALLOC), false);
+		return (ft_putendl(ERR_ALLOC), clean_map(map), false);
 	fd = open(new, O_RDONLY);
 	free (new);
 	if (fd < 0)
@@ -75,7 +75,7 @@ bool	parser(int ac, char **av, t_map *map)
 	if (!check_filename(av[1]))
 		return (false);
 	if (!get_file(av[1], map))
-		return (clean_map(map), false);
+		return (false);
 	map->has_exit = false;
 	map->has_collectible = false;
 	map->has_player = false;

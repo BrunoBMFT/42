@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   messages.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:52:23 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 02:34:54 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 18:28:15 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,29 @@
 # define MESSAGES_H
 
 //parser
-# define INV_MAPNAME "Invalid map name"
-# define INV_ARGS "Invalid number of arguments"
-# define INV_FILE "File not found"
-# define ERR_FILE "Error reading file"
-# define INV_MAP "Invalid map"
-# define ERR_ALLOC "Error allocating memory"
-# define INV_CHAR "Invalid character in map"
-# define ERR_MAP "Error validating map"
-# define INV_PLAYEREXITCOLL "Invalid player, exit or collectible count"
+# define INV_MAPNAME "Error\nInvalid map name"
+# define INV_ARGS "Error\nInvalid number of arguments"
+# define INV_FILE "Error\nFile not found"
+# define ERR_FILE "Error\nCouldn't read file"
+# define INV_MAP "Error\nInvalid map"
+# define ERR_ALLOC "Error\nFailed allocating memory"
+# define INV_CHAR "Error\nInvalid char in map"
+# define ERR_MAP "Error\nFailed validating map"
+# define INV_PLAYEREXITCOLL "Error\nInvalid player, exit or collectible count"
 
 //inits
-# define ERR_WIN "Error creating window"
-# define ERR_MLX "Error initiating mlx"
-# define ERR_IMG "Error initiating image"
-
-
-
-
+# define ERR_WIN "Error\nFailed creating window"
+# define ERR_MLX "Error\nFailed initiating mlx"
+# define ERR_IMG "Error\nFailed initiating image"
 //textures
-# define INV_WALL "Invalid wall"
-# define INV_FLOOR "Invalid floor"
-# define INV_COLLECTIBLE "Invalid collectible"
-# define INV_EXIT "Invalid exit"
+# define INV_WALL "Error\nInvalid wall"
+# define INV_FLOOR "Error\nInvalid floor"
+# define INV_COLLECTIBLE "Error\nInvalid collectible"
+# define INV_EXIT "Error\nInvalid exit"
 
 //player
-# define ERR_ALLOC_PLAYER "Error allocating player memory"
-# define INV_PLAYER "Invalid player"
+# define ERR_ALLOC_PLAYER "Error\nFailed allocating player memory"
+# define INV_PLAYER "Error\nInvalid player"
+# define INV_PLAYERPOS "Error\nInvalid player"
 
 #endif
