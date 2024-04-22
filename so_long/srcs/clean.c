@@ -6,21 +6,24 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:36:08 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 22:23:58 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 01:36:09 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/so_long.h"
+#include "../includes/so_long.h"
 
 void	clean_map(t_map *map)
 {
 	int	i;
 
 	i = 0;
-	while (map->map[i])
+	if (map->map)
 	{
-		free(map->map[i]);
-		free(map->visited[i++]);
+		while (map->map[i])
+		{
+			free(map->map[i]);
+			free(map->visited[i++]);
+		}
 	}
 	free(map->map);
 	free(map->visited);

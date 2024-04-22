@@ -6,11 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:41:39 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 22:39:17 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 00:08:28 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/so_long.h"
+#include "../includes/so_long.h"
 
 int	get_pixel(t_img *img, int x, int y)
 {
@@ -78,12 +78,4 @@ void	render_map(t_vars *vars, t_img *img)
 		}
 		y++;
 	}
-}
-
-void	render(t_vars *vars, t_img *img)
-{
-	render_map(vars, img);
-	make_img(img, vars->player->img, vars->player->x, vars->player->y);
-	mlx_clear_window(vars->mlx, vars->win);
-	mlx_put_image_to_window(vars->mlx, vars->win, img->img, 0, 0);
 }

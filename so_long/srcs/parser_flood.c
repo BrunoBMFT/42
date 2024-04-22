@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   flood.c                                            :+:      :+:    :+:   */
+/*   parser_flood.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 22:22:13 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 22:38:20 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 02:00:08 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/so_long.h"
+#include "../includes/so_long.h"
 
 void	set_visited(t_map *map)
 {
@@ -100,7 +100,7 @@ bool	check_surroundings(t_map *map)
 			&& map->visited[col][row] == false)
 			{
 				if (!flood_fill(map, col, row))
-					return (ft_putendl(ERR_MAP), false);
+					return (ft_putendl(ERR_MAP), clean_map(map), false);
 			}
 			row++;
 		}
@@ -114,9 +114,9 @@ bool	check_surroundings(t_map *map)
 bool	validate_map(t_map *map)
 {
 	if (!check_char(map))
-		return (false);
+		return (free_file(map->map), false);
 	if (!initiate_flood(map))
-		return (false);
+		return (clean_map(map), false);
 	if (!check_surroundings(map))
 		return (false);
 	return (true);

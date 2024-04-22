@@ -6,11 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 04:33:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 22:25:03 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 02:36:34 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/so_long.h"
+#include "../includes/so_long.h"
 
 bool	check_filename(char *file)
 {
@@ -75,8 +75,11 @@ bool	parser(int ac, char **av, t_map *map)
 	if (!check_filename(av[1]))
 		return (false);
 	if (!get_file(av[1], map))
-		return (free_parser(map), false);
-	if (!validate_map(map))
 		return (clean_map(map), false);
+	map->has_exit = false;
+	map->has_collectible = false;
+	map->has_player = false;
+	if (!validate_map(map))
+		return (false);
 	return (true);
 }

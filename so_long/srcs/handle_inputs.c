@@ -6,11 +6,19 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:34:50 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 22:41:03 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 00:11:42 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/so_long.h"
+#include "../includes/so_long.h"
+
+void	render(t_vars *vars, t_img *img)
+{
+	render_map(vars, img);
+	make_img(img, vars->player->img, vars->player->x, vars->player->y);
+	mlx_clear_window(vars->mlx, vars->win);
+	mlx_put_image_to_window(vars->mlx, vars->win, img->img, 0, 0);
+}
 
 int	handle_move(t_vars *vars)//might not need?
 {
@@ -24,8 +32,8 @@ void	check_moves(t_vars *vars, int x, int y)
 		ft_printf("%d\n", vars->player->moves++);
 	if (vars->map->map[vars->player->y / SCALE][vars->player->x / SCALE] == 'C')
 		vars->player->can_exit = true;
-	if (vars->player->can_exit
-		&& vars->map->map[vars->player->y / SCALE][vars->player->x / SCALE] == 'E')
+	if (vars->player->can_exit && vars->map->map[vars->player->y / SCALE]
+		[vars->player->x / SCALE] == 'E')
 		return (clean(vars), exit(1));
 }
 
@@ -36,13 +44,17 @@ void	move_player(t_vars *vars)
 
 	y = vars->player->y;
 	x = vars->player->x;
-	if (vars->player->input == 'N' && vars->map->map[vars->player->y / SCALE - 1][vars->player->x / SCALE] != '1')//might be wrong (low lft corner)
+	if (vars->player->input == 'N' && vars->map->map[vars->player->y
+			/ SCALE - 1][vars->player->x / SCALE] != '1')
 		vars->player->y -= 1 * SCALE;
-	if (vars->player->input == 'S' && vars->map->map[vars->player->y / SCALE + 1][vars->player->x / SCALE] != '1')
+	if (vars->player->input == 'S' && vars->map->map[vars->player->y
+			/ SCALE + 1][vars->player->x / SCALE] != '1')
 		vars->player->y += 1 * SCALE;
-	if (vars->player->input == 'E' && vars->map->map[vars->player->y / SCALE][vars->player->x / SCALE + 1] != '1')
+	if (vars->player->input == 'E' && vars->map->map[vars->player->y / SCALE]
+		[vars->player->x / SCALE + 1] != '1')
 		vars->player->x += 1 * SCALE;
-	if (vars->player->input == 'W' && vars->map->map[vars->player->y / SCALE][vars->player->x / SCALE - 1] != '1')
+	if (vars->player->input == 'W' && vars->map->map[vars->player->y / SCALE]
+		[vars->player->x / SCALE - 1] != '1')
 		vars->player->x -= 1 * SCALE;
 	check_moves(vars, x, y);
 }

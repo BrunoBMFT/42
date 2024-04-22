@@ -6,11 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:58:59 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 22:38:59 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 01:54:10 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/so_long.h"
+#include "../includes/so_long.h"
 
 bool	wall_init(t_vars *vars)
 {

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/21 22:33:02 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/22 02:36:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ typedef struct	s_map
 	bool	has_exit;
 	int		row;
 	int		col;
+	int		numplayer;
+	int		numexit;
+	int		numcollectible;//these 3 are for parser
 }				t_map;
 
 typedef struct s_player
@@ -74,6 +77,7 @@ typedef struct s_vars
 	t_player	*player;
 	t_img		*load;
 }				t_vars;
+void	free_file(char **arr);
 
 //parser
 bool	check_filename(char *file);
@@ -82,8 +86,6 @@ bool	get_file(char *file, t_map *map);
 bool	parser(int ac, char **av, t_map *map);
 bool	is_in_array(char *arr, char c);
 bool	check_char(t_map *map);
-void	free_file(char **arr);
-void	free_parser(t_map *map);
 //flood
 void	set_visited(t_map *map);
 bool	initiate_flood(t_map *map);
@@ -114,6 +116,7 @@ void	move_player(t_vars *vars);
 int	handle_input(int keysym, t_vars *vars);
 //clean
 void	clean_map(t_map *map);
-int	clean(t_vars *vars);
+int		clean(t_vars *vars);
+void	free_parser_map(t_map *map);
 
 #endif
