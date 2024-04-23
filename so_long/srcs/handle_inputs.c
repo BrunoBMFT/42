@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:34:50 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 00:11:42 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/23 19:09:12 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,21 @@ void	render(t_vars *vars, t_img *img)
 	mlx_put_image_to_window(vars->mlx, vars->win, img->img, 0, 0);
 }
 
+void	random_move(t_vars *vars)
+{
+	time_t t;
+	srand((unsigned) time(&t));
+	printf("%d", rand() % 4);
+	vars->timer++;
+//	if (vars->timer >= 60)
+//	printf("%d\n", vars->timer);
+	if (vars->timer >= 150)
+		vars->timer = 0;
+}
+
 int	handle_move(t_vars *vars)//might not need?
 {
+	random_move(vars);
 	render(vars, vars->load);
 	return (1);
 }

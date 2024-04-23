@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_flood.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 22:22:13 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 19:50:09 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:31:01 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ bool	flood_fill(t_map *map, int col, int row)
 		return (false);
 	if (!flood_fill(map, col + 1, row))
 		return (false);
-	if (!map->has_exit || !map->has_collectible || !map->has_player)
-		return (false);
 	return (true);
 }
 
@@ -107,6 +105,8 @@ bool	check_surroundings(t_map *map)
 		}
 		col++;
 	}
+	if (!map->has_exit || !map->has_collectible || !map->has_player)
+		return (false);
 	map->col = col;
 	map->row = row;
 	return (true);

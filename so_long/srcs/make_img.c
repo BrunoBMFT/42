@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:41:39 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 00:08:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/23 19:03:17 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,13 @@ void	render_map_textures(t_vars *vars, t_img *img, int x, int y)
 		make_img(img, vars->map->wall, (x * SCALE), (y * SCALE));
 	if (vars->map->map[y][x] == '0'
 		|| (vars->map->map[y][x] == 'E' && !vars->player->can_exit)
-		|| (vars->map->map[y][x] == 'C' && vars->player->can_exit))
+		|| (vars->map->map[y][x] == 'C' && vars->player->can_exit)
+		|| (vars->map->map[y][x] == 'B' && !vars->player->is_alive))
 		make_img(img, vars->map->floor, (x * SCALE), (y * SCALE));
 	if (vars->map->map[y][x] == 'C' && !vars->player->can_exit)
 		make_img(img, vars->map->collectible, (x * SCALE), (y * SCALE));
+	if (vars->map->map[y][x] == 'B' && vars->player->is_alive)
+		make_img(img, vars->map->bomb, (x * SCALE), (y * SCALE));
 	if (vars->map->map[y][x] == 'E' && vars->player->can_exit)
 		make_img(img, vars->map->exit, (x * SCALE), (y * SCALE));
 }

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:58:59 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 01:54:10 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/23 18:51:16 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,19 @@ bool	exit_init(t_vars *vars)
 	return (true);
 }
 
+bool	bomb_init(t_vars *vars)
+{
+	vars->map->bomb.img = mlx_xpm_file_to_image(vars->mlx,
+			"./includes/assets/bomb.xpm", &vars->map->bomb.width,
+			&vars->map->bomb.height);
+	if (!vars->map->bomb.img)
+		return (ft_putendl(INV_BOMB), false);
+	vars->map->bomb.addr = mlx_get_data_addr(vars->map->bomb.img,
+			&vars->map->bomb.bits_per_pixel, &vars->map->bomb.line_len,
+			&vars->map->bomb.endian);
+	return (true);
+}
+
 bool	map_init(t_vars *vars)
 {
 	if (!wall_init(vars))
@@ -74,6 +87,8 @@ bool	map_init(t_vars *vars)
 	if (!collectible_init(vars))
 		return (false);
 	if (!exit_init(vars))
+		return (false);
+	if (!bomb_init(vars))
 		return (false);
 	return (true);
 }

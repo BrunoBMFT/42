@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   messages.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:52:23 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 18:28:15 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:51:03 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define INV_FLOOR "Error\nInvalid floor"
 # define INV_COLLECTIBLE "Error\nInvalid collectible"
 # define INV_EXIT "Error\nInvalid exit"
+# define INV_BOMB "Error\nInvalid bomb"
 
 //player
 # define ERR_ALLOC_PLAYER "Error\nFailed allocating player memory"

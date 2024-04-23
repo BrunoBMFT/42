@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 18:29:16 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/23 19:06:50 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@
 # include <stdbool.h>
 # include <stdarg.h>
 # include <fcntl.h>
+# include <time.h>
 # include "./libft/libft.h"
 # include "messages.h"
 
-# define VALID "01PEC"
+# define VALID "01PECB"
 # define SCALE 96
 
 typedef struct s_img
@@ -45,6 +46,7 @@ typedef struct	s_map
 	t_img 	floor;
 	t_img 	collectible;
 	t_img 	exit;
+	t_img 	bomb;
 	bool	**visited;
 	bool	has_player;
 	bool	has_collectible;
@@ -65,6 +67,7 @@ typedef struct s_player
 	int		input;
 	int		moves;
 	bool	can_exit;
+	bool	is_alive;
 }				t_player;
 
 typedef struct s_vars
@@ -76,6 +79,7 @@ typedef struct s_vars
 	t_map		*map;
 	t_player	*player;
 	t_img		*load;
+	int			timer;
 }				t_vars;
 void	free_file(char **arr);//might not need?
 

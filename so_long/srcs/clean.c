@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:36:08 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 01:36:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/23 18:55:42 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	clean(t_vars *vars)
 		mlx_destroy_image(vars->mlx, vars->map->floor.img);
 	if (vars->map->collectible.img)
 		mlx_destroy_image(vars->mlx, vars->map->collectible.img);
+	if (vars->map->bomb.img)
+		mlx_destroy_image(vars->mlx, vars->map->bomb.img);
 	if (vars->map->exit.img)
 		mlx_destroy_image(vars->mlx, vars->map->exit.img);
 	if (vars->load->img)

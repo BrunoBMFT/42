@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:18:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 20:24:28 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/23 19:06:26 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-// ! turn every function to bool
+// ! map validates even if player is trapped
 // ! image flickering
-// TODO use putendl + defined string
-// remove exit from the check
-// TODO mem leak when parsing doesnt work
-// TODO map validates even if player is trapped
+// remove exit from the check moves?
+// TODO death screen: simple "you died" text, dark souls like (darker bar along the middle?) 
+// TODO instead of vars timer, use time library?
 int	main(int ac, char **av)
 {
 	t_map	map;
