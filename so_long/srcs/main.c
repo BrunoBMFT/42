@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:18:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/23 19:06:26 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/23 23:39:52 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 // remove exit from the check moves?
 // TODO death screen: simple "you died" text, dark souls like (darker bar along the middle?) 
 // TODO instead of vars timer, use time library?
+// * if multiple bombs, only the one touched by player needs to dissappear
 int	main(int ac, char **av)
 {
 	t_map	map;

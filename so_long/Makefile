@@ -1,7 +1,7 @@
 NAME = so_long
 SRCS_DIR = ./srcs
 SRCS = main.c parser.c parser_aux.c init_textures.c handle_inputs.c clean.c \
-		make_img.c init_vars.c parser_flood.c
+		render.c init_vars.c parser_flood.c
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 CC = cc
@@ -43,6 +43,6 @@ fclean: clean
 re: fclean all
 #remove this
 run: re
-	clear && valgrind ./so_long map.ber
+	clear && ./so_long map.ber
 
 .PHONY: all bonus fclean clean re

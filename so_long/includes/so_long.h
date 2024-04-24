@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/23 19:06:50 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/24 00:55:33 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct	s_map
 	t_img 	collectible;
 	t_img 	exit;
 	t_img 	bomb;
+	t_img 	death;
 	bool	**visited;
 	bool	has_player;
 	bool	has_collectible;
@@ -113,6 +114,7 @@ void	make_img(t_img *img, t_img src, int x, int y);
 void	render_map_textures(t_vars *vars, t_img *img, int x, int y);
 void	render_map(t_vars *vars, t_img *img);
 void	render(t_vars *vars, t_img *img);
+void	render_player(t_vars *vars, t_img *img);
 //moves
 int	handle_move(t_vars *vars);
 void	check_moves(t_vars *vars, int x, int y);
