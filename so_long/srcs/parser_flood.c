@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 22:22:13 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/23 18:31:01 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/25 13:09:00 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ bool	flood_fill(t_map *map, int col, int row)
 {
 //	ft_printf("y: %d, x: %d\n", col, row);
 	if (col < 0 || row < 0 || !map->map[col]
-		|| row >= (int)ft_strlen(map->map[col]))
+		|| col >= (int)ft_strlen(map->map[col]))
 		return (false);
 	if (map->map[col][row] == 'E')//all of this is wrong
 		map->has_exit = true;
@@ -92,7 +92,7 @@ bool	check_surroundings(t_map *map)
 	{
 		row = 0;
 		while (map->map[col][row])
-		{
+		{//is in array might not be needed here (or needed just here, instead of check char)
 			if ((map->map[col][row] || is_in_array("P", map->map[col][row])
 				|| is_in_array("E", map->map[col][row])
 			|| is_in_array("C", map->map[col][row]))
