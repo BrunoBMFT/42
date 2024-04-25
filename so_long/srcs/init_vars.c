@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_vars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:50:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/24 01:04:19 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/25 16:43:22 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	player_init(t_vars *vars)
 	vars->player = malloc(sizeof(t_player));
 	if (!vars->player)
 		return (ft_putendl(ERR_ALLOC_PLAYER), false);
-	if (!find_start(vars))
+	if (!find_start(vars))//might not need, can go in parsing
 		return (ft_putendl(INV_PLAYERPOS), false);
 	vars->player->dir = 'N';
 	vars->player->moves = 1;

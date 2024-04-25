@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   messages.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:52:23 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/23 23:50:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/25 16:52:12 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 # define INV_CHAR "Error\nInvalid char in map"
 # define ERR_MAP "Error\nFailed validating map"
 # define INV_PLAYEREXITCOLL "Error\nInvalid player, exit or collectible count"
-
+# define INV_WALL_BORDER "Error\nInvalid wall border" 
+# define INV_WALL_SIZE "Error\nInvalid wall size" 
 //inits
 # define ERR_WIN "Error\nFailed creating window"
 # define ERR_MLX "Error\nFailed initiating mlx"

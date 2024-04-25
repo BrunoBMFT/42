@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/24 00:55:33 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/25 18:12:31 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct s_img
 typedef struct	s_map
 {
 	char	**map;
+	int		height;
+	int		width;
 	t_img 	wall;
 	t_img 	floor;
 	t_img 	collectible;
@@ -49,11 +51,10 @@ typedef struct	s_map
 	t_img 	bomb;
 	t_img 	death;
 	bool	**visited;
-	bool	has_player;
-	bool	has_collectible;
-	bool	has_exit;
 	int		row;
 	int		col;
+	int		playerpos_y;
+	int		playerpos_x;
 	int		numplayer;
 	int		numexit;
 	int		numcollectible;//these 3 are for parser

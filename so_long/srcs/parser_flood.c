@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_flood.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 22:22:13 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/25 13:09:00 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/25 19:33:37 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ bool	initiate_flood(t_map *map)
 	col = 0;
 	while (map->map[col])
 		col++;
+	map->height = col;
 	map->visited = ft_calloc(sizeof(bool *), col + 1);
 	if (!map->visited)
 		return (ft_putendl(ERR_ALLOC), false);
@@ -52,37 +53,44 @@ bool	initiate_flood(t_map *map)
 			return (ft_putendl(ERR_ALLOC), false);
 		col--;
 	}
+	map->numcollectible = 0;
+	map->numplayer = 0;
+	map->numexit = 0;
+	map->width = row;
 	set_visited(map);
 	return (true);
 }
 
 bool	flood_fill(t_map *map, int col, int row)
 {
-//	ft_printf("y: %d, x: %d\n", col, row);
-	if (col < 0 || row < 0 || !map->map[col]
-		|| col >= (int)ft_strlen(map->map[col]))
-		return (false);
-	if (map->map[col][row] == 'E')//all of this is wrong
-		map->has_exit = true;
-	if (map->map[col][row] == 'C')
-		map->has_collectible = true;
-	if (map->map[col][row] == 'P')
-		map->has_player = true;
-	map->visited[col][row] = true;
+	/*ft_putstr("\ny: ");
+	ft_putnbr(col);
+	ft_putstr(" x: ");
+	ft_putnbr(row);
+	ft_putstr(", ");
+	if (map->map[col][row] == '1')
+		ft_putstr("wall");*/
+
 	if (map->map[col][row] == '1' || map->visited[col][row])
-		return (true);
-	if (!flood_fill(map, col, row + 1))
 		return (false);
-	if (!flood_fill(map, col - 1, row))
+	map->visited[col][row] = true;
+	if (col < 0 || row < 0 || !map->map[col]
+		|| col >= map->height)
 		return (false);
-	if (!flood_fill(map, col, row - 1))
-		return (false);
-	if (!flood_fill(map, col + 1, row))
-		return (false);
+	if (map->map[col][row] == 'E')
+		map->numexit++;
+	if (map->map[col][row] == 'C')
+		map->numcollectible++;
+	if (map->map[col][row] == 'P')
+		map->numplayer++;
+	flood_fill(map, col, row + 1);
+	flood_fill(map, col - 1, row);
+	flood_fill(map, col, row - 1);
+	flood_fill(map, col + 1, row);
 	return (true);
 }
 
-bool	check_surroundings(t_map *map)
+void	find_player(t_map *map)
 {
 	int	col;
 	int	row;
@@ -92,24 +100,48 @@ bool	check_surroundings(t_map *map)
 	{
 		row = 0;
 		while (map->map[col][row])
-		{//is in array might not be needed here (or needed just here, instead of check char)
-			if ((map->map[col][row] || is_in_array("P", map->map[col][row])
-				|| is_in_array("E", map->map[col][row])
-			|| is_in_array("C", map->map[col][row]))
-			&& map->visited[col][row] == false)
+		{
+			if (map->map[col][row] == 'P')
 			{
-				if (!flood_fill(map, col, row))
-					return (ft_putendl(ERR_MAP), clean_map(map), false);
+				map->playerpos_x = row;
+				map->playerpos_y = col;
 			}
 			row++;
 		}
 		col++;
 	}
-	if (!map->has_exit || !map->has_collectible || !map->has_player)
-		return (false);
+}
+
+bool	check_surroundings(t_map *map)
+{
+	int	col;
+	int	row;
+
+	find_player(map);
+	if (!flood_fill(map, map->playerpos_y, map->playerpos_x))
+		return (ft_putendl(ERR_MAP), clean_map(map), false);
+	col = 0;
+	while (map->map[col])
+	{
+		row = 0;
+		while (map->map[col][row])
+		{
+			if (map->map[0][row] == '0' || map->map[map->height - 1][row] == '0'
+			|| map->map[col][0] == '0' || map->map[col][map->width - 1] == '0')
+				return (ft_putendl(INV_WALL_BORDER), clean_map(map), false);
+			row++;
+		}
+		if (row != map->width)
+			return (ft_putendl(INV_WALL_SIZE), clean_map(map), false);
+		col++;
+	}
+	if (col != map->height)
+		return (ft_putendl(INV_WALL_SIZE), clean_map(map), false);
 	map->col = col;
 	map->row = row;
-	return (true);
+	if (map->numplayer == 1 && map->numcollectible == 1 && map->numexit == 1)// make multiple collectible
+		return (true);
+	return (ft_putendl(INV_PLAYEREXITCOLL), false);
 }
 
 bool	validate_map(t_map *map)

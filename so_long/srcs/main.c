@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:18:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/23 23:39:52 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/25 17:00:05 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 // ! map validates even if player is trapped
-// ! image flickering
+// TODO find_start doesnt need to exist, it already exists in the parser
+// TODO change mas.has_exit and rest to ints (so floodfill can do the count)
+// TODO make multiple collectible
+// TODO check_char maybe not needed, since floodfill with find how many players there are
+// TODO might not need find start
 // remove exit from the check moves?
-// TODO death screen: simple "you died" text, dark souls like (darker bar along the middle?) 
-// TODO instead of vars timer, use time library?
+// * instead of vars timer, use time library?
 // * if multiple bombs, only the one touched by player needs to dissappear
 int	main(int ac, char **av)
 {
