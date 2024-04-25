@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_vars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:50:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/25 16:43:22 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/26 00:29:27 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ bool	find_start(t_vars *vars)
 	int	y;
 
 	y = 0;
-	while (y < vars->map->col)
+	while (y < vars->map->height)
 	{
 		x = 0;
-		while (x < vars->map->row)
+		while (x < vars->map->width)
 		{
 			if (vars->map->map[y][x] == 'P')
 			{
@@ -67,8 +67,8 @@ bool	mlx_init_vars(t_vars *vars, t_map *map)
 
 	vars->map = map;
 	vars->timer = 0;
-	vars->width = map->row * SCALE;
-	vars->height = map->col * SCALE;
+	vars->width = map->width * SCALE;
+	vars->height = map->height * SCALE;
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 		return (ft_putendl(ERR_MLX), false);

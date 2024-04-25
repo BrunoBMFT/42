@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_aux.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 22:24:20 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/25 19:33:39 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/26 00:31:25 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ bool	check_char(t_map *map)
 	int		y;
 	int		x;
 
-	map->numplayer = 0;
-	map->numexit = 0;
-	map->numcollectible = 0;
 	y = 0;
 	while (map->map[y])
 	{
@@ -39,10 +36,17 @@ bool	check_char(t_map *map)
 		{
 			if (!is_in_array(VALID, map->map[y][x]))
 				return (ft_putendl(INV_CHAR), false);
+			if (map->map[y][x] == 'P')
+			{
+				map->playerpos_x = x;
+				map->playerpos_y = y;
+			}
 			x++;
 		}
+		map->width = x;
 		y++;
 	}
+	map->height = y;
 	return (true);
 }
 

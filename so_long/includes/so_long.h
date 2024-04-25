@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/25 18:12:31 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/04/26 00:29:51 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ typedef struct	s_map
 	t_img 	bomb;
 	t_img 	death;
 	bool	**visited;
-	int		row;
-	int		col;
 	int		playerpos_y;
 	int		playerpos_x;
 	int		numplayer;
@@ -93,7 +91,7 @@ bool	parser(int ac, char **av, t_map *map);
 bool	is_in_array(char *arr, char c);
 bool	check_char(t_map *map);
 //flood
-void	set_visited(t_map *map);
+bool	set_visited(t_map *map);
 bool	initiate_flood(t_map *map);
 bool	flood_fill(t_map *map, int col, int row);
 bool	check_surroundings(t_map *map);
