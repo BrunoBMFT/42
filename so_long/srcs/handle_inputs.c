@@ -6,27 +6,13 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:34:50 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/26 00:35:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/26 02:05:54 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	handle_death(t_vars *vars)
-{
-	vars->player->is_alive = false;
-	mlx_clear_window(vars->mlx, vars->win);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->map->death.img, 0, 0);
-}
-
-void	render(t_vars *vars, t_img *img)
-{
-	render_map(vars, img);
-	render_player(vars, img);
-	mlx_put_image_to_window(vars->mlx, vars->win, img->img, 0, 0);
-}
-
-int	handle_move(t_vars *vars)//might not need?
+int	handle_move(t_vars *vars)
 {
 	if (vars->player->is_alive)
 		render(vars, vars->load);
@@ -35,15 +21,22 @@ int	handle_move(t_vars *vars)//might not need?
 
 void	check_moves(t_vars *vars, int x, int y)
 {
-	if (vars->player->is_alive && (vars->player->x != x || vars->player->y != y))
+	if (vars->player->is_alive && (vars->player->x != x
+			|| vars->player->y != y))
 		ft_printf("%d\n", vars->player->moves++);
 	if (vars->map->map[vars->player->y / SCALE][vars->player->x / SCALE] == 'C')
 		vars->player->can_exit = true;
 	if (vars->player->can_exit && vars->player->is_alive
-	&& vars->map->map[vars->player->y / SCALE][vars->player->x / SCALE] == 'E')
+		&& vars->map->map[vars->player->y / SCALE]
+		[vars->player->x / SCALE] == 'E')
 		return (clean(vars), exit(1));
 	if (vars->map->map[vars->player->y / SCALE][vars->player->x / SCALE] == 'B')
-		handle_death(vars);
+	{
+		vars->player->is_alive = false;
+		mlx_clear_window(vars->mlx, vars->win);
+		mlx_put_image_to_window(vars->mlx, vars->win,
+			vars->map->death.img, 0, 0);
+	}
 }
 
 void	move_player(t_vars *vars)

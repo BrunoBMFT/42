@@ -6,29 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:36:08 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/24 00:55:59 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/26 01:52:31 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-
-void	clean_map(t_map *map)
-{
-	int	i;
-
-	i = 0;
-	if (map->map)
-	{
-		while (map->map[i])
-		{
-			free(map->map[i]);
-			free(map->visited[i++]);
-		}
-	}
-	free(map->map);
-	free(map->visited);
-	exit(0);
-}
 
 int	clean(t_vars *vars)
 {
@@ -56,4 +38,43 @@ int	clean(t_vars *vars)
 	free(vars->mlx);
 	clean_map(vars->map);
 	return (0);
+}
+
+void	clean_map(t_map *map)
+{
+	int	i;
+
+	i = 0;
+	if (map->map)
+	{
+		while (map->map[i])
+		{
+			free(map->map[i]);
+			free(map->visited[i++]);
+		}
+	}
+	free(map->map);
+	free(map->visited);
+	exit(0);
+}
+
+void	free_file(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+void	free_parser_map(t_map *map)
+{
+	if (map->map)
+		free_file(map->map);
+	if (map->visited)
+		free_file((char **)map->visited);
 }

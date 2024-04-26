@@ -6,20 +6,21 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:18:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/26 00:33:36 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/26 01:47:21 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 // TODO make multiple collectible
 // TODO might not need find start
+// *multiple collectibles
 // remove exit from the check moves?
 int	main(int ac, char **av)
 {
 	t_map	map;
 	t_vars	vars;
 	t_img	img;
-	
+
 	if (!parser(ac, av, &map))
 		return (1);
 	if (!mlx_init_vars(&vars, &map))

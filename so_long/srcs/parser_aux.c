@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 22:24:20 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/26 00:31:25 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/26 01:52:17 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,4 @@ bool	check_char(t_map *map)
 	}
 	map->height = y;
 	return (true);
-}
-
-void	free_file(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
-
-void	free_parser_map(t_map *map)
-{
-	if (map->map)
-		free_file(map->map);
-	if (map->visited)
-		free_file((char **)map->visited);
 }
