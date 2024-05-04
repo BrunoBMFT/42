@@ -1,6 +1,6 @@
 NAME = pipex
 SRCS_DIR = ./srcs
-SRCS = pipex_test.c
+SRCS = pipex.c
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 CC = cc
@@ -40,5 +40,5 @@ re: fclean all
 
 .PHONY: all bonus fclean clean re
 
-#./pipex infile "ls -l" "wc -l" outfile
-#< infile ls -l | wc -l > outfile
+#./pipex infile "cat" "wc" outfile
+#< infile cat | wc > outfile
