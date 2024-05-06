@@ -12,6 +12,19 @@ void    callexecve()
     perror("execve");
     exit(EXIT_FAILURE); // Make sure to exit the child process if execve fails 
 }
+
+void    child()
+{
+    printf("child, also parent\n");
+    callexecve();
+}
+
+void    parent()
+{
+    wait(NULL); 
+    printf("back to parent\n");
+}
+
 int main(void)
 {
     pid_t pid;
@@ -22,15 +35,12 @@ int main(void)
         fprintf(stderr, "Fork2 failed.\n");
         return 1;
     }
-    else if (pid == 0)//here usually separate so i can visualize better during testing (1 function for parent and 1 for child)
-    {
-        printf("child, also parent\n");
-        callexecve();
-    }
-    else if (pid > 1)
+    else if (pid == 0)
+        child();//runs second
+    else if (pid > 1)//runs first
     {
         printf("parent\n");
-        waitpid(pid, NULL, 0); 
-        printf("back to parent\n");
+        waitpid(pid, NULL, 0);//waits till second is done
+        parent();//runs third
     }
 }

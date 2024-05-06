@@ -17,17 +17,18 @@ int main(void)
 	int id = fork();
 	if (id == 0)
 	{
-		printf("in child process: ");
-		close(fd[0]);
+		printf("in child process\n");
+		close(fd[0]);//closes read since only write will be used
 		int x;
 		printf("input: ");
 		scanf("%d", &x);
 		write(fd[1], &x, sizeof(int));
-		close(fd[1]);
+		close(fd[1]);//closes the write since it doesnt need to be used anymore
 	}
-	else
+	else//runs first
 	{
-		close(fd[1]);
+		printf("in parent process\n");
+		close(fd[1]);//closes write
 		int y;
 		read(fd[0], &y, sizeof(int));
 		close(fd[0]);
