@@ -1,6 +1,6 @@
-NAME = ft_printf
+NAME = libftprintf.a
 SRCS_DIR = ./srcs
-SRCS = main.c ft_printf.c	
+SRCS = ft_printf.c	
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 CC = cc
@@ -19,7 +19,8 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+	@cp $(LIBFT) $(NAME)
+	@$(COMPRESS) $(NAME) $(OBJS)
 	@echo $(NAME) ready!
 
 $(LIBFT):

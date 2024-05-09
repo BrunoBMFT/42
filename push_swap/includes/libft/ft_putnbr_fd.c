@@ -3,37 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:44:33 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/01 23:56:54 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/12 14:27:53 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+void	ft_putnbr(int n)
 {
 	char	c;
 
 	if (n == -2147483648)
 	{
-		write(fd, "-2147483648", 11);
+		write(1, "-2147483648", 11);
 		return ;
 	}
 	if (n < 0)
 	{
-		write(fd, "-", 1);
+		write(1, "-", 1);
 		n *= -1;
 	}
 	if (n >= 10)
 	{
-		ft_putnbr_fd(n / 10, fd);
+		ft_putnbr(n / 10);
 		n = n % 10;
 	}
 	if (n < 10)
 	{
 		c = '0' + n;
-		write(fd, &c, 1);
+		write(1, &c, 1);
 	}
 }
