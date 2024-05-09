@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_textures_aux.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:58:59 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/26 02:01:59 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/09 08:41:39 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ bool	exit_init(t_vars *vars)
 			&vars->map->exit.endian);
 	return (true);
 }
+
 bool	death_init(t_vars *vars)
 {
 	vars->map->death.img = mlx_xpm_file_to_image(vars->mlx,

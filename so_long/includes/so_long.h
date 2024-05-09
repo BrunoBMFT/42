@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/26 02:07:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/09 08:43:36 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,23 @@ typedef struct s_img
 	int		height;
 }				t_img;
 
-typedef struct	s_map
+typedef struct s_map
 {
 	char	**map;
 	int		height;
 	int		width;
-	t_img 	wall;
-	t_img 	floor;
-	t_img 	collectible;
-	t_img 	bomb;
-	t_img 	exit;
-	t_img 	death;
+	t_img	wall;
+	t_img	floor;
+	t_img	collectible;
+	t_img	bomb;
+	t_img	exit;
+	t_img	death;
 	bool	**visited;
 	int		playerpos_y;
 	int		playerpos_x;
 	int		numplayer;
 	int		numexit;
-	int		numcollectible;//these 3 are for parser
+	int		numcollectible;
 }				t_map;
 
 typedef struct s_player
@@ -114,15 +114,15 @@ void	render_map(t_vars *vars, t_img *img);
 void	render_map_textures(t_vars *vars, t_img *img, int x, int y);
 void	render_player(t_vars *vars, t_img *img);
 void	make_img(t_img *img, t_img src, int x, int y);
-int	get_pixel(t_img *img, int x, int y);
+int		get_pixel(t_img *img, int x, int y);
 void	put_pixel(t_img *img, int x, int y, int color);
 //moves
-int	handle_move(t_vars *vars);
-int	handle_input(int keysym, t_vars *vars);
+int		handle_move(t_vars *vars);
+int		handle_input(int keysym, t_vars *vars);
 void	move_player(t_vars *vars);
 void	check_moves(t_vars *vars, int x, int y);
 //clean
-int	clean(t_vars *vars);
+int		clean(t_vars *vars);
 void	clean_map(t_map *map);
 void	free_file(char **arr);
 void	free_parser_map(t_map *map);
