@@ -6,14 +6,15 @@ OBJDIR = ./objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 LIBFT_DIR = ./includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
+
+$(OBJDIR)/%.o: $(SRCS_DIR)/%.c
+	@mkdir -p $(OBJDIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 CC = cc
 COMPRESS = ar rcs
 CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -f
-$(OBJDIR)/%.o: %.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
