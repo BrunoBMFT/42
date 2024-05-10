@@ -1,12 +1,11 @@
 NAME = pipex
 SRCS_DIR = ./srcs
-SRCS = pipex.c
+SRCS = pipex.c pipex_aux.c
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 CC = cc
 COMPRESS = ar rcs
-CFLAGS =
-#CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 LIBFT_DIR = ./includes/libft

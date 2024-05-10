@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:20 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/02 04:24:06 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/10 15:10:32 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*get_next_line(int fd)
 	ret = get_next_line(fd);
 	while (ret)
 	{
-		printf("%s", ret);
+		ft_printf("%s", ret);
 		free(ret);
 		ret = get_next_line(fd);
 	}

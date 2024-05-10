@@ -1,27 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/10 14:58:29 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/10 15:14:49 by brfernan         ###   ########.fr       */
+/*   Created: 2023/10/06 15:44:33 by brfernan          #+#    #+#             */
+/*   Updated: 2024/05/10 12:17:26 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <unistd.h>
-# include <sys/wait.h>
-# include <stdlib.h>
-# include <stdio.h>
+void	ft_putnbr(int n)
+{
+	char	c;
 
-char	*find_path(char **envp, char *com);
-void	error(char *str, int code);
-void	freecoms(char **com);
-
-#endif
+	if (n == -2147483648)
+	{
+		write(1, "-2147483648", 11);
+		return ;
+	}
+	if (n < 0)
+	{
+		write(1, "-", 1);
+		n *= -1;
+	}
+	if (n >= 10)
+	{
+		ft_putnbr(n / 10);
+		n = n % 10;
+	}
+	if (n < 10)
+	{
+		c = '0' + n;
+		write(1, &c, 1);
+	}
+}
