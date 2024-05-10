@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/10 16:14:38 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:22:03 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ char	*find_path(char **envp, char *com)
 		i++;
 	}
 	i = -1;
-	while (paths[i++])
-		free(paths[i]);
-	free (paths);
+	freecoms(paths);
 	return (NULL);
 }
 
@@ -47,14 +45,15 @@ void	error(char *str, int code)
 	exit(code);
 }
 
-void	freecoms(char **com)
+void	freecoms(char **cmd)
 {
 	int	i;
 
 	i = 0;
-	while (com[i])
+	while (cmd[i])
 	{
-		free(com[i]);
+		free(cmd[i]);
 		i++;
 	}
+	free (cmd);
 }

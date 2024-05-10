@@ -6,14 +6,13 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/10 17:29:59 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:22:16 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
 // TODO wrong message (command not found) and output exit code
-// ! valgrind --track-origins=yes --trace-children=yes --track-fds=yes ./pipex infile "cat" "caf" outfile
 int	execute(char *arg, char **envp)
 {
 	char	**com;
