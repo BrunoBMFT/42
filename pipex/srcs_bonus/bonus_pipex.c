@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   bonus_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/11 14:56:46 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/11 14:54:47 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-// TODO wrong message (command not found) and output exit code
 int	execute(char *arg, char **envp)
 {
 	char	**com;
@@ -23,7 +22,7 @@ int	execute(char *arg, char **envp)
 	if (!path)
 	{
 		freecoms(com);
-		error(("zsh: command not found"), 127);//		wrong message (command not found) and output exit code
+		error(("no path"), 127);//		wrong message (command not found) and output exit code
 	}
 	if (execve(path, com, envp) == -1)
 		error(("exec failed"), 1);
