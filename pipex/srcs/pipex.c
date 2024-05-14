@@ -6,13 +6,14 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/11 14:56:46 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/12 19:54:14 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
 // TODO wrong message (command not found) and output exit code
+// TODO error message of command not found should output the command
 int	execute(char *arg, char **envp)
 {
 	char	**com;
