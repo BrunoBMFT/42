@@ -6,11 +6,17 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/13 22:38:59 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/14 18:34:18 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	exit_program(char *str)
+{
+	ft_putstr(str);
+	exit (0);
+}
 
 void	caught_cd(char *str)
 {
@@ -31,10 +37,9 @@ void	caught_cd(char *str)
 void	caught_args(char *str)
 {
 	if (ft_strnstr(str, "cd", 2))
-	{
-		ft_putendl("caught cd");
 		caught_cd(str);
-	}
+	if (ft_strnstr(str, "exit", 4))
+		exit_program(str);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -43,8 +48,8 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		ft_printf("minishell -> ");
-		scanf("%s", scan);
+		fgets(scan, 100, stdin);
 		caught_args(scan);
-		ft_printf("%s\n", scan);
+//		ft_printf("%s\n", scan);
 	}
 }

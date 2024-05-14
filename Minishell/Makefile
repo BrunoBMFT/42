@@ -33,8 +33,9 @@ fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
 	@echo $(NAME) fclean
 
-
-
 re: fclean all
+
+run: all
+	clear && ./minishell
 
 .PHONY: all fclean clean re
