@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 22:24:20 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/09 10:15:59 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:18:08 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ bool	check_char(t_map *map)
 	int		x;
 
 	map->numplayer = 0;
-	y = 0;
-	while (map->map[y])
+	y = -1;
+	while (map->map[++y])
 	{
-		x = 0;
-		while (map->map[y][x])
+		x = -1;
+		while (map->map[y][++x])
 		{
 			if (!is_in_array(VALID, map->map[y][x]))
 				return (ft_putendl(INV_CHAR), false);
@@ -43,10 +43,8 @@ bool	check_char(t_map *map)
 				map->playerpos_y = y;
 				map->numplayer++;
 			}
-			x++;
 		}
 		map->width = x;
-		y++;
 	}
 	if (map->numplayer != 1)
 		return (ft_putendl(INV_PLAYEREXITCOLL), false);

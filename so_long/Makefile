@@ -13,7 +13,6 @@ MLX_DIR = ./includes/minilibx-linux
 MLX = $(MLX_DIR)/libmlx_Linux.a -lXext -lX11 -lm -lz
 
 LIBFT_DIR = ./includes/libft
-
 LIBFT = $(LIBFT_DIR)/libft.a
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c

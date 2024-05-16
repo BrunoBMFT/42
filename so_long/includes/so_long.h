@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/09 08:43:36 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:01:52 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ typedef struct s_vars
 	int			timer;
 }				t_vars;
 
-//parser
 bool	parser(int ac, char **av, t_map *map);
 bool	check_filename(char *file);
 bool	get_file(char *file, t_map *map);
@@ -90,25 +89,25 @@ bool	read_file(t_map *map, int fd, int loop);
 bool	validate_map(t_map *map);
 bool	check_char(t_map *map);
 bool	is_in_array(char *arr, char c);
-//flood
+
 bool	initiate_flood(t_map *map);
 bool	set_visited(t_map *map);
 bool	check_surroundings(t_map *map);
 bool	flood_fill(t_map *map, int col, int row);
-//inits
+
 bool	mlx_init_vars(t_vars *vars, t_map *map);
 bool	init_img(t_vars *vars, t_img *img, int width, int height);
 bool	player_init(t_vars *vars);
 bool	find_start(t_vars *vars);
 bool	map_init(t_vars *vars);
-//textures
+
 bool	wall_init(t_vars *vars);
 bool	floor_init(t_vars *vars);
 bool	collectible_init(t_vars *vars);
 bool	bomb_init(t_vars *vars);
 bool	exit_init(t_vars *vars);
 bool	death_init(t_vars *vars);
-//render
+
 void	render(t_vars *vars, t_img *img);
 void	render_map(t_vars *vars, t_img *img);
 void	render_map_textures(t_vars *vars, t_img *img, int x, int y);
@@ -116,12 +115,12 @@ void	render_player(t_vars *vars, t_img *img);
 void	make_img(t_img *img, t_img src, int x, int y);
 int		get_pixel(t_img *img, int x, int y);
 void	put_pixel(t_img *img, int x, int y, int color);
-//moves
+
 int		handle_move(t_vars *vars);
 int		handle_input(int keysym, t_vars *vars);
 void	move_player(t_vars *vars);
 void	check_moves(t_vars *vars, int x, int y);
-//clean
+
 int		clean(t_vars *vars);
 void	clean_map(t_map *map);
 void	free_file(char **arr);

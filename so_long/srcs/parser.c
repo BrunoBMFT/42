@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 04:33:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/09 09:57:56 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:12:33 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ bool	get_file(char *file, t_map *map)
 	int		fd;
 	char	*new;
 
-	new = ft_strjoin("/home/brfernan/42/so_long/maps/", file);
+	new = ft_strjoin("./maps/", file);
 	if (!new)
 		return (ft_putendl(ERR_ALLOC), clean_map(map), false);
 	fd = open(new, O_RDONLY);
