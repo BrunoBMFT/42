@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bonus_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/16 01:07:17 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/16 16:28:08 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	execute(char *arg, char **envp)
 	char	*path;
 
 	com = ft_split(arg, ' ');
+	ft_putendl(com[0]);
 	path = find_path(envp, com[0]);
 	if (!path)
 	{
@@ -54,12 +55,10 @@ void	child_process(char *av, char **envp)
 	}
 	else
 		waitpid(pid, NULL, 0);
-	ft_putendl("got to here");
 	close(fd[1]);
-	exit(EXIT_SUCCESS);
 }
 
-void	last_process(char *av, char **envp)
+int	last_process(char *av, char **envp)
 {
 	int		status;
 	int		fd[2];
@@ -74,14 +73,16 @@ void	last_process(char *av, char **envp)
 	if (pid == 0)
 	{
 		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		execute(av, envp);
 		exit(EXIT_SUCCESS);
 	}
 	else
+	{
+		close(fd[0]);
+		dup2(fd[0], STDIN_FILENO);
+		execute(av, envp);
 		waitpid(pid, &status, 0);
-	close(fd[0]);
-	exit(EXIT_SUCCESS);
+	}
+	return (status);
 }
 
 int	open_file(char *argv, int i)
@@ -109,21 +110,22 @@ int	main(int ac, char **av, char **envp)
 	int		status;
 	int		i;
 
-	int fileout = open_file(av[ac - 1], 2);
 	status = 0;
 	if (ac < 5)
 		return (ft_putendl_fd(WRONG, 2), 0);
 //	if (ft_strncmp(av, "here_doc", 8) == 0)
 		//heredoc
-	int filein = open_file(av[1], 1);
+	int fileout = open_file(av[ac - 1], 1);
+	int filein = open_file(av[1], 2);
 	dup2(filein, STDIN_FILENO);//change filein
 	close(filein);
 	
 	i = 2;
 	while (i < ac - 2)
 		child_process(av[i++], envp);
+
 	dup2(fileout, STDOUT_FILENO);//change fileout
-	last_process(av[i], envp);
 	close(fileout);
+	status = last_process(av[i], envp);
 	return (WEXITSTATUS(status));
 }
