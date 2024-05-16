@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/12 20:08:46 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/16 01:07:17 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,39 +35,52 @@ int	execute(char *arg, char **envp)
 	return (0);
 }
 
-void	child_process(int *fd, char *av, char **envp)
+void	child_process(char *av, char **envp)
 {
-	int	filein;
-
+	int		fd[2];
+	pid_t	pid;
+	
 	if (!av[0])
 		error("no cmd1", 0);
-	filein = open(av[1], O_RDONLY, 0644);
-	if (filein == -1)
-		error("filein failed to open", 0);
-	close(fd[0]);
-	dup2(fd[1], STDOUT_FILENO);
-	dup2(filein, STDIN_FILENO);
+	if (pipe(fd) == -1)
+		error("pipe failed", 1);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		execute(av, envp);
+		exit(EXIT_SUCCESS);
+	}
+	else
+		waitpid(pid, NULL, 0);
+	ft_putendl("got to here");
 	close(fd[1]);
-	close(filein);
-	execute(av, envp);
 	exit(EXIT_SUCCESS);
 }
 
-void	last_process(int *fd, char *av, char **envp)
+void	last_process(char *av, char **envp)
 {
-	int	fileout;
+	int		status;
+	int		fd[2];
+	pid_t	pid;
 
 	if (!av[0])
 		error("no cmd2", 127);
-	fileout = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fileout == -1)
-		error("fileout failed to open", 0);
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
-	dup2(fileout, STDOUT_FILENO);
+	status = 0;
+	if (pipe(fd) == -1)
+		error("pipe failed", 1);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		execute(av, envp);
+		exit(EXIT_SUCCESS);
+	}
+	else
+		waitpid(pid, &status, 0);
 	close(fd[0]);
-	close(fileout);
-	execute(av, envp);
 	exit(EXIT_SUCCESS);
 }
 
@@ -77,48 +90,40 @@ int	open_file(char *argv, int i)
 
 	file = 0;
 	if (i == 0)
-		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0644);//check perms, only for here_docs?
 	else if (i == 1)
-		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);//check perms
 	else if (i == 2)
-		file = open(argv, O_RDONLY, 0777);
+		file = open(argv, O_RDONLY, 0644);//check perms
 	if (file == -1)
-		error();
+		error("file failed to open", i);//i here will just let me know which file failed
 	return (file);
 }
 
+//change dup2 of child to main
+//change dup2 of last to main
+//change forks to process functions
+
 int	main(int ac, char **av, char **envp)
 {
-	int		fd[2];
-	pid_t	pid1;
-	pid_t	pid2;
 	int		status;
 	int		i;
 
+	int fileout = open_file(av[ac - 1], 2);
 	status = 0;
 	if (ac < 5)
 		return (ft_putendl_fd(WRONG, 2), 0);
-	if (ft_strncmp(av, "here_doc", 8) == 0){
+//	if (ft_strncmp(av, "here_doc", 8) == 0)
 		//heredoc
-	}
-	else
-	{
-		if (pipe(fd) == -1)
-			error("pipe failed", 1);
-		pid1 = fork();
-		if (pid1 < 0)
-			error("pid1 error", 0);
-		else if (pid1 == 0)
-			child1_process(fd, av, envp);
-		pid2 = fork();
-		if (pid2 < 0)
-			error("pid2 error", 0);
-		else if (pid2 == 0)
-			child2_process(fd, av, envp);
-		close(fd[0]);
-		close(fd[1]);
-		waitpid(pid1, NULL, 0);
-		waitpid(pid2, &status, 0);
-	}
+	int filein = open_file(av[1], 1);
+	dup2(filein, STDIN_FILENO);//change filein
+	close(filein);
+	
+	i = 2;
+	while (i < ac - 2)
+		child_process(av[i++], envp);
+	dup2(fileout, STDOUT_FILENO);//change fileout
+	last_process(av[i], envp);
+	close(fileout);
 	return (WEXITSTATUS(status));
 }
