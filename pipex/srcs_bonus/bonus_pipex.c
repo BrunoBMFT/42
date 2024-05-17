@@ -6,16 +6,16 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/17 15:41:52 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/17 18:51:58 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-// ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
+// ./pipex_bonus file1 cmd1 cmd2 cmd3 ... cmdn file2
 // < file1 cmd1 | cmd2 | cmd3 ... | cmdn > file2
 
-// ./pipex here_doc LIMITER cmd cmd1 file
+// ./pipex_bonus here_doc LIMITER cmd cmd1 file
 // cmd << LIMITER | cmd1 >> file
 // TODO error check
 int	execute(char *arg, char **envp)
@@ -46,13 +46,13 @@ void	child_process(char *av, char **envp)
 	if (pid == 0)
 	{
 		close(fd[0]);//write
-		dup2(fd[1], STDOUT_FILENO);
+		dup2(fd[1], 1);
 		execute(av, envp);
 		close(fd[1]);
 		exit(0);
 	}
 	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
+	dup2(fd[0], 0);
 	close(fd[0]);
 	waitpid(pid, NULL, 0);
 	return ;
@@ -87,25 +87,64 @@ int	open_file(char *argv, int i)
 	return (file);
 }
 
-int	main(int ac, char **av, char **envp)
+void	here_doc(char *limiter, int ac)
 {
-	int status = 0;
-	if (ac < 5)
-		return (ft_putendl_fd(WRONGBONUS, 2), 0);
-	if (ft_strnstr(av[2], "here_doc", 8))
-		ft_printf("here_doc");
+	pid_t	pid;
+	int		fd[2];
+	char	*line;
+
+	if (ac < 6)
+		error(WRONGHEREDOC, 1);
+	if (pipe(fd) == -1)
+		error("pipe failed", 1);
+	pid = fork();//error check
+	if (pid == 0)
+	{
+		close (fd[0]);
+		while (pipex_get_next_line(&line))
+		{
+			if (ft_strncmp(line, limiter, ft_strlen(limiter) == 0))
+				exit(0);
+			write(fd[1], line, ft_strlen(line));
+		}
+//		close(fd[1]);
+	}
 	else
 	{
-		int i = 2;
-		int fileout = open_file(av[ac - 1], 1);
-		int filein = open_file(av[1], 2);
+		close(fd[1]);
+		dup2(fd[0], 0);
+//		close(fd[0]);
+		wait(NULL);//use waitpid
+	}
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	int	status = 0;
+	int	i;
+	int fileout;
+	int filein;
+
+	if (ac < 5)
+		return (ft_putendl_fd(WRONGBONUS, 2), 0);
+	if (ft_strnstr(av[1], "here_doc", 8))
+	{
+		i = 3;
+		fileout = open_file(av[ac - 1], 0);
+		here_doc(av[2], ac);
+	}
+	else
+	{
+		i = 2;
+		fileout = open_file(av[ac - 1], 1);
+		filein = open_file(av[1], 2);
 		dup2(filein, STDIN_FILENO);
 		close (filein);
-		while (i < ac - 2)
-			child_process(av[i++], envp);
-		dup2(fileout, STDOUT_FILENO);
-		close(fileout);
-		status = last_process(av[ac - 2], envp);//check if argv is correct
 	}
+	while (i < ac - 2)
+		child_process(av[i++], envp);
+	dup2(fileout, STDOUT_FILENO);
+	close(fileout);
+//	status = last_process(av[ac - 2], envp);//check if argv is correct
 	return (WEXITSTATUS(status));
 }
