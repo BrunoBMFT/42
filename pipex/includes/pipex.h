@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:58:29 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/12 19:29:52 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/17 02:26:26 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 # include <stdbool.h>
 # define WRONG "wrong: ./pipex <file1> <cmd1> <cmd2> <file2>"
+# define WRONGBONUS "wrong: ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2"
 
 char	*find_path(char **envp, char *com);
 void	error(char *str, int code);

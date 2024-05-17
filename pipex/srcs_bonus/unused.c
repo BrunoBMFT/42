@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus_pipex.c                                      :+:      :+:    :+:   */
+/*   unused.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/17 02:52:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/17 02:45:20 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-
+// TODO error message of command not found should output the command
 // ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
 // < file1 cmd1 | cmd2 | cmd3 ... | cmdn > file2
 
@@ -40,20 +40,22 @@ void	child_process(char *av, char **envp)
 {
 	int		fd[2];
 	pid_t	pid;
-
+	
+	if (!av[0])
+		error("no cmd1", 0);
 	if (pipe(fd) == -1)
 		error("pipe failed", 1);
 	pid = fork();
 	if (pid == 0)
 	{
-		close(fd[0]);//write
+		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		execute(av, envp);
-		close(fd[1]);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
+	else
+		waitpid(pid, NULL, 0);
 	close(fd[1]);
-	waitpid(pid, NULL, 0);
 }
 
 int	last_process(char *av, char **envp)
@@ -62,6 +64,8 @@ int	last_process(char *av, char **envp)
 	int		fd[2];
 	pid_t	pid;
 
+	if (!av[0])
+		error("no cmd2", 127);
 	status = 0;
 	if (pipe(fd) == -1)
 		error("pipe failed", 1);
@@ -69,13 +73,16 @@ int	last_process(char *av, char **envp)
 	if (pid == 0)
 	{
 		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		execute(av, envp);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
-	waitpid(pid, &status, 0);
-	return (WEXITSTATUS(status));
+	else
+	{
+		close(fd[0]);
+		dup2(fd[0], STDIN_FILENO);
+		execute(av, envp);
+		waitpid(pid, &status, 0);
+	}
+	return (status);
 }
 
 int	open_file(char *argv, int i)
@@ -100,23 +107,25 @@ int	open_file(char *argv, int i)
 
 int	main(int ac, char **av, char **envp)
 {
-	int status = 0;
+	int		status;
+	int		i;
+
+	status = 0;
 	if (ac < 5)
-		return (ft_putendl_fd(WRONGBONUS, 2), 0);
-	if (ft_strnstr(av[2], "here_doc", 8))
-		ft_printf("here_doc");
-	else
-	{
-		int i = 2;
-		int filein = open_file(av[1], 2);
-		dup2(filein, STDIN_FILENO);
-		close (filein);
-		while (i < ac - 2)
-			child_process(av[i++], envp);
-		int fileout = open_file(av[ac - 1], 1);
-		dup2(fileout, STDOUT_FILENO);
-		close(fileout);
-		status = last_process(av[i], envp);//check if argv is correct
-	}
+		return (ft_putendl_fd(WRONG, 2), 0);
+//	if (ft_strncmp(av, "here_doc", 8) == 0)
+		//heredoc
+	int fileout = open_file(av[ac - 1], 1);
+	int filein = open_file(av[1], 2);
+	dup2(filein, STDIN_FILENO);//change filein
+	close(filein);
+	
+	i = 2;
+	while (i < ac - 3)
+		child_process(av[i++], envp);
+
+	dup2(fileout, STDOUT_FILENO);//change fileout
+	close(fileout);
+	status = last_process(av[i], envp);
 	return (WEXITSTATUS(status));
 }
