@@ -6,12 +6,12 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/17 18:49:25 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/21 14:35:21 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-
+//remove pipex gnl
 int	pipex_get_next_line(char **line)
 {
 	char	*buffer;

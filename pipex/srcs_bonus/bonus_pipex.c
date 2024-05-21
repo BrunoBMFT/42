@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/17 18:51:58 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/21 14:35:09 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,10 @@ void	here_doc(char *limiter, int ac)
 	if (pid == 0)
 	{
 		close (fd[0]);
-		while (pipex_get_next_line(&line))
+		while (get_next_line(&line))
 		{
+			ft_putendl(line);
+			ft_putendl(limiter);
 			if (ft_strncmp(line, limiter, ft_strlen(limiter) == 0))
 				exit(0);
 			write(fd[1], line, ft_strlen(line));
