@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 22:22:13 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/23 00:40:50 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/23 00:42:25 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ bool	check_surroundings(t_map *map)
 {
 	if (!flood_fill(map, map->playerpos_y, map->playerpos_x))
 		return (ft_putendl(ERR_MAP), false);
-	if (map->numplayer != 1 || map->numcollectible != map->coll || map->numexit != 1)
+	if (map->numplayer != 1 || map->numcollectible != map->coll
+		|| map->numexit != 1)
 		return (ft_putendl(INV_PLAYEREXITCOLL), false);
 	return (true);
 }

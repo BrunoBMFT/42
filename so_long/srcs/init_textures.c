@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:58:59 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/23 00:13:59 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/23 00:43:06 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,13 @@ bool	collectible_init(t_vars *vars)
 	if (!access("./includes/assets/collectible.xpm", F_OK))
 	{
 		vars->map->collectible.img = mlx_xpm_file_to_image(vars->mlx,
-				"./includes/assets/collectible.xpm", &vars->map->collectible.width,
+				"./includes/assets/collectible.xpm",
+				&vars->map->collectible.width,
 				&vars->map->collectible.height);
 		if (!vars->map->collectible.img)
 			return (ft_putendl(INV_COLLECTIBLE), false);
-		vars->map->collectible.addr = mlx_get_data_addr(vars->map->collectible.img,
+		vars->map->collectible.addr = mlx_get_data_addr(
+				vars->map->collectible.img,
 				&vars->map->collectible.bits_per_pixel,
 				&vars->map->collectible.line_len,
 				&vars->map->collectible.endian);
