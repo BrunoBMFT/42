@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/10 11:01:52 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/05/23 00:37:04 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_map
 	int		numplayer;
 	int		numexit;
 	int		numcollectible;
+	int		coll;
 }				t_map;
 
 typedef struct s_player
@@ -68,6 +69,7 @@ typedef struct s_player
 	int		moves;
 	bool	can_exit;
 	bool	is_alive;
+	int		collected;
 }				t_player;
 
 typedef struct s_vars

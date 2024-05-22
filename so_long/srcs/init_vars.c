@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_vars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:50:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/22 18:03:56 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/05/23 00:24:31 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ bool	player_init(t_vars *vars)
 		return (ft_putendl(INV_PLAYERPOS), false);
 	vars->player->dir = 'N';
 	vars->player->moves = 1;
+	vars->player->collected = 0;
 	vars->player->can_exit = false;
 	vars->player->is_alive = true;
 	vars->player->img.img = mlx_xpm_file_to_image(vars->mlx,
@@ -69,6 +70,9 @@ bool	mlx_init_vars(t_vars *vars, t_map *map)
 	vars->timer = 0;
 	vars->width = map->width * SCALE;
 	vars->height = map->height * SCALE;
+	vars->player = NULL;
+	vars->win = NULL;
+	vars->load = NULL;
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 		return (ft_putendl(ERR_MLX), false);

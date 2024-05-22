@@ -3,19 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:36:08 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/22 18:00:56 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/05/23 00:23:18 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-int	clean(t_vars *vars)
+void	clean_textures(t_vars *vars)
 {
-	if (vars->player)
-		mlx_destroy_image(vars->mlx, vars->player->img.img);
 	if (vars->map->wall.img)
 		mlx_destroy_image(vars->mlx, vars->map->wall.img);
 	if (vars->map->floor.img)
@@ -28,7 +26,14 @@ int	clean(t_vars *vars)
 		mlx_destroy_image(vars->mlx, vars->map->exit.img);
 	if (vars->map->death.img)
 		mlx_destroy_image(vars->mlx, vars->map->death.img);
-	if (vars->load->img)
+}
+
+int	clean(t_vars *vars)
+{
+	if (vars->player)
+		mlx_destroy_image(vars->mlx, vars->player->img.img);
+	clean_textures(vars);
+	if (vars->load)
 		mlx_destroy_image(vars->mlx, vars->load->img);
 	if (vars->win)
 		mlx_destroy_window(vars->mlx, vars->win);
