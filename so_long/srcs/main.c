@@ -6,12 +6,12 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:18:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/10 18:36:09 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/05/22 18:03:39 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-
+//change collectibles
 int	main(int ac, char **av)
 {
 	t_map	map;
@@ -25,8 +25,6 @@ int	main(int ac, char **av)
 	if (!init_img(&vars, &img, vars.width, vars.height))
 		return (clean(&vars), 1);
 	if (!player_init(&vars))
-		return (clean(&vars), 1);
-	if (!map_init(&vars))
 		return (clean(&vars), 1);
 	render(&vars, &img);
 	mlx_loop_hook(vars.mlx, handle_move, &vars);

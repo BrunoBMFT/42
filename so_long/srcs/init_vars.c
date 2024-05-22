@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_vars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:50:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/26 01:51:35 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/22 18:03:56 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ bool	mlx_init_vars(t_vars *vars, t_map *map)
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 		return (ft_putendl(ERR_MLX), false);
+	if (!map_init(vars))
+		return (false);
 	mlx_get_screen_size(vars->mlx, &width, &height);
 	vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "so_long");
 	if (!vars->win)

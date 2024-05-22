@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:36:08 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/26 01:52:31 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/22 18:00:56 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	clean(t_vars *vars)
 		mlx_destroy_window(vars->mlx, vars->win);
 	if (vars->mlx)
 		mlx_destroy_display(vars->mlx);
-	free(vars->player);
+	if (vars->player)
+		free(vars->player);
 	free(vars->mlx);
 	clean_map(vars->map);
 	return (0);
