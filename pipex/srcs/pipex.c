@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/12 19:54:14 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/17 18:03:23 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	child1_process(int *fd, char **av, char **envp)
 	if (filein == -1)
 		error("filein failed to open", 0);
 	close(fd[0]);
-	dup2(fd[1], STDOUT_FILENO);
-	dup2(filein, STDIN_FILENO);
+	dup2(fd[1], 1);
+	dup2(filein, 0);
 	close(fd[1]);
 	close(filein);
 	execute(av[2], envp);
@@ -59,8 +59,8 @@ void	child2_process(int *fd, char **av, char **envp)
 	if (fileout == -1)
 		error("fileout failed to open", 0);
 	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
-	dup2(fileout, STDOUT_FILENO);
+	dup2(fd[0], 0);
+	dup2(fileout, 1);
 	close(fd[0]);
 	close(fileout);
 	execute(av[3], envp);

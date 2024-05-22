@@ -6,11 +6,38 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/12 19:55:29 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/21 14:35:21 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+//remove pipex gnl
+int	pipex_get_next_line(char **line)
+{
+	char	*buffer;
+	int		i;
+	int		read_line;
+	char	ch;
+
+	i = 0;
+	read_line = 0;
+	buffer = (char *)malloc(50);
+	if (!buffer)
+		return (-1);
+	read_line = read(0, &ch, 1);
+	while (read_line && ch != '\n' && ch != '\0')
+	{
+		if (ch != '\n' && ch != '\0')
+			buffer[i] = ch;
+		i++;
+		read_line = read(0, &ch, 1);
+	}
+	buffer[i] = '\n';
+	buffer[++i] = '\0';
+	*line = buffer;
+	free(buffer);
+	return (read_line);
+}
 
 char	*find_path(char **envp, char *com)
 {
