@@ -41,8 +41,4 @@ fclean: clean
 	@echo so_long fclean
 
 re: fclean all
-#remove this
-run: re
-	clear && ./so_long map.ber
-
 .PHONY: all bonus fclean clean re

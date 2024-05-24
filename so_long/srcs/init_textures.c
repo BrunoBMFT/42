@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_textures.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 19:58:59 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/23 00:43:06 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/24 17:24:03 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,25 @@
 
 bool	map_init(t_vars *vars)
 {
-	int	ret;
-
-	ret = 0;
+	vars->map->bomb.img = NULL;
+	vars->map->collectible.img = NULL;
+	vars->map->death.img = NULL;
+	vars->map->exit.img = NULL;
+	vars->map->floor.img = NULL;
+	vars->map->wall.img = NULL;
+	if (!player_init(vars))
+		return (false);
 	if (!wall_init(vars))
-		ret = 1;
+		return (false);
 	if (!floor_init(vars))
-		ret = 1;
+		return (false);
 	if (!collectible_init(vars))
-		ret = 1;
+		return (false);
 	if (!exit_init(vars))
-		ret = 1;
+		return (false);
 	if (!bomb_init(vars))
-		ret = 1;
+		return (false);
 	if (!death_init(vars))
-		ret = 1;
-	if (ret == 1)
 		return (false);
 	return (true);
 }

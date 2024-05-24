@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:41:39 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/23 00:27:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/24 19:48:01 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ void	render_map_textures(t_vars *vars, t_img *img, int x, int y)
 	if (vars->map->map[y][x] == '1')
 		make_img(img, vars->map->wall, (x * SCALE), (y * SCALE));
 	if (vars->map->map[y][x] == '0'
-		|| (vars->map->map[y][x] == 'E' && !vars->player->can_exit)
-		|| (vars->map->map[y][x] == 'C' && vars->player->can_exit))
+		|| (vars->map->map[y][x] == 'E' && !vars->player->can_exit))
 		make_img(img, vars->map->floor, (x * SCALE), (y * SCALE));
 	if (vars->map->map[y][x] == 'C' && !vars->player->can_exit)
 		make_img(img, vars->map->collectible, (x * SCALE), (y * SCALE));

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:18:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/23 00:18:55 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/24 17:31:35 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-//change collectibles
+
 int	main(int ac, char **av)
 {
 	t_map	map;
@@ -23,8 +23,6 @@ int	main(int ac, char **av)
 	if (!mlx_init_vars(&vars, &map))
 		return (clean(&vars), 1);
 	if (!init_img(&vars, &img, vars.width, vars.height))
-		return (clean(&vars), 1);
-	if (!player_init(&vars))
 		return (clean(&vars), 1);
 	render(&vars, &img);
 	mlx_loop_hook(vars.mlx, handle_move, &vars);

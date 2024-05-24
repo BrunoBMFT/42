@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_inputs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:34:50 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/23 00:46:17 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/24 17:28:11 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,18 @@ int	handle_input(int keysym, t_vars *vars)
 {
 	if (keysym == XK_Escape)
 		clean(vars);
-	if (keysym == 'w' || keysym == XK_Up)
-		vars->player->input = 'N';
-	if (keysym == 'd' || keysym == XK_Right)
-		vars->player->input = 'E';
-	if (keysym == 's' || keysym == XK_Down)
-		vars->player->input = 'S';
-	if (keysym == 'a' || keysym == XK_Left)
-		vars->player->input = 'W';
-	move_player(vars);
+	if (keysym == 'w' || keysym == 'd'
+		|| keysym == 's' || keysym == 'a')
+	{
+		if (keysym == 'w' || keysym == XK_Up)
+			vars->player->input = 'N';
+		if (keysym == 'd' || keysym == XK_Right)
+			vars->player->input = 'E';
+		if (keysym == 's' || keysym == XK_Down)
+			vars->player->input = 'S';
+		if (keysym == 'a' || keysym == XK_Left)
+			vars->player->input = 'W';
+		move_player(vars);
+	}
 	return (0);
 }

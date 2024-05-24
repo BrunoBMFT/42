@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:36:08 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/23 00:23:18 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/24 16:14:09 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	clean_textures(t_vars *vars)
 {
+	if (vars->player->img.img)
+		mlx_destroy_image(vars->mlx, vars->player->img.img);
 	if (vars->map->wall.img)
 		mlx_destroy_image(vars->mlx, vars->map->wall.img);
 	if (vars->map->floor.img)
@@ -30,8 +32,6 @@ void	clean_textures(t_vars *vars)
 
 int	clean(t_vars *vars)
 {
-	if (vars->player)
-		mlx_destroy_image(vars->mlx, vars->player->img.img);
 	clean_textures(vars);
 	if (vars->load)
 		mlx_destroy_image(vars->mlx, vars->load->img);

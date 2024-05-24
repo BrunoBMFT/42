@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_flood.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 22:22:13 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/23 00:42:25 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/24 19:47:39 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ bool	set_visited(t_map *map)
 			if (map->map[0][row] != '1' || map->map[map->height - 1][row] != '1'
 			|| map->map[col][0] != '1' || map->map[col][map->width - 1] != '1')
 				return (ft_putendl(INV_WALL_BORDER), false);
-			if (map->map[col][row] == 'C')
-				map->coll++;
 			map->visited[col][row] = false;
 			row++;
 		}
@@ -83,7 +81,7 @@ bool	check_surroundings(t_map *map)
 {
 	if (!flood_fill(map, map->playerpos_y, map->playerpos_x))
 		return (ft_putendl(ERR_MAP), false);
-	if (map->numplayer != 1 || map->numcollectible != map->coll
+	if (map->numplayer != 1 || map->numcollectible < 1
 		|| map->numexit != 1)
 		return (ft_putendl(INV_PLAYEREXITCOLL), false);
 	return (true);

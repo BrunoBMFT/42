@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_vars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:50:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/23 00:24:31 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/24 17:31:28 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,24 @@ bool	find_start(t_vars *vars)
 	return (false);
 }
 
+bool	player_init_textures(t_vars *vars)
+{
+	if (!access("./includes/assets/player.xpm", F_OK))
+	{
+		vars->player->img.img = mlx_xpm_file_to_image(vars->mlx,
+				"./includes/assets/player.xpm", &vars->player->img.width,
+				&vars->player->img.height);
+		if (!vars->player->img.img)
+			return (ft_putendl(INV_PLAYER), false);
+		vars->player->img.addr = mlx_get_data_addr(vars->player->img.img,
+				&vars->player->img.bits_per_pixel,
+				&vars->player->img.line_len,
+				&vars->player->img.endian);
+		return (true);
+	}
+	return (ft_putendl(INV_PLAYER), false);
+}
+
 bool	player_init(t_vars *vars)
 {
 	vars->player = malloc(sizeof(t_player));
@@ -49,15 +67,9 @@ bool	player_init(t_vars *vars)
 	vars->player->collected = 0;
 	vars->player->can_exit = false;
 	vars->player->is_alive = true;
-	vars->player->img.img = mlx_xpm_file_to_image(vars->mlx,
-			"./includes/assets/player.xpm", &vars->player->img.width,
-			&vars->player->img.height);
-	if (!vars->player->img.img)
-		return (ft_putendl(INV_PLAYER), false);
-	vars->player->img.addr = mlx_get_data_addr(vars->player->img.img,
-			&vars->player->img.bits_per_pixel,
-			&vars->player->img.line_len,
-			&vars->player->img.endian);
+	vars->player->img.img = NULL;
+	if (!player_init_textures(vars))
+		return (false);
 	return (true);
 }
 
@@ -67,7 +79,6 @@ bool	mlx_init_vars(t_vars *vars, t_map *map)
 	int	height;
 
 	vars->map = map;
-	vars->timer = 0;
 	vars->width = map->width * SCALE;
 	vars->height = map->height * SCALE;
 	vars->player = NULL;
