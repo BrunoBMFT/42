@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:20 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/21 14:39:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/04/02 04:24:06 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,12 @@ char	*get_next_line(int fd)
 	char		*line;
 	int			trig;
 
-	if (BUFFER_SIZE <= 0 || read(0, 0, 0) == -1)
+	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
 		return (clearbuf(buf));
 	line = NULL;
 	trig = 0;
-	while (trig == 0 && (buf[0] || read(0, buf, BUFFER_SIZE)))
+	while (trig == 0 && (buf[0] || read(fd, buf, BUFFER_SIZE)))
 	{
-		ft_pudendl(buf);
 		line = gnl_ft_strjoin(line, buf);
 		if (!line)
 			return (NULL);
@@ -79,7 +78,7 @@ char	*get_next_line(int fd)
 	ret = get_next_line(fd);
 	while (ret)
 	{
-		ft_printf("%s", ret);
+		printf("%s", ret);
 		free(ret);
 		ret = get_next_line(fd);
 	}

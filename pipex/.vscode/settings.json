@@ -3,6 +3,7 @@
         "unistd.h": "c",
         "stdio.h": "c",
         "pipex.h": "c",
-        "random": "c"
+        "random": "c",
+        "stdbool.h": "c"
     }
 }
