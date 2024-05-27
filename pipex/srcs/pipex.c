@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/27 19:20:52 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/05/27 22:26:40 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 // !  ./pipex <file1> <cmd1> <cmd2> <file2>
 // TODO wrong message (command not found) and output exit code
 // TODO error message of command not found should output the command
-int	execute(char *arg, char **envp)
+bool	execute(char *arg, char **envp)
 {
 	char	**com;
 	char	*path;
@@ -24,11 +24,11 @@ int	execute(char *arg, char **envp)
 	if (!path)
 	{
 		freecoms(com);
-		error((arg), 127);
+		return (false);
 	}
 	if (execve(path, com, envp) == -1)
-		error(("exec failed"), 1);
-	return (0);
+		error("exec failed", 1);
+	return (true);
 }
 
 void	child1_process(int *fd, char **av, char **envp)
@@ -45,7 +45,8 @@ void	child1_process(int *fd, char **av, char **envp)
 	dup2(filein, 0);
 	close(fd[1]);
 	close(filein);
-	execute(av[2], envp);
+	if (!execute(av[2], envp))
+		error2(av[2], 1);
 	exit(EXIT_SUCCESS);
 }
 
@@ -63,7 +64,8 @@ void	child2_process(int *fd, char **av, char **envp)
 	dup2(fileout, 1);
 	close(fd[0]);
 	close(fileout);
-	execute(av[3], envp);
+	if (!execute(av[3], envp))
+		error2(av[3], 1);
 	exit(EXIT_SUCCESS);
 }
 

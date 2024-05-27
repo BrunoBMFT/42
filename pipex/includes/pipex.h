@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:58:29 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/27 17:37:07 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/05/27 22:16:46 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 
 char	*find_path(char **envp, char *com);
 void	error(char *str, int code);
+void	error2(char *str, int code);
 void	freecoms(char **com);
-int		execute(char *arg, char **envp);
+bool		execute(char *arg, char **envp);
 
 #endif

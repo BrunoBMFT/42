@@ -34,7 +34,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all bonus fclean clean re
-
-#./pipex infile "cat" "wc" outfile
-#< infile cat | wc > outfile
+.PHONY: all fclean clean re

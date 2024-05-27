@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_aux.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/27 17:55:30 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/05/27 22:18:33 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ void	error(char *str, int code)
 	exit(code);
 }
 
+void	error2(char *str, int code)
+{
+	write(2, str, ft_strlen(str));
+	write(2, ": command not found\n", 20);
+	exit(code);
+}
 void	freecoms(char **cmd)
 {
 	int	i;
