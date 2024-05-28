@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/11 14:57:16 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/28 14:48:02 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,19 @@ char	*find_path(char **envp, char *com)
 
 void	error(char *str, int code)
 {
+	write(2, "bash: ", 6);
 	perror(str);
+	exit(code);
+}
+
+void	error2(char *str, int code)
+{
+	char	**new;
+
+	new = ft_split(str, ' ');
+	write(2, new[0], ft_strlen(new[0]));
+	freecoms(new);
+	write(2, ": command not found\n", 20);
 	exit(code);
 }
 
