@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_inputs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:34:50 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/25 00:16:40 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/24 17:28:11 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,8 @@ int	handle_input(int keysym, t_vars *vars)
 {
 	if (keysym == XK_Escape)
 		clean(vars);
-	if (keysym == 'w' || keysym == XK_Up
-		|| keysym == 'd' || keysym == XK_Right
-		|| keysym == 's' || keysym == XK_Down
-		|| keysym == 'a' || keysym == XK_Left)
+	if (keysym == 'w' || keysym == 'd'
+		|| keysym == 's' || keysym == 'a')
 	{
 		if (keysym == 'w' || keysym == XK_Up)
 			vars->player->input = 'N';
