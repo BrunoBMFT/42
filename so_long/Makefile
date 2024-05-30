@@ -6,8 +6,7 @@ OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 CC = cc
 COMPRESS = ar rcs
-#CFLAGS = -Wall -Wextra -Werror
-CFLAGS = 
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 MLX_DIR = ./includes/minilibx-linux
@@ -27,7 +26,6 @@ $(NAME): $(MLX) $(OBJS) $(LIBFT)
 	@echo $(NAME) ready!
 
 $(LIBFT):
-	@echo compiling libft...
 	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 	@echo libft compiled and ready!
 
