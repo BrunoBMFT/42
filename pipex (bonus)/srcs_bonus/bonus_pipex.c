@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/21 14:35:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/02 17:58:55 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 
 // ./pipex_bonus here_doc LIMITER cmd cmd1 file
 // cmd << LIMITER | cmd1 >> file
-// TODO error check
-int	execute(char *arg, char **envp)
+// ! CHANGE MAKEFILE
+// TODO error codes && error messages
+bool	execute(char *arg, char **envp)
 {
 	char	**com;
 	char	*path;
@@ -28,11 +29,11 @@ int	execute(char *arg, char **envp)
 	if (!path)
 	{
 		freecoms(com);
-		error(("zsh: command not found"), 127);//		wrong message (command not found) and output exit code
+		return (false);
 	}
 	if (execve(path, com, envp) == -1)
-		error(("exec failed"), 1);
-	return (0);
+		error("execution failed", 1);
+	return (true);
 }
 
 void	child_process(char *av, char **envp)
@@ -45,7 +46,7 @@ void	child_process(char *av, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
-		close(fd[0]);//write
+		close(fd[0]);
 		dup2(fd[1], 1);
 		execute(av, envp);
 		close(fd[1]);
@@ -101,13 +102,13 @@ void	here_doc(char *limiter, int ac)
 	if (pid == 0)
 	{
 		close (fd[0]);
+		line = NULL;
 		while (get_next_line(&line))
 		{
-			ft_putendl(line);
-			ft_putendl(limiter);
-			if (ft_strncmp(line, limiter, ft_strlen(limiter) == 0))
+//			ft_putendl(line);
+//			ft_putendl(limiter);
+			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 				exit(0);
-			write(fd[1], line, ft_strlen(line));
 		}
 //		close(fd[1]);
 	}

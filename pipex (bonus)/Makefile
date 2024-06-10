@@ -56,7 +56,6 @@ bofclean: boclean
 	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
 	@echo pipex bonus fclean
 
-re: fclean all
 re: bofclean bonus
 
 .PHONY: all bonus fclean clean re

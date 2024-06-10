@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/28 14:48:02 by bruno            ###   ########.fr       */
+/*   Updated: 2024/05/31 19:14:09 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ char	*find_path(char **envp, char *com)
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
-	paths = ft_split(envp[i] + 5, ':');
+	paths = ft_split(envp[i] + 5, ':');//will split into all paths (/usr/local/sbin:/usr/local/bin, etc)
 	i = 0;
 	while (paths[i])
 	{
 		part = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(part, com);
 		free (part);
-		if (access(path, F_OK) == 0)
-			return (path);
+		if (access(path, F_OK) == 0)//uses access function to check if file exists
+			return (path);//(ex. /bin/ls)
 		free (path);
 		i++;
 	}

@@ -6,38 +6,38 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/21 14:35:21 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/02 17:53:43 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-//remove pipex gnl
-int	pipex_get_next_line(char **line)
+// TODO remove pipex gnl
+/* int	pipex_get_next_line(char **line)
 {
-	char	*buffer;
+	char	*str;
 	int		i;
 	int		read_line;
-	char	ch;
+	char	buf;
 
 	i = 0;
 	read_line = 0;
-	buffer = (char *)malloc(50);
-	if (!buffer)
+	str = (char *)malloc(50);
+	if (!str)
 		return (-1);
-	read_line = read(0, &ch, 1);
-	while (read_line && ch != '\n' && ch != '\0')
+	read_line = read(0, &buf, 1);
+	while (read_line && buf != '\n' && buf != '\0')
 	{
-		if (ch != '\n' && ch != '\0')
-			buffer[i] = ch;
+		if (buf != '\n' && buf != '\0')
+			str[i] = buf;
 		i++;
-		read_line = read(0, &ch, 1);
+		read_line = read(0, &buf, 1);
 	}
-	buffer[i] = '\n';
-	buffer[++i] = '\0';
-	*line = buffer;
-	free(buffer);
+	str[i] = '\n';
+	str[++i] = '\0';
+	*line = str;
+	free(str);
 	return (read_line);
-}
+} */
 
 char	*find_path(char **envp, char *com)
 {
@@ -49,15 +49,15 @@ char	*find_path(char **envp, char *com)
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
-	paths = ft_split(envp[i] + 5, ':');
+	paths = ft_split(envp[i] + 5, ':');//will split into all paths (/usr/local/sbin:/usr/local/bin, etc)
 	i = 0;
 	while (paths[i])
 	{
 		part = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(part, com);
 		free (part);
-		if (access(path, F_OK) == 0)
-			return (path);
+		if (access(path, F_OK) == 0)//uses access function to check if file exists
+			return (path);//(ex. /bin/ls)
 		free (path);
 		i++;
 	}
@@ -69,6 +69,17 @@ char	*find_path(char **envp, char *com)
 void	error(char *str, int code)
 {
 	perror(str);
+	exit(code);
+}
+
+void	error2(char *str, int code)
+{
+	char	**new;
+
+	new = ft_split(str, ' ');
+	write(2, new[0], ft_strlen(new[0]));
+	freecoms(new);
+	write(2, ": command not found\n", 20);
 	exit(code);
 }
 

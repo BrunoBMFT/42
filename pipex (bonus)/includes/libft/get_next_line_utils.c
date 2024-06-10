@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:23 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/02 04:20:57 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/02 17:25:51 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ char	*gnl_ft_strjoin(char *line, char *buf)
 		j++;
 	}
 	str[i] = 0;
-	free (line);
+//	free (line);
 	return (str);
 }

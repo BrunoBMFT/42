@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:20 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/21 14:39:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/02 17:59:01 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,22 @@ char	*clearbuf(char *buf)
 	return (NULL);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(char **line)
 {
 	static char	buf[BUFFER_SIZE + 1];
-	char		*line;
 	int			trig;
 
 	if (BUFFER_SIZE <= 0 || read(0, 0, 0) == -1)
 		return (clearbuf(buf));
-	line = NULL;
 	trig = 0;
 	while (trig == 0 && (buf[0] || read(0, buf, BUFFER_SIZE)))
 	{
-		ft_pudendl(buf);
-		line = gnl_ft_strjoin(line, buf);
-		if (!line)
+		*line = gnl_ft_strjoin(*line, buf);
+		if (!*line)
 			return (NULL);
 		trig = buffer(buf);
 	}
-	return (line);
+	return (*line);
 }
 /*int	main(void)
 {
