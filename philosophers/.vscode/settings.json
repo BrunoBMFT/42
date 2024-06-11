@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"philosophers.h": "c",
+		"fcntl.h": "c",
+		"pthread.h": "c",
+		"time.h": "c"
+	}
+}
