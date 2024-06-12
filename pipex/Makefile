@@ -18,9 +18,9 @@ $(NAME): $(OBJS) $(LIBFT)
 	@echo $(NAME) ready!
 
 $(LIBFT):
-	@echo libft compiling!
+	@echo libft compiling...
 	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
-	@echo libft compiled and ready!
+	@echo libft compiled
 
 clean:
 	@rm -f -r $(OBJS_DIR)
@@ -30,7 +30,7 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
-	@echo pipex fclean
+	@echo $(NAME) fclean
 
 re: fclean all
 

@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_aux.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/31 19:14:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/12 17:34:45 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+
+bool	execute(char *arg, char **envp)
+{
+	char	**com;
+	char	*path;
+
+	com = ft_split(arg, ' ');
+	path = find_path(envp, com[0]);
+	if (!path)
+	{
+		freecoms(com);
+		return (false);
+	}
+	if (execve(path, com, envp) == -1)
+		error("execution failed", 1);
+	return (true);
+}
 
 char	*find_path(char **envp, char *com)
 {
@@ -22,15 +39,15 @@ char	*find_path(char **envp, char *com)
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
-	paths = ft_split(envp[i] + 5, ':');//will split into all paths (/usr/local/sbin:/usr/local/bin, etc)
+	paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i])
 	{
 		part = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(part, com);
 		free (part);
-		if (access(path, F_OK) == 0)//uses access function to check if file exists
-			return (path);//(ex. /bin/ls)
+		if (access(path, F_OK) == 0)
+			return (path);
 		free (path);
 		i++;
 	}
