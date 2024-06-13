@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_aux.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/12 17:34:45 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:53:30 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ bool	execute(char *arg, char **envp)
 		freecoms(com);
 		return (false);
 	}
-	if (execve(path, com, envp) == -1)
-		error("execution failed", 1);
-	return (true);
+	execve(path, com, envp);
+	error("execution failed", 1);
+	return (false);
 }
 
 char	*find_path(char **envp, char *com)
@@ -54,6 +54,13 @@ char	*find_path(char **envp, char *com)
 	i = -1;
 	freecoms(paths);
 	return (NULL);
+}
+
+void	close_fds_exit(int *fd, char *err)
+{
+	close(fd[0]);
+	close(fd[1]);
+	error(err, 0);
 }
 
 void	error(char *str, int code)
