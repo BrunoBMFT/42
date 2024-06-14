@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/14 19:25:58 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/14 19:35:11 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	child1_process(int *fd, char **av, char **envp)
 
 	filein = open(av[1], O_RDONLY, 0644);
 	if (filein == -1)
-		close_fds_exit(fd, av[1]);
+		close_fds_exit(fd, av[1]);//error(av[1], 0);
 	close(fd[0]);
 	dup2(filein, 0);
 	dup2(fd[1], 1);
@@ -35,7 +35,7 @@ bool	child2_process(int *fd, char **av, char **envp)
 
 	fileout = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fileout == -1)
-		close_fds_exit(fd, av[3]);
+		close_fds_exit(fd, av[3]);//error(av[3], 0);
 	close(fd[1]);
 	dup2(fd[0], 0);
 	dup2(fileout, 1);
@@ -63,6 +63,7 @@ int	main(int ac, char **av, char **envp)
 		error("pid1 error", 0);
 	else if (pid1 == 0)
 		child1_process(fd, av, envp);
+	waitpid(pid1, NULL, 0);
 	pid2 = fork();
 	if (pid2 < 0)
 		error("pid2 error", 0);
@@ -70,7 +71,6 @@ int	main(int ac, char **av, char **envp)
 		child2_process(fd, av, envp);
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid1, NULL, 0);
 	waitpid(pid2, &status, 0);
 	return (WEXITSTATUS(status));
 }
