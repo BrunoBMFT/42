@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/02 17:58:55 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/14 23:13:38 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 // ./pipex_bonus here_doc LIMITER cmd cmd1 file
 // cmd << LIMITER | cmd1 >> file
-// ! CHANGE MAKEFILE
 // TODO error codes && error messages
 bool	execute(char *arg, char **envp)
 {
@@ -78,13 +77,13 @@ int	open_file(char *argv, int i)
 
 	file = 0;
 	if (i == 0)
-		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0644);//check perms, only for here_docs?
+		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (i == 1)
-		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);//check perms
+		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (i == 2)
-		file = open(argv, O_RDONLY, 0644);//check perms
+		file = open(argv, O_RDONLY, 0644);
 	if (file == -1)
-		error("file failed to open", i);//i here will just let me know which file failed
+		error("file failed to open", i);//close fds
 	return (file);
 }
 
@@ -103,10 +102,9 @@ void	here_doc(char *limiter, int ac)
 	{
 		close (fd[0]);
 		line = NULL;
-		while (get_next_line(&line))
+		while (1)
 		{
-//			ft_putendl(line);
-//			ft_putendl(limiter);
+			line = get_next_line(0);
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 				exit(0);
 		}
@@ -117,7 +115,7 @@ void	here_doc(char *limiter, int ac)
 		close(fd[1]);
 		dup2(fd[0], 0);
 //		close(fd[0]);
-		wait(NULL);//use waitpid
+		waitpid(pid, NULL, 0);
 	}
 }
 
@@ -141,13 +139,13 @@ int	main(int ac, char **av, char **envp)
 		i = 2;
 		fileout = open_file(av[ac - 1], 1);
 		filein = open_file(av[1], 2);
-		dup2(filein, STDIN_FILENO);
+		dup2(filein, 0);
 		close (filein);
 	}
-	while (i < ac - 2)
+	while (i < ac - 3)
 		child_process(av[i++], envp);
-	dup2(fileout, STDOUT_FILENO);
+	dup2(fileout, 1);
 	close(fileout);
-//	status = last_process(av[ac - 2], envp);//check if argv is correct
+	status = last_process(av[ac - 2], envp);//check if argv is correct
 	return (WEXITSTATUS(status));
 }

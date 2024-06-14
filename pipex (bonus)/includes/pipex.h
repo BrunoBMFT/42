@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:58:29 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/02 14:53:10 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/14 21:12:56 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	error(char *str, int code);
 void	freecoms(char **com);
 bool	execute(char *arg, char **envp);
 void	error2(char *str, int code);
+void	close_fds_exit(int *fd, char *err);
 
 int		pipex_get_next_line(char **line);
 

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 10:25:50 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/02 17:50:27 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/14 22:58:11 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		ft_unsigned_int(unsigned int u);
 int		unsigned_len(unsigned int num);
 int		ft_pointer(size_t pointer);
 int		ft_hexa(unsigned int x, char x_or_x);
-char	*get_next_line(char **line);
+char	*get_next_line(int fd);
 char	*gnl_ft_strjoin(char *line, char *buf);
 int		buffer(char	*buf);
 char	*clearbuf(char *buf);

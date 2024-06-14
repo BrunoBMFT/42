@@ -6,11 +6,28 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/05/31 19:14:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/14 19:21:19 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+
+bool	execute(char *arg, char **envp)
+{
+	char	**com;
+	char	*path;
+
+	com = ft_split(arg, ' ');
+	path = find_path(envp, com[0]);
+	if (!path)
+	{
+		freecoms(com);
+		return (false);
+	}
+	execve(path, com, envp);
+	error("execution failed", 1);
+	return (false);
+}
 
 char	*find_path(char **envp, char *com)
 {
@@ -22,21 +39,28 @@ char	*find_path(char **envp, char *com)
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
-	paths = ft_split(envp[i] + 5, ':');//will split into all paths (/usr/local/sbin:/usr/local/bin, etc)
+	paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i])
 	{
 		part = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(part, com);
 		free (part);
-		if (access(path, F_OK) == 0)//uses access function to check if file exists
-			return (path);//(ex. /bin/ls)
+		if (access(path, F_OK) == 0)
+			return (path);
 		free (path);
 		i++;
 	}
 	i = -1;
 	freecoms(paths);
 	return (NULL);
+}
+
+void	close_fds_exit(int *fd, char *err)
+{
+	close(fd[0]);
+	close(fd[1]);
+	error(err, 0);
 }
 
 void	error(char *str, int code)
