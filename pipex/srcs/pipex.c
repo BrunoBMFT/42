@@ -6,14 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/13 20:41:14 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/14 19:25:58 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-// TODO cat dev random
-// TODO filein falied to open -> close fds
-// TODO remove infile before eval
 
 void	child1_process(int *fd, char **av, char **envp)
 {
@@ -52,39 +49,28 @@ bool	child2_process(int *fd, char **av, char **envp)
 int	main(int ac, char **av, char **envp)
 {
 	int		fd[2];
-	pid_t	pid[2];
+	pid_t	pid1;
+	pid_t	pid2;
 	int		status;
-	int		i;
 
 	status = 0;
 	if (ac != 5)
 		return (ft_putendl_fd(WRONG, 2), 1);
 	if (pipe(fd) == -1)
 		error("pipe failed", 1);
-	i = 0;
-	while (i < 2)
-	{
-		pid[i] = fork();
-		if (pid[i] < 0)
-			error("fork failed", 1);
-
-
-
-		else if (i == 0)
-		{
-			if (pid[i] == 0)
-				child1_process(fd, av, envp);
-			waitpid(pid[i], NULL, 0);//WNOHANG
-		}
-		else if (i == 1)
-		{
-			if (pid[i] == 0)
-				child2_process(fd, av, envp);
-			waitpid(pid[i], &status, WNOHANG);//WNOHANG
-		}
-		i++;
-	}
+	pid1 = fork();
+	if (pid1 < 0)
+		error("pid1 error", 0);
+	else if (pid1 == 0)
+		child1_process(fd, av, envp);
+	pid2 = fork();
+	if (pid2 < 0)
+		error("pid2 error", 0);
+	else if (pid2 == 0)
+		child2_process(fd, av, envp);
 	close(fd[0]);
 	close(fd[1]);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, &status, 0);
 	return (WEXITSTATUS(status));
 }
