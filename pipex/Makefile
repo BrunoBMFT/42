@@ -1,14 +1,14 @@
 NAME = pipex
 
 SRCS_DIR = ./srcs
-SRCS = pipex.c pipex_aux.c
+SRCS = pipex.c pipex_aux.c errors.c
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-CFLAGS = 
+CFLAGS = -Wall -Werror -Wextra
 LIBFT_DIR = ./includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 

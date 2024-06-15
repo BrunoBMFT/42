@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_aux.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/14 19:21:19 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/15 20:30:26 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-
-bool	execute(char *arg, char **envp)
-{
-	char	**com;
-	char	*path;
-
-	com = ft_split(arg, ' ');
-	path = find_path(envp, com[0]);
-	if (!path)
-	{
-		freecoms(com);
-		return (false);
-	}
-	execve(path, com, envp);
-	error("execution failed", 1);
-	return (false);
-}
 
 char	*find_path(char **envp, char *com)
 {
@@ -35,50 +18,38 @@ char	*find_path(char **envp, char *com)
 	char	*part;
 	char	**paths;
 	int		i;
+	bool	has_path = false;
 
 	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (paths[i])
+	while (envp[i])
 	{
-		part = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part, com);
-		free (part);
-		if (access(path, F_OK) == 0)
-			return (path);
-		free (path);
+		if (ft_strnstr(envp[i], "PATH", 4) != 0)
+			has_path = true;
 		i++;
 	}
-	i = -1;
-	freecoms(paths);
+	i = 0;
+	if (has_path)
+	{
+		while (ft_strnstr(envp[i], "PATH", 4) == 0)
+			i++;
+		paths = ft_split(envp[i] + 5, ':');
+		i = 0;
+		while (paths[i])
+		{
+			part = ft_strjoin(paths[i], "/");
+			path = ft_strjoin(part, com);
+			free (part);
+			if (access(path, F_OK) == 0)
+				return (path);
+			free (path);
+			i++;
+		}
+		i = -1;
+		freecoms(paths);
+	}
+	else
+		write(2, "No envs\n", 10);
 	return (NULL);
-}
-
-void	close_fds_exit(int *fd, char *err)
-{
-	close(fd[0]);
-	close(fd[1]);
-	error(err, 0);
-}
-
-void	error(char *str, int code)
-{
-	write(2, "bash: ", 6);
-	perror(str);
-	exit(code);
-}
-
-void	error2(char *str, int code)
-{
-	char	**new;
-
-	new = ft_split(str, ' ');
-	write(2, new[0], ft_strlen(new[0]));
-	freecoms(new);
-	write(2, ": command not found\n", 20);
-	exit(code);
 }
 
 void	freecoms(char **cmd)
