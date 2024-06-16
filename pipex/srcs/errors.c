@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 20:24:29 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/15 20:32:22 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/06/16 23:21:02 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,6 @@ void	close_fds_exit(int *fd, char *str)
 	error(str, 1);
 }
 
-void	close_fds_null(int *fd)
-{
-	close(fd[0]);
-	close(fd[1]);
-	write(2, "command '' not found\n", 21);
-	exit(0);
-}
-
 void	error(char *str, int code)
 {
 	write(2, "bash: ", 6);
@@ -34,13 +26,18 @@ void	error(char *str, int code)
 	exit(code);
 }
 
-void	error2(char *str, int code)
+void	error2(char *str, int code, int *fd, bool has_fd)
 {
 	char	**new;
 
+	if (has_fd == true)
+	{
+		close(fd[0]);
+		close(fd[1]);
+	}
 	new = ft_split(str, ' ');
 	write(2, new[0], ft_strlen(new[0]));
-	freecoms(new);
 	write(2, ": command not found\n", 20);
+	freecoms(new);
 	exit(code);
 }

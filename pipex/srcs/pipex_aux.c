@@ -6,11 +6,26 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/16 11:28:08 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/16 23:46:01 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+
+bool	path_exists(char **envp)
+{
+	int		i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strnstr(envp[i], "PATH", 4) != 0)
+			return (true);
+		i++;
+	}
+	write(2, "No envs\n", 9);
+	return (false);
+}
 
 char	*find_path(char **envp, char *com)
 {
@@ -18,37 +33,26 @@ char	*find_path(char **envp, char *com)
 	char	*part;
 	char	**paths;
 	int		i;
-	bool	has_path = false;
 
 	i = 0;
-	while (envp[i])
+	if (!path_exists(envp))
+		return (NULL);
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	paths = ft_split(envp[i] + 5, ':');
+	i = 0;
+	while (paths[i])
 	{
-		if (ft_strnstr(envp[i], "PATH", 4) != 0)
-			has_path = true;
+		part = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(part, com);
+		free (part);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free (path);
 		i++;
 	}
-	i = 0;
-	if (has_path)
-	{
-		while (ft_strnstr(envp[i], "PATH", 4) == 0)
-			i++;
-		paths = ft_split(envp[i] + 5, ':');
-		i = 0;
-		while (paths[i])
-		{
-			part = ft_strjoin(paths[i], "/");
-			path = ft_strjoin(part, com);
-			free (part);
-			if (access(path, F_OK) == 0)
-				return (path);
-			free (path);
-			i++;
-		}
-		i = -1;
-		freecoms(paths);
-	}
-	else
-		write(2, "No envs\n", 9);
+	i = -1;
+	freecoms(paths);
 	return (NULL);
 }
 

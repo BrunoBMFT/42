@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:58:29 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/16 18:35:32 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/16 23:10:53 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,9 @@
 
 char	*find_path(char **envp, char *com);
 void	error(char *str, int code);
-void	error2(char *str, int code);
+void	error2(char *str, int code, int *fd, bool has_fd);
 void	freecoms(char **com);
 bool	execute(char *arg, char **envp);
-void	close_fds_null(int *fd);
 void	close_fds_exit(int *fd, char *str);
 
 #endif

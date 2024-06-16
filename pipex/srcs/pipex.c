@@ -6,15 +6,12 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/16 19:06:05 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/16 23:46:40 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-// TODO check if bonus needs it's own functions or if can use normal functions
-// ! command ' '
-// ! PUT FLAGS IN MAKEFILE
-// ! 2 ERROR MESSAGES RUNNING AT THE SAME TIME
+
 bool	execute(char *arg, char **envp)
 {
 	char	**com;
@@ -27,11 +24,9 @@ bool	execute(char *arg, char **envp)
 		freecoms(com);
 		return (false);
 	}
-	// TODO execve is tricked into thinking he's reading from 0 and writing to 1
-	// TODO instead is reading from filein and writing to fd[1](write) and then reading from fd[0](read) and writing to fileout
+	// execve is tricked into thinking he's reading from 0 and writing to 1
 	execve(path, com, envp);
-	freecoms(com);//in case execve fails, need to free coms
-//	error("execution failed", 1);
+	freecoms(com);
 	return (false);
 }
 
@@ -40,11 +35,10 @@ void	child1_process(int *fd, char **av, char **envp)
 	int	filein;
 
 	if (!av[2][0] || av[2][0] == ' ')
-		close_fds_null(fd);
+		error2(av[2], 1, fd, true);
 	filein = open(av[1], O_RDONLY, 0644);
 	if (filein == -1)
 		close_fds_exit(fd, av[1]);
-
 //	we close fd[read] because we dont need to use it (we arent reading from the pipe, we are reading from filein)
 	close(fd[READ]);
 //	we then substitute stdin by filein, so now filein is acting like stdin. 
@@ -54,7 +48,7 @@ void	child1_process(int *fd, char **av, char **envp)
 	dup2(fd[WRITE], STDOUT_FILENO);
 	close(fd[WRITE]);
 	if (!execute(av[2], envp))
-		error2(av[2], 1);
+		error2(av[2], 1, fd, false);
 }
 
 void	child2_process(int *fd, char **av, char **envp)
@@ -62,20 +56,20 @@ void	child2_process(int *fd, char **av, char **envp)
 	int	fileout;
 
 	if (!av[3][0] || av[3][0] == ' ')
-		close_fds_null(fd);
+		error2(av[3], 127, fd, true);
 	fileout = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fileout == -1)
 		close_fds_exit(fd, av[4]);
 //	we close fd[WRITE] because we dont need to use it (we arent writing to pipe, we are writing to fileout)
 	close(fd[WRITE]);
 //	we now substitute stdin bu fd[read], so that execve reads from fd[read] instead of from stdin
-	dup2(fd[READ], STDIN_FILENO);// * execve reads from stdin, so we shortcut stdin to fd[0](read)
+	dup2(fd[READ], STDIN_FILENO);
 	close(fd[READ]);
 //	we now substitute the normal output stdout to our own output file, fileout
-	dup2(fileout, STDOUT_FILENO);// * execve writes to stdout, so we make stdout a shortcut to fileout
-	close(fileout);// * dup2 doesnt close the first parameter fd
+	dup2(fileout, STDOUT_FILENO);
+	close(fileout);
 	if (!execute(av[3], envp))
-		error2(av[3], 127);
+		error2(av[3], 127, fd, false);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -87,10 +81,10 @@ int	main(int ac, char **av, char **envp)
 
 	status = 0;
 	if (ac != 5)
-		return (ft_putendl_fd(WRONG, 2), 1);
-	//fd[] can only receive info from fd[] after fd[] closes (aka done being written to)
-	//fd[] is going to be 
-	if (pipe(fd) == -1)// TODO how is it being piped
+		return (ft_putendl_fd(WRONG, 2), 2);
+// pipes: connect 2 file descriptors:
+// fd[read] can receive info from fd[write] after fd[write] closes (aka done being written to)
+	if (pipe(fd) == -1)
 		error("pipe failed", 1);
 	pid1 = fork();
 	if (pid1 < 0)
