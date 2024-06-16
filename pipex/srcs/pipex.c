@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+1/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
@@ -43,6 +43,9 @@ void	child1_process(int *fd, char **av, char **envp)// ! change variable fd to d
 	filein = open(av[1], O_RDONLY, 0644);
 	if (filein == -1)
 		close_fds_exit(fd, av[1]);
+//we close the write side of pipe
+//we then tell stdin that it will have what filein has, so any info we have in filein is read by execve
+// we also have to tell that execve will output into fd[read], so we give the location of fd[read] to stdout
 	close(fd[WRITE]);// TODO why does this one close
 	dup2(filein, STDIN_FILENO);//* execve reads from 0, so we shortcut 0 to filein so he reads filein
 	dup2(fd[READ], STDOUT_FILENO);// * execve writes to 1, so we make 1 a "shortcut" to fd[read]
