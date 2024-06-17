@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/16 23:46:40 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/17 13:18:51 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ bool	execute(char *arg, char **envp)
 		freecoms(com);
 		return (false);
 	}
-	// execve is tricked into thinking he's reading from 0 and writing to 1
 	execve(path, com, envp);
 	freecoms(com);
 	return (false);
@@ -34,8 +33,6 @@ void	child1_process(int *fd, char **av, char **envp)
 {
 	int	filein;
 
-	if (!av[2][0] || av[2][0] == ' ')
-		error2(av[2], 1, fd, true);
 	filein = open(av[1], O_RDONLY, 0644);
 	if (filein == -1)
 		close_fds_exit(fd, av[1]);
@@ -47,6 +44,8 @@ void	child1_process(int *fd, char **av, char **envp)
 //	we now substitute the normal output location, stdout, to our fd[write], so the pipe on the other side can read
 	dup2(fd[WRITE], STDOUT_FILENO);
 	close(fd[WRITE]);
+	if (!av[2][0] || av[2][0] == ' ')
+		error2(av[2], 1, fd, true);
 	if (!execute(av[2], envp))
 		error2(av[2], 1, fd, false);
 }
@@ -55,19 +54,19 @@ void	child2_process(int *fd, char **av, char **envp)
 {
 	int	fileout;
 
-	if (!av[3][0] || av[3][0] == ' ')
-		error2(av[3], 127, fd, true);
 	fileout = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fileout == -1)
 		close_fds_exit(fd, av[4]);
 //	we close fd[WRITE] because we dont need to use it (we arent writing to pipe, we are writing to fileout)
 	close(fd[WRITE]);
-//	we now substitute stdin bu fd[read], so that execve reads from fd[read] instead of from stdin
+//	we now substitute stdin by fd[read], so that execve reads from fd[read] instead of from stdin
 	dup2(fd[READ], STDIN_FILENO);
 	close(fd[READ]);
 //	we now substitute the normal output stdout to our own output file, fileout
 	dup2(fileout, STDOUT_FILENO);
 	close(fileout);
+	if (!av[3][0] || av[3][0] == ' ')
+		error2(av[3], 126, fd, true);
 	if (!execute(av[3], envp))
 		error2(av[3], 127, fd, false);
 }

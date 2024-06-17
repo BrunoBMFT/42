@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_aux.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/16 23:46:01 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/17 13:14:56 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ bool	path_exists(char **envp)
 			return (true);
 		i++;
 	}
-	write(2, "No envs\n", 9);
 	return (false);
 }
 
@@ -37,11 +36,13 @@ char	*find_path(char **envp, char *com)
 	i = 0;
 	if (!path_exists(envp))
 		return (NULL);
+	if (access(com, F_OK) == 0)
+		return (com);
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[++i])
 	{
 		part = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(part, com);
@@ -49,9 +50,7 @@ char	*find_path(char **envp, char *com)
 		if (access(path, F_OK) == 0)
 			return (path);
 		free (path);
-		i++;
 	}
-	i = -1;
 	freecoms(paths);
 	return (NULL);
 }

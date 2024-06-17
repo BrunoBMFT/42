@@ -50,4 +50,79 @@ fclean: clean
 
 re: fclean all
 
+test1:
+	./pipex Makefile cat wc out && echo $? && cat out && rm out
+test2:
+	./pipex "      Makefile" cat wc out && echo $? && cat out && rm out
+test3:
+	./pipex " " cat wc out && echo $? && cat out && rm out
+test4:
+	./pipex "" cat wc out && echo $? && cat out && rm out
+test5:
+	./pipex asdasdasd cat wc out && echo $? && cat out && rm out
+
+
+test6:
+	./pipex Makefile "    cat" wc out && echo $? && cat out && rm out
+test7:
+	./pipex Makefile " " wc out && echo $? && cat out && rm out
+test8:
+	./pipex Makefile "" wc out && echo $? && cat out && rm out
+test9:
+	./pipex Makefile "asdasdasd" wc out && echo $? && cat out && rm out
+test10:
+	./pipex Makefile "asdasdasd asdasdasd" wc out && echo $? && cat out && rm out
+test11:
+	./pipex Makefile "asdasdasd -asdasd" wc out && echo $? && cat out && rm out
+test12:
+	./pipex Makefile "cat -asdasdasd" wc out && echo $? && cat out && rm out
+test13:
+	./pipex Makefile "cat asdasdasd" wc out && echo $? && cat out && rm out
+
+
+test14:
+	./pipex Makefile cat "     wc" out && echo $? && cat out && rm out
+test15:
+	./pipex Makefile cat " " out && echo $? && cat out && rm out
+test16:
+	./pipex Makefile cat "" out && echo $? && cat out && rm out
+test17:
+	./pipex Makefile cat "asdasdasd" out && echo $? && cat out && rm out
+test18:
+	./pipex Makefile cat "asdasdasdasd asdasdasd" out && echo $? && cat out && rm out
+test19:
+	./pipex Makefile cat "asdasdasdasd -asdasdasd" out && echo $? && cat out && rm out
+test20:
+	./pipex Makefile cat "wc -adsasdasdasd" out && echo $? && cat out && rm out
+test21:
+	./pipex Makefile cat "wc asdasdasdasdasd" out && echo $? && cat out && rm out
+
+
+test22:
+	./pipex "  " cat " " out && echo $? && cat out && rm out
+test23:
+	./pipex "   " "   " wc out && echo $? && cat out && rm out
+test24:
+	./pipex Makefile "  " "   " out && echo $? && cat out && rm out
+
+test25:
+	./pipex "" cat "" out && echo $? && cat out && rm out
+test26:
+	./pipex "" "" wc out && echo $? && cat out && rm out
+test27:
+	./pipex Makefile "" "" out && echo $? && cat out && rm out
+
+test28:
+	./pipex asdasdasd cat qweqweqwe out && echo $? && cat out && rm out
+test29:
+	./pipex asdasdasd qweqweqwe wc out && echo $? && cat out && rm out
+test30:
+	./pipex Makefile asdasdasd qweqweqweqwe out && echo $? && cat out && rm out
+
+
+test31:
+	./pipex "" "" "" out && echo $? && cat out && rm out
+test32:
+	./pipex zxczxczxczxc asdasdasd qweqweqweqwe out && echo $? && cat out && rm out
+
 .PHONY: all bonus fclean clean re
