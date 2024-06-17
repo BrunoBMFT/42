@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/17 13:18:51 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:46:08 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ bool	execute(char *arg, char **envp)
 	com = ft_split(arg, ' ');
 	path = find_path(envp, com[0]);
 	if (!path)
-	{
-		freecoms(com);
-		return (false);
-	}
+		return (freecoms(com), false);
 	execve(path, com, envp);
 	freecoms(com);
 	return (false);
@@ -44,10 +41,8 @@ void	child1_process(int *fd, char **av, char **envp)
 //	we now substitute the normal output location, stdout, to our fd[write], so the pipe on the other side can read
 	dup2(fd[WRITE], STDOUT_FILENO);
 	close(fd[WRITE]);
-	if (!av[2][0] || av[2][0] == ' ')
-		error2(av[2], 1, fd, true);
-	if (!execute(av[2], envp))
-		error2(av[2], 1, fd, false);
+	if (!av[2][0] || av[2][0] == ' ' || !execute(av[2], envp))
+		error2(av[2], 1, fd);
 }
 
 void	child2_process(int *fd, char **av, char **envp)
@@ -66,9 +61,9 @@ void	child2_process(int *fd, char **av, char **envp)
 	dup2(fileout, STDOUT_FILENO);
 	close(fileout);
 	if (!av[3][0] || av[3][0] == ' ')
-		error2(av[3], 126, fd, true);
+		error2(av[3], 126, fd);
 	if (!execute(av[3], envp))
-		error2(av[3], 127, fd, false);
+		error2(av[3], 127, fd);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -82,7 +77,7 @@ int	main(int ac, char **av, char **envp)
 	if (ac != 5)
 		return (ft_putendl_fd(WRONG, 2), 2);
 // pipes: connect 2 file descriptors:
-// fd[read] can receive info from fd[write] after fd[write] closes (aka done being written to)
+// fd[read] can receive info from fd[write] after fd[write] closes (done being written to)
 	if (pipe(fd) == -1)
 		error("pipe failed", 1);
 	pid1 = fork();
