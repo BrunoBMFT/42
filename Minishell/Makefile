@@ -1,7 +1,7 @@
 NAME = minishell
 
 SRCS_DIR = ./srcs
-SRCS = main.c
+SRCS = main.c caught_cd.c aux.c
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
@@ -12,10 +12,10 @@ CFLAGS =
 #CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = ./includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
-
+#add readline as a variable
 all: $(NAME)
 $(NAME): $(OBJS) $(LIBFT)
-	@cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+	@cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline 
 	@echo $(NAME) ready!
 
 $(LIBFT):
@@ -37,5 +37,7 @@ re: fclean all
 
 run: all
 	clear && ./minishell
+vrun: all
+	clear && valgrind ./minishell
 
 .PHONY: all fclean clean re

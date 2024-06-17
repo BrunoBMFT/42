@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_nl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/17 21:40:18 by bruno            ###   ########.fr       */
+/*   Created: 2023/10/03 17:44:53 by bruno             #+#    #+#             */
+/*   Updated: 2024/06/17 21:42:09 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **envp)
+void	ft_nl(void)
 {
-	char	*input;
+	write(1, "\n", 1);
+}
 
-	while (1)
-	{
-		input = readline("minishell -> ");
-		if (input[0] == '$')
-			caught_env_variable(input, envp);
-		else
-			ft_printf("%s\n", input);
-	} 
+
+void	ft_nl_fd(int fd)
+{
+	write(fd, "\n", 1);
 }

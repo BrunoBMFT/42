@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   caught_cd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/17 21:40:18 by bruno            ###   ########.fr       */
+/*   Created: 2024/06/05 18:10:16 by bruno             #+#    #+#             */
+/*   Updated: 2024/06/17 19:24:16 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../includes/minishell.h"
 
-int	main(int ac, char **av, char **envp)
-{
-	char	*input;
 
-	while (1)
+void	change_dir(char **envp, char *dir)
+{
+	int i = 0;
+	while (envp[i])
 	{
-		input = readline("minishell -> ");
-		if (input[0] == '$')
-			caught_env_variable(input, envp);
-		else
-			ft_printf("%s\n", input);
-	} 
+		if (ft_strnstr(envp[i], "PATH", 4));//len = 4?
+			ft_printf("%s\n", envp[i]);
+		i++;
+	}
+//	ft_printf("%s\n", dir);
 }
