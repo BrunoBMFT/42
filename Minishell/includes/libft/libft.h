@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 10:25:50 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/17 21:41:53 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/18 23:56:18 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,7 @@ void	ft_putstr(char *s);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_nl(void);
 void	ft_nl_fd(int fd);
+void	ft_split_free(char **str);
+
 
 #endif
