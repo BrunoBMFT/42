@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/17 17:46:08 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/18 09:58:15 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	child2_process(int *fd, char **av, char **envp)
 //	we now substitute the normal output stdout to our own output file, fileout
 	dup2(fileout, STDOUT_FILENO);
 	close(fileout);
-	if (!av[3][0] || av[3][0] == ' ')
+	if (!av[3][0])
 		error2(av[3], 126, fd);
-	if (!execute(av[3], envp))
+	if (av[3][0] == ' ' || !execute(av[3], envp))
 		error2(av[3], 127, fd);
 }
 

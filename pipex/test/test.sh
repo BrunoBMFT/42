@@ -11,7 +11,7 @@ OUTPUT_INVALID=test/forbidden.txt
 #Test shortcuts
 COMMAND_WITH_PATH=/usr/bin/cat
 LEAK_TOGGLE=1           #Set to 1 to run Valgrind, some other value for no check
-VALGRIND="valgrind --leak-check=full --show-leak-kinds=all"
+VALGRIND="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes"
 
 #Colors
 NC="\033[0m"
