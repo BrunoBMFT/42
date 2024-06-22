@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 21:30:07 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/17 21:55:16 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/21 20:26:53 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,35 @@ void	caught_exit_status()
 	ft_putendl_fd("nice exit code expanded here", 1);//stdout?
 }
 
-int	caught_env_variable(char *env_var, char **envp)
-{
-	int		i = 0;
-	char	*trimmed;
-	char	*temp;
-	char	*to_write;
 
-	env_var = ft_strtrim(env_var, "$");
-	if (env_var[0] == '?')
-		return (caught_exit_status, 0);
-	while (ft_strnstr(envp[i], env_var, ft_strlen(env_var)) == 0)
+bool	parse_quotation_mark(char *input)
+{
+	int	closed1;
+	int	closed2;
+	
+	closed1 = 0;
+	closed2 = 0;
+	int	i = 0, j = 0;
+	while (input[i])
 	{
-		if (i > 23)
-			return (ft_nl_fd(1), 0);//0 because error code of no env var is 0
+		if (input[i] == 34)// int for "
+			closed1++;
+		else if (input[i] == 39)// int for '
+			closed2++;
+		else
+		{
+			input[j] = input[i];
+			j++;
+		}
 		i++;
 	}
-	to_write = ft_strtrim(envp[i], env_var);
-	if (to_write[0] == '=')
+	i = 0;
+	while (i < closed1 || i < closed2)
 	{
-		to_write = ft_strtrim(to_write, "=");
-		ft_putendl(to_write);
+		input[j] = 0;
+		i++;
 	}
-	return (1);
+	if (ft_is_even(closed1) && ft_is_even(closed2))
+		return (true);
+	return (false);
 }

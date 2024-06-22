@@ -5,7 +5,8 @@
 		"wait.h": "c",
 		"stdio.h": "c",
 		"signal.h": "c",
-		"stdbool.h": "c"
+		"stdbool.h": "c",
+		"libft.h": "c"
 	},
 	"cmake.configureOnOpen": false
 }

@@ -8,7 +8,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-CFLAGS = 
+CFLAGS = -g
 #CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = ./includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a

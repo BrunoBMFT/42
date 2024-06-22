@@ -15,11 +15,12 @@
 # define READ 0
 
 //done
-int	caught_env_variable(char *env_var, char **envp);
+bool	parse_quotation_mark(char *input);
 
 
 
 
 void	freecoms(char **cmd);
 void	change_dir(char **envp, char *dir);
+void	caught_exit_status();
 #endif

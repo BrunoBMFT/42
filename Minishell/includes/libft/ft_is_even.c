@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*   ft_is_even.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 13:24:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/19 11:51:52 by bruno            ###   ########.fr       */
+/*   Created: 2024/06/19 11:48:58 by bruno             #+#    #+#             */
+/*   Updated: 2024/06/19 11:50:57 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-bool	ft_isascii(int c)
+bool	ft_is_even(int n)
 {
-	if (c >= 0 && c <= 127)
+	if (n % 2 == 0)
 		return (true);
-	return (false);
+	else
+		return (false);
+}
+
+bool	ft_is_odd(int n)
+
+{
+	if (n % 2 == 0)
+		return (false);
+	else
+		return (true);
 }

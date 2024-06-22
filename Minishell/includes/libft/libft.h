@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 10:25:50 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/18 23:56:18 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/19 11:52:49 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <stdbool.h>
 
 typedef struct s_list
 {
@@ -32,11 +33,11 @@ typedef struct s_list
 int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
-int		ft_isalnum(int c);
-int		ft_isalpha(int c);
-int		ft_isascii(int c);
-int		ft_isdigit(int c);
-int		ft_isprint(int c);
+bool	ft_isalnum(int c);
+bool	ft_isalpha(int c);
+bool	ft_isascii(int c);
+bool	ft_isdigit(int c);
+bool	ft_isprint(int c);
 char	*ft_itoa(int n);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
@@ -94,6 +95,8 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_nl(void);
 void	ft_nl_fd(int fd);
 void	ft_split_free(char **str);
+bool	ft_is_even(int n);
+bool	ft_is_odd(int n);
 
 
 #endif
