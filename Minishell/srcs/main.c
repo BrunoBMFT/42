@@ -6,63 +6,75 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/22 01:34:33 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/25 10:59:18 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 //fds for every print function
-//expand $USER$USER
 
-
-// ! not working lol
-int	caught_env_variable(char *vars, char **envp, int start)
+void	caught_echo(char **vars, char **envp)
 {
-	char	**env_variable;
-	int i = 0, j;
-	
-	env_variable = ft_split(vars, '$');
-	while (env_variable[i])
+	int	i = 1;
+	if (!vars[1])
+		return ;
+	while (vars[i])
 	{
-		j = 0;
-		while (envp[j] && j < 40)
+		ft_putstr_fd(vars[i], 1);
+		if (vars[i + 1])//check for last string
+			write(1, " ", 1);
+		i++;
+	}
+	
+}
+
+char *expand_env_vars(char *input, char **envp)
+{
+	char	*new = NULL;
+	char	**vars = ft_split(input, ' ');
+	int i = 0;
+	while (vars[i])
+	{
+		int j = 0;
+		while (vars[i][j])
 		{
-			if (ft_strnstr(envp[j], vars, ft_strlen(vars)))
+			if (vars[i][j] == '$')// take care of he$USER
 			{
-				env_variable[i] = ft_strtrim(envp[j], env_variable[i]);
-				env_variable[i] = ft_strtrim(env_variable[i], "=");
-				break;
+				vars[i] = ft_strtrim(vars[i], "$");
+				int k = 0;
+				while (envp[k] && k < 52)
+				{
+					if (ft_strnstr(envp[k], vars[i], ft_strlen(vars[i])))
+					{
+						vars[i] = ft_strtrim(envp[k], vars[i]);
+						vars[i] = ft_strtrim(vars[i], "=");
+					}
+					k++;
+				}
 			}
 			j++;
 		}
-		if (env_variable[i])
-			printf("%s", env_variable[i]);
-		i++;
-	}
-	return (1);
-}
-
-void	parse_input(char *input, char **envp)
-{
-//	ft_printf("%s\n", input);
-	if (!(parse_quotation_mark(input)))
-		return ;
-		
-	char	**vars = ft_split(input, ' ');
-	int i = 0, j;
-	while (vars[i])
-	{
-		j = 0;
-		while (vars[i][j])
+		if (!new)
+			new = ft_strdup(vars[i]);
+		else
 		{
-			if (vars[i][j] == '$')
-				caught_env_variable(vars[i], envp, j);
-			j++;
+			new = ft_strjoin(new, " ");
+			new = ft_strjoin(new, vars[i]);
 		}
 		i++;
-	}
-	
-	ft_split_free(vars);
+	}	
+	return (new);
+}
+
+void	parse_input(char *input, char **envp)//not parsing, it's more like expander
+{
+	ft_printf("%s\n", input);
+	if (!(parse_quotation_mark(input)))
+		return ;//error
+	input = expand_env_vars(input, envp);
+	if (!input)
+		return ;
+	ft_printf("%s", input);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -74,6 +86,8 @@ int	main(int ac, char **av, char **envp)
 		input = readline("minishell -> ");
 		if (input)
 			parse_input(input, envp);
-		ft_nl();
-	} 
+		if (ft_strnstr(input, "exit", 4))
+			return (rl_clear_history(), free(input), exit(0), 0);
+		ft_nl_fd(1);
+	}
 }

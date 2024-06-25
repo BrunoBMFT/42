@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:19:13 by brfernan          #+#    #+#             */
-/*   Updated: 2024/04/01 23:57:11 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/25 10:38:00 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		j;
 	char	*str;
 
-	if (!s1 && !s2)
+	if (!s2)
 		return (NULL);
 	i = 0;
 	j = 0;
