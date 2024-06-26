@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/25 10:59:18 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/26 00:21:18 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	caught_echo(char **vars, char **envp)
 	
 }
 
+
+
+
 char *expand_env_vars(char *input, char **envp)
 {
 	char	*new = NULL;
@@ -38,7 +41,7 @@ char *expand_env_vars(char *input, char **envp)
 		int j = 0;
 		while (vars[i][j])
 		{
-			if (vars[i][j] == '$')// take care of he$USER
+			if (vars[i][j] == '$')
 			{
 				vars[i] = ft_strtrim(vars[i], "$");
 				int k = 0;
@@ -62,7 +65,8 @@ char *expand_env_vars(char *input, char **envp)
 			new = ft_strjoin(new, vars[i]);
 		}
 		i++;
-	}	
+	}
+	ft_split_free(vars);
 	return (new);
 }
 
