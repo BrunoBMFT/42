@@ -6,13 +6,13 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/26 00:21:18 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/27 01:05:11 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 //fds for every print function
-
+/*
 void	caught_echo(char **vars, char **envp)
 {
 	int	i = 1;
@@ -28,33 +28,52 @@ void	caught_echo(char **vars, char **envp)
 	
 }
 
+char	*env_var_value(char *str, char **envp, int start)
+{
+	printf("sd\n");
+	int i = start;
+	while (str[i])
+	{
+		int j = 0;
+		while (envp[j])
+		{
+			if (ft_strnstr(envp[i], str, ft_strlen(str)) && envp[i][ft_strlen(str)] == '=')
+			{
+				return (ft_substr(str, i + 1, ft_strlen(str)));
+			}
+			j++;
+		}
+		i++;
+	}
+	return "";
+}
 
-
+//!
+char *get_env_value(char *key, char **envp) {
+    int i = 0;
+    int len = ft_strlen(key);
+    while (envp[i]) {
+        if (strncmp(envp[i], key, len) == 0 && envp[i][len] == '=')//envp[i] == key && envp[i] == {KEY}=
+            return (envp[i] + len + 1); // Return pointer to envp[i]
+        i++;
+    }
+    return "";
+}
+//!
 
 char *expand_env_vars(char *input, char **envp)
 {
 	char	*new = NULL;
+
+	int	i = 0, j = 0;//use pointers
 	char	**vars = ft_split(input, ' ');
-	int i = 0;
 	while (vars[i])
 	{
-		int j = 0;
+		j = 0;
 		while (vars[i][j])
 		{
 			if (vars[i][j] == '$')
-			{
-				vars[i] = ft_strtrim(vars[i], "$");
-				int k = 0;
-				while (envp[k] && k < 52)
-				{
-					if (ft_strnstr(envp[k], vars[i], ft_strlen(vars[i])))
-					{
-						vars[i] = ft_strtrim(envp[k], vars[i]);
-						vars[i] = ft_strtrim(vars[i], "=");
-					}
-					k++;
-				}
-			}
+				vars[i] = env_var_value(vars[i], envp, j);
 			j++;
 		}
 		if (!new)
@@ -66,19 +85,46 @@ char *expand_env_vars(char *input, char **envp)
 		}
 		i++;
 	}
-	ft_split_free(vars);
+//	ft_split_free(vars);
 	return (new);
 }
+*/
+//check for unclosed speech marks
+void	caught_echo(char *input)
+{
+	int i = 0;
+	input = ft_strtrim(input, "echo ");
+	char	**vars = ft_split(input, ' ');
+	if (ft_split_wordcount(vars) == 1)//fix echo run vs echo "hello world"
+	{
+		parse_quotation_mark(vars[0]);
+		ft_printf("%s", vars[0]);
+	}
+	/*else
+	{
+		while (vars[i])
+		{
+			ft_printf("%s", vars[i]);
+			i++;
+		}
+	}*/
+	
+	ft_split_free(vars);
+}
+
 
 void	parse_input(char *input, char **envp)//not parsing, it's more like expander
 {
 	ft_printf("%s\n", input);
-	if (!(parse_quotation_mark(input)))
-		return ;//error
-	input = expand_env_vars(input, envp);
-	if (!input)
-		return ;
-	ft_printf("%s", input);
+//	if (!(parse_quotation_mark(input)))
+//		return ;//error
+	if (ft_strnstr(input, "echo", 4))
+		caught_echo(input);
+	
+//	input = expand_env_vars(input, envp);
+//	if (!input)
+//		return ;
+//	ft_printf("expanded:\n %s", input);//expander test
 }
 
 int	main(int ac, char **av, char **envp)
