@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/27 01:05:11 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/27 23:32:55 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	caught_echo(char *input)
 }
 
 
-void	parse_input(char *input, char **envp)//not parsing, it's more like expander
+void	parse_input(char *input, t_shell shell)//not parsing, it's more like expander
 {
 	ft_printf("%s\n", input);
 //	if (!(parse_quotation_mark(input)))
@@ -121,21 +121,26 @@ void	parse_input(char *input, char **envp)//not parsing, it's more like expander
 	if (ft_strnstr(input, "echo", 4))
 		caught_echo(input);
 	
-//	input = expand_env_vars(input, envp);
+//	input = expand_env_vars(input, shell);
 //	if (!input)
 //		return ;
 //	ft_printf("expanded:\n %s", input);//expander test
 }
 
+
+// * t_shell to hold inputs and env vars as well
 int	main(int ac, char **av, char **envp)
 {
 	char	*input;
+	t_shell	shell;
+
+	shell.env = envp;
 
 	while (1)
 	{
 		input = readline("minishell -> ");
 		if (input)
-			parse_input(input, envp);
+			parse_input(input, shell);
 		if (ft_strnstr(input, "exit", 4))
 			return (rl_clear_history(), free(input), exit(0), 0);
 		ft_nl_fd(1);
