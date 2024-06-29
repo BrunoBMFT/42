@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/28 17:08:40 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/29 12:22:10 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,42 @@ void	caught_echo(char *input)
 // echo "hello $USER"
 // hello bruno
 
+//dont have to worry about spaces
+// * $$ gives the shell pid, how to prevent???
 char	*expand_env_vars(char *input, char **envp)
 {
-	int i;
-	char	**vars = ft_split(input, '$');//if input is just USER, it expands as well
+	int i = 0, j;
+	bool	flag = false;//flag is to skip the case which it finds a env variable when it wasnt declared (USER without the $ before)
+	char	**vars = ft_split(input, '$');
 	char	*output = NULL;
+	if (input[0] != '$')
+		flag = true;
 
-	while (*vars)
+	while (vars[i])
 	{
-		i = 0;
-		while (envp[i])
+		if (flag)
+			flag = false;
+		else
 		{
-			if (ft_strnstr(envp[i], *vars, ft_strlen(*vars)))
+			j = 0;
+			while (envp[j])
 			{
-				*vars = ft_strtrim(envp[i], *vars);
-				*vars = ft_strtrim(*vars, "=");
+				if (ft_strnstr(envp[j], vars[i], ft_strlen(vars[i])))
+				{
+					vars[i] = ft_strtrim(envp[j], vars[i]);
+					vars[i] = ft_strtrim(vars[i], "=");
+				}
+				j++;
 			}
-			i++;
 		}
 		if (!output)
-			output = ft_strdup(*vars);
+			output = ft_strdup(vars[i]);
 		else
-			output = ft_strjoin(output, *vars);
-		vars++;
+			output = ft_strjoin(output, vars[i]);
+		i++;
 	}
 	if (input[ft_strlen(input) - 1] == '$')
 		ft_strcat(output, "$");
-//	printf("%s\n", input);//loop the strchr until no return ($USER$USER)
 	return (output);
 }
 
