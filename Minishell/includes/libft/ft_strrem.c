@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_strrem.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/05 22:32:33 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/29 23:03:23 by bruno            ###   ########.fr       */
+/*   Created: 2024/06/29 14:25:08 by bruno             #+#    #+#             */
+/*   Updated: 2024/06/29 23:05:05 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(char const *str, char const *set)//12bruno02 set: 01     2bruno02
+char	*ft_strrem(char *str, char *to_remove)//
 {
-	char	*ret;
 	int		i;
-	int		j;
+	int		count;
+	char	*new;
 
-	if (!str)
-		return (NULL);
-	ret = 0;
-	if (str && set)
+	new = NULL;
+	i = 0;
+	while (*str)
 	{
-		i = 0;
-		j = ft_strlen(str);
-		while (str[i] && ft_strchr(set, str[i]))
-			i++;
-		while (str[j - 1] && ft_strchr(set, str[j - 1]) && j > i)
-			j--;
-		ret = (char *)malloc(sizeof(char) * (j - i + 1));
-		if (ret == NULL)
-			return (NULL);
-		if (ret)
-			ft_strlcpy(ret, &str[i], j - i + 1);
+		if (ft_strncmp(str, to_remove, ft_strlen(to_remove)) == 0)
+			break;
+		count++;
+		str++;
 	}
-	return (ret);
+	new = malloc(sizeof(char) * count);
+	if (!new)
+		return (NULL);
+	while (to_remove[i])
+	{
+		new[i] = *str;
+		i++;
+		str++;
+	}
+	return (new);
 }

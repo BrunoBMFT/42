@@ -21,12 +21,11 @@ typedef	struct	s_shell
 
 
 //done
+char	*expand_env_vars(char *input, char **envp);
+void	caught_echo(char *input);
+
+
 bool	parse_quotation_mark(char *input);
-
-
-
-
 void	freecoms(char **cmd);
-void	change_dir(char **envp, char *dir);
 void	caught_exit_status();
 #endif

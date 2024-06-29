@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 10:25:50 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/28 16:29:39 by bruno            ###   ########.fr       */
+/*   Updated: 2024/06/29 15:43:12 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ bool	ft_is_odd(int n);
 int	ft_split_wordcount(char **split);
 int	ft_strcmp(char *s1, char *s2);
 void	ft_strcat(char *dest, char *src);
+char	*ft_str_rem(char *str, char *to_remove);
 
 
 #endif
