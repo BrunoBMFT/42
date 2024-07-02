@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:29:07 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/28 16:29:32 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/01 15:52:08 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	ft_strcat(char *dest, char *src)
 {
 	while (*dest)
 		dest++;
-	while(*src)
+	while (*src)
 	{
-		*dest =*src;
+		*dest = *src;
 		src++;
 		dest++;
 	}

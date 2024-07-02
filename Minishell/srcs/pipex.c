@@ -6,24 +6,23 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:07:23 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/17 18:08:42 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/01 16:40:09 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+void	error(char *str, int code)
+{
+	write(2, "bash: ", 6);
+	perror(str);
+	exit(code);
+}
 
 void	close_fds_exit(int *fd, char *str)
 {
 	close(fd[0]);
 	close(fd[1]);
 	error(str, 1);
-}
-
-void	error(char *str, int code)
-{
-	write(2, "bash: ", 6);
-	perror(str);
-	exit(code);
 }
 
 void	error2(char *str, int code, int *fd)
@@ -151,8 +150,6 @@ int	main(int ac, char **av, char **envp)
 	int		status;
 
 	status = 0;
-	if (ac != 5)
-		return (ft_putendl_fd("wrong: ./pipex <file1> <cmd1> <cmd2> <file2>", 2), 2);
 	if (pipe(fd) == -1)
 		error("pipe failed", 1);
 	pid1 = fork();

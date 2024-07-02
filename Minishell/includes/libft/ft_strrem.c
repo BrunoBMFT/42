@@ -6,35 +6,32 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:25:08 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/29 23:05:05 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/01 15:51:37 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrem(char *str, char *to_remove)//
+char	*ft_strrem(char *str, char *to_remove)
 {
 	int		i;
-	int		count;
+	int		j;
 	char	*new;
 
-	new = NULL;
+	if (!*str || !*to_remove)
+		return (NULL);
 	i = 0;
-	while (*str)
-	{
-		if (ft_strncmp(str, to_remove, ft_strlen(to_remove)) == 0)
-			break;
-		count++;
-		str++;
-	}
-	new = malloc(sizeof(char) * count);
+	j = 0;
+	new = malloc(sizeof(char) * (ft_strlen(str) - ft_strlen(to_remove) + 1));
 	if (!new)
 		return (NULL);
-	while (to_remove[i])
+	while (str[i])
 	{
-		new[i] = *str;
-		i++;
-		str++;
+		if (ft_strncmp(&str[i], to_remove, ft_strlen(to_remove)) == 0)
+			i += ft_strlen(to_remove);
+		else
+			new[j++] = str[i++];
 	}
+	new[j] = 0;
 	return (new);
 }

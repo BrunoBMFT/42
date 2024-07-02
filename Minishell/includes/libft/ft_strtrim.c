@@ -6,13 +6,13 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 22:32:33 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/29 23:03:23 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/01 15:50:37 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(char const *str, char const *set)//12bruno02 set: 01     2bruno02
+char	*ft_strtrim(char const *str, char const *set)
 {
 	char	*ret;
 	int		i;

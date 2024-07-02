@@ -1,7 +1,7 @@
 NAME = minishell
 
 SRCS_DIR = ./srcs
-SRCS = main.c aux.c
+SRCS = main.c aux.c pipex.c
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c

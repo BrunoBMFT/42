@@ -6,15 +6,42 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 21:30:07 by bruno             #+#    #+#             */
-/*   Updated: 2024/06/30 00:00:04 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/02 00:48:16 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+char	*update_prompt()
+{
+	char	cwd[100];
+	char	*prompt;
+	char	*dir;
+	
+	dir = getcwd(cwd, sizeof(cwd));//error check
+	char	**folders = ft_split(dir, '/');
+	int i = 0;
+	while (folders[i])
+		i++;
+	prompt = folders[i - 1];
+	prompt = ft_strjoin(prompt, " -> ");//error check
+	ft_split_free(folders);
+	return (prompt);
+}
+
 void	caught_echo(char *input)
 {
-	int i = 4;
+	int		i;
+	bool	nl;	
+	
+	nl = true;
+	if (ft_strnstr(input, "-n", 7))
+	{
+		nl = false;
+		i = 7;
+	}
+	else
+		i = 4;
 	while (input[i] == ' ' || input[i] == '\t')
 		i++;
 	while (input[i])
@@ -22,6 +49,8 @@ void	caught_echo(char *input)
 		write(1, &input[i], 1);
 		i++;
 	}
+	if (nl == true)
+		ft_nl_fd(1);
 }
 
 // int for single vs double quotes
@@ -32,7 +61,6 @@ void	caught_echo(char *input)
 
 //dont have to worry about spaces
 // * $$ gives the shell pid, how to prevent???
-// ! problem... case: folder named pwD, output is pw (D gets trimmed)
 char	*expand_env_vars(char *input, char **envp)
 {
 	int i = 0, j;
@@ -53,8 +81,8 @@ char	*expand_env_vars(char *input, char **envp)
 			{
 				if (ft_strnstr(envp[j], vars[i], ft_strlen(vars[i])))
 				{
-					vars[i] = ft_strtrim(envp[j], vars[i]);//problem... case: folder named pwD, output is pw (D gets trimmed)
-					vars[i] = ft_strtrim(vars[i], "=");
+					vars[i] = ft_strrem(envp[j], vars[i]);
+					vars[i] = ft_strrem(vars[i], "=");
 				}
 				j++;
 			}
