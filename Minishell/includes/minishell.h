@@ -7,8 +7,9 @@
 # include <sys/wait.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <stdbool.h>
-# include  <signal.h>
+# include <signal.h>
 # include <readline/readline.h>
 
 # define WRITE 1
@@ -19,17 +20,15 @@
 
 //done
 char	*expand_env_vars(char *input, char **env);
+void	caught_cd(char *input, char **env);
 void	caught_echo(char *input);
-void	caught_env(char **env);
-void	caught_pwd(char **env);
+void	caught_env(char	*input, char **env);
+void	caught_pwd(char *input, char **env);
 
 
 void	expand_input(char *input, char **envp);
-bool	parse_quotation_mark(char *input);
 void	freecoms(char **cmd);
-void	caught_exit_status();
 void	update_pwd(char **env, bool when);
-void	caught_pwd(char **env);
 char	*update_prompt();
 
 

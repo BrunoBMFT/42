@@ -6,19 +6,19 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:07:23 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/01 16:40:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/03 16:39:13 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-void	error(char *str, int code)
+void	error(char *str, int code)// fix
 {
 	write(2, "bash: ", 6);
 	perror(str);
 	exit(code);
 }
 
-void	close_fds_exit(int *fd, char *str)
+void	close_fds_exit(int *fd, char *str)// fix
 {
 	close(fd[0]);
 	close(fd[1]);

@@ -1,7 +1,7 @@
 NAME = minishell
 
 SRCS_DIR = ./srcs
-SRCS = main.c aux.c pipex.c
+SRCS = main.c aux.c cd.c env.c echo.c
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
@@ -12,7 +12,6 @@ CFLAGS = -g
 #CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = ./includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
-#add readline as a variable
 all: $(NAME)
 $(NAME): $(OBJS) $(LIBFT)
 	@cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline 
