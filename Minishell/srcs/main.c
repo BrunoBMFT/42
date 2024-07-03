@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/02 01:01:39 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/02 20:36:38 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,16 @@ void	update_pwd(char **env, bool when)
 	{
 		while (ft_strnstr(env[i], "OLDPWD", 6) == 0 && i < 31)//2nd condition so no segfaults
 			i++;
-		temp = getcwd(cwd, sizeof(cwd));
-		env[i] = ft_strjoin("OLDPWD=", temp);
+		temp = getcwd(cwd, sizeof(cwd));//error check
+		env[i] = ft_strjoin("OLDPWD=", temp);//error check
 	}
 	else
 	{
 		while (ft_strnstr(env[i], "PWD", 3) == 0 && i < 31)//2nd condition so no segfaults
 			i++;
-		temp = getcwd(cwd, sizeof(cwd));
-		env[i] = ft_strjoin("PWD=", temp);
+		temp = getcwd(cwd, sizeof(cwd));//error check
+		env[i] = ft_strjoin("PWD=", temp);//error check
 	}
-	
 }
 
 void	cd_home(char **env)
@@ -47,7 +46,7 @@ void	cd_home(char **env)
 	while (ft_strnstr(env[i], "HOME", 4) == 0)
 		i++;
 	directory = ft_strrem(env[i], "HOME=");
-	chdir(directory);
+	chdir(directory);//error check
 }
 
 void	caught_cd(char *input, char **env)
@@ -62,28 +61,6 @@ void	caught_cd(char *input, char **env)
 		directory = ft_strrem(directory, " ");// ! dont hard code like this
 	chdir(directory);
 	update_pwd(env, AFTER);
-}
-
-void	caught_env(char **env)
-{
-	int	i, j;
-
-	i = 0;
-	while (env[i])
-	{
-		ft_putendl(env[i]);
-		i++;
-	}		
-}
-
-void	caught_pwd(char **env)
-{
-	int		i;
-
-	i = 0;
-	while (ft_strnstr(env[i], "PWD", 3) == 0)
-		i++;
-	ft_printf("%s\n", ft_strrem(env[i], "PWD="));
 }
 
 void	expand_input(char *input, char **env)
@@ -101,8 +78,25 @@ void	expand_input(char *input, char **env)
 		caught_env(env);
 	if (ft_strnstr(input, "pwd", 3))
 		caught_pwd(env);
-
+	free (input);
 //	ft_printf("expanded:\n%s", input);//expander test
+}
+
+char	*update_prompt()
+{
+	char	cwd[100];
+	char	*prompt;
+	char	*dir;
+	
+	dir = getcwd(cwd, sizeof(cwd));//error check
+	char	**folders = ft_split(dir, '/');//error check
+	int i = 0;
+	while (folders[i])
+		i++;
+	prompt = folders[i - 1];
+	prompt = ft_strjoin(prompt, " -> ");//error check
+	ft_split_free(folders);
+	return (prompt);
 }
 
 int	main(int ac, char **av, char **envp)

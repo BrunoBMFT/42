@@ -6,27 +6,35 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 21:30:07 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/02 00:48:16 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/02 20:22:16 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*update_prompt()
+void	caught_pwd(char **env)
 {
-	char	cwd[100];
-	char	*prompt;
-	char	*dir;
-	
-	dir = getcwd(cwd, sizeof(cwd));//error check
-	char	**folders = ft_split(dir, '/');
-	int i = 0;
-	while (folders[i])
+	int		i;
+	char	*pwd;
+
+	i = 0;
+	while (ft_strnstr(env[i], "PWD", 3) == 0)
 		i++;
-	prompt = folders[i - 1];
-	prompt = ft_strjoin(prompt, " -> ");//error check
-	ft_split_free(folders);
-	return (prompt);
+	pwd = ft_strrem(env[i], "PWD=");
+	ft_printf("%s\n", pwd);
+	free (pwd);
+}
+
+void	caught_env(char **env)
+{
+	int	i, j;
+
+	i = 0;
+	while (env[i])
+	{
+		ft_putendl(env[i]);
+		i++;
+	}		
 }
 
 void	caught_echo(char *input)
@@ -65,11 +73,11 @@ char	*expand_env_vars(char *input, char **envp)
 {
 	int i = 0, j;
 	bool	flag = false;//flag is to skip the case which it finds a env variable when it wasnt declared (USER without the $ before)
-	char	**vars = ft_split(input, '$');
+	char	**vars = ft_split(input, '$');//error check
 	char	*output = NULL;
+
 	if (input[0] != '$')
 		flag = true;
-
 	while (vars[i])
 	{
 		if (flag)
@@ -81,20 +89,21 @@ char	*expand_env_vars(char *input, char **envp)
 			{
 				if (ft_strnstr(envp[j], vars[i], ft_strlen(vars[i])))
 				{
-					vars[i] = ft_strrem(envp[j], vars[i]);
-					vars[i] = ft_strrem(vars[i], "=");
+					vars[i] = ft_strrem(envp[j], vars[i]);//error check
+					vars[i] = ft_strrem(vars[i], "=");//error check
 				}
 				j++;
 			}
 		}
 		if (!output)
-			output = ft_strdup(vars[i]);
+			output = ft_strdup(vars[i]);//error check
 		else
-			output = ft_strjoin(output, vars[i]);
+			output = ft_strjoin(output, vars[i]);//error check
 		i++;
 	}
 	if (input[ft_strlen(input) - 1] == '$')
 		ft_strcat(output, "$");
+	ft_split_free(vars);
 	return (output);
 }
 

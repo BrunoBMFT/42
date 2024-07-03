@@ -20,6 +20,8 @@
 //done
 char	*expand_env_vars(char *input, char **env);
 void	caught_echo(char *input);
+void	caught_env(char **env);
+void	caught_pwd(char **env);
 
 
 void	expand_input(char *input, char **envp);
@@ -29,6 +31,7 @@ void	caught_exit_status();
 void	update_pwd(char **env, bool when);
 void	caught_pwd(char **env);
 char	*update_prompt();
+
 
 //pipex
 bool	execute(char *arg, char **envp);
