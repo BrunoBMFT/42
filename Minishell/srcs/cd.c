@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:15:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/03 19:25:33 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/04 12:38:28 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ void	update_pwd(char **env, bool when)//use getenv?
 	int	i = 0;
 	if (when == BEFORE)
 	{
-		while (ft_strnstr(env[i], "OLDPWD", 6) == 0 && i < 31)//2nd condition so no segfaults
+		while (env[i] && ft_strnstr(env[i], "OLDPWD", 6) == 0)//fix oldpwd when cd fails
 			i++;
 		temp = getcwd(cwd, sizeof(cwd));//error check
 		env[i] = ft_strjoin("OLDPWD=", temp);//error check
 	}
 	else
 	{
-		while (ft_strnstr(env[i], "PWD", 3) == 0 && i < 31)//2nd condition so no segfaults
+		while (env[i] && ft_strnstr(env[i], "PWD", 3) == 0)
 			i++;
 		temp = getcwd(cwd, sizeof(cwd));//error check
 		env[i] = ft_strjoin("PWD=", temp);//error check

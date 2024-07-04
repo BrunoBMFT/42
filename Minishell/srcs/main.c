@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/03 19:53:41 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/04 12:53:59 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,13 @@
 // * change everything to fd functions
 // TODO check return codes for getcwd, chdir, readline
 // TODO make a function to find env variables (less use of strnstr(env, env_var))
-// * parse things like envf or pwde
+// * parse things like envfffdff or pwde
 
+// make sure export creates the variable second to last, before _=usr/bin/env
+void	caught_export(char *input, char **env)
+{
+	
+}
 
 void	expand_input(char *input, char **env)
 {
@@ -32,8 +37,8 @@ void	expand_input(char *input, char **env)
 		caught_env(input, env);
 	else if (ft_strnstr(input, "pwd", 3))
 		caught_pwd(input, env);
-//	else if (ft_strnstr(input, "export", 6))
-//		caught_pwd(input, env);
+	else if (ft_strnstr(input, "export", 6))
+		caught_export(input, env);
 	else
 		ft_printf("command not found: %s\n", input);
 	free (input);
