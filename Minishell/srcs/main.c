@@ -6,22 +6,50 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/04 12:53:59 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/05 17:49:04 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-// ! Error exit codes
+// redirections for all builtins, have them prepared
+// * exit codes
 // * ERROR CHECK EVERY MALLOC FUNCTION
 // * change everything to fd functions
 // TODO check return codes for getcwd, chdir, readline
 // TODO make a function to find env variables (less use of strnstr(env, env_var))
 // * parse things like envfffdff or pwde
-
-// make sure export creates the variable second to last, before _=usr/bin/env
-void	caught_export(char *input, char **env)
+// ? start using strcmp instead of strnstr
+void	caught_unset(char *input, char **env)
 {
-	
+	int		i;
+	int		j;
+	char	*to_remove;
+	char	*var;
+	char	**new_env;
+
+	var = ft_strrem(input, "unset ");
+	new_env = ft_calloc(sizeof(char *), ft_split_wordcount(env) - 1);
+	i = 0;
+	while (env[i] && ft_strnstr(env[i], var, ft_strlen(var)) == 0)
+		i++;
+	if (!env[i])
+		return ((void)NULL);
+	to_remove = env[i];
+	i = 0;
+	j = 0;
+	while (env[i])//move with pointer
+	{
+		if (ft_strnstr(env[i], to_remove, ft_strlen(to_remove)) == 0)
+		{
+			new_env[j] = env[i];
+			j++;
+		}
+		else
+		{
+			i++;
+		}
+	}
+	env = new_env;
 }
 
 void	expand_input(char *input, char **env)
@@ -37,8 +65,10 @@ void	expand_input(char *input, char **env)
 		caught_env(input, env);
 	else if (ft_strnstr(input, "pwd", 3))
 		caught_pwd(input, env);
-	else if (ft_strnstr(input, "export", 6))
-		caught_export(input, env);
+	else if (ft_strnstr(input, "unset", 5))
+		caught_unset(input, env);
+//	else if (ft_strnstr(input, "export", 6))
+//		caught_export(input, env);
 	else
 		ft_printf("command not found: %s\n", input);
 	free (input);
