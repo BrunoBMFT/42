@@ -25,16 +25,15 @@ void	caught_echo(char *input);
 void	caught_env(char	*input, char **env);
 void	caught_pwd(char *input, char **env);
 
+bool	execute_builtins(char *command, char **env);
 
 void	expand_input(char *input, char **envp);
 void	freecoms(char **cmd);
 void	update_pwd(char **env, bool when);
 char	*update_prompt();
 
-
-//pipex
-bool	execute(char *arg, char **envp);
-char	*find_path(char **envp, char *com);
-void	freecoms(char **cmd);//can change for split_free
+//fork
+void	panic(char *s);
+int	new_fork(void);
 
 #endif

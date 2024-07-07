@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:15:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/04 12:38:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/07 19:27:15 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ void	caught_cd(char *input, char **env)// * if trying to cd to home, will job ju
 	directory = ft_strrem(input, "cd");//problem: "cd DIR"
 	if (!*directory)
 	{
-		if (chdir(getenv("HOME")) != 0)
+		if (chdir(getenv("HOME")) < 0)
 			return (printf("cd home failed\n"), (void)NULL);// * need to fix perror
 		else
 			return ;
 	}
 	else
 		directory = ft_strrem(directory, " ");// ! dont hard code like this
-	if (chdir(directory) != 0)
+	if (chdir(directory) < 0)
 		return (printf("cd failed\n"), (void)NULL);// * need to fix perror
 	update_pwd(env, AFTER);
 }

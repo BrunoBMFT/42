@@ -6,72 +6,82 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/05 17:49:04 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/07 21:04:47 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-// redirections for all builtins, have them prepared
-// * exit codes
-// * ERROR CHECK EVERY MALLOC FUNCTION
-// * change everything to fd functions
-// TODO check return codes for getcwd, chdir, readline
-// TODO make a function to find env variables (less use of strnstr(env, env_var))
-// * parse things like envfffdff or pwde
-// ? start using strcmp instead of strnstr
-void	caught_unset(char *input, char **env)
-{
-	int		i;
-	int		j;
-	char	*to_remove;
-	char	*var;
-	char	**new_env;
 
-	var = ft_strrem(input, "unset ");
-	new_env = ft_calloc(sizeof(char *), ft_split_wordcount(env) - 1);
-	i = 0;
-	while (env[i] && ft_strnstr(env[i], var, ft_strlen(var)) == 0)
-		i++;
-	if (!env[i])
-		return ((void)NULL);
-	to_remove = env[i];
-	i = 0;
-	j = 0;
-	while (env[i])//move with pointer
+char	*find_path(char *command, char **env)
+{
+	//use strcmp
+	char	**paths;
+	char	*path;
+
+	while (*env && ft_strnstr(*env, "PATH", 4) == 0)
+		env++;
+	if (!*env)
+		return NULL;
+	paths = ft_split(*env, ':');
+	while (*paths)
 	{
-		if (ft_strnstr(env[i], to_remove, ft_strlen(to_remove)) == 0)
-		{
-			new_env[j] = env[i];
-			j++;
-		}
-		else
-		{
-			i++;
-		}
+		*paths = ft_strjoin(*paths, "/");
+		path = ft_strjoin(*paths, command);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free (path);
+		paths++;
 	}
-	env = new_env;
+//	ft_split_free(paths);
+	return (NULL);
 }
 
-void	expand_input(char *input, char **env)
+bool	execute_job(char *job, char **env)
 {
-	input = expand_env_vars(input, env);
-	if (!input)
-		return ;
-	else if (ft_strnstr(input, "cd", 2))
-		caught_cd(input, env);
-	else if (ft_strnstr(input, "echo", 4))
-		caught_echo(input);
-	else if (ft_strnstr(input, "env", 3))
-		caught_env(input, env);
-	else if (ft_strnstr(input, "pwd", 3))
-		caught_pwd(input, env);
-	else if (ft_strnstr(input, "unset", 5))
-		caught_unset(input, env);
-//	else if (ft_strnstr(input, "export", 6))
-//		caught_export(input, env);
-	else
-		ft_printf("command not found: %s\n", input);
-	free (input);
+	char	**command = ft_split(job, ' ');
+	char	*path = find_path(command[0], env);
+	if (!path)
+		return false;
+	execve(path, command, env);
+	printf("execution failed");
+	return true;
+}
+
+int	child_process(char *job, char **env)
+{
+	int	pid = new_fork();
+	if (pid == 0)
+	{
+		if (!execute_job(job, env))
+			exit(1);//free fds, show exit code and perror
+	}
+	waitpid(pid, NULL, 0);
+}
+
+int	last_process(char *job, char **env)
+{
+	int	status = 0;
+	int	exit_code = 0;
+	int	pid = new_fork();
+	if (pid == 0)
+		if (!execute_job(job, env))
+			exit(127);//free fds, show exit code and perror
+	waitpid(pid, &status, 0);
+	return (status);
+}
+
+//only last process gives exit code != 0
+int	start_execution(char *input, char **env)//fork here
+{
+	char	**jobs = ft_split(input, '|');
+	int i = 0;
+	while (i < ft_split_wordcount(jobs) - 1)//careful with fds
+	{
+		child_process(jobs[i], env);
+		i++;
+	}
+	last_process(jobs[i], env);//jobs[i] because it's last proc
+
 }
 
 int	main(int ac, char **av, char **envp)
@@ -86,8 +96,11 @@ int	main(int ac, char **av, char **envp)
 		prompt = update_prompt();
 		input = readline(prompt);
 		free (prompt);
-		if (input)
-			expand_input(input, env);
+		input = expand_env_vars(input, env);
+		if (!input)
+			return (0);//free stuff
+//		if (!execute_builtins(input, env))
+			start_execution(input, env);
 		if (ft_strnstr(input, "exit", 4))
 			return (rl_clear_history(), free(input), exit(0), 0);
 	}

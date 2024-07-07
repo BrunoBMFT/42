@@ -1,0 +1,27 @@
+HEADERS BRUH
+redirections for all builtins, have them prepared
+
+check return codes for getcwd, chdir, readline
+exit codes
+ERROR CHECK EVERY MALLOC FUNCTION
+
+change everything to fd functions
+
+parse things like envfffdff or pwde
+
+make a function to find env variables (less use of strnstr(env, env_var))
+start using strcmp instead of strnstr
+
+fix cd
+
+minishell runs executables?
+
+
+
+		part = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(part, com);
+		free (part);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free (path);
+		is this the way of preventing leaks of strjoin

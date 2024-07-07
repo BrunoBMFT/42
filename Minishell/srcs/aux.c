@@ -6,11 +6,41 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 21:30:07 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/05 17:35:05 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/07 20:12:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	panic(char *s)
+{
+	ft_putendl_fd(s, 2);
+	exit(1);
+}
+
+int	new_fork(void)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
+		panic("fork");
+	return (pid);
+}
+
+bool	execute_builtins(char *command, char **env)
+{
+	if (ft_strnstr(command, "cd", 2))
+		return (caught_cd(command, env), true);
+	else if (ft_strnstr(command, "echo", 4))
+		return (caught_echo(command), true);
+	else if (ft_strnstr(command, "env", 3))
+		return (caught_env(command, env), true);
+	else if (ft_strnstr(command, "pwd", 3))
+		return (caught_pwd(command, env), true);
+	return (false);
+	//not good for the cases where cd fails and returns exit code, fix 
+}
 
 char	*update_prompt()
 {
@@ -42,6 +72,8 @@ char	*update_prompt()
 // TODO error code implementation, make it so error code expands here
 char	*expand_env_vars(char *input, char **env)
 {
+	if (!input)
+		return (NULL);
 	int i = 0, j;//use pointers instead?
 	bool	flag = false;//flag is to skip the case which it finds a env variable when it wasnt declared (USER without the $ before)
 	char	**vars = ft_split(input, '$');//error check

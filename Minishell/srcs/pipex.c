@@ -1,24 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 18:07:23 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/03 16:39:13 by bruno            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../includes/minishell.h"
-void	error(char *str, int code)// fix
+void	error(char *str, int code)
 {
 	write(2, "bash: ", 6);
 	perror(str);
 	exit(code);
 }
 
-void	close_fds_exit(int *fd, char *str)// fix
+void	close_fds_exit(int *fd, char *str)
 {
 	close(fd[0]);
 	close(fd[1]);
@@ -141,7 +130,7 @@ void	child2_process(int *fd, char **av, char **envp)
 	if (!execute(av[3], envp))
 		error2(av[3], 127, fd);
 }
-/*
+
 int	main(int ac, char **av, char **envp)
 {
 	int		fd[2];
@@ -167,4 +156,4 @@ int	main(int ac, char **av, char **envp)
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, &status, 0);
 	return (WEXITSTATUS(status));
-}*/
+}

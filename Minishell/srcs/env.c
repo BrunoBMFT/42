@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:25:47 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/03 19:29:16 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/07 20:32:52 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ void	caught_env(char	*input, char **env)
 	i = 0;
 	while (env[i])
 	{
+		ft_putnbr(i);
+		ft_putstr(": ");
 		ft_putendl(env[i]);
 		i++;
-	}		
+	}
 }
 
 void	caught_pwd(char *input, char **env)
