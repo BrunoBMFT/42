@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:50:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/03 19:50:53 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/08 17:41:37 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	caught_echo(char *input)//-n gives helloMinishell ->
 {
 	int		i;
-	bool	nl;	
+	bool	nl;
 	
 	nl = true;
 	if (ft_strnstr(input, "-n", 7))

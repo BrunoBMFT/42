@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:59:37 by brfernan          #+#    #+#             */
-/*   Updated: 2024/07/07 20:41:01 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/09 21:37:20 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	child_process(char *av, char **envp)
 			error2(av, 1, fd);
 	}
 	close(fd[WRITE]);
+	dup2(fd[READ], STDIN_FILENO);
 	close(fd[READ]);
-	dup2(fd[0], STDIN_FILENO);
 	waitpid(pid, NULL, 0);
 	return ;
 }
@@ -122,7 +122,7 @@ int	main(int ac, char **av, char **envp)
 	if (fileout == -1)
 		error(av[ac - 1], 1);
 	dup2(filein, STDIN_FILENO);
-	close (filein);		
+	close (filein);
 	while (i < ac - 2)
 	{
 		child_process(av[i], envp);

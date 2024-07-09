@@ -1,3 +1,9 @@
+run executables
+have a history
+run with |, ||, and &&
+have $?
+
+
 HEADERS BRUH
 redirections for all builtins, have them prepared
 
@@ -13,8 +19,6 @@ make a function to find env variables (less use of strnstr(env, env_var))
 start using strcmp instead of strnstr
 
 fix cd
-
-minishell runs executables?
 
 
 

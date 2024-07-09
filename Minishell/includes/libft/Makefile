@@ -15,8 +15,8 @@ ft_split_free.c ft_is_even.c ft_strcmp.c ft_strcat.c ft_strrem.c
 OBJDIR = ./objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 $(OBJDIR)/%.o: %.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 COMPRESS = ar rcs
 CFLAGS = -Wall -Wextra -Werror
@@ -25,7 +25,7 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(COMPRESS) $(NAME) $(OBJS)
+	$(COMPRESS) $(NAME) $(OBJS)
 
 clean:
 	@$(RM) -r $(OBJDIR)

@@ -6,11 +6,25 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/07 21:04:47 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/10 00:20:34 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/* 
+change fds Function
+void	fd_change(In_Side, Out_Side)
+{
+	int fd[2]
+
+	pipe fd
+
+	
+	close one side (to check)
+	dup2 (other side, stdin or stdout) (to check)
+	close other side
+} */
 
 char	*find_path(char *command, char **env)
 {
@@ -98,8 +112,8 @@ int	main(int ac, char **av, char **envp)
 		free (prompt);
 		input = expand_env_vars(input, env);
 		if (!input)
-			return (0);//free stuff
-//		if (!execute_builtins(input, env))
+			continue;//free stuff
+		if (!execute_builtins(input, env))
 			start_execution(input, env);
 		if (ft_strnstr(input, "exit", 4))
 			return (rl_clear_history(), free(input), exit(0), 0);

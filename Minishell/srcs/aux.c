@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 21:30:07 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/07 20:12:45 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/10 00:27:57 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*expand_env_vars(char *input, char **env)
 			while (env[j] && ft_strnstr(env[j], vars[i], ft_strlen(vars[i])) == 0)
 				j++;
 			if (!env[j])
-				return (NULL);//if no env var, print newline
+				return (NULL);//print new line
 			vars[i] = ft_strrem(env[j], vars[i]);//error check
 			vars[i] = ft_strrem(vars[i], "=");//error check
 		}

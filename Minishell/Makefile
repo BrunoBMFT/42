@@ -12,14 +12,16 @@ CFLAGS = -g
 #CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = ./includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
+
 all: $(NAME)
+
 $(NAME): $(OBJS) $(LIBFT)
-	@cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline 
+	cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline 
 	@echo $(NAME) ready!
 
 $(LIBFT):
 	@echo libft compiling!
-	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
+	$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 	@echo libft compiled and ready!
 
 clean:
