@@ -6,68 +6,146 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:43:23 by ycantin           #+#    #+#             */
-/*   Updated: 2024/07/09 21:54:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/11 00:41:18 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_jobs *build(char *command_line)
+char	*find_path(char *command, char **env)
 {
-	t_jobs *jobs;
-	t_token *list;
+	//use strcmp
+	char	**paths;
+	char	*path;
 
-	list = NULL;
-	jobs = NULL;
-	tokenize(&list, command_line);
-	make_job_list(&jobs, &list);
-	clear_list(&list);
-	return (jobs);
-}
-
-
-bool	execute_builtins(t_jobs *job, char **env)
-{
-	if (ft_strnstr(job->cmd, "cd", 2))
-		return (caught_cd(job->cmd, env), true);
-	else if (ft_strnstr(job->cmd, "echo", 4))// fix to use execd
-		return (caught_echo(job->cmd), true);
-	else if (ft_strnstr(job->cmd, "env", 3))
-		return (caught_env(job->cmd, env), true);
-	else if (ft_strnstr(job->cmd, "pwd", 3))
-		return (caught_pwd(job->cmd, env), true);
-	return (false);
-	//not good for the cases where cd fails and returns exit code, fix 
-}
-
-int main (void)
+	while (*env && ft_strnstr(*env, "PATH", 4) == 0)
+		env++;
+	if (!*env)
+		return NULL;
+	paths = ft_split(*env, ':');
+	while (*paths)
 	{
-	char *line;
-	char *dir;
-	char *prompt;
-	t_jobs *jobs;
-	t_jobs *curr;
+		*paths = ft_strjoin(*paths, "/");
+		path = ft_strjoin(*paths, command);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free (path);
+		paths++;
+	}
+	free_array(paths);
+	return (NULL);
+}
+
+bool	execute_job(char **command, char **env)
+{
+	char	*path = find_path(command[0], env);
+	if (!path)
+		return (printf("no command"), false);//free the commands
+	execve(path, command, env);
+	printf("execution failed");
+	free_array(command);
+	return true;
+}
+
+int	child_process(char **command, char **env)
+{
+	int	pid = new_fork();
+	if (pid == 0)
+	{
+		if (!execute_job(command, env))
+			panic("execute");//free fds, show exit code and perror
+	}
+	waitpid(pid, NULL, 0);
+}
+
+//only last process gives exit code != 0
+int	start_execution(char **command, char **env)//fork here
+{
+	child_process(command, env);
+
+//	char	**jobs = ft_split(input, '|');
+//	int i = 0;
+//	while (i < ft_split_wordcount(jobs) - 1)
+//	{
+//		child_process(job, env);
+//		i++;
+//	}
+//	last_process(jobs[i], env);//jobs[i] because it's last proc
+	return (0);
+}
+
+char **job_array(t_jobs *node)
+{
+	char **array;
+	char *str;
+	char *temp;
+	char *new_last;
+	int i;
+
+	i = 0;
+	str = ft_strdup(node->cmd);
+	temp = ft_strjoin(str, " '");
+	free(str);
+	if (node->execd)
+	{
+		str = ft_strjoin(temp, node->execd);
+		free(temp);
+		temp = ft_strjoin(str, "'");
+		free(str);
+	}
+	array = token_array(temp);
+	free(temp);
+	while (array[i])
+		i++;
+	if (i > 0) 
+	{
+		new_last = ft_strdup(array[i - 1]);
+		free(array[i - 1]);
+		array[i - 1] = ft_strtrim(new_last, "'");
+		free(new_last);
+	}
+	return (array);
+}
+
+int main (int ac, char **av, char **envp)
+{
+	char	**env = envp;
+	char	*line;
+	char	*dir;
+	char	*prompt;
+	t_jobs	*jobs;
+	t_jobs	*curr;
 	while (1)
 	{
 		prompt = update_prompt();
-		free(prompt);
 		line = readline(prompt);
+		free(prompt);
 		add_history(line);
 		jobs = build(line);
 		curr = jobs;
+		int i = 0;
 		while (curr != NULL)
 		{
-			
-
-
-
+/* 			char **command = job_array(curr);
+			int i = 0;
+			while (command[i])
+			{
+				printf("%s\n", command[i]);
+				i++;
+			} */
 			if (curr->type < 0)
 				curr->type = 0;
-//			printf("cmd: %s     execd:  %s   type: %d\n\n", curr->cmd, curr->execd, curr->type);
-			curr = curr->next; 
+
+			if (!(execute_builtins(curr, env)))//errors codes
+			{
+				printf("no");
+			}
+//				start_execution(command, env);//error codes
+//			printf("cmd: %s     execd:  %s   type: %d\n", curr->cmd, curr->execd, curr->type);
+			curr = curr->next;
 		}
-		free(prompt);
-		clear_jobs(&jobs);
+//		free(prompt);
+//		clear_jobs(&jobs);
 		if (ft_strcmp(line, "exit") == 0)
 		{
 			free(line);
@@ -94,52 +172,3 @@ int main(void)
 	}
 	clear_jobs(&jobs);
 } */
-        //   "echo hello";
-         //"echo hello && ls -la";
-         //"cat file.txt | grep 'search' > output.txt";
-        // "echo hello && ls -la || echo world";
-         //"cat file.txt | grep 'search' | sort > output.txt";
-         //"command -option1 -option2";
-         //"echo hello && ls -la || echo world && echo again";
-        // "cat file.txt | grep 'search' > output.txt && echo done";
-        // "command -option1 | command2 -option2 > file";
-        // "echo hello > file && cat file";
-        // "echo hello && echo world || echo universe";
-      //   "command1 && command2 || command3 && command4";
-       //  "cat file.txt | grep 'search' | sort | uniq";
-      //  "echo hello > file.txt && cat file.txt | grep hello";
-       //  "command1 | command2 && command3 || command4";
-       // "ls -la | grep 'file' > output.txt";
-        // "echo hello && (echo world || echo universe)";
-       //  "command1 && command2 || command3 > file.txt";
-     //   "cat file.txt > output.txt | grep 'search'";
-      //  "echo hello > file1 && cat file1 | sort > file2";
-        //"command1 && command2 && command3 || command4";
-       // "echo hello || echo world && echo universe";
-      //   "command1 | command2 | command3 > file";
-    //     "cat file.txt > output1.txt && sort output1.txt > output2.txt";
-    //     "echo hello > file && echo world >> file";
-    //     "command1 && command2 || command3 | command4";
-    //     "cat file.txt | sort > output.txt && grep 'search' output.txt";
-    //     "echo hello > file && cat file || echo failed";
-    //     "command1 -option1 | command2 -option2 > file";
-    //     "ls -la && echo done || echo failed";
-    //     "echo hello || echo world && echo universe > file";
-    //     "cat file1 | grep 'search' | sort > file2 && echo done";
-    //     "command1 && command2 || command3 | command4 > file";
-    //     "echo hello && ls -la || echo world && cat file";
-    //     "cat file.txt | grep 'search' | sort | uniq > output.txt";
-    //     "echo hello > file.txt && cat file.txt | grep hello | sort";
-    //     "command1 && command2 || command3 && command4 || command5";
-    //     "ls -la | grep 'file' > output.txt && echo done";
-    //     "echo hello && (echo world || echo universe) && echo end";
-    //     "command1 && command2 || command3 > file.txt && echo done";
-    //     "cat file.txt > output.txt | grep 'search' | sort";
-    //     "echo hello > file1 && cat file1 | sort > file2 && echo done";
-    //     "command1 && command2 && command3 || command4 | command5";
-    //     "echo hello || echo world && echo universe > file && cat file";
-    //     "command1 | command2 | command3 > file && echo done";
-    //     "cat file.txt > output1.txt && sort output1.txt > output2.txt && echo done";
-    //     "echo hello > file && echo world >> file && cat file";
-    //     "command1 && command2 || command3 | command4 && command5";
-    //     "cat file.txt | sort > output.txt && grep 'search' output.txt && echo done;

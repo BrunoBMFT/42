@@ -6,14 +6,14 @@
 #    By: bruno <bruno@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/23 16:39:56 by ycantin           #+#    #+#              #
-#    Updated: 2024/07/09 19:15:53 by bruno            ###   ########.fr        #
+#    Updated: 2024/07/10 16:53:45 by bruno            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =	minishell
 
 SRCS_DIR = ./srcs
-SRCS =	main.c aux.c \
+SRCS =	main.c aux.c cd.c echo.c env.c \
 		ylexer.c ylexer_utils.c yfrees.c \
 		yjob_list.c yjob_utils.c
 OBJS_DIR = ./objs

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:38:21 by ycantin           #+#    #+#             */
-/*   Updated: 2024/07/09 19:16:31 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/10 17:43:54 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@
 # define    TOKEN_OR    3
 # define    TOKEN_REDIR 4
 # define    ERROR      -1 
+
+
+# define WRITE 1
+# define READ 0
+
+# define BEFORE 0
+# define AFTER 1
 
 typedef struct s_holder
 {
@@ -58,6 +65,14 @@ typedef struct s_jobs
 
 //bruno:
 char	*update_prompt();
+void	update_pwd(char **env, bool when);
+void	caught_cd(t_jobs *job, char **env);
+void	caught_echo(t_jobs *job);
+void	caught_env(char	*input, char **env);
+void	caught_pwd(char *input, char **env);
+bool	execute_builtins(t_jobs *job, char **env);
+int	new_fork(void);
+void	panic(char *s);
 
 
 
@@ -81,6 +96,7 @@ t_jobs	    *get_last_job(t_jobs *lst);
 void	    go_to_next_job(t_jobs **lst, t_jobs *new); 
 void        make_job_list(t_jobs **job_list, t_token **tok_list);
 void	    clear_jobs(t_jobs **lst);
+t_jobs *build(char *command_line);
 
 
 #endif
