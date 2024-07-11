@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/11 03:50:21 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/11 15:31:14 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ int     start_execution(char **command, char **env)//fork here
 	return (0);
 }
 
+//simple executor when just 1 job
+//executor with fd pipe when more than 1
+
 int main (int ac, char **av, char **envp)
 {
 	char *line = NULL;
@@ -81,7 +84,6 @@ int main (int ac, char **av, char **envp)
 	t_jobs *jobs = NULL;
 	t_jobs *curr;
 	char **env = envp;
-
 
 	while (1)
 	{
@@ -96,29 +98,19 @@ int main (int ac, char **av, char **envp)
 			continue;//free stuff
 		jobs = build(line);
 		curr = jobs;
-		int i = 0, j;
+		int j;
 		while (curr != NULL)
 		{
 			char **command = job_array(curr);
 			if (curr->type < 0)
 				curr->type = 0;
 	//		execute_builtins(curr, env);
-			if (!execute_builtins(curr, env))
-				start_execution(command, env);//errors codes
-	//		printf("cmd: %s     execd:  %s   type: %d\n", curr->cmd, curr->execd, curr->type);
-	/* 		printf("%s  %s  %d\n", curr->cmd, curr->execd, curr->type);
-			if (curr->job)
-			{
-				j = 0;
-				while (curr->job[j])
-				{
-					printf("->%s    %d\n", curr->job[j], i);
-					j++;
-				}
-			} */
+	//		if (!execute_builtins(curr, env))
+	//			start_execution(command, env);//errors codes
+			printf("%s  %s  %d\n", curr->cmd, curr->execd, curr->type);
+
 			curr = curr->next;
 		}
-		i++;
 		free(prompt);
 	//        clear_jobs(&jobs);
 		if (ft_strcmp(line, "exit") == 0)

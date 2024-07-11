@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 21:30:07 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/11 03:51:10 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/11 15:23:01 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	new_fork(void)
 
 bool	execute_builtins(t_jobs *job, char **env)
 {
-	if (ft_strnstr(job->cmd, "cd", 2))// fix to use execd
+	if (ft_strnstr(job->cmd, "cd", 2))// if cd fails, env OLDPWD shouldn't update
 		return (caught_cd(job, env), true);
 	else if (ft_strnstr(job->cmd, "echo", 4))// fix to use execd
 		return (caught_echo(job), true);
@@ -42,7 +42,7 @@ bool	execute_builtins(t_jobs *job, char **env)
 	//not good for the cases where cd fails and returns exit code, fix 
 }
 
-char	*update_prompt()
+char	*update_prompt()//fix how yohan fixed it
 {
 	char	cwd[100];
 	char	*dir;
@@ -70,7 +70,7 @@ char	*update_prompt()
 //dont have to worry about spaces
 // * $$ gives the shell pid, how to prevent???
 // TODO error code implementation, make it so error code expands here
-char	*env_var_return(char *str)
+char	*env_var_return(char *str)//wrong size allocated
 {
 	int		i;
 	int		j;
