@@ -6,22 +6,22 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 12:34:46 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/26 23:43:43 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/11 03:38:33 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_split_wordcount(char **split)
+int count_strings(char **array)
 {
-	int	i;
+    int i;
 
-	i = 0;
-	if (!split[0])
-		return (0);
-	while (split[i])
-		i++;
-	return (i);
+    i = 0;
+    if (!array || !*array)
+        return (0);
+    while (array[i])
+        i++;
+    return (i);
 }
 
 static int	countword(const char *str, char c)

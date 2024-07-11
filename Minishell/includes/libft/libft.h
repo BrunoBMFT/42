@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 10:25:50 by brfernan          #+#    #+#             */
-/*   Updated: 2024/07/01 15:51:40 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/11 03:38:44 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,13 @@ void	ft_putstr(char *s);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_nl(void);
 void	ft_nl_fd(int fd);
-void	ft_split_free(char **str);
+void    ft_free_array(char **array);
 bool	ft_is_even(int n);
 bool	ft_is_odd(int n);
-int		ft_split_wordcount(char **split);
+int		count_strings(char **array);
 int		ft_strcmp(char *s1, char *s2);
 void	ft_strcat(char *dest, char *src);
 char	*ft_strrem(char *str, char *to_remove);
+char	*ft_strndup(char const *s1, int n);
 
 #endif

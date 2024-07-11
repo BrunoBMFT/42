@@ -6,31 +6,17 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 20:13:16 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/10 00:20:34 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/11 03:50:21 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/* 
-change fds Function
-void	fd_change(In_Side, Out_Side)
-{
-	int fd[2]
-
-	pipe fd
-
-	
-	close one side (to check)
-	dup2 (other side, stdin or stdout) (to check)
-	close other side
-} */
-
-char	*find_path(char *command, char **env)
+char    *find_path(char *command, char **env)
 {
 	//use strcmp
-	char	**paths;
-	char	*path;
+	char    **paths;
+	char    *path;
 
 	while (*env && ft_strnstr(*env, "PATH", 4) == 0)
 		env++;
@@ -46,76 +32,97 @@ char	*find_path(char *command, char **env)
 		free (path);
 		paths++;
 	}
-//	ft_split_free(paths);
+	ft_free_array(paths);
 	return (NULL);
 }
 
-bool	execute_job(char *job, char **env)
+bool    execute_job(char **command, char **env)
 {
-	char	**command = ft_split(job, ' ');
-	char	*path = find_path(command[0], env);
+	char    *path = find_path(command[0], env);
 	if (!path)
-		return false;
+		return (printf("no command"), false);//free the commands
 	execve(path, command, env);
 	printf("execution failed");
+	ft_free_array(command);
 	return true;
 }
 
-int	child_process(char *job, char **env)
+int     child_process(char **command, char **env)
 {
-	int	pid = new_fork();
+	int     pid = new_fork();
 	if (pid == 0)
 	{
-		if (!execute_job(job, env))
-			exit(1);//free fds, show exit code and perror
+		if (!execute_job(command, env))
+			panic("execute");//free fds, show exit code and perror
 	}
 	waitpid(pid, NULL, 0);
 }
 
-int	last_process(char *job, char **env)
-{
-	int	status = 0;
-	int	exit_code = 0;
-	int	pid = new_fork();
-	if (pid == 0)
-		if (!execute_job(job, env))
-			exit(127);//free fds, show exit code and perror
-	waitpid(pid, &status, 0);
-	return (status);
-}
-
 //only last process gives exit code != 0
-int	start_execution(char *input, char **env)//fork here
+int     start_execution(char **command, char **env)//fork here
 {
-	char	**jobs = ft_split(input, '|');
-	int i = 0;
-	while (i < ft_split_wordcount(jobs) - 1)//careful with fds
-	{
-		child_process(jobs[i], env);
-		i++;
-	}
-	last_process(jobs[i], env);//jobs[i] because it's last proc
-
+	child_process(command, env);
+//		char    **jobs = ft_split(input, '|');
+//		int i = 0;
+//		while (i < ft_split_wordcount(jobs) - 1)
+//		{
+//				child_process(job, env);
+//				i++;
+//		}
+//		last_process(jobs[i], env);//jobs[i] because it's last proc
+	return (0);
 }
 
-int	main(int ac, char **av, char **envp)
+int main (int ac, char **av, char **envp)
 {
-	char	*input;
-	char	*prompt;
-	char	**env;
+	char *line = NULL;
+	char *dir = NULL;
+	char *prompt = NULL;
+	t_jobs *jobs = NULL;
+	t_jobs *curr;
+	char **env = envp;
 
-	env = envp;
+
 	while (1)
 	{
 		prompt = update_prompt();
-		input = readline(prompt);
-		free (prompt);
-		input = expand_env_vars(input, env);
-		if (!input)
+		line = readline(prompt);
+		free(prompt);
+		add_history(line);
+		if (!line)
 			continue;//free stuff
-		if (!execute_builtins(input, env))
-			start_execution(input, env);
-		if (ft_strnstr(input, "exit", 4))
-			return (rl_clear_history(), free(input), exit(0), 0);
+		line = expand_env_vars(line, env);
+		if (!line)
+			continue;//free stuff
+		jobs = build(line);
+		curr = jobs;
+		int i = 0, j;
+		while (curr != NULL)
+		{
+			char **command = job_array(curr);
+			if (curr->type < 0)
+				curr->type = 0;
+	//		execute_builtins(curr, env);
+			if (!execute_builtins(curr, env))
+				start_execution(command, env);//errors codes
+	//		printf("cmd: %s     execd:  %s   type: %d\n", curr->cmd, curr->execd, curr->type);
+	/* 		printf("%s  %s  %d\n", curr->cmd, curr->execd, curr->type);
+			if (curr->job)
+			{
+				j = 0;
+				while (curr->job[j])
+				{
+					printf("->%s    %d\n", curr->job[j], i);
+					j++;
+				}
+			} */
+			curr = curr->next;
+		}
+		i++;
+		free(prompt);
+	//        clear_jobs(&jobs);
+		if (ft_strcmp(line, "exit") == 0)
+				return (rl_clear_history(), free(line), exit(0), 0);
 	}
+	return (0);
 }

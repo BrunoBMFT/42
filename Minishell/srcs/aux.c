@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 21:30:07 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/10 00:27:57 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/11 03:51:10 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ int	new_fork(void)
 	return (pid);
 }
 
-bool	execute_builtins(char *command, char **env)
+bool	execute_builtins(t_jobs *job, char **env)
 {
-	if (ft_strnstr(command, "cd", 2))
-		return (caught_cd(command, env), true);
-	else if (ft_strnstr(command, "echo", 4))
-		return (caught_echo(command), true);
-	else if (ft_strnstr(command, "env", 3))
-		return (caught_env(command, env), true);
-	else if (ft_strnstr(command, "pwd", 3))
-		return (caught_pwd(command, env), true);
+	if (ft_strnstr(job->cmd, "cd", 2))// fix to use execd
+		return (caught_cd(job, env), true);
+	else if (ft_strnstr(job->cmd, "echo", 4))// fix to use execd
+		return (caught_echo(job), true);
+	else if (ft_strnstr(job->cmd, "env", 3))
+		return (caught_env(job->cmd, env), true);
+	else if (ft_strnstr(job->cmd, "pwd", 3))
+		return (caught_pwd(job->cmd, env), true);
 	return (false);
 	//not good for the cases where cd fails and returns exit code, fix 
 }
@@ -57,7 +57,7 @@ char	*update_prompt()
 		i++;
 	prompt = folders[i - 1];
 	prompt = ft_strjoin(prompt, " -> ");//error check
-	ft_split_free(folders);
+	ft_free_array(folders);
 	return (prompt);
 }
 
@@ -70,40 +70,75 @@ char	*update_prompt()
 //dont have to worry about spaces
 // * $$ gives the shell pid, how to prevent???
 // TODO error code implementation, make it so error code expands here
+char	*env_var_return(char *str)
+{
+	int		i;
+	int		j;
+	char	*new;
+
+	i = 0;
+	j = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	i++;
+	new = ft_calloc(sizeof(char), ft_strlen(str));
+	if (!new)
+		return (NULL);
+	while (str[i])
+	{
+		new[j] = str[i];
+		j++;
+		i++;
+	}
+	return (new);
+}
+
+int	len_to_equal(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	return (i);
+}
+
 char	*expand_env_vars(char *input, char **env)
 {
-	if (!input)
-		return (NULL);
-	int i = 0, j;//use pointers instead?
+	int 	i;//use pointers instead?
 	bool	flag = false;//flag is to skip the case which it finds a env variable when it wasnt declared (USER without the $ before)
 	char	**vars = ft_split(input, '$');//error check
 	char	*output = NULL;
+	char	*temp;
 
 	if (input[0] != '$')
 		flag = true;
-	while (vars[i])
+	while (*vars)//running through each word
 	{
 		if (flag)
-			flag = false;
+			flag = false;// dont hardcode like this
 		else
 		{
-			j = 0;
-			while (env[j] && ft_strnstr(env[j], vars[i], ft_strlen(vars[i])) == 0)
-				j++;
-			if (!env[j])
+			i = 0;
+			while (env[i])
+			{
+				temp = ft_strndup(env[i], len_to_equal(env[i]));
+				if (ft_strncmp(temp, *vars, ft_strlen(temp)) == 0)
+					break;
+				i++;
+			}
+			if (!env[i])
 				return (NULL);//print new line
-			vars[i] = ft_strrem(env[j], vars[i]);//error check
-			vars[i] = ft_strrem(vars[i], "=");//error check
+			*vars = env_var_return(env[i]);// error check
 		}
 		if (!output)
-			output = ft_strdup(vars[i]);//error check
+			output = ft_strdup(*vars);//error check
 		else
-			output = ft_strjoin(output, vars[i]);//error check
-		i++;
+			output = ft_strjoin(output, *vars);//error check
+		vars++;
 	}
 	if (input[ft_strlen(input) - 1] == '$')//! dont hardcode like this
 		ft_strcat(output, "$");
-	ft_split_free(vars);
+//	ft_split_free(vars);
 	return (output);
 }
-

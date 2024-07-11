@@ -1,7 +1,8 @@
 NAME = minishell
 
 SRCS_DIR = ./srcs
-SRCS = main.c aux.c cd.c env.c echo.c
+SRCS = main.c aux.c builtins.c \
+	yfrees.c yjob_list.c yjob_utils.c ylexer_utils.c ylexer.c
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
@@ -16,12 +17,12 @@ LIBFT = $(LIBFT_DIR)/libft.a
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline 
+	@cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline 
 	@echo $(NAME) ready!
 
 $(LIBFT):
 	@echo libft compiling!
-	$(MAKE) -C $(LIBFT_DIR) --no-print-directory
+	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 	@echo libft compiled and ready!
 
 clean:
