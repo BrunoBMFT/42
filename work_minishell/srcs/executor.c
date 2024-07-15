@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:26:33 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/12 23:06:47 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/15 01:13:37 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,60 +47,57 @@ bool	execute_job(char **command, char **env)
 	return true;
 }
 
-int	simple_process(t_jobs *job, char **env)
-{
-	int	pid = new_fork();
-	if (pid == 0)
-	{
-		if (!execute_job(job->job, env))//error check
-			panic("execute failed\n");//free fds, show exit code and perror
-	}
-	int status = 0;
-	waitpid(pid, &status, 0);
-	return (status);
-}
-
-int	child_process(t_jobs *job, char **env)//no status, no int
+int	child_process(t_jobs *job, char **env)
 {
 	int		fd[2];
+	int		status = 0;
 
-	int pid = new_fork();
-	if (pipe(fd) == -1)
-		panic("pipe failed");
+	pipe(fd);
+	pid_t pid = new_fork();
 	if (pid == 0)
 	{
 		close(fd[READ]);
 		dup2(fd[WRITE], STDOUT_FILENO);
 		close(fd[WRITE]);
-		if (!execute_job(job->job, env))//error check
-			panic("execute failed\n");//free fds, show exit code and perror
+		if (!execute_job(job->job, env))
+			panic("execute");
 	}
 	close(fd[WRITE]);
 	dup2(fd[READ], STDIN_FILENO);
 	close(fd[READ]);
+	waitpid(pid, &status, 0);
+	return WEXITSTATUS(status);
+}
+
+int	simple_process(t_jobs *job, char **env)
+{
+	int	pid = new_fork();
+	if (pid == 0)
+	{
+		if (!execute_job(job->job, env))
+			panic("simple execute failed\n");//free fds, show exit code and perror
+	}
 	int status = 0;
 	waitpid(pid, &status, 0);
-	return status;
+	printf("status: %d\n", WEXITSTATUS(status));
+	return (WEXITSTATUS(status));
 }
 
 void	run_execution(t_jobs *curr, char **env)
 {
+	int status = 0;
+//	printf("command: %s", curr->job[0]);
 	while (curr)
 	{
 //		printf("cmd: %s\t  execd: %s\t  type:%d\n", curr->cmd, curr->execd, curr->type);
-		int status = 0;
-		if (curr->type == 1)//pipe
+		if (curr->type == 2)//(&&)
 		{
 			curr = curr->next;
 		}
-		else if (curr->type == 2)//ampersand (&&)
-		{
-			curr = curr->next;
-		}
-		status = child_process(curr, env);
-		printf("status: %d\n", WEXITSTATUS(status));
+//		child_process(curr, env);
+		status = simple_process(curr, env);
 		curr = curr->next;
 	}
-	int status = simple_process(curr, env);
-	printf("status: %d\n", WEXITSTATUS(status));
+//	status = simple_process(curr, env);
+//	printf("final status: %d\n", status);
 }
