@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:26:33 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/23 16:56:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/23 16:57:07 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,20 @@ int	start_executor(t_jobs *job, char **env)
 	while (job && job->next)// && job->next
 	{
 //		printf("cmd: %s\t  execd: %s\t  type:%d\n", job->cmd, job->execd, job->type);
- 		if (try_builtins(job, env) == 200)
-			printf("executor\n");
+
 //			run_execution(job, env);
  		if (job->next->type == PIPE)
-		{
+		{ 
+/* 			if (try_builtins(job, env) == 200)
+				printf("executor\n"); */
 			printf("processing pipe\n");
 			child_process(job, env);
 			job = job->next;
 		}
 		else if (job->next->type == AND)
 		{
+/* 			if (try_builtins(job, env) == 200)
+				printf("executor\n"); */
 			simple_process(job, env);
 			job = job->next;
 		}
