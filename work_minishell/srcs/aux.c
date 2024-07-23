@@ -6,11 +6,38 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:15:54 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/11 17:30:35 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/22 03:19:03 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void print_jobs(t_jobs *jobs) 
+{
+    t_jobs *curr = jobs;
+    while (curr != NULL) 
+	{
+        int i = 0;
+        printf("cmd: %s  execd: %s  type: %d\n", curr->cmd, curr->execd, curr->type);
+        while (curr->job && curr->job[i]) 
+		{
+            printf("->%s\n", curr->job[i]);
+            i++;
+        }
+        curr = curr->next;
+    }
+}
+
+void	check_exit(char *line)// wrong for cmd1 | exit
+{
+	if (ft_strcmp(line, "exit") == 0)
+	{
+		free(line);
+//		rl_clear_history();
+		exit(0);
+	}
+}
+
 
 void	panic(char *s)
 {
@@ -59,4 +86,17 @@ t_jobs *build(char *command_line)
 	make_job_list(&jobs, &list);
 	clear_list(&list);
 	return (jobs);
+}
+
+int	clear_proc(char **env)// * REMOVE
+{
+	int	pid = new_fork();
+ 	if (pid == 0)
+	{
+		char *const com[] = { "clear", NULL };
+		execve("/bin/clear", com, env);
+		panic("clear fail\n");//free fds, show exit code and perror
+	}
+	int status = 0;
+	return (0);
 }

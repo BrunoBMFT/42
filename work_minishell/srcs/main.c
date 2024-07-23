@@ -6,22 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:43:23 by ycantin           #+#    #+#             */
-/*   Updated: 2024/07/12 20:27:53 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/22 20:09:39 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	check_exit(char *line)// wrong for cmd1 | exit
-{
-	if (ft_strcmp(line, "exit") == 0)
-	{
-		free(line);
-//		rl_clear_history();
-		exit(0);
-	}
-}
-
 
 int main (int ac, char **av, char **envp)
 {
@@ -30,37 +19,24 @@ int main (int ac, char **av, char **envp)
 	char	*dir;
 	char	*prompt;
 	t_jobs	*jobs;
-	t_jobs	*curr;
+	char	**temp_vars = NULL;
 	while (1)
 	{
 		prompt = update_prompt();
+//		if (set_up_signal(ctrl_c_idle) < 0)
+//			clean_exit(jobs, line, prompt);
 		line = readline(prompt);
 		free(prompt);
+		line = expand_env_vars(line, env);
+		printf("line: %s\n", line);
 		check_exit(line);
-		add_history(line);
-		jobs = build(line);
-		curr = jobs;
-		run_execution(curr, env);
+//		add_history(line);
+//		jobs = build(line);
+//		if (ft_strnstr(jobs->cmd, "=", ft_strlen(jobs->cmd)))//cmd: "export=" doesnt export or save anything
+//			temp_vars = variable_declaration(jobs->job, temp_vars);
+//		start_executor(jobs, env);
 //		free(prompt);
-		clear_jobs(&jobs);//edited by bruno
+//		clear_jobs(&jobs);//edited by bruno
 	}
 	return (0);
 }
-
-
-/* 
-int main(void)
-{
-	char *str = "cat file.txt | sort > output.txt && grep 'search' output.txt && echo done";
-	t_jobs *jobs;
-	jobs = build(str);
-	t_jobs *currr = jobs;
-	int i = 0;
-	while (currr != NULL)
-	{
-		i++;
-		printf("%s  %s\n", currr->cmd, currr->execd);
-		currr = currr->next; 
-	}
-	clear_jobs(&jobs);
-} */
