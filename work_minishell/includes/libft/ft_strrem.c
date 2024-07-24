@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:25:08 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/22 19:43:46 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/24 04:03:21 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	*ft_strrem(char *str, char *to_remove)//check invalids
 
 	if (!str || !*str)
 		return (NULL);
-	if (!to_remove || !*to_remove || ft_strnstr(str, to_remove, ft_strlen(str)) == 0)
+	if (!to_remove || !*to_remove
+		|| ft_strnstr(str, to_remove, ft_strlen(str)) == 0)
 		return (str);
 	i = 0;
 	j = 0;

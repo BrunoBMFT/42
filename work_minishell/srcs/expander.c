@@ -6,18 +6,19 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 03:18:24 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/22 20:19:29 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/24 03:59:38 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*expand_env_vars(char *input, char **env)
+char	*expand_env_vars(char *input, char **env, char **temp_vars)
 {
 	int 	i;
 	bool	flag = false;
 	char	**vars = ft_split(input, '$');//error check
 	char	*output = NULL;
+	char	*temp = NULL;
 
 	if (input[0] != '$')
 		flag = true;
@@ -27,7 +28,12 @@ char	*expand_env_vars(char *input, char **env)
 		if (flag)
 			flag = false;// dont hardcode like this
 		else
-			vars[i] = ft_getenv(vars[i], env);
+		{
+			temp = ft_getenv(vars[i], env);
+			if (!temp)
+				temp = ft_getenv(vars[i], temp_vars);
+			vars[i] = temp;
+		}
 		if (vars[i])
 		{
 			if (!output)
@@ -37,19 +43,12 @@ char	*expand_env_vars(char *input, char **env)
 		}
 		i++;
 	}
-	i = 0;
-	while (vars[i])
-	{
-		free (vars[i]);
-		i++;
-	}
-	free (vars);
+	//free
 	if (input[ft_strlen(input) - 1] == '$')//! dont hardcode like this
 		ft_strcat(output, "$");
 	output[ft_strlen(output)] = 0;
 	return (output);
 }
-
 
 //Variable names in the shell should consist of alphanumeric characters and underscores (_). They should not start with a digit.
 //job.job divides strings into cmd and execd strings. basically for this function to work, job_list has to be different
@@ -98,14 +97,13 @@ char	**variable_declaration(char **str, char **vars)//will work with expand_vars
             temp_vars[i++] = ft_strdup(str[j]);
 		j++;
     }
-
 //	temp_vars[var_count + str_count] = NULL;
-	i = 0;
+/* 	i = 0;
 	while (temp_vars[i])
 	{
 		printf("%d: %s\n", i, temp_vars[i]);
 		i++;
-	}
+	} */
 	return (temp_vars);
 }
 

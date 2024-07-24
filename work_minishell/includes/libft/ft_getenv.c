@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 18:16:48 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/22 20:03:22 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/24 04:00:46 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	len_to_equal(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] && str[i] != '=')
@@ -51,7 +51,7 @@ char	*ft_getenv(char *str, char **env)
 	char	*temp;
 	int		i;
 
-	if (!env || !*env || !str || !*str)
+	if (!str || !*str)// check !env || !*env (basically for temp_vars to be checked ill remove this for now)
 		return (NULL);
 	i = 0;
 	while (env[i])
