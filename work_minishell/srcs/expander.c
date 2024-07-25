@@ -6,17 +6,19 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 03:18:24 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/24 03:59:38 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/25 03:14:25 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*expand_env_vars(char *input, char **env, char **temp_vars)
+char	*expand_env_vars(char *input, char **env, char **temp_vars)//take care of $$
 {
 	int 	i;
 	bool	flag = false;
-	char	**vars = ft_split(input, '$');//error check
+	char	**vars = ft_split(input, '$');
+	if (!vars)
+		return (NULL);
 	char	*output = NULL;
 	char	*temp = NULL;
 
@@ -29,9 +31,9 @@ char	*expand_env_vars(char *input, char **env, char **temp_vars)
 			flag = false;// dont hardcode like this
 		else
 		{
-			temp = ft_getenv(vars[i], env);
+			temp = ft_getenv(vars[i], env);//error check
 			if (!temp)
-				temp = ft_getenv(vars[i], temp_vars);
+				temp = ft_getenv(vars[i], temp_vars);//error check
 			vars[i] = temp;
 		}
 		if (vars[i])
@@ -43,16 +45,14 @@ char	*expand_env_vars(char *input, char **env, char **temp_vars)
 		}
 		i++;
 	}
-	//free
+	free_array(vars);
 	if (input[ft_strlen(input) - 1] == '$')//! dont hardcode like this
 		ft_strcat(output, "$");
 	output[ft_strlen(output)] = 0;
 	return (output);
 }
 
-//Variable names in the shell should consist of alphanumeric characters and underscores (_). They should not start with a digit.
-//job.job divides strings into cmd and execd strings. basically for this function to work, job_list has to be different
-char	**variable_declaration(char **str, char **vars)//will work with expand_vars
+char	**variable_declaration(char **str, char **vars)//fix "export hello=world && hello=hi", env hello has to become hi
 {
 	char **temp_vars;
 	int		var_count = ft_split_wordcount(vars);
@@ -97,13 +97,7 @@ char	**variable_declaration(char **str, char **vars)//will work with expand_vars
             temp_vars[i++] = ft_strdup(str[j]);
 		j++;
     }
-//	temp_vars[var_count + str_count] = NULL;
-/* 	i = 0;
-	while (temp_vars[i])
-	{
-		printf("%d: %s\n", i, temp_vars[i]);
-		i++;
-	} */
+	temp_vars[var_count + str_count] = NULL;
 	return (temp_vars);
 }
 

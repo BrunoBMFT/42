@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 18:16:48 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/24 04:00:46 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/24 20:53:00 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_getenv(char *str, char **env)
 	char	*temp;
 	int		i;
 
-	if (!str || !*str)// check !env || !*env (basically for temp_vars to be checked ill remove this for now)
+	if (!str || !*str || !env || !*env)
 		return (NULL);
 	i = 0;
 	while (env[i])

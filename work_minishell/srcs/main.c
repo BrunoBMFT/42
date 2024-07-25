@@ -6,12 +6,12 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:43:23 by ycantin           #+#    #+#             */
-/*   Updated: 2024/07/24 03:57:26 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/25 01:36:52 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+//change strncmp for strcmp
 int main (int ac, char **av, char **envp)
 {
 	char	**env = envp;
@@ -20,6 +20,7 @@ int main (int ac, char **av, char **envp)
 	char	*prompt;
 	t_jobs	*jobs;
 	char	**temp_vars = NULL;
+
 	while (1)
 	{
 		prompt = update_prompt();
@@ -27,16 +28,16 @@ int main (int ac, char **av, char **envp)
 //			clean_exit(jobs, line, prompt);
 		line = readline(prompt);
 		free(prompt);
-		line = expand_env_vars(line, env, temp_vars);
-		printf("line: %s\n", line);
+		if (!line || !line[0])
+			continue ;
+		add_history(line);
 		check_exit(line);
-//		add_history(line);
+		line = expand_env_vars(line, env, temp_vars);
 		jobs = build(line);
-		if (ft_strnstr(jobs->cmd, "=", ft_strlen(jobs->cmd)))//cmd: "export=" doesnt export or save anything
+		if (ft_strnstr(jobs->cmd, "=", ft_strlen(jobs->cmd)))
 			temp_vars = variable_declaration(jobs->job, temp_vars);
-//		start_executor(jobs, env);
-//		free(prompt);
-//		clear_jobs(&jobs);//edited by bruno
+		start_executor(jobs, env, temp_vars);
+		clear_jobs(&jobs);
 	}
 	return (0);
 }

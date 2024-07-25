@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:15:54 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/22 03:19:03 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/24 22:24:48 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	check_exit(char *line)// wrong for cmd1 | exit
 	if (ft_strcmp(line, "exit") == 0)
 	{
 		free(line);
-//		rl_clear_history();
+		rl_clear_history();
 		exit(0);
 	}
 }
