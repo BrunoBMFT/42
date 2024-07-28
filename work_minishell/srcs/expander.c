@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 03:18:24 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/25 03:14:25 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/27 20:59:27 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,43 @@ char	*expand_env_vars(char *input, char **env, char **temp_vars)//take care of $
 	return (output);
 }
 
-char	**variable_declaration(char **str, char **vars)//fix "export hello=world && hello=hi", env hello has to become hi
+char	**add_to_env(char **strs, char **temp_vars)
+{
+	char	**new_env;
+	new_env = ft_calloc(sizeof(char *), ft_split_wordcount(temp_vars) + ft_split_wordcount(strs) + 1);//errorcheck
+	int i = 0;
+	if (temp_vars)
+	{
+		while (temp_vars[i])
+		{
+			new_env[i] = ft_strdup(temp_vars[i]);
+			i++;
+		}
+	}
+	while (*strs)
+	{
+		int j = 0;
+		bool found = false;
+		while (new_env[j])
+        {
+            if (ft_strncmp(new_env[j], *strs, len_to_equal(new_env[j]) + 1) == 0) 
+			{
+                new_env[j] = ft_strdup(*strs);
+                found = true;
+                break;
+            }
+			j++;
+        }
+        if (found == false)
+            new_env[i] = ft_strdup(*strs);
+		i++;
+		strs++;
+	}
+	new_env[i] = NULL;
+	return (new_env);
+}
+
+/* char	**variable_declaration(char **str, char **vars)//fix "export hello=world && hello=hi", env hello has to become hi
 {
 	char **temp_vars;
 	int		var_count = ft_split_wordcount(vars);
@@ -99,5 +135,5 @@ char	**variable_declaration(char **str, char **vars)//fix "export hello=world &&
     }
 	temp_vars[var_count + str_count] = NULL;
 	return (temp_vars);
-}
+} */
 

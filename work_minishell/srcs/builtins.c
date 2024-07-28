@@ -6,17 +6,18 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:15:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/25 03:12:20 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/27 20:59:16 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 //check env vars problems (cd includesdadasd OR unset PATHASDHASDHASD)
 
-int	caught_export(t_jobs *job, char **env, char **temp_vars)//"hello=world && export hello" has to work
+int	caught_export(t_jobs *job, char **env, char **temp_vars)
 {//take care of env-i
 	char	**vars = NULL;
 	char	*temp = NULL;
+	char	**new_env = NULL;
 	int		i;
 	int		j;
 
@@ -24,18 +25,39 @@ int	caught_export(t_jobs *job, char **env, char **temp_vars)//"hello=world && ex
 	{
 		if (!job->execd)
 			return (caught_env(job, env));
-		vars = ft_split(job->execd, ' ');//error check
-		i = 0;
-		while (env[i])
-			i++;
-		j = 0;
-		while (vars[j])
+/* 		i = 0;
+		while (job->job[i + 1])//shift job to skip export
 		{
-			env[i] = ft_strdup(vars[j]);//error check
-			j++;
+			job->job[i] = job->job[i + 1];
+			i++;
+		}
+		job->job[i] = job->job[i + 1];//shift */
+/* 		i = 0;
+		while (job->job[i])
+		{
+			printf("%d: %s\n", i, job->job[i]);
+			i++;
+		} */
+		vars = ft_split(job->job[1], ' ');//error check
+		new_env = add_to_env(vars, env);//errorcheck and free
+		i = 0;
+		while (new_env[i])
+		{
+			env[i] = ft_strdup(new_env[i]);//errorcheck and free
 			i++;
 		}
 		env[i] = NULL;
+/* 		i = 0;
+		while (env[i])
+		{
+			if (new_env[i])
+				printf("new_env: %d: %s\n", i, new_env[i]);
+			if (env[i])
+				printf("env: %d: %s\n", i, env[i]);
+			i++;
+		} */
+/* 		printf("env: %d\n", ft_split_wordcount(env));
+		printf("new_env: %d\n", ft_split_wordcount(new_env)); */
 		//free stuff
 	}
 	else
@@ -100,7 +122,7 @@ int	unset_aux(char **to_remove, char **env)
 	return (0);
 }
 
-int	caught_unset(t_jobs *job, char **env, char **temp_vars)
+int	caught_unset(t_jobs *job, char **env, char **temp_vars)//segfault if var doesnt exist
 {
 	int		i;
 	char	**to_remove;

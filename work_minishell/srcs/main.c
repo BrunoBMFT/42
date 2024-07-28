@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:43:23 by ycantin           #+#    #+#             */
-/*   Updated: 2024/07/25 01:36:52 by bruno            ###   ########.fr       */
+/*   Updated: 2024/07/27 20:59:06 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,17 @@ int main (int ac, char **av, char **envp)
 		line = expand_env_vars(line, env, temp_vars);
 		jobs = build(line);
 		if (ft_strnstr(jobs->cmd, "=", ft_strlen(jobs->cmd)))
-			temp_vars = variable_declaration(jobs->job, temp_vars);
+			temp_vars = add_to_env(jobs->job, temp_vars);
+/* 		int i = 0;
+ 		if (temp_vars)
+		{
+			
+			while(temp_vars[i])
+			{
+				printf("%d: %s\n", i, temp_vars[i]);
+				i++;
+			}
+		} */
 		start_executor(jobs, env, temp_vars);
 		clear_jobs(&jobs);
 	}
