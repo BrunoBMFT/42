@@ -6,85 +6,70 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:13:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/07/23 16:54:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/08/19 02:06:42 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*find_path(char *command, char **env)
+int	child_process(t_jobs *job, char **env, char ***temp_vars)
 {
-	//use strcmp
-	char	**paths;
-	char	*path;
-
-	while (*env && ft_strnstr(*env, "PATH", 4) == 0)
-		env++;
-	if (!*env)
-		return NULL;
-	paths = ft_split(*env, ':');
-	while (*paths)
-	{
-		*paths = ft_strjoin(*paths, "/");
-		path = ft_strjoin(*paths, command);
-		if (access(path, F_OK) == 0)
-			return (path);
-		free (path);
-		paths++;
-	}
-	free_array(paths);
-	return (NULL);
-}
-
-bool	execute_job(char **command, char **env)
-{
-	char	*path = find_path(command[0], env);
-	if (!path)
-		return (printf("no command\n"), false);//free the commands
-	execve(path, command, env);
-	printf("execve failed\n");
-	free_array(command);
-	return true;
-}
-
-int	child_process(t_jobs *job, char **env)
-{
+	pid_t	pid;
 	int		fd[2];
 	int		status = 0;
 
+	if (ft_strcmp(job->job[0], "cd") == 0)//not really working with multiple jobs
+		return (caught_cd(job, env));
 	pipe(fd);
-	pid_t pid = new_fork();
+	pid = new_fork();
 	if (pid == 0)
 	{
-/* 		sig = 1;
-		if (set_up_signal(handle_sigint) < 0);
-			clean_exit(job, NULL, NULL); */
 		close(fd[READ]);
-		dup2(fd[WRITE], STDOUT_FILENO);
+		dup2(fd[WRITE], STDOUT_FILENO);//error check
 		close(fd[WRITE]);
-		if (!execute_job(job->job, env))
-			panic("execute");
+		if (try_builtins(job, &env, temp_vars) == 200)
+			execute_job(job->job, env);
 	}
 	close(fd[WRITE]);
-	dup2(fd[READ], STDIN_FILENO);
+	dup2(fd[READ], STDIN_FILENO);//error check
 	close(fd[READ]);
 	waitpid(pid, &status, 0);
-	return WEXITSTATUS(status);
+	return (WEXITSTATUS(status));
 }
 
-int	simple_process(t_jobs *job, char **env)
+int	simple_process(t_jobs *job, char **env, char ***temp_vars)
 {
-	int	pid = new_fork();
+	pid_t	pid;
+	int	status;
+
+	if (ft_strcmp(job->job[0], "cd") == 0)//not really working with multiple jobs
+		return (caught_cd(job, env));//also has to work with just ..
+	status = 0;
+	pid = new_fork();
 	if (pid == 0)
 	{
-/* 		sig = 1;
-		if (set_up_signal(handle_sigint) < 0);
-			clean_exit(job, NULL, NULL); */
-		if (!execute_job(job->job, env))
-			panic("simple execute failed\n");//free fds, show exit code and perror
+		if (try_builtins(job, &env, temp_vars) == 200)
+			execute_job(job->job, env);//has to take in temp_vars as well, stuff like unset?
 	}
-	int status = 0;
 	waitpid(pid, &status, 0);
-//	printf("status: %d\n", WEXITSTATUS(status));
+	if (env[31])
+		printf("outside b4: %s\n", env[31]);
+	if (env[32])
+		printf("outside: %s\n", env[32]);
 	return (WEXITSTATUS(status));
+}
+void	panic(char *s)
+{
+	ft_putendl_fd(s, 2);
+	exit(1);
+}
+
+int	new_fork(void)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
+		panic("fork");
+	return (pid);
 }

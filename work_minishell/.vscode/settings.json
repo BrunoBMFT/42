@@ -7,6 +7,11 @@
 		"tuple": "c",
 		"type_traits": "c",
 		"utility": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"signal.h": "c",
+		"stdbool.h": "c",
+		"stdarg.h": "c",
+		"unistd.h": "c",
+		"stdio.h": "c"
 	}
 }

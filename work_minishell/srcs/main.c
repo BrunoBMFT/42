@@ -6,47 +6,52 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:43:23 by ycantin           #+#    #+#             */
-/*   Updated: 2024/07/27 20:59:06 by bruno            ###   ########.fr       */
+/*   Updated: 2024/08/19 01:58:38 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-//change strncmp for strcmp
-int main (int ac, char **av, char **envp)
+
+int	main(int ac, char **av, char **envp)
 {
 	char	**env = envp;
 	char	*line;
 	char	*dir;
 	char	*prompt;
 	t_jobs	*jobs;
+	t_jobs	*curr;
 	char	**temp_vars = NULL;
+	int		status = 0;
 
 	while (1)
 	{
 		prompt = update_prompt();
-//		if (set_up_signal(ctrl_c_idle) < 0)
-//			clean_exit(jobs, line, prompt);
+/* 		
+if (set_signal(SIGINT, ctrl_c_idle) < 0 || set_signal(SIGQUIT, SIG_IGN) < 0)
+			clean_exit(jobs, line, prompt); */
 		line = readline(prompt);
 		free(prompt);
 		if (!line || !line[0])
-			continue ;
-		add_history(line);
-		check_exit(line);
-		line = expand_env_vars(line, env, temp_vars);
-		jobs = build(line);
-		if (ft_strnstr(jobs->cmd, "=", ft_strlen(jobs->cmd)))
-			temp_vars = add_to_env(jobs->job, temp_vars);
-/* 		int i = 0;
- 		if (temp_vars)
+			continue ;//free line?
+		line = parse_quotes(line);
+/* 		
+if (secondquote(line))
 		{
-			
-			while(temp_vars[i])
-			{
-				printf("%d: %s\n", i, temp_vars[i]);
-				i++;
-			}
+			free(line);
+			ft_printf("error: unclosed quote\n");
+			continue ;
 		} */
-		start_executor(jobs, env, temp_vars);
+		check_exit(line);//technically a builtin
+		add_history(line);
+		jobs = build(line, env, status);//find better way to send status
+		curr = jobs;
+		status = start_executor(curr, env, &temp_vars);
+/* 		int i = 0;
+		while (temp_vars && temp_vars[i])
+		{
+			printf("temp_vars %d: %s\n", i, temp_vars[i]);
+			i++;
+		} */
 		clear_jobs(&jobs);
 	}
 	return (0);

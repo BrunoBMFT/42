@@ -6,11 +6,17 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:18:01 by ycantin           #+#    #+#             */
-/*   Updated: 2024/07/16 17:36:37 by bruno            ###   ########.fr       */
+/*   Updated: 2024/08/17 16:48:07 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	clean_up_build(t_token **list, char *cmd_line)
+{
+	clear_list(list);
+	free(cmd_line);
+}
 
 void	clean_exit(t_jobs *jobs, char *line, char *prompt)
 {
@@ -39,11 +45,12 @@ void	clear_list(t_token **lst)
 	{
 		temp = current->next;
 		free(current->token);
-        free(current);
+		free(current);
 		current = temp;
 	}
 	*lst = NULL;
 }
+
 void	clear_jobs(t_jobs **lst)
 {
 	t_jobs	*temp;
@@ -53,17 +60,29 @@ void	clear_jobs(t_jobs **lst)
 	while (current)
 	{
 		temp = current->next;
-		if (current->cmd)
-			free(current->cmd);
-		if (current->execd)
-			free(current->execd);
 		if (current->job)
 			free_array(current->job);
-        free(current);
+		free(current);
 		current = temp;
 	}
 	*lst = NULL;
 }
+/* yohan's version
+void	clear_jobs(t_jobs **lst)
+{
+	t_jobs	*temp;
+	t_jobs	*current;
+
+	current = *lst;
+	while (current)
+	{
+		temp = current->next;
+		free_array(current->job);
+        free(current);
+		current = temp;
+	}
+	*lst = NULL;
+} */
 
 void	free_all(t_token **list, char **array, char *message, int len)
 {
