@@ -1,4 +1,4 @@
-NAME = philosophers
+NAME = philo
 SRCS_DIR = ./srcs
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
@@ -6,33 +6,35 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-SRCS = main.c parser.c
+SRCS = main.c parser.c logs.c aux.c list.c
 
 #CFLAGS = -Wall -Wextra -Werror -fsanitize=address -pthread
-CFLAGS = 
-LIBFT_DIR = ./includes/libft
-LIBFT = $(LIBFT_DIR)/libft.a
+CFLAGS = -fsanitize=address -pthread
 
 all: $(NAME)
 $(NAME): $(OBJS) $(LIBFT)
-	@cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+	@cc $(CFLAGS) -o $(NAME) $(OBJS)
 	@echo $(NAME) ready!
-
-$(LIBFT):
-	@echo libft compiling!
-	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
-	@echo libft compiled and ready!
 
 clean:
 	@rm -f -r $(OBJS_DIR)
-	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
 	@echo objects clean
 
 fclean: clean
 	@rm -f $(NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
 	@echo $(NAME) fclean
 
 re: fclean all
+
+1:
+	cc test1.c $(CFLAGS)
+2:
+	cc test2.c $(CFLAGS)
+3:
+	cc test3.c $(CFLAGS)
+4:
+	cc test4.c $(CFLAGS)
+5:
+	cc test5.c $(CFLAGS)
 
 .PHONY: all fclean clean re

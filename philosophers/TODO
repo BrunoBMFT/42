@@ -1,0 +1,59 @@
+//thread
+//mutex
+//lock
+
+
+
+
+philo can only eat if has 2 forks (lock 2 forks)
+after eating, philo puts the forks on table (unlock 2 forks), and sleeps
+after waking up, philo thinks until 2 forks next to him are free (unlocked)
+
+
+have to take care of timers resetting
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//pthreadexit ensure that the thread resources are cleaned up
+	//	and that the ret value is passed to pthreadjoin
+	//using return (NULL) also returns the return value to pthreadjoin
+	//threadexit explicitly terminates the thread, the other does it implicitly
+	//both clean up the thread and return control to the calling thread
+
+pthread create recieves a pthread id, NULL, a function, and NULL
+	said function has to be void *
+
+pthread exit is like a return (not allowed)
+
+pthread join makes execution stop at that line until the thread is terminated/complete
+
+pthread detach makes it that it does not need to be joined when it terminates
+	when the thread is done, resources are automatically released 
+
+
+Need to understand better
+mutex is used to lock resources from other threads
+	it locks from other threads access to a region of code
+
+when a thread mutexes a part of the code, the other threads need to wait 
+	for it to be done to be able to access that region of code
+
+pthread mutex init initiates a pthread_mutex_t variable
+
+pthread mutex destroy frees the mutex resources
+
+pthread mutex lock locks that specific part of the code
+and
+pthread mutex unlock unlocks that same specific part
