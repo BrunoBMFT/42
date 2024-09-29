@@ -1,0 +1,6 @@
+create a clone of the sudoku unsolved to be able to edit it
+therefore i only need to print it every time
+
+have the input numbers be a different color
+
+make a checker for solved cases, stating whether impossible or possible
