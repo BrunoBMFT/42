@@ -18,18 +18,3 @@ int	calculate_time(t_philo *philo)
 	return (current_time);
 }
 
-void	sleep_action(t_philo *philo)
-{
-	int	time_since_start = calculate_time(philo);
-	print_sleeping(time_since_start, philo->id);
-	philo->has_slept = true;
-	usleep(philo->info.time_to_sleep * 1000);
-}
-
-void	think_action(t_philo *philo)
-{
-	int	time_since_start = calculate_time(philo);
-	print_thinking(time_since_start, philo->id);
-	//usleep not here because its waiting for a fork
-}
-

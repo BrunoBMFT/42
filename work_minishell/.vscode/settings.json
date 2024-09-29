@@ -12,6 +12,12 @@
 		"stdbool.h": "c",
 		"stdarg.h": "c",
 		"unistd.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"fcntl.h": "c",
+		"features.h": "c",
+		"types.h": "c",
+		"history.h": "c",
+		"limits.h": "c",
+		"stdlib.h": "c"
 	}
 }

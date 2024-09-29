@@ -6,22 +6,26 @@
 #    By: bruno <bruno@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/23 16:39:56 by ycantin           #+#    #+#              #
-#    Updated: 2024/08/15 20:45:46 by bruno            ###   ########.fr        #
+#    Updated: 2024/09/17 23:52:11 by bruno            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =	minishell
 
 SRCS_DIR = ./srcs
-SRCS =	main.c aux.c builtins.c executor.c process.c process_aux.c \
-		heredoc.c signal.c smooth_usrexp.c \
-		lexer.c lexer_utils.c frees.c job_list.c job_utils.c \
-		parse.c expansion.c redirections.c
+SRCS = main.c $(addprefix aux/, $(AUX_SRCS)) $(addprefix lexer/, $(LEXER_SRCS)) $(addprefix expand/, $(EXPAND_SRCS)) $(addprefix executor/, $(EXECUTOR_SRCS)) $(addprefix builtins/, $(BUILTINS_SRCS))
+
+AUX_SRCS = aux.c frees.c signal.c
+EXPAND_SRCS = expansion.c error_correction.c error_correction_utils.c 
+LEXER_SRCS = lexer.c lexer_utils.c tokenize.c tokenize_utils.c parse.c
+EXECUTOR_SRCS = executor.c process.c process_aux.c heredoc.c
+BUILTINS_SRCS = builtins.c export.c pwd.c env.c unset.c cd.c echo.c exit.c
+#redirections.c
 
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@mkdir -p $(OBJS_DIR)
+	@mkdir -p $(dir $@)
 	@cc $(CFLAGS) -c $< -o $@
 
 LIBFT_DIR = ./includes/libft
@@ -56,8 +60,14 @@ re: fclean all
 run: all
 	clear && ./minishell
 vrun: all
-	clear && valgrind --leak-check=full --suppressions=readline.supp ./minishell
+	clear && valgrind --leak-check=full --suppressions=includes/readline.supp ./minishell
 fullvrun: all
-	clear && valgrind --leak-check=full --suppressions=readline.supp --show-leak-kinds=all --track-origins=yes ./minishell
+	clear && valgrind --leak-check=full --suppressions=includes/readline.supp --show-leak-kinds=all --track-origins=yes ./minishell
+
+fullvrunenv: all
+	clear && env -i valgrind --leak-check=full --suppressions=includes/readline.supp --show-leak-kinds=all --track-origins=yes ./minishell
+fullvrununset: all
+	clear && unset PATH && /usr/bin/valgrind --leak-check=full --suppressions=includes/readline.supp --show-leak-kinds=all --track-origins=yes ./minishell
+
 
 .PHONY: all fclean clean re

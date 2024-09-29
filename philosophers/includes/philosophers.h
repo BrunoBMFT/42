@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:49:43 by bruno             #+#    #+#             */
-/*   Updated: 2024/09/25 02:49:47 by bruno            ###   ########.fr       */
+/*   Updated: 2024/09/28 22:52:05 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,13 @@ typedef struct s_philo
 	t_info			info;
 	struct s_philo	*next;
 
-	bool			has_eaten;//remove?
-	bool			has_slept;//remove?
+	bool			has_eaten;
+//	bool			has_slept;
+//	bool			has_died;
 }				t_philo;
 
 typedef struct s_table
 {
-	int				philo_num;//remove when possible
-	int				fork_num;
 	pthread_mutex_t	sim_mutex;
 	t_philo			*philo;
 }				t_table;
@@ -74,12 +73,8 @@ void	sleep_action(t_philo *philo);
 //void	eat_action(t_philo *philo);
 void	think_action(t_philo *philo);
 
-//logs
-void	print_eating(int time, int philo);
-void	print_tookfork(int time, int philo);
-void	print_sleeping(int time, int philo);
-void	print_thinking(int time, int philo);
-void	print_died(int time, int philo);
+void	print_action(int time, int philo, int action);
+
 
 //list
 t_philo	*ft_lstnew(int counter);

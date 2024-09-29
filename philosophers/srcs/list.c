@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 04:02:06 by bruno             #+#    #+#             */
-/*   Updated: 2024/09/25 02:50:07 by bruno            ###   ########.fr       */
+/*   Updated: 2024/09/28 22:54:50 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@ void	init_table(t_table *table, char **av)
 	t_philo			*temp;
 
 	philo = NULL;
-	table->philo_num = ft_atoi(av[1]);
 	pthread_mutex_init(&table->sim_mutex, NULL);
-	table->fork_num = table->philo_num;
 	int i = 0;
-	while (i < table->philo_num)
+	while (i < ft_atoi(av[1]))
 	{
 		temp = ft_lstnew(i);
 		ft_lstadd_back(&philo, temp);
@@ -47,9 +45,8 @@ t_philo	*ft_lstnew(int counter)
 	philo->next = NULL;
 	philo->info.start_time = get_time(philo);
 	
-	//possibly unused
+
 	philo->has_eaten = false;
-	philo->has_slept = false;
 	philo->info.time_to_die = 200;//av[2]
 	philo->info.time_to_eat = 50;//av[3]
 	philo->info.time_to_sleep = 100;//av[4]

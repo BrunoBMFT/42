@@ -6,52 +6,58 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:43:23 by ycantin           #+#    #+#             */
-/*   Updated: 2024/08/19 01:58:38 by bruno            ###   ########.fr       */
+/*   Updated: 2024/09/27 01:54:30 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	print_jobs(char *line, t_jobs *jobs)
+{
+	printf("line: %s\n", line);
+	int i = 0;
+	while (jobs->job[i])
+	{
+		printf("job %d: %s\n", i, jobs->job[i]);
+		i++;
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
-	char	**env = envp;
-	char	*line;
-	char	*dir;
-	char	*prompt;
+	t_env	env;
 	t_jobs	*jobs;
 	t_jobs	*curr;
-	char	**temp_vars = NULL;
-	int		status = 0;
+	char	*line;
+	char	*dir;
 
+	env = init_env(envp);
 	while (1)
 	{
-		prompt = update_prompt();
-/* 		
-if (set_signal(SIGINT, ctrl_c_idle) < 0 || set_signal(SIGQUIT, SIG_IGN) < 0)
-			clean_exit(jobs, line, prompt); */
-		line = readline(prompt);
-		free(prompt);
+/* 		signal(SIGINT, handle_signal_main);
+		signal(SIGQUIT, SIG_IGN); */
+		choose_signal(ROOT_SIG);
+		env.prompt = update_prompt();
+		line = readline(env.prompt);
+		free(env.prompt);
 		if (!line || !line[0])
-			continue ;//free line?
-		line = parse_quotes(line);
-/* 		
-if (secondquote(line))
+		{
+			free (line);
+			continue ;
+		}
+		if (secondquote(line) == 1)	//remove if you want to request additional info to finish prompt
 		{
 			free(line);
 			ft_printf("error: unclosed quote\n");
 			continue ;
-		} */
-		check_exit(line);//technically a builtin
+		}
 		add_history(line);
-		jobs = build(line, env, status);//find better way to send status
+//char *temp = line;
+		line = parse_quotes(line);
+		jobs = build(line, env);
+//print_jobs(line, jobs);
 		curr = jobs;
-		status = start_executor(curr, env, &temp_vars);
-/* 		int i = 0;
-		while (temp_vars && temp_vars[i])
-		{
-			printf("temp_vars %d: %s\n", i, temp_vars[i]);
-			i++;
-		} */
+		env.status = start_executor(curr, env);
 		clear_jobs(&jobs);
 	}
 	return (0);
