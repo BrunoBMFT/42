@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 04:02:06 by bruno             #+#    #+#             */
-/*   Updated: 2024/09/28 22:54:50 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/02 02:44:38 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,17 @@ void	init_table(t_table *table, char **av)
 	t_philo			*temp;
 
 	philo = NULL;
-	pthread_mutex_init(&table->sim_mutex, NULL);
 	int i = 0;
 	while (i < ft_atoi(av[1]))
 	{
-		temp = ft_lstnew(i);
+		temp = ft_lstnew(i, av);
 		ft_lstadd_back(&philo, temp);
 		i++;
 	}
-	temp = philo;//stupid fix
-	while (philo->next != temp)//stupid fix
-		philo = philo->next;//stupid fix
 	table->philo = philo;
 }
 
-t_philo	*ft_lstnew(int counter)
+t_philo	*ft_lstnew(int counter, char **av)
 {
 	t_philo	*philo;
 	philo = malloc(sizeof(t_philo));
@@ -40,16 +36,16 @@ t_philo	*ft_lstnew(int counter)
 		return (NULL);
 	
 	pthread_mutex_init(&philo->fork, NULL);
-	philo->id = counter + 1;//find better way to send id and ptid and stuff
+	philo->id = counter + 1;
 	philo->ptid = 0;
 	philo->next = NULL;
-	philo->info.start_time = get_time(philo);
+	philo->info.start_time = get_current_time(philo);
+	philo->info.last_meal = get_current_time(philo);
 	
 
-	philo->has_eaten = false;
-	philo->info.time_to_die = 200;//av[2]
-	philo->info.time_to_eat = 50;//av[3]
-	philo->info.time_to_sleep = 100;//av[4]
+	philo->info.time_to_die = ft_atoi(av[2]);//make this in parser?
+	philo->info.time_to_eat = ft_atoi(av[3]);
+	philo->info.time_to_sleep = ft_atoi(av[4]);
 
 	return (philo);
 }

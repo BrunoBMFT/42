@@ -6,47 +6,26 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 02:39:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/09/28 15:54:17 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/02 01:19:38 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	print_eating(int time, int philo)
+void	print_action(t_philo *philo, int action)
 {
-	printf("%d %d is eating\n", time, philo);
-}
+	int	time;
 
-void	print_tookfork(int time, int philo)
-{
-	printf("%d %d has taken a fork\n", time, philo);
-}
-
-void	print_sleeping(int time, int philo)
-{
-	printf("%d %d is sleeping\n", time, philo);
-}
-
-void	print_thinking(int time, int philo)
-{
-	printf("%d %d is thinking\n", time, philo);
-}
-
-void	print_died(int time, int philo)
-{
-	printf("%d %d died\n", time, philo);
-}
-
-void	print_action(int time, int philo, int action)
-{
+	time = time_since_start(philo);
+	//print mutexes?
 	if (action == TOOKFORK)
-		printf("%d %d has taken a fork\n", time, philo);
+		printf("%d %d has taken a fork\n", time, philo->id);
 	if (action == EATING)
-		printf("%d %d is eating\n", time, philo);
+		printf("%d %d is eating\n", time, philo->id);
 	if (action == SLEEPING)
-		printf("%d %d is sleeping\n", time, philo);
+		printf("%d %d is sleeping\n", time, philo->id);
 	if (action == THINKING)
-		printf("%d %d is thinking\n", time, philo);
+		printf("%d %d is thinking\n", time, philo->id);
 	if (action == DIED)
-		printf("%d %d died\n", time, philo);
+		printf("%d %d died\n", time, philo->id);
 }

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:49:43 by bruno             #+#    #+#             */
-/*   Updated: 2024/09/28 22:52:05 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/02 02:43:53 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_info
 {
 	struct timeval	time;
 	int				start_time;
+	int				last_meal;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -45,11 +46,9 @@ typedef struct s_philo
  	pthread_t		ptid;
 	pthread_mutex_t	fork;
 	t_info			info;
+//have a table reference for each philo?
 	struct s_philo	*next;
 
-	bool			has_eaten;
-//	bool			has_slept;
-//	bool			has_died;
 }				t_philo;
 
 typedef struct s_table
@@ -60,24 +59,28 @@ typedef struct s_table
 
 
 bool	parser(int ac, char **av);
-int	ft_atoi(const char *str);
+int		ft_atoi(const char *str);
 void	*start_philo(void *arg);
 void	init_table(t_table *table, char **av);
 
 //time
-int	get_time(t_philo *philo);
-int	calculate_time(t_philo *philo);
+int	get_current_time(t_philo *philo);
+int	time_since_start(t_philo *philo);
+int	time_since_last(t_philo *philo);
+
+void	lock(t_philo *philo);
+void	unlock(t_philo *philo);
 
 //action
-void	sleep_action(t_philo *philo);
-//void	eat_action(t_philo *philo);
-void	think_action(t_philo *philo);
+/* void	sleep_action(t_philo *philo);
+void	eat_action(t_philo *philo);
+void	think_action(t_philo *philo); */
 
-void	print_action(int time, int philo, int action);
 
+void	print_action(t_philo *philo, int action);
 
 //list
-t_philo	*ft_lstnew(int counter);
+t_philo	*ft_lstnew(int counter, char **av);
 void	ft_lstadd_back(t_philo **lst, t_philo *to_add);
 void	ft_lstclear(t_philo **philo);
 
