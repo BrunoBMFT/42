@@ -43,6 +43,9 @@ pthread detach makes it that it does not need to be joined when it terminates
 	when the thread is done, resources are automatically released 
 
 
+
+
+
 Need to understand better
 mutex is used to lock resources from other threads
 	it locks from other threads access to a region of code

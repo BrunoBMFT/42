@@ -6,13 +6,13 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-SRCS = main.c parser.c logs.c aux.c list.c
+SRCS = main.c parser.c init.c logs.c aux.c
 
-#CFLAGS = -Wall -Wextra -Werror -fsanitize=address -pthread
-CFLAGS = -fsanitize=address -pthread
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -pthread
 
 all: $(NAME)
-$(NAME): $(OBJS) $(LIBFT)
+
+$(NAME): $(OBJS)
 	@cc $(CFLAGS) -o $(NAME) $(OBJS)
 	@echo $(NAME) ready!
 

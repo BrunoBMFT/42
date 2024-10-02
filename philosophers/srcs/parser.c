@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:48:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/09/23 02:53:38 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/02 18:54:29 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ long	ft_atol(const char *str)
 	return (sign * result);
 }
 
-bool	size_check(char **av)
+bool	check(char **av)
 {
 	int		i = 0;
 	size_t	num;
@@ -95,11 +95,13 @@ bool	size_check(char **av)
 	return (true);
 }
 
-bool	parser(int ac, char **av)
+bool	parser(int ac, char **av, t_table *table)
 {
 	if (ac < 5 || ac > 6)
 		return (printf("wrong number of arguments\n"), false);
-	if (!size_check(av))
+	if (!check(av))
 		return (false);
+	if (!init_table(table, av))
+		return (false);//has to clear last philos and table
 	return (true);
 }
