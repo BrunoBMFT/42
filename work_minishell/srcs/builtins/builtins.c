@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:15:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/09/12 18:06:47 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/10/08 00:26:00 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 //dont use bool pipe
 
-int	try_builtins(t_jobs *job, t_env env, bool pipe)
+int	try_builtins(t_jobs *job, t_env *env, bool pipe)
 {
 	int	status;
 
@@ -31,6 +31,6 @@ int	try_builtins(t_jobs *job, t_env env, bool pipe)
 	else if (ft_strcmp(job->job[0], "exit") == 0)
 		status = caught_exit(job, env, pipe);
 	if (pipe && status != 200)
-		clean_exit(job, env, status);//use some other function
+		clean_exit(job, env, status);//use some other function?
 	return (status);
 }

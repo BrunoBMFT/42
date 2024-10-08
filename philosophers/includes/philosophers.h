@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:49:43 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/02 18:53:18 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/08 21:10:53 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,18 @@ typedef struct s_info
 	struct timeval	time;
 	int				start_time;
 	int				last_meal;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-//	int				num_times_eat;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	int				time_think;
+	int				num_times_eat;
 }				t_info;
 
 
 typedef struct s_philo
 {
 	int 			id;
+	int				num;
  	pthread_t		ptid;
 	pthread_mutex_t	fork;
 	t_info			info;

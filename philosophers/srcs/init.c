@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 04:02:06 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/02 19:00:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/08 20:13:47 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	init_table(t_table *table, char **av)
 	return (true);
 }
 
-t_philo	*ft_lstnew(int counter, char **av)
+t_philo	*ft_lstnew(int id, char **av)
 {
 	t_philo	*philo;
 	philo = malloc(sizeof(t_philo));
@@ -39,17 +39,20 @@ t_philo	*ft_lstnew(int counter, char **av)
 		return (printf("alloc fail\n"), NULL);
 	
 	pthread_mutex_init(&philo->fork, NULL);
-	philo->id = counter + 1;
+	philo->id = id + 1;
+	philo->num = ft_atoi(av[1]);//instead of having this like this, save this as var and send it in
 	philo->ptid = 0;
 	philo->next = NULL;
 	philo->info.start_time = get_time(philo);
 	philo->info.last_meal = get_time(philo);
-	
-
-	philo->info.time_to_die = ft_atoi(av[2]);
-	philo->info.time_to_eat = ft_atoi(av[3]);
-	philo->info.time_to_sleep = ft_atoi(av[4]);
-
+	philo->info.time_die = ft_atoi(av[2]);
+	philo->info.time_eat = ft_atoi(av[3]);
+	philo->info.time_sleep = ft_atoi(av[4]);
+	philo->info.time_think = philo->info.time_die - philo->info.time_eat - philo->info.time_sleep;// divided by 4?
+	if (av[5])
+		philo->info.num_times_eat = ft_atoi(av[5]);
+	else
+		philo->info.num_times_eat = -1;
 	return (philo);
 }
 

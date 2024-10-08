@@ -6,12 +6,12 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:48:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/02 18:54:29 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/08 18:17:42 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//number_of_philosophers   time_to_die   time_to_eat  
-//time_to_sleep  [number_of_times_each_philosopher_must_eat]
+//number_of_philosophers   time_die   time_eat  
+//time_sleep  [number_of_times_each_philosopher_must_eat]
 #include "../includes/philosophers.h"
 
 bool	ft_isdigit(int c)

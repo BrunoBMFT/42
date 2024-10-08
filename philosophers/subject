@@ -35,17 +35,17 @@ You have to write a program for the mandatory part and another one for the bonus
 	• Global variables are forbidden!
 
 	• Your(s) program(s) should take the following arguments:
-	  number_of_philosophers time_to_die time_to_eat time_to_sleep
+	  number_of_philosophers time_die time_eat time_sleep
 	  [number_of_times_each_philosopher_must_eat]
 
 		◦ number_of_philosophers: The number of philosophers and also the number
 		  of forks.
-		◦ time_to_die (in milliseconds): If a philosopher didn’t start eating time_to_die
+		◦ time_die (in milliseconds): If a philosopher didn’t start eating time_die
 		  milliseconds since the beginning of their last meal or the beginning of the 
 		  simulation, they die.
-		◦ time_to_eat (in milliseconds): The time it takes for a philosopher to eat.
+		◦ time_eat (in milliseconds): The time it takes for a philosopher to eat.
 		  During that time, they will need to hold two forks.
-		◦ time_to_sleep (in milliseconds): The time a philosopher will spend sleeping.
+		◦ time_sleep (in milliseconds): The time a philosopher will spend sleeping.
 		◦ number_of_times_each_philosopher_must_eat (optional argument): If all
 		  philosophers have eaten at least number_of_times_each_philosopher_must_eat
 		  times, the simulation stops. If not specified, the simulation stops when a
@@ -84,8 +84,8 @@ Mandatory part
 Program name philo
 Turn in files Makefile, *.h, *.c, in directory philo/
 Makefile NAME, all, clean, fclean, re
-Arguments number_of_philosophers time_to_die time_to_eat
-time_to_sleep
+Arguments number_of_philosophers time_die time_eat
+time_sleep
 [number_of_times_each_philosopher_must_eat]
 External functs. memset, printf, malloc, free, write,
 usleep, gettimeofday, pthread_create,
@@ -107,8 +107,8 @@ Bonus part
 Program name philo_bonus
 Turn in files Makefile, *.h, *.c, in directory philo_bonus/
 Makefile NAME, all, clean, fclean, re
-Arguments number_of_philosophers time_to_die time_to_eat
-time_to_sleep
+Arguments number_of_philosophers time_die time_eat
+time_sleep
 [number_of_times_each_philosopher_must_eat]
 External functs. memset, printf, malloc, free, write, fork, kill,
 exit, pthread_create, pthread_detach, pthread_join,

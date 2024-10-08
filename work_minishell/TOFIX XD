@@ -1,7 +1,8 @@
 Signals
-export leaking memory
-export printing env prints in alphabetical order
 
+switch things to getenv instead of ft_getenv
+
+test the env builtins (env unset export)
 test with "" as commands (cat)
 
 FIX PIPE priorities in lines with ||
@@ -14,7 +15,6 @@ fix "" and " " as a command, (command not found)
 
 bool pipe can be sent in struct
 	FIX PIPED IN EXECUTOR
-	check priorities, seems alright
 	
 	fix echo -> echo hello "" world
 parse_quotes doesnt need to read unclosed quotations
