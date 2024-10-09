@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:38:21 by ycantin           #+#    #+#             */
-/*   Updated: 2024/10/08 00:24:54 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/09 13:20:22 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int		secondquote(char *line);
 int		parse_last_token(char **cmd_line, t_token **list, t_token **last);
 
 //executor
-int		start_executor(t_jobs *job, t_env *env);
+void	start_executor(t_jobs *job, t_env *env);
 int		child_process(t_jobs *job, t_env *env);
 int		simple_process(t_jobs *job, t_env *env);
 int		execute_job(t_jobs *job, t_env *env);

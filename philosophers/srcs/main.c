@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:48:41 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/08 21:12:40 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/09 15:38:22 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ bool	is_alive(t_philo *philo)
 		return (print_action(philo, DIED), false);
 	return (true);
 }
-
 
 void	join_threads(t_philo *philo)
 {
