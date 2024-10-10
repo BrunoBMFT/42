@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:26:33 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/09 16:31:35 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:19:14 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	executor_input(t_jobs *job, int *status)
 		*status = 127;
 		return (-1);
 	}
-	dup2(redirected_input, STDIN_FILENO);//stdin needs to be changed to something invalid
+	dup2(redirected_input, STDIN_FILENO);//wrong input + pipe not working
 	close(redirected_input);
 	return (0);
 }
@@ -66,14 +66,12 @@ int	executor_output(t_jobs *job, int *status)
 
 void	start_executor(t_jobs *job, t_env *env)
 {
-	int 	saved_stdin;
-	int 	saved_stdout;
 	int 	redirected_output;
 	signal(SIGINT, handle_signal_child);
 	signal(SIGQUIT, sigquit);
 	
-	saved_stdin = dup(STDIN_FILENO);
-	saved_stdout = dup(STDOUT_FILENO);
+	env->saved_stdin = dup(STDIN_FILENO);
+	env->saved_stdout = dup(STDOUT_FILENO);
 	while (job)
 	{
 		//expanding
@@ -83,6 +81,7 @@ void	start_executor(t_jobs *job, t_env *env)
 		//redirections
 		if (job->input)
 		{
+			
 			if (executor_input(job, &env->status) < 0)
 			{
 //				job = job->next;
@@ -122,8 +121,8 @@ void	start_executor(t_jobs *job, t_env *env)
 
 
 		//resets
-		dup2(saved_stdin, STDIN_FILENO);
-		dup2(saved_stdout, STDOUT_FILENO);
+		dup2(env->saved_stdin, STDIN_FILENO);
+		dup2(env->saved_stdout, STDOUT_FILENO);
 		if (job->heredoc_file && access(job->heredoc_file, F_OK) == 0)
 			remove(job->heredoc_file);
 
@@ -159,7 +158,7 @@ void	start_executor(t_jobs *job, t_env *env)
 	}
 	if (access(".heredoc", F_OK) == 0)
 		remove(".heredoc");
-	close(saved_stdin);//if exit is called, it will exit before closing this
-	close(saved_stdout);//if exit is called, it will exit before closing this
+	close(env->saved_stdin);//if exit is called, it will exit before closing this
+	close(env->saved_stdout);//if exit is called, it will exit before closing this
 	return ;
 }
