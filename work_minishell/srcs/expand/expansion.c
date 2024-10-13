@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:53:14 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/10 12:34:37 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/10/13 21:35:53 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ char	*no_quotes(char *str, t_var_holder *h, t_env *env)
 {
 	h->temp = ft_strndup(str + h->start, h->i - h->start);
 	if (!h->temp)
-		return h->new;
+		return (h->new);
 	h->before = expand(h->temp, env);
 	free(h->temp);
 	if (!h->before)
-		return h->new;
+		return (h->new);
 	if (!h->new)
-		h->new = ft_strdup(h->before);
+		h->new = ft_strdup(h->before);//this is leaked in export????
 	else
 	{
 		h->temp = ft_strjoin(h->new, h->before);
@@ -90,32 +90,54 @@ char *double_quotes(char *str, t_var_holder *h, t_env *env)
     return (h->new);
 }
 
+bool	is_empty_arg(char *str, char end)
+{
+	int	i;
+	int	found;
+
+	i = 0;
+	found = 1;
+	while (str[i] && str[i] != end)
+	{
+		if (ft_isascii(str[i]) && str[i] != '\0')//check for spaces as well?
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 char *unquote_and_direct(char *str, t_env *env)
 {
-    t_var_holder h;
+	t_var_holder h;
 
-    h.new = NULL;
-    h.before = NULL;
-    h.quoted = NULL;
-    h.after = NULL;
-    h.temp = NULL;
-    h.i = 0;
-    h.start = 0;
-    while (str[h.i])
-    {
-        h.start = h.i;
-        while (str[h.i] && str[h.i] != '\'' && str[h.i] != '\"')
-            h.i++;
-        if (h.i > h.start) 
-            h.new = no_quotes(str, &h, env);
-        if (str[h.i] == '\'')
-            h.new = single_quotes(str, &h);
-        else if (str[h.i] == '\"') 
-            h.new = double_quotes(str, &h, env);
-        if (str[h.i])
-            h.i++;
-    }
-    return (h.new);
+	h.new = NULL;
+	h.before = NULL;
+	h.quoted = NULL;
+	h.after = NULL;
+	h.temp = NULL;
+	h.i = 0;
+	h.start = 0;
+	//check if the if statements are correct, basically it gets triggered at the wrong timing
+	
+	if (is_empty_arg(str, '\'') || is_empty_arg(str, '\"'))
+	{
+		h.new = ft_strdup("");
+	}
+	while (str[h.i])
+	{
+		h.start = h.i;
+		while (str[h.i] && str[h.i] != '\'' && str[h.i] != '\"')
+			h.i++;
+		if (h.i > h.start)
+			h.new = no_quotes(str, &h, env);
+		if (str[h.i] == '\'')
+			h.new = single_quotes(str, &h);
+		else if (str[h.i] == '\"') 
+			h.new = double_quotes(str, &h, env);
+		if (str[h.i])
+			h.i++;
+	}
+	return (h.new);
 }
 
 char	*expand_env_vars(char *input, t_env *env)
@@ -123,8 +145,8 @@ char	*expand_env_vars(char *input, t_env *env)
 	char	*temp;
 
 	temp = ft_getenv(input + 1, env->env);
-	if (!temp)
-		temp = ft_strdup("");
+//	if (!temp)
+//		temp = ft_strdup("");keeping it at NULL???
 	return (temp);
 }
 

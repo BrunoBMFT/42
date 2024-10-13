@@ -6,12 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 01:39:10 by bruno             #+#    #+#             */
-/*   Updated: 2024/09/27 01:39:14 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/13 16:31:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 void	tokenize(t_token **list, char *str, t_env env)
 {
 	int		i;
@@ -21,14 +20,13 @@ void	tokenize(t_token **list, char *str, t_env env)
 
 	i = 0;
 	array = token_array(str);
-	//modify_array(array, env, NULL);
 	if (!array)
 		return ;
 	while (array[i])
 	{
 		new_node = addtok(ft_strdup(array[i]));
 		if (!new_node)
-			free_all(list, array, "Error\n", 7);
+			free_all(list, array, "Error\n", 6);
 		new_node->type = define_type(array[i]);
 		go_to_next(list, new_node);
 		i++;
@@ -56,25 +54,23 @@ int	count_words(char *str)
 	h.wc = 0;
 	while (str[h.i])
 	{
-		while (str[h.i] && (str[h.i] == ' ' || str[h.i] == '\t'
-				|| str[h.i] == '\n'))
+		while (str[h.i] && (str[h.i] == ' ' || str[h.i] == '\t' || str[h.i] == '\n'))
 			h.i++;
-		if (str[h.i] == '\'' || str[h.i] == '\"')
+		if (str[h.i])
 		{
-			handle_quotes(&h, str);
 			h.wc++;
-		}
-		else if (str[h.i] && !(str[h.i] == ' ' || str[h.i] == '\t'
-				|| str[h.i] == '\n'))
-		{
-			while (str[h.i] && !(str[h.i] == ' ' || str[h.i] == '\t'
-					|| str[h.i] == '\n'))
-				h.i++;
-			h.wc++;
+			while (str[h.i] && !(str[h.i] == ' ' || str[h.i] == '\t' || str[h.i] == '\n'))
+			{
+				if (str[h.i] == '\'' || str[h.i] == '\"')
+					handle_quotes(&h, str);
+				else
+					h.i++;
+			}
 		}
 	}
 	return (h.wc);
 }
+
 
 void	update_iterator(t_var_holder *h, char *str)
 {
@@ -84,12 +80,12 @@ void	update_iterator(t_var_holder *h, char *str)
 				|| str[h->i] == '\n'))
 			h->i++;
 		h->j = h->i;
-		if (str[h->i] == '\'' || str[h->i] == '\"')
-			handle_quotes(h, str);
-		else
+		while (str[h->i] && !(str[h->i] == ' ' || str[h->i] == '\t'
+			|| str[h->i] == '\n'))
 		{
-			while (str[h->i] && !(str[h->i] == ' ' || str[h->i] == '\t'
-					|| str[h->i] == '\n'))
+			if (str[h->i] == '\'' || str[h->i] == '\"')
+				handle_quotes(h, str);
+			else
 				h->i++;
 		}
 		if (h->i > h->j)

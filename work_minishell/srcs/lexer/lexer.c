@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 00:13:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/10 12:49:58 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/10/13 16:35:43 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_jobs	*build(char *command_line, t_env env)
 	t_token	*list;
 	t_token	*last;
 
+	if (!command_line[0])
+		return (NULL);
 	jobs = NULL;
 	list = NULL;
 	last = NULL;
@@ -51,46 +53,51 @@ t_jobs	*build(char *command_line, t_env env)
 			return (NULL);
 	make_job_list(&jobs, &list, env);
 	clear_list(&list);
-//	free(command_line);
+	free(command_line);
 	return (jobs);
 }
-
-void	apply_redir(t_token *current, t_jobs *job)
+void    apply_redir(t_token *current, t_jobs *job)
 {
-	int	fd;
-	char *temp = NULL;
+    int    fd;
+    char *temp = NULL;
 
-	if (current->type == HEREDOC)
-	{
-		job->heredoc = 1;
-		if (job->delimiters)
-			free(job->delimiters);
-		job->delimiters = ft_strdup(current->next->token);
-		if (job->input)
-			free(job->input);
-		job->input = ft_strdup(job->heredoc_file);
-		if (handle_heredoc(job) < 0)
-			printf ("error handling heredocs\n");
-	}
-	if (current->type == INPUT)
-	{
-		if (job->input)
-		{
-			job->mult_input_flag = 1;
-			free(job->input);
-		}
-		job->input = ft_strdup(current->next->token);
-	}
-	if (current->type == OUTPUT || current->type == APPEND_OUT)
-	{
-		fd = open(current->next->token, O_CREAT | O_RDWR, 0644);
-		close(fd);
-		if (current->type == APPEND_OUT)
-			job->append = 1;
-		if (job->output)
-			free(job->output);
-		job->output = ft_strdup(current->next->token);
-	}
+    if (current->type == HEREDOC)
+    {
+        job->heredoc = 1;
+        if (job->delimiters)
+            free(job->delimiters);
+        job->delimiters = ft_strdup(current->next->token);
+        if (job->input)
+            free(job->input);
+        job->input = ft_strdup(job->heredoc_file);
+        if (handle_heredoc(job) < 0)
+            printf ("error handling heredocs\n");
+    }
+    if (current->type == INPUT)
+    {
+        if (job->input)
+        {
+            job->mult_input_flag = 1;
+            free(job->input);
+        }
+        if (access(current->next->token, F_OK) != 0)
+        {
+            ft_printf("bash: %s: No such file or directory\n", current->next->token);
+            job->input = ft_strdup("/dev/null");
+        }
+        else
+            job->input = ft_strdup(current->next->token);
+    }
+    if (current->type == OUTPUT || current->type == APPEND_OUT)
+    {
+        fd = open(current->next->token, O_CREAT | O_RDWR, 0644);
+        close(fd);
+        if (current->type == APPEND_OUT)
+            job->append = 1;
+        if (job->output)
+            free(job->output);
+        job->output = ft_strdup(current->next->token);
+    }
 }
 
 char	**job_array(t_token **cur, t_jobs **job, t_env env)
@@ -161,7 +168,6 @@ void	make_job_list(t_jobs **job_list, t_token **tok_list, t_env env)
 		new->job = job_array(&cur, &new, env);
 		new->type = WORD;
 		new->piped = false;
-		//add here piped = false
 		go_to_next_job(job_list, new);
 		i++;
 	}

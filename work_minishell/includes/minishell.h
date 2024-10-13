@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:38:21 by ycantin           #+#    #+#             */
-/*   Updated: 2024/10/10 14:18:03 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:14:42 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -107,6 +108,11 @@ typedef struct s_jobs
 	struct s_jobs	*next;
 }	t_jobs;
 
+
+//remove
+void	memory_size(char **array, char *str, t_env *env, t_jobs *job);
+
+
 //tokenizer:
 void	tokenize(t_token **list, char *str, t_env env);
 char	**token_array(char *str);
@@ -185,6 +191,7 @@ void	sigquit(int sig);
 void	handle_signal_main(int sig);
 void	handle_signal_child(int sig);
 void	handle_signal_heredoc(int sig);
+void	ctrld(char *line, t_env *env);
 
 //aux:
 char	*update_prompt(void);

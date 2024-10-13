@@ -3,14 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:15:54 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/09 13:12:37 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:21:39 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+//remove
+void	memory_size(char **array, char *str, t_env *env, t_jobs *job)
+{
+	int count = 0;
+
+	if (array)
+	{
+		int i = 0;
+		while (array[i])
+		{
+			int j = 0;
+			while (array[i][j])
+			{
+				count++;
+				j++;
+			}
+			i++;
+		}
+	}
+	else if (str)
+	{
+		int i = 0;
+		while (str[i])
+		{
+			count++;
+			i++;
+		}
+	}
+	else if (env->env)
+	{
+		int i = 0;
+		while (env->env[i])
+		{
+			int j = 0;
+			while (env->env[i][j])
+			{
+				count++;
+				j++;
+			}
+			i++;
+		}
+	}
+/* void	print_jobs(char *line, t_jobs *jobs)
+{
+	printf("line: %s\n", line);
+	int i = 0;
+	while (jobs->job[i])
+	{
+		ft_printf_fd(2, "job %d: %s\n", i, jobs->job[i]);
+		i++;
+	}
+} */
+	else if (job->job)
+	{
+		while (job->job)
+		{
+			int i = 0;
+			while (job->job[i])
+			{
+				int j = 0;
+				while (job->job[i][j])
+				{
+					count++;
+					j++;
+				}
+				i++;
+			}
+			job = job->next;
+		}
+	}
+	printf("memory: %d\n", count);
+
+	return;
+}
+
 
 int	ft_getpid(void)//does this work?
 {
@@ -25,7 +101,7 @@ int	ft_getpid(void)//does this work?
 	return (pid);
 }
 
-char	*update_prompt(void)//make better
+char	*update_prompt(void)//void
 {
 	char	cwd[PATH_MAX];
 	char	*dir;
@@ -40,6 +116,8 @@ char	*update_prompt(void)//make better
 	if (!folders)
 		return (free(folders), NULL);
 	i = 0;
+	if (!folders[i])
+		return (free_array(folders), ft_strdup("/$ "));//strdup because env frees this return
 	while (folders[i])
 		i++;
 	prompt = ft_strjoin(folders[i - 1], "$ ");
