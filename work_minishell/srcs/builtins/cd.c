@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:41:04 by brfernan          #+#    #+#             */
-/*   Updated: 2024/10/12 16:09:15 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/16 18:02:10 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,21 @@ int	caught_cd(t_jobs *job, t_env *env)
 	oldpwd = cd_get_pwd();
  	if (!job->job[1])
 	{
-		if (chdir(ft_getenv("HOME", env->env)))
-			return (ft_printf_fd(2, "cd home failed"), free (oldpwd), 1);
+		dir = ft_getenv("HOME", env->env);
+		if (chdir(dir))
+			return (ft_printf_fd(2, "cd home failed"), free (oldpwd), free (dir), 1);
 	}
 	else if (job->job[2])
 		return (ft_printf_fd(2, "minishell: cd: too many arguments\n"), free (oldpwd), 1);
 	else
 	{
-		dir = job->job[1];
+		dir = ft_strdup(job->job[1]);
 		if (chdir(dir))
-			return (ft_printf_fd(2, "minishell: cd: %s: No such file or directory\n", job->job[1]), free (oldpwd), 1);
+			return (ft_printf_fd(2, "minishell: cd: %s: No such file or directory\n", job->job[1]), free (oldpwd), free (dir), 1);
 	}
 	cd_update_aux1(env, "OLDPWD=", oldpwd);
 	cd_update_aux1(env, "PWD=", NULL);
+	free (dir);
 	free (oldpwd);
 	return (0);
 }

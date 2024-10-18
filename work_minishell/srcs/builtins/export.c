@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:15:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/13 20:29:12 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/17 20:55:12 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	export_no_execd(char **env)
 	return (0);
 }
 
-int	export_aux(t_jobs *job, char **new_env, t_env *env, int *status)
+void	export_aux(t_jobs *job, char **new_env, t_env *env, int *status)
 {
 	int	i;
 
@@ -99,7 +99,6 @@ int	export_aux(t_jobs *job, char **new_env, t_env *env, int *status)
 		job->job++;
 	}
 	new_env[i] = NULL;
-	return (*status);//unneccessary, turn function to void
 }
 
 int	caught_export(t_jobs *job, t_env *env)
@@ -109,11 +108,8 @@ int	caught_export(t_jobs *job, t_env *env)
 	int		i;
 	if (!job->job[1])
 		return (export_no_execd(env->env));//fix pls
-//	memory_size(NULL, NULL, NULL, job);//! NOT WORKING
 	job->job++;
 	status = 0;
-	//parse needs to run before malloc, so that only the correct amount is allocated
-	//basically things fail if export tried with invalid, and it saves nothing on env.env
 	i = -1;
 	int parse = 0;
 	while (job->job[++i])
@@ -122,7 +118,7 @@ int	caught_export(t_jobs *job, t_env *env)
 			parse++;
 	}
 	new_env = ft_calloc(sizeof(char *), ft_split_wordcount(env->env) 
-				+ ft_split_wordcount(job->job) - parse + 1);//error check, (-parse)
+				+ ft_split_wordcount(job->job) - parse + 1);
 	export_aux(job, new_env, env, &status);
 	free_array(env->env);
 	env->env = ft_calloc(sizeof(char *), ft_split_wordcount(new_env) + 1);//error check
@@ -131,6 +127,5 @@ int	caught_export(t_jobs *job, t_env *env)
 		env->env[i] = ft_strdup(new_env[i]);
 	free_array(new_env);
 	env->env[i] = NULL;
-//	memory_size(NULL, NULL, NULL, job);//! NOT WORKING
 	return (status);
 }

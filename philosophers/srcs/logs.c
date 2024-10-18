@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 02:39:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/08 21:10:53 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/17 21:37:52 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 void	print_action(t_philo *philo, int action)
 {
-	int	time;
+	int	time = 0;
 
-	time = time_since_start(philo);
-	//print mutexes?
+	if (!is_sim_running(philo))//maybe not needed, test
+		return ;
+	pthread_mutex_lock(&philo->table->print_mutex);
+	time = get_time() - philo->table->start_time;
 	if (action == TOOKFORK)
 		printf("%d %d has taken a fork\n", time, philo->id);
 	if (action == EATING)
@@ -28,4 +30,5 @@ void	print_action(t_philo *philo, int action)
 		printf("%d %d is thinking\n", time, philo->id);
 	if (action == DIED)
 		printf("%d %d died\n", time, philo->id);
+	pthread_mutex_unlock(&philo->table->print_mutex);
 }

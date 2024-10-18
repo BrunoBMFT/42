@@ -1,16 +1,7 @@
-//thread
-//mutex
-//lock
 
 
-
-
-philo can only eat if has 2 forks (lock 2 forks)
-after eating, philo puts the forks on table (unlock 2 forks), and sleeps
-after waking up, philo thinks until 2 forks next to him are free (unlocked)
-
-
-have to take care of timers resetting
+check if all threads have been created
+error check
 
 
 
@@ -26,6 +17,8 @@ have to take care of timers resetting
 
 
 
+
+notes
 	//pthreadexit ensure that the thread resources are cleaned up
 	//	and that the ret value is passed to pthreadjoin
 	//using return (NULL) also returns the return value to pthreadjoin

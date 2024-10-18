@@ -3,102 +3,127 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:48:41 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/09 15:38:22 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/10/17 21:43:10 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 //num_of_philo timedie timeeat timesleep [num__philo_must_eat]
 
-bool	is_alive(t_philo *philo)
+void	update_last_and_num(t_philo *philo)
 {
-	int	last;
+	pthread_mutex_lock(&philo->last_meal_mutex);
+	philo->last_meal = get_time();
+	pthread_mutex_unlock(&philo->last_meal_mutex);
+	
+	if (philo->info.num_times_eat == -1)
+		return ;
+	pthread_mutex_lock(&philo->info.num_times_eat_mutex);
+	philo->info.num_times_eat--;
+	pthread_mutex_unlock(&philo->info.num_times_eat_mutex);
+}
 
-	last = time_since_last(philo);
-//	printf("last meal %d ago\n", last);
-	if (philo->info.time_die < last)
-		return (print_action(philo, DIED), false);
+bool	is_dead(t_philo *philo)
+{
+	int	time_since_last;
+
+	time_since_last = get_time() - philo->last_meal;//get_int for mutex safety
+	if (time_since_last < philo->info.time_die)
+		return (false);//still alive
+		
+	print_action(philo, DIED);
+	stop_sim(philo);
+
+
 	return (true);
 }
 
-void	join_threads(t_philo *philo)
+void	usleep_without_dying(t_philo *philo, int time)//can change sim status so others finish
 {
-	t_philo	*start;
-	
-	start = philo;
-	while (philo)
+	int	start;
+
+	start = get_time();
+	while (get_time() - start < time)// maybe its <=?
 	{
-		pthread_join(philo->ptid, NULL);
-		philo = philo->next;
-		if (philo == start)
+		if (is_dead(philo))
 			return ;
+		usleep(10);
 	}
 }
 
-bool	eat_action(t_philo *philo)//maybe bool not needed
-{
-	lock(philo);
-	print_action(philo, EATING);
-	philo->info.last_meal = get_time(philo);
-	
-	usleep(philo->info.time_eat * 1000);
-	unlock(philo);
 
+bool	eat_action(t_philo *philo)
+{
+	if (!is_sim_running(philo))
+		return (false);
+
+	lock_forks(philo);
+	
+	if (!is_sim_running(philo))// ! dont want it like this
+		return (false);
+		
+	print_action(philo, EATING);
+	
+	update_last_and_num(philo);
+	
+	usleep_without_dying(philo, philo->info.time_eat);
+	
+	if (!is_sim_running(philo))// ! dont want it like this
+		return (false);
+		
+	unlock_forks(philo);
 	return (true);
 }
 
 bool	sleep_action(t_philo *philo)
 {
+	if (!is_sim_running(philo))
+		return (false);
+
 	print_action(philo, SLEEPING);
-	usleep(philo->info.time_sleep * 1000);
+	usleep_without_dying(philo, philo->info.time_sleep);
+	
+	if (!is_sim_running(philo))// ! dont want it like this
+		return (false);
 	return (true);
 }
 
-bool	think_action(t_philo *philo)
+void	*philo_routine(void *arg)
 {
-	print_action(philo, THINKING);
-	usleep(philo->info.time_think * 1000);//timing wrong
-	return (true);
-}
-
-void	*start_philo(void *arg)
-{
-	t_philo	*philo = (t_philo *) arg;
-
+	t_philo	*philo = (t_philo *)arg;
 	while (philo->info.num_times_eat != 0)
 	{
-		eat_action(philo);
-		sleep_action(philo);
+		if (!eat_action(philo))
+			break;
+		if (!sleep_action(philo))
+			break;
 //		think_action(philo);
-		philo->info.num_times_eat--;
 	}
-	//send close info?
-	return (void *)NULL;
+	//close info?
+	return (NULL);
 }
 
 int	main(int ac, char **av)
 {
-	t_table		table;
-
-	if (!parser(ac, av, &table))
+	if (!parser(ac, av))
 		return (1);
-
-	t_philo	*first = table.philo;
-	t_philo	*current_philo = first;
-	while (current_philo)
+	t_table table;
+	init_table(&table, av);
+	
+	t_philo *first = table.philo;
+	while (table.philo)
 	{
-		if (pthread_create(&current_philo->ptid, NULL, &start_philo, current_philo))//check timings
-		{
-			printf("thread fail\n");
+		if (pthread_create(&table.philo->ptid, NULL, &philo_routine, table.philo))
+			return (stop_sim(table.philo), join_threads(&table), 0);
+		table.philo = table.philo->next;
+		if (table.philo == first)
 			break ;
-		}	
-		current_philo = current_philo->next;
-		if (current_philo == first)
-			break;
 	}
-	join_threads(current_philo);
+	join_threads(&table);
 	return (0);
 }
+
+

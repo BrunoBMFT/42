@@ -3,64 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 00:23:27 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/09 15:37:08 by brfernan         ###   ########.fr       */
+/*   Created: 2024/10/16 15:25:32 by bruno             #+#    #+#             */
+/*   Updated: 2024/10/17 21:42:47 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/philosophers.h"
 
-int	get_time(t_philo *philo)
+bool		is_sim_running(t_philo *philo)
 {
-	int current_time;
+	bool	status;
 
-	gettimeofday(&philo->info.time, 0);
-	current_time = (philo->info.time.tv_sec * 1000) + (philo->info.time.tv_usec / 1000);
-	return (current_time);
+	pthread_mutex_lock(&philo->table->status_mutex);
+	status = philo->table->status;
+	pthread_mutex_unlock(&philo->table->status_mutex);
+	return (status);
 }
 
-int	time_since_start(t_philo *philo)
+void	stop_sim(t_philo *philo)
 {
-	int	current_time;
-
-	current_time = get_time(philo);
-	current_time -= philo->info.start_time;
-	return (current_time);
+	pthread_mutex_lock(&philo->table->status_mutex);
+	philo->table->status = false;
+	pthread_mutex_unlock(&philo->table->status_mutex);
 }
 
-int	time_since_last(t_philo *philo)
+void	unlock_forks(t_philo *philo)
 {
-	int	current_time;
-
-	current_time = get_time(philo);
-	current_time -= philo->info.last_meal;//make this calc be on return?
-	return (current_time);
-}
-
-void	lock(t_philo *philo)
-{
-	if (philo->id % 2 != 0)//not needed
-	{
-		pthread_mutex_lock(&philo->fork);
-		print_action(philo, TOOKFORK);
-		pthread_mutex_lock(&philo->next->fork);
-		print_action(philo, TOOKFORK);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->next->fork);
-		print_action(philo, TOOKFORK);
-		pthread_mutex_lock(&philo->fork);
-		print_action(philo, TOOKFORK);
-	}
-}
-
-void	unlock(t_philo *philo)
-{
-	if (philo->num % 2 != 0)//not needed
+/* 	pthread_mutex_unlock(&philo->fork);
+	pthread_mutex_unlock(&philo->next->fork); */
+	
+	if (!ft_is_even(philo->id))
 	{
 		pthread_mutex_unlock(&philo->fork);
 		pthread_mutex_unlock(&philo->next->fork);
@@ -72,15 +46,52 @@ void	unlock(t_philo *philo)
 	}
 }
 
+void	lock_forks(t_philo *philo)//have the has_died func running in loop
+{
+	
+	if (!ft_is_even(philo->id))
+	{
+		pthread_mutex_lock(&philo->fork);
+		print_action(philo, TOOKFORK);
+		pthread_mutex_lock(&philo->next->fork);
+		print_action(philo, TOOKFORK);
+	}
+	else if (!ft_is_even(philo->id))
+	{
+		pthread_mutex_lock(&philo->next->fork);
+		print_action(philo, TOOKFORK);
+		pthread_mutex_lock(&philo->fork);
+		print_action(philo, TOOKFORK);
+	}
+/* 	pthread_mutex_lock(&philo->fork);
+	print_action(philo, TOOKFORK);
+	pthread_mutex_lock(&philo->next->fork);
+	print_action(philo, TOOKFORK); */
+}
 
+int	get_time(void)
+{
+	struct timeval time;
 
-// UMPIRE! LESSGO bowserJAM GODDID UMPIRE! LESSGO bowserJAM GODDID 
-// UMPIRE! LESSGO bowserJAM GODDID UMPIRE! LESSGO bowserJAM GODDID 
-// UMPIRE! LESSGO bowserJAM GODDID UMPIRE! LESSGO bowserJAM GODDID 
-// UMPIRE! LESSGO bowserJAM GODDID UMPIRE! LESSGO bowserJAM GODDID 
-// UMPIRE! LESSGO bowserJAM GODDID UMPIRE! LESSGO bowserJAM GODDID 
-// UMPIRE! LESSGO bowserJAM GODDID UMPIRE! LESSGO bowserJAM GODDID 
-// UMPIRE! LESSGO bowserJAM GODDID UMPIRE! LESSGO bowserJAM GODDID 
-// UMPIRE! LESSGO bowserJAM GODDID UMPIRE! LESSGO bowserJAM GODDID 
-// UMPIRE! LESSGO bowserJAM GODDID UMPIRE! LESSGO bowserJAM GODDID 
-// UMPIRE! LESSGO bowserJAM GODDID UMPIRE! LESSGO bowserJAM GODDID 
+	gettimeofday(&time, 0);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+void	join_threads(t_table *table)
+{
+	t_philo *first = table->philo;
+	while (table->philo)
+	{
+		pthread_mutex_destroy(&table->philo->fork);
+		pthread_mutex_destroy(&table->philo->last_meal_mutex);
+		pthread_join(table->philo->ptid, NULL);
+		table->philo = table->philo->next;
+		if (table->philo == first)//doesnt break, for some reason
+		{
+			printf("here\n");
+			break ;
+		}
+	}
+	ft_lstclear(&table->philo);
+	pthread_mutex_destroy(&table->status_mutex);
+}

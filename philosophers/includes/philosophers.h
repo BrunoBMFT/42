@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:49:43 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/08 21:10:53 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/17 21:37:56 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,63 +28,62 @@
 # define THINKING 4
 # define DIED 5
 
-typedef struct s_info
+typedef struct s_table	t_table;
+
+typedef struct	s_info
 {
-	struct timeval	time;
-	int				start_time;
-	int				last_meal;
-	int				time_die;
 	int				time_eat;
 	int				time_sleep;
 	int				time_think;
+	int				time_die;
 	int				num_times_eat;
+	pthread_mutex_t	num_times_eat_mutex;
 }				t_info;
-
 
 typedef struct s_philo
 {
-	int 			id;
-	int				num;
- 	pthread_t		ptid;
+	int				id;
+	t_table			*table;
+	pthread_t		ptid;
 	pthread_mutex_t	fork;
+	int				last_meal;//since start of sim
+	pthread_mutex_t	last_meal_mutex;
 	t_info			info;
-//have a table reference for each philo?
 	struct s_philo	*next;
-
 }				t_philo;
 
-typedef struct s_table
+struct			s_table
 {
-	pthread_mutex_t	sim_mutex;
 	t_philo			*philo;
-}				t_table;
+	bool			status;
+	pthread_mutex_t	status_mutex;
+	pthread_mutex_t	print_mutex;
+	int				start_time;
+};
 
 
-bool	parser(int ac, char **av, t_table *table);
+bool	parser(int ac, char **av);
 bool	init_table(t_table *table, char **av);
-t_philo	*ft_lstnew(int counter, char **av);
-void	ft_lstadd_back(t_philo **lst, t_philo *to_add);
-void	ft_lstclear(t_philo **philo);
-int		ft_atoi(const char *str);
+void	join_threads(t_table *table);
 
 
-void	*start_philo(void *arg);
+void	lock_forks(t_philo *philo);
+void	unlock_forks(t_philo *philo);
+bool	is_sim_running(t_philo *philo);
+void	stop_sim(t_philo *philo);
+int		get_time(void);
 
-//time
-int	get_time(t_philo *philo);
-int	time_since_start(t_philo *philo);
-int	time_since_last(t_philo *philo);
+bool		is_sim_running(t_philo *philo);
 
-void	lock(t_philo *philo);
-void	unlock(t_philo *philo);
-
-//action
-/* void	sleep_action(t_philo *philo);
-void	eat_action(t_philo *philo);
-void	think_action(t_philo *philo); */
 
 
 void	print_action(t_philo *philo, int action);
 
+//libft
+int		ft_atoi(const char *str);
+long	ft_atol(const char *str);
+bool	ft_isdigit(int c);
+bool	ft_is_even(int n);
+void	ft_lstclear(t_philo **philo);
 
 #endif

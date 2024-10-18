@@ -15,6 +15,9 @@
 		"initializer_list": "c",
 		"utility": "c",
 		"limits.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"memory": "c",
+		"functional": "c",
+		"tuple": "c"
 	}
 }
