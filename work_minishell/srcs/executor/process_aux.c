@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:13:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/22 18:28:05 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/24 19:18:04 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ char	*find_executable_path(t_jobs *job, t_env *env)
 	char	*path;
 	char	cwd[PATH_MAX];
 
-	if (job->job[0][0] == '/')
+	if (job->job[0][0] == '/' || job->job[0][0] == '.')
 	{
 		if (opendir(job->job[0]))
 		{
 			ft_printf_fd(2, "minishell: %s: Is a directory\n", job->job[0]);
-			clean_exit(job, env, 126);
+			clean_exit(job, env, 126);//bash says its 126
 		}
-		path = job->job[0];
+		path = ft_strdup(job->job[0]);
 	}
 	else
 	{
@@ -73,8 +73,8 @@ char	*find_executable_path(t_jobs *job, t_env *env)
 	}
 	if (access(path, F_OK) == 0)
 		return (path);
-	free (path);
 	ft_printf_fd(2, "minishell: %s: No such file or directory\n", job->job[0]);
+	free (path);
 	clean_exit(job, env, 127);
 }
 
@@ -85,7 +85,6 @@ void execute_executable(t_jobs *job, t_env *env)
 	path = find_executable_path(job, env);
 	execve(path, job->job, env->env);
 	ft_printf_fd(2, "execve() failed\n");//invalid frees
-	free (path);
 	clean_exit(job, env, 127);
 }
 

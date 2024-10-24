@@ -6,87 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:15:54 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/24 02:37:37 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/24 19:57:34 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-//remove
-void	memory_size(char **array, char *str, t_env *env, t_jobs *job)
-{
-	int count = 0;
-
-	if (array)
-	{
-		int i = 0;
-		while (array[i])
-		{
-			int j = 0;
-			while (array[i][j])
-			{
-				count++;
-				j++;
-			}
-			i++;
-		}
-	}
-	else if (str)
-	{
-		int i = 0;
-		while (str[i])
-		{
-			count++;
-			i++;
-		}
-	}
-	else if (env->env)
-	{
-		int i = 0;
-		while (env->env[i])
-		{
-			int j = 0;
-			while (env->env[i][j])
-			{
-				count++;
-				j++;
-			}
-			i++;
-		}
-	}
-/* void	print_jobs(char *line, t_jobs *jobs)
-{
-	printf("line: %s\n", line);
-	int i = 0;
-	while (jobs->job[i])
-	{
-		ft_printf_fd(2, "job %d: %s\n", i, jobs->job[i]);
-		i++;
-	}
-} */
-	else if (job->job)
-	{
-		while (job->job)
-		{
-			int i = 0;
-			while (job->job[i])
-			{
-				int j = 0;
-				while (job->job[i][j])
-				{
-					count++;
-					j++;
-				}
-				i++;
-			}
-			job = job->next;
-		}
-	}
-	printf("memory: %d\n", count);
-
-	return;
-}
-
 
 int	ft_getpid(void)//does this work?
 {
@@ -166,9 +90,18 @@ t_env	init_env(char **envp)
 
 	env.prompt = NULL;
 	env.status = 0;
+	env.env = NULL;
+	if (!envp || !envp[0])
+	{
+		env.env = malloc(sizeof (char *));
+		if (!env.env)
+			return (ft_printf_fd(2, "error allocating private path\n"), env);
+		env.env[0] = ft_strjoin("PATH=", "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:.:/.local/bin:/usr/local/vcpkg");
+	} //change path so that it works at school ++ add protections in cd to check where we are to avoid seg faults ++ fix printenv and env to avoid seg faults
 	env.env = dup_env(envp);
 	return (env);
 }
+
 
 void	*ft_calloc_pids(size_t nitems, size_t size)
 {
@@ -178,7 +111,7 @@ void	*ft_calloc_pids(size_t nitems, size_t size)
 	dest = malloc(nitems * size);
 	if (!dest)
 		return (NULL);
-	while (dest[i])
+	while (i < size && dest[i])
 	{
 		dest[i] = -1;
 		i++;
@@ -186,3 +119,4 @@ void	*ft_calloc_pids(size_t nitems, size_t size)
 	dest[i] = 0;
 	return (dest);
 }
+

@@ -1,6 +1,5 @@
-2
-3
-4
-1
-6
-hello
+here: /usr/bin/cat
+cat
+here: /usr/bin/wc
+wc
+0 0 0
