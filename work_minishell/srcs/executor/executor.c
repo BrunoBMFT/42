@@ -6,13 +6,14 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:26:33 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/13 21:20:36 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/24 02:53:14 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	executor_input(t_jobs *job, int *status)//return values negligeble
+// ! fix / test
+int	executor_input(t_jobs *job, int *status)//return values negligeble?
 {
 	int	redirected_input;
 /* 
@@ -35,8 +36,8 @@ int	executor_input(t_jobs *job, int *status)//return values negligeble
 	close(redirected_input);
 	return (0);
 }
-
-int	executor_output(t_jobs *job, int *status)//return values negligeble
+// ! fix / test
+int	executor_output(t_jobs *job, int *status)//return values negligeble?
 {
 	int	redirected_output;
 
@@ -63,6 +64,47 @@ if (job->output && (job->output[0] = '$'))// TODO for now commented, messes up a
 	return (0);
 }
 
+// TODO USE THIS PIPE LOGIC INSTEAD
+/* bool	has_pipes(t_jobs *job)//can be replaced by yohans function?
+{
+	if (job && job->next && job->next->type == PIPE)
+		return (true);
+	return (false);
+}
+void	process_pipes(t_jobs **job, t_env *env)//error checks, return values
+{
+	t_jobs	*left, *right;
+	(*job)->piped = true;
+	left = (*job);
+	right = (*job)->next->next;
+	(*job) = (*job)->next->next;//not skipping enough jobs
+	child_process(left, env);
+	if (has_pipes(right))
+	{
+		(*job) = (*job)->next->next;
+		process_pipes(&right, env);
+	}
+	else
+		child_process(right, env);
+	//clearjobs right and left
+} */
+
+int    count_processes(t_jobs **jobs)//basically the has_pipes functions
+{
+    int i;
+    t_jobs *job;
+
+    i = 0;
+    job = *jobs;
+    while (job)
+    {
+        if (job->type == PIPE)
+            i++;
+        job = job->next;
+    }
+    return (i + 1);
+}
+
 void	start_executor(t_jobs *job, t_env *env)
 {
 //	signal(SIGINT, handle_signal_child);
@@ -70,12 +112,12 @@ void	start_executor(t_jobs *job, t_env *env)
 	
 	env->saved_stdin = dup(STDIN_FILENO);
 	env->saved_stdout = dup(STDOUT_FILENO);
+	env->pids = ft_calloc_pids(sizeof(int), count_processes(&job));//error check
 	while (job)
 	{
 		//expanding
 		if (job->job)
 			modify_array(job->job, env);
-//		print_jobs("hehe", job);
 		
 		//redirections
 		if (job->input)
@@ -85,6 +127,14 @@ void	start_executor(t_jobs *job, t_env *env)
 
 		
 		//pipes
+/* 		if (has_pipes(job))//does processes without reseting dups and heredocs, is it correct?
+		{
+			process_pipes(&job, env);
+			continue;
+		} */
+		// if (job->job && job->job[0])//have this check somewhere else?
+		// 	env->status = simple_process(job, env);
+		
 		if (job->next && job->next->type == PIPE)// < sdakaskddask cat | wc
 		{
 			env->status = child_process(job, env);
@@ -95,12 +145,19 @@ void	start_executor(t_jobs *job, t_env *env)
 
 		
 		//executing jobs
-		else if (job->job && job->job[0] && job->piped)//maybe not needed?
+		//maybe use the process_pipes function?
+		if (job->job && job->job[0] && job->piped)//maybe not needed?// ! still bad here, dont use job piped
 			env->status = child_process(job, env);//last proc
 		else if (job->job && job->job[0])
 			env->status = simple_process(job, env);
 
 
+		int i = 0;
+		while (env->pids[i])
+		{
+			waitpid(env->pids[i], &env->status, 0);
+			i++;
+		}
 
 		//resets
 		dup2(env->saved_stdin, STDIN_FILENO);

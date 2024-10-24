@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:38:21 by ycantin           #+#    #+#             */
-/*   Updated: 2024/10/13 17:14:42 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/24 02:39:55 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_env
 	char	**env;
 	int		saved_stdin;
 	int		saved_stdout;
+	int		*pids;
 }				t_env;
 
 typedef struct variable_holder
@@ -108,9 +109,6 @@ typedef struct s_jobs
 	struct s_jobs	*next;
 }	t_jobs;
 
-
-//remove
-void	memory_size(char **array, char *str, t_env *env, t_jobs *job);
 
 
 //tokenizer:
@@ -198,6 +196,7 @@ char	*update_prompt(void);
 int		ft_getpid(void);
 char	**dup_env(char **envp);
 t_env	init_env(char **envp);
+void	*ft_calloc_pids(size_t nitems, size_t size);//not good
 
 void	print_jobs(char *line, t_jobs *jobs);//to remove
 

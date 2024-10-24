@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:15:54 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/13 17:21:39 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/24 02:37:37 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,21 @@ t_env	init_env(char **envp)
 	env.status = 0;
 	env.env = dup_env(envp);
 	return (env);
+}
+
+void	*ft_calloc_pids(size_t nitems, size_t size)
+{
+	int	*dest;
+	int		i;
+
+	dest = malloc(nitems * size);
+	if (!dest)
+		return (NULL);
+	while (dest[i])
+	{
+		dest[i] = -1;
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
 }

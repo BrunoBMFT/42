@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:43:23 by ycantin           #+#    #+#             */
-/*   Updated: 2024/10/13 21:12:20 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/22 19:50:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	print_jobs(char *line, t_jobs *jobs)
 {
 	printf("line: %s\n", line);
 	int i = 0;
+	if (!jobs->job && jobs->type)
+		return (printf("type: %d\n", jobs->type), (void)NULL);
 	while (jobs->job[i])
 	{
 		ft_printf_fd(2, "job %d: %s\n", i, jobs->job[i]);

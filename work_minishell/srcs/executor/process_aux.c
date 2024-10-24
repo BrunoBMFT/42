@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:13:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/13 21:07:25 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/22 18:28:05 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	execute_command(t_jobs *job, t_env *env)
 	path = find_command_path(job->job, env);
 	if (!path)
 		clean_exit(job, env, 127);
-	printf("here: %s\n%s\n", path, job->job[0]);
 	execve(path, job->job, env->env);
 	ft_printf_fd(2, "execve() failed\n");//invalid frees?
 	clean_exit(job, env, 127);
