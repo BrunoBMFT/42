@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 00:13:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/24 18:30:00 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/25 04:23:55 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void    apply_redir(t_token *current, t_jobs *job, t_env env)
         }
         if (access(current->next->token, F_OK) != 0)
         {
-            ft_printf("bash: %s: No such file or directory\n", current->next->token);
+            ft_printf_fd(2, "bash: %s: No such file or directory\n", current->next->token);
             job->input = ft_strdup("/dev/null");
         }
         else

@@ -6,12 +6,12 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:15:54 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/24 19:57:34 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/25 03:57:13 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
+//getpid
 int	ft_getpid(void)//does this work?
 {
 	FILE *fp;
@@ -24,7 +24,7 @@ int	ft_getpid(void)//does this work?
 	fclose(fp);
 	return (pid);
 }
-
+//prompt
 char	*update_prompt(void)//void
 {
 	char	cwd[PATH_MAX];
@@ -51,6 +51,8 @@ char	*update_prompt(void)//void
 	return (prompt);
 }
 
+
+//env
 char	**dup_env(char **envp)//error check
 {
 	char	**new_env;
@@ -102,21 +104,39 @@ t_env	init_env(char **envp)
 	return (env);
 }
 
-
-void	*ft_calloc_pids(size_t nitems, size_t size)
+//pids
+int    count_processes(t_jobs **jobs)//take double pointer
 {
-	int	*dest;
-	int		i;
+    int		i;
+    t_jobs *job;
 
-	dest = malloc(nitems * size);
+    i = 0;
+    job = *jobs;
+    while (job)
+    {
+        if (job->type == PIPE || job->job)
+            i++;
+        job = job->next;
+    }
+    return (i + 1);
+}
+
+void	*ft_calloc_pids(t_jobs *job)
+{
+	int		*dest;
+	int		i;
+	int		size;
+
+	size = count_processes(&job);
+	dest = malloc(sizeof(pid_t) * size);
 	if (!dest)
 		return (NULL);
-	while (i < size && dest[i])
+	i = 0;
+	while (i < size)
 	{
 		dest[i] = -1;
 		i++;
 	}
-	dest[i] = 0;
 	return (dest);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:26:33 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/24 19:49:25 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/25 04:51:03 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,16 @@ int	executor_input(t_jobs *job, t_env *env)//return values negligeble?
 	return (0);
 }
 
-int	executor_output(t_jobs *job, int *status)//return values negligeble
+int	executor_output(t_jobs *job, t_env *env)//return values negligeble
 {
 	int	redirected_output;
 
-	// if (job->output && (job->output[0] == '$'))
-	// {
-	// 	ft_printf_fd(2, "minishell: %s: ambiguous redirect\n", job->output);
-	// 	job->output = ft_strdup("/dev/null");
-	// }
+	if (job->output && (job->output[0] == '$'))
+	{
+		ft_printf_fd(2, "minishell: %s: ambiguous redirect\n", job->output);
+		job->output = ft_strdup("/dev/null");
+		env->status = 1;
+	}
 	if (job->append)
 		redirected_output = open(job->output, O_CREAT | O_APPEND | O_RDWR, 0644);
 	else
@@ -48,26 +49,10 @@ int	executor_output(t_jobs *job, int *status)//return values negligeble
 		redirected_output = open(job->output, O_CREAT | O_RDWR, 0644);
 	}
 	if (ft_strcmp("/dev/null", job->output) == 0)
-		*status = 1;
+		env->status = 1;
 	dup2(redirected_output, STDOUT_FILENO);
 	close(redirected_output);//else
 	return (0);
-}
-//not needed?
-int    count_processes(t_jobs **jobs)
-{
-    int		i;
-    t_jobs *job;
-
-    i = 0;
-    job = *jobs;
-    while (job)
-    {
-        if (job->type == PIPE || job->job)
-            i++;
-        job = job->next;
-    }
-    return (i + 1);
 }
 
 void	start_executor(t_jobs *job, t_env *env)
@@ -76,7 +61,7 @@ void	start_executor(t_jobs *job, t_env *env)
 //	signal(SIGQUIT, sigquit);
 	env->saved_stdin = dup(STDIN_FILENO);
 	env->saved_stdout = dup(STDOUT_FILENO);
-	env->pids = ft_calloc_pids(sizeof(int), count_processes(&job));//error check
+	env->pids = ft_calloc_pids(job);//error check
 	while (job)
 	{
 		//expanding
@@ -86,14 +71,14 @@ void	start_executor(t_jobs *job, t_env *env)
 		if (job->input)
 			executor_input(job, env);
 		if (job->output)
-			executor_output(job, &env->status);
-//		printf("env status before processes: %d\n", env->status);
+			executor_output(job, env);
 
 		
+//		ft_printf_fd(2, "env status before processes: %d\n", env->status);
 		//pipes
 		if (job->next && job->next->type == PIPE)
 		{
-			env->status = child_process(job, env);
+			child_process(job, env);
 			job = job->next->next;
 			job->piped = true;
 			continue;
@@ -102,21 +87,25 @@ void	start_executor(t_jobs *job, t_env *env)
 		
 		//executing jobs
 		else if (job->job && job->job[0] && job->piped)
-			env->status = child_process(job, env);//builtins status check
+			child_process(job, env);//builtins status check
 		else if (job->job && job->job[0])
 			simple_process(job, env);//builtins status check
 		int i = 0;
-		while (env->pids[i])
+		while (env->pids[i] != -1)
 		{
-			printf("is running\n");
-			waitpid(env->pids[i], &env->status, 0);
+			int status;
+			waitpid(env->pids[i], &status, 0);
+//			ft_printf_fd(2, "env status after processes: %d\n", env->status);
+			env->status = WEXITSTATUS(env->status);//exit codes not working haha
 			i++;
 		}
-//		printf("env status after processes: %d\n", env->status);
 
 
 
 		//resets
+/* 		i = -1;
+		while (env->pids[++i])
+			env->pids[i] = -1; */
 		dup2(env->saved_stdin, STDIN_FILENO);
 		dup2(env->saved_stdout, STDOUT_FILENO);
 		if (job->heredoc_file && access(job->heredoc_file, F_OK) == 0)
@@ -152,5 +141,6 @@ void	start_executor(t_jobs *job, t_env *env)
 		remove(".heredoc");
 	close(env->saved_stdin);
 	close(env->saved_stdout);
+	free (env->pids);
 	return ;
 }

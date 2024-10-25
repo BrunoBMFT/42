@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 19:13:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/24 19:18:04 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/25 04:40:32 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,18 @@ char	*find_executable_path(t_jobs *job, t_env *env)
 		if (!path)
 			clean_exit(job, env, 127);
 	}
-	if (access(path, F_OK) == 0)
+	if (access(path, X_OK) == 0)
 		return (path);
-	ft_printf_fd(2, "minishell: %s: No such file or directory\n", job->job[0]);
+	else if (access(path, F_OK))//bad if statement, can do better
+	{
+		ft_printf_fd(2, "minishell: %s: No such file or directory\n", job->job[0]);
+		free (path);
+		clean_exit(job, env, 127);
+	}
+	//else
+	ft_printf_fd(2, "minishell: %s: Permission denied\n", job->job[0]);
 	free (path);
-	clean_exit(job, env, 127);
+	clean_exit(job, env, 126);
 }
 
 void execute_executable(t_jobs *job, t_env *env)

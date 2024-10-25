@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:43:23 by ycantin           #+#    #+#             */
-/*   Updated: 2024/10/24 16:44:41 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/25 02:07:33 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int	main(int ac, char **av, char **envp)
 //		signal(SIGINT, handle_signal_main);
 //		signal(SIGQUIT, SIG_IGN);
 		choose_signal(ROOT_SIG);
-		// env.prompt = update_prompt();
-		// line = readline(env.prompt);
-		line = readline("Minishell> ");
+		env.prompt = update_prompt();
+		line = readline(env.prompt);
+//		line = readline("Minishell> ");
 		free(env.prompt);
 		if (!line)
 			ctrld(line, &env);

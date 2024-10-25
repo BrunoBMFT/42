@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:38:21 by ycantin           #+#    #+#             */
-/*   Updated: 2024/10/24 19:40:12 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/25 04:32:52 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_env
 	char	**env;
 	int		saved_stdin;
 	int		saved_stdout;
-	int		*pids;
+	pid_t	*pids;
 }				t_env;
 
 typedef struct variable_holder
@@ -114,10 +114,6 @@ typedef struct s_jobs
 }	t_jobs;
 
 
-//remove
-void	memory_size(char **array, char *str, t_env *env, t_jobs *job);
-
-
 //tokenizer:
 void	tokenize(t_token **list, char *str, t_env env);
 char	**token_array(char *str);
@@ -161,17 +157,16 @@ int		parse_last_token(char **cmd_line, t_token **list, t_token **last);
 
 //executor
 void	start_executor(t_jobs *job, t_env *env);
-int		child_process(t_jobs *job, t_env *env);
+void	child_process(t_jobs *job, t_env *env);
 void	simple_process(t_jobs *job, t_env *env);
 int		execute_job(t_jobs *job, t_env *env);
-void	process_exit(t_jobs *job, t_env *env, int status);
 int		new_fork(void);
 void	panic(char *s);
 
 //builtins:
 int		try_builtins(t_jobs *job, t_env *env, bool pipe);
 int		caught_echo(t_jobs *job);
-int		caught_cd(t_jobs *job, t_env *env);
+void	caught_cd(t_jobs *job, t_env *env);
 int		caught_pwd(t_jobs *job);
 int		caught_export(t_jobs *job, t_env *env);
 int		caught_unset(t_jobs *job, t_env *env);
@@ -205,8 +200,8 @@ void	ctrld(char *line, t_env *env);
 char	*update_prompt(void);
 int		ft_getpid(void);
 char	**dup_env(char **envp);
+void	*ft_calloc_pids(t_jobs *job);
 t_env	init_env(char **envp);
-void	*ft_calloc_pids(size_t nitems, size_t size);
 
 void	print_jobs(char *line, t_jobs *jobs);//to remove
 
