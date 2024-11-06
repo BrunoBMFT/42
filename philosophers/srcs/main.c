@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:48:41 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/17 21:43:10 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/06 16:49:53 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,11 @@
 
 void	update_last_and_num(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->last_meal_mutex);
-	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->last_meal_mutex);
-	
+	set_int(&philo->last_meal_mutex, &philo->last_meal, get_time());	
 	if (philo->info.num_times_eat == -1)
 		return ;
-	pthread_mutex_lock(&philo->info.num_times_eat_mutex);
-	philo->info.num_times_eat--;
-	pthread_mutex_unlock(&philo->info.num_times_eat_mutex);
+	set_int(&philo->info.num_times_eat_mutex,
+			&philo->info.num_times_eat, (philo->info.num_times_eat - 1));
 }
 
 bool	is_dead(t_philo *philo)
@@ -54,23 +50,16 @@ void	usleep_without_dying(t_philo *philo, int time)//can change sim status so ot
 	}
 }
 
-
 bool	eat_action(t_philo *philo)
 {
 	if (!is_sim_running(philo))
 		return (false);
-
 	lock_forks(philo);
-	
 	if (!is_sim_running(philo))// ! dont want it like this
 		return (false);
-		
 	print_action(philo, EATING);
-	
 	update_last_and_num(philo);
-	
 	usleep_without_dying(philo, philo->info.time_eat);
-	
 	if (!is_sim_running(philo))// ! dont want it like this
 		return (false);
 		

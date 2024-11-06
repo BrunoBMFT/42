@@ -6,67 +6,97 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:25:32 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/17 21:42:47 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/06 19:08:53 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
+int	get_int(pthread_mutex_t *mutex, int from)
+{
+	int	value;
+
+	pthread_mutex_lock(mutex);
+	value = from;
+	pthread_mutex_unlock(mutex);
+	return (value);
+}
+
+void	set_int(pthread_mutex_t *mutex, int *to_set, int value)
+{
+	pthread_mutex_lock(mutex);
+	(*to_set) = value;
+	pthread_mutex_unlock(mutex);
+}
+
+
+int	get_bool(pthread_mutex_t *mutex, bool from)
+{
+	bool	value;
+
+	pthread_mutex_lock(mutex);
+	value = from;
+	pthread_mutex_unlock(mutex);
+	return (value);
+}
+
+void	set_bool(pthread_mutex_t *mutex, bool *to_set, bool value)
+{
+	pthread_mutex_lock(mutex);
+	(*to_set) = value;
+	pthread_mutex_unlock(mutex);
+}
+
 bool		is_sim_running(t_philo *philo)
 {
 	bool	status;
 
-	pthread_mutex_lock(&philo->table->status_mutex);
-	status = philo->table->status;
-	pthread_mutex_unlock(&philo->table->status_mutex);
+	status = get_bool(&philo->table->status_mutex, philo->table->status);
 	return (status);
 }
 
 void	stop_sim(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->table->status_mutex);
-	philo->table->status = false;
-	pthread_mutex_unlock(&philo->table->status_mutex);
+	set_bool(&philo->table->status_mutex, &philo->table->status, false);
 }
 
 void	unlock_forks(t_philo *philo)
 {
-/* 	pthread_mutex_unlock(&philo->fork);
-	pthread_mutex_unlock(&philo->next->fork); */
-	
-	if (!ft_is_even(philo->id))
-	{
-		pthread_mutex_unlock(&philo->fork);
-		pthread_mutex_unlock(&philo->next->fork);
-	}
-	else
-	{
-		pthread_mutex_unlock(&philo->next->fork);
-		pthread_mutex_unlock(&philo->fork);
-	}
+	pthread_mutex_unlock(&philo->fork);
+	pthread_mutex_unlock(&philo->next->fork);
+	// if (!ft_is_even(philo->id))
+	// {
+	// 	pthread_mutex_unlock(&philo->fork);
+	// 	pthread_mutex_unlock(&philo->next->fork);
+	// }
+	// else
+	// {
+	// 	pthread_mutex_unlock(&philo->next->fork);
+	// 	pthread_mutex_unlock(&philo->fork);
+	// }
 }
 
-void	lock_forks(t_philo *philo)//have the has_died func running in loop
+void	lock_forks(t_philo *philo)
 {
 	
-	if (!ft_is_even(philo->id))
-	{
-		pthread_mutex_lock(&philo->fork);
-		print_action(philo, TOOKFORK);
-		pthread_mutex_lock(&philo->next->fork);
-		print_action(philo, TOOKFORK);
-	}
-	else if (!ft_is_even(philo->id))
-	{
-		pthread_mutex_lock(&philo->next->fork);
-		print_action(philo, TOOKFORK);
-		pthread_mutex_lock(&philo->fork);
-		print_action(philo, TOOKFORK);
-	}
-/* 	pthread_mutex_lock(&philo->fork);
+	pthread_mutex_lock(&philo->fork);
 	print_action(philo, TOOKFORK);
 	pthread_mutex_lock(&philo->next->fork);
-	print_action(philo, TOOKFORK); */
+	print_action(philo, TOOKFORK);
+	// if (!ft_is_even(philo->id))//for some reason, it makes philos eat when they shouldnt
+	// {
+	// 	pthread_mutex_lock(&philo->fork);
+	// 	print_action(philo, TOOKFORK);
+	// 	pthread_mutex_lock(&philo->next->fork);
+	// 	print_action(philo, TOOKFORK);
+	// }
+	// else if (!ft_is_even(philo->id))
+	// {
+	// 	pthread_mutex_lock(&philo->next->fork);
+	// 	print_action(philo, TOOKFORK);
+	// 	pthread_mutex_lock(&philo->fork);
+	// 	print_action(philo, TOOKFORK);
+	// }
 }
 
 int	get_time(void)
@@ -87,10 +117,7 @@ void	join_threads(t_table *table)
 		pthread_join(table->philo->ptid, NULL);
 		table->philo = table->philo->next;
 		if (table->philo == first)//doesnt break, for some reason
-		{
-			printf("here\n");
 			break ;
-		}
 	}
 	ft_lstclear(&table->philo);
 	pthread_mutex_destroy(&table->status_mutex);

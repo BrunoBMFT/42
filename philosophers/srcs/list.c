@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 04:02:06 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/02 02:44:38 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/06 16:41:06 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	init_table(t_table *table, char **av)
 	while (i < ft_atoi(av[1]))
 	{
 		temp = ft_lstnew(i, av);
+		temp->table = table;
 		ft_lstadd_back(&philo, temp);
 		i++;
 	}
@@ -39,13 +40,9 @@ t_philo	*ft_lstnew(int counter, char **av)
 	philo->id = counter + 1;
 	philo->ptid = 0;
 	philo->next = NULL;
-	philo->info.start_time = get_current_time(philo);
-	philo->info.last_meal = get_current_time(philo);
-	
-
-	philo->info.time_to_die = ft_atoi(av[2]);//make this in parser?
-	philo->info.time_to_eat = ft_atoi(av[3]);
-	philo->info.time_to_sleep = ft_atoi(av[4]);
+	philo->info.time_die = ft_atoi(av[2]);//make this in parser?
+	philo->info.time_eat = ft_atoi(av[3]);
+	philo->info.time_sleep = ft_atoi(av[4]);
 
 	return (philo);
 }

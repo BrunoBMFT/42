@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:49:43 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/17 21:37:56 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/06 16:46:13 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ int		get_time(void);
 
 bool		is_sim_running(t_philo *philo);
 
+int	get_int(pthread_mutex_t *mutex, int from);
+void	set_int(pthread_mutex_t *mutex, int *to_set, int value);
+int	get_bool(pthread_mutex_t *mutex, bool from);
+void	set_bool(pthread_mutex_t *mutex, bool *to_set, bool value);
 
 
 void	print_action(t_philo *philo, int action);
