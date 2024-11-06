@@ -6,6 +6,8 @@ cat < "/file name with spaces"
 ./minishell MOREARGUMENTS
 echo hello <> out
 
+export 1=a | echo hi
+
 make parse export better
 parse_export and variable duplicates need to be checked before calloc (leaks?)
 
