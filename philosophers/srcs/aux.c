@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:25:32 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/06 19:08:53 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/07 21:30:26 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	set_int(pthread_mutex_t *mutex, int *to_set, int value)
 	pthread_mutex_unlock(mutex);
 }
 
-
 int	get_bool(pthread_mutex_t *mutex, bool from)
 {
 	bool	value;
@@ -49,54 +48,58 @@ void	set_bool(pthread_mutex_t *mutex, bool *to_set, bool value)
 
 bool		is_sim_running(t_philo *philo)
 {
-	bool	status;
+	bool	is_running;
 
-	status = get_bool(&philo->table->status_mutex, philo->table->status);
-	return (status);
+	is_running = get_bool(&philo->table->is_running_mutex, philo->table->is_running);
+	return (is_running);
 }
 
-void	stop_sim(t_philo *philo)
+bool	is_dead(t_philo *philo)
 {
-	set_bool(&philo->table->status_mutex, &philo->table->status, false);
+	int	time_since_last;
+
+	time_since_last = get_time() - philo->last_meal;//get_int for mutex safety
+	if (time_since_last < philo->info.time_die)
+		return (false);//still alive
+	stop_sim(philo);
+	return (true);
 }
 
 void	unlock_forks(t_philo *philo)
 {
-	pthread_mutex_unlock(&philo->fork);
-	pthread_mutex_unlock(&philo->next->fork);
-	// if (!ft_is_even(philo->id))
-	// {
-	// 	pthread_mutex_unlock(&philo->fork);
-	// 	pthread_mutex_unlock(&philo->next->fork);
-	// }
-	// else
-	// {
-	// 	pthread_mutex_unlock(&philo->next->fork);
-	// 	pthread_mutex_unlock(&philo->fork);
-	// }
+	if (!ft_is_even(philo->id))
+	{
+		pthread_mutex_unlock(&philo->fork);
+		pthread_mutex_unlock(&philo->next->fork);
+	}
+	else
+	{
+		pthread_mutex_unlock(&philo->next->fork);
+		pthread_mutex_unlock(&philo->fork);
+	}
 }
 
 void	lock_forks(t_philo *philo)
 {
-	
-	pthread_mutex_lock(&philo->fork);
-	print_action(philo, TOOKFORK);
-	pthread_mutex_lock(&philo->next->fork);
-	print_action(philo, TOOKFORK);
-	// if (!ft_is_even(philo->id))//for some reason, it makes philos eat when they shouldnt
-	// {
-	// 	pthread_mutex_lock(&philo->fork);
-	// 	print_action(philo, TOOKFORK);
-	// 	pthread_mutex_lock(&philo->next->fork);
-	// 	print_action(philo, TOOKFORK);
-	// }
-	// else if (!ft_is_even(philo->id))
-	// {
-	// 	pthread_mutex_lock(&philo->next->fork);
-	// 	print_action(philo, TOOKFORK);
-	// 	pthread_mutex_lock(&philo->fork);
-	// 	print_action(philo, TOOKFORK);
-	// }
+	if (!ft_is_even(philo->id))
+	{
+		pthread_mutex_lock(&philo->fork);
+		print_action(philo, TOOKFORK);
+		pthread_mutex_lock(&philo->next->fork);
+		print_action(philo, TOOKFORK);
+	}
+	else
+	{
+		pthread_mutex_lock(&philo->next->fork);
+		print_action(philo, TOOKFORK);
+		pthread_mutex_lock(&philo->fork);
+		print_action(philo, TOOKFORK);
+	}
+}
+
+void	stop_sim(t_philo *philo)
+{
+	set_bool(&philo->table->is_running_mutex, &philo->table->is_running, false);
 }
 
 int	get_time(void)
@@ -119,6 +122,7 @@ void	join_threads(t_table *table)
 		if (table->philo == first)//doesnt break, for some reason
 			break ;
 	}
+	pthread_join(table->observer, NULL);
 	ft_lstclear(&table->philo);
-	pthread_mutex_destroy(&table->status_mutex);
+	pthread_mutex_destroy(&table->is_running_mutex);
 }

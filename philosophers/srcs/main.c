@@ -6,103 +6,55 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:48:41 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/06 16:49:53 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/07 22:29:16 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 //num_of_philo timedie timeeat timesleep [num__philo_must_eat]
 
-void	update_last_and_num(t_philo *philo)
+bool check_if_running(t_table *table)
 {
-	set_int(&philo->last_meal_mutex, &philo->last_meal, get_time());	
-	if (philo->info.num_times_eat == -1)
-		return ;
-	set_int(&philo->info.num_times_eat_mutex,
-			&philo->info.num_times_eat, (philo->info.num_times_eat - 1));
-}
+	t_philo	*current;
 
-bool	is_dead(t_philo *philo)
-{
-	int	time_since_last;
-
-	time_since_last = get_time() - philo->last_meal;//get_int for mutex safety
-	if (time_since_last < philo->info.time_die)
-		return (false);//still alive
-		
-	print_action(philo, DIED);
-	stop_sim(philo);
-
-
-	return (true);
-}
-
-void	usleep_without_dying(t_philo *philo, int time)//can change sim status so others finish
-{
-	int	start;
-
-	start = get_time();
-	while (get_time() - start < time)// maybe its <=?
+	current = table->philo;
+	while (current)
 	{
-		if (is_dead(philo))
-			return ;
-		usleep(10);
+		if (is_dead(current))
+		{
+			set_bool(&table->is_running_mutex, &table->is_running, false);
+			print_action(current, DIED);
+			return (false);
+		}
+		current = current->next;
 	}
-}
-
-bool	eat_action(t_philo *philo)
-{
-	if (!is_sim_running(philo))
-		return (false);
-	lock_forks(philo);
-	if (!is_sim_running(philo))// ! dont want it like this
-		return (false);
-	print_action(philo, EATING);
-	update_last_and_num(philo);
-	usleep_without_dying(philo, philo->info.time_eat);
-	if (!is_sim_running(philo))// ! dont want it like this
-		return (false);
-		
-	unlock_forks(philo);
 	return (true);
 }
 
-bool	sleep_action(t_philo *philo)
+void *observe_experiment(void *tab)
 {
-	if (!is_sim_running(philo))
-		return (false);
+    t_table *table;
 
-	print_action(philo, SLEEPING);
-	usleep_without_dying(philo, philo->info.time_sleep);
-	
-	if (!is_sim_running(philo))// ! dont want it like this
-		return (false);
-	return (true);
-}
-
-void	*philo_routine(void *arg)
-{
-	t_philo	*philo = (t_philo *)arg;
-	while (philo->info.num_times_eat != 0)
-	{
-		if (!eat_action(philo))
-			break;
-		if (!sleep_action(philo))
-			break;
-//		think_action(philo);
-	}
-	//close info?
-	return (NULL);
+    table = (t_table *)tab;
+    while (get_bool(&table->is_running_mutex, table->is_running))//doesnt end on death
+    {
+		if (check_if_running(table))
+			break ;
+        usleep(50);
+    }
+    return (NULL);
 }
 
 int	main(int ac, char **av)
 {
+	t_table table;
+	t_philo *first;
+
 	if (!parser(ac, av))
 		return (1);
-	t_table table;
-	init_table(&table, av);
-	
-	t_philo *first = table.philo;
+	if (!init_table(&table, av))
+		return (0);
+	first = table.philo;
 	while (table.philo)
 	{
 		if (pthread_create(&table.philo->ptid, NULL, &philo_routine, table.philo))
@@ -111,6 +63,7 @@ int	main(int ac, char **av)
 		if (table.philo == first)
 			break ;
 	}
+	pthread_create(&table.observer, NULL, &observe_experiment, &table);
 	join_threads(&table);
 	return (0);
 }

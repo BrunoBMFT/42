@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 04:02:06 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/18 00:18:29 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/07 22:25:41 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_philo	*ft_lstnew(int i, char **av)
 	philo->last_meal = get_time();
 	pthread_mutex_init(&philo->last_meal_mutex, NULL);
 	pthread_mutex_init(&philo->info.num_times_eat_mutex, NULL);
-	philo->info.time_think = philo->info.time_die - philo->info.time_eat - philo->info.time_sleep;// divided by 4?
+	philo->info.time_think = (philo->info.time_die - philo->info.time_eat - philo->info.time_sleep) / 4;// divided by 4?
 	if (av[5])
 		philo->info.num_times_eat = ft_atoi(av[5]);
 	else
@@ -74,26 +74,37 @@ t_philo	*ft_lstnew(int i, char **av)
 	return (philo);
 }
 
+void	single(t_philo *philo)//very bad
+{
+	printf("0 1 has taken a fork\n");
+	usleep(philo->info.time_die * 1000);
+	printf("%d 1 died\n", philo->info.time_die);
+	ft_lstclear(&philo);
+}
+
 bool	init_table(t_table *table, char **av)
 {
 	t_philo			*philo;
 	t_philo			*temp;
+	int				i;
 
+	i = 0;
 	philo = NULL;
-	int i = 0;
 	table->start_time = get_time();
-	pthread_mutex_init(&table->status_mutex, NULL);
+	pthread_mutex_init(&table->is_running_mutex, NULL);
 	pthread_mutex_init(&table->print_mutex, NULL);
 	while (i < ft_atoi(av[1]))
 	{
-		temp = ft_lstnew(i, av);//free temp
+		temp = ft_lstnew(i, av);//free temp in error
 		if (!temp)
 			return (ft_lstclear(&table->philo), false);
 		temp->table = table;
 		ft_lstadd_back(&philo, temp);
 		i++;
 	}
+	if (ft_atoi(av[1]) == 1)
+		return (single(philo), false);
 	table->philo = philo;
-	table->status = true;
+	table->is_running = true;
 	return (true);
 }

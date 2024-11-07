@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:49:43 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/06 16:46:13 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/07 21:29:23 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,9 @@ typedef struct s_philo
 struct			s_table
 {
 	t_philo			*philo;
-	bool			status;
-	pthread_mutex_t	status_mutex;
+	pthread_t		observer;
+	bool			is_running;
+	pthread_mutex_t	is_running_mutex;
 	pthread_mutex_t	print_mutex;
 	int				start_time;
 };
@@ -66,7 +67,7 @@ bool	parser(int ac, char **av);
 bool	init_table(t_table *table, char **av);
 void	join_threads(t_table *table);
 
-
+void	*philo_routine(void *arg);
 void	lock_forks(t_philo *philo);
 void	unlock_forks(t_philo *philo);
 bool	is_sim_running(t_philo *philo);
@@ -80,6 +81,7 @@ void	set_int(pthread_mutex_t *mutex, int *to_set, int value);
 int	get_bool(pthread_mutex_t *mutex, bool from);
 void	set_bool(pthread_mutex_t *mutex, bool *to_set, bool value);
 
+bool	is_dead(t_philo *philo);
 
 void	print_action(t_philo *philo, int action);
 

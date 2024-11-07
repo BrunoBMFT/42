@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 02:39:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/06 16:49:17 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/07 22:22:16 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_action(t_philo *philo, int action)
 {
-	int	time = 0;
+	int	time;
 
 	if (!is_sim_running(philo))//maybe not needed, test
 		return ;
