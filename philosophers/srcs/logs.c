@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 02:39:31 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/07 22:22:16 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/08 19:42:58 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ void	print_action(t_philo *philo, int action)
 {
 	int	time;
 
-	if (!is_sim_running(philo))//maybe not needed, test
-		return ;
 	set_int(&philo->table->print_mutex, &time, get_time() - philo->table->start_time);
+	if (action == DIED)
+		printf("%d %d died\n", time, philo->id);
+	if (!is_sim_running(philo))
+		return ;
 	if (action == TOOKFORK)
 		printf("%d %d has taken a fork\n", time, philo->id);
 	if (action == EATING)
@@ -27,6 +29,4 @@ void	print_action(t_philo *philo, int action)
 		printf("%d %d is sleeping\n", time, philo->id);
 	if (action == THINKING)
 		printf("%d %d is thinking\n", time, philo->id);
-	if (action == DIED)
-		printf("%d %d died\n", time, philo->id);
 }

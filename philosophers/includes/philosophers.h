@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:49:43 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/07 21:29:23 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/09 01:15:33 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ struct			s_table
 };
 
 
-bool	parser(int ac, char **av);
-bool	init_table(t_table *table, char **av);
+bool	parser(int ac, char **av, t_table *table);
 void	join_threads(t_table *table);
 
 void	*philo_routine(void *arg);

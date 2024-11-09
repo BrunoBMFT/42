@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:25:32 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/07 21:30:26 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/08 18:54:41 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,6 @@ bool		is_sim_running(t_philo *philo)
 	return (is_running);
 }
 
-bool	is_dead(t_philo *philo)
-{
-	int	time_since_last;
-
-	time_since_last = get_time() - philo->last_meal;//get_int for mutex safety
-	if (time_since_last < philo->info.time_die)
-		return (false);//still alive
-	stop_sim(philo);
-	return (true);
-}
-
 void	unlock_forks(t_philo *philo)
 {
 	if (!ft_is_even(philo->id))
@@ -95,11 +84,6 @@ void	lock_forks(t_philo *philo)
 		pthread_mutex_lock(&philo->fork);
 		print_action(philo, TOOKFORK);
 	}
-}
-
-void	stop_sim(t_philo *philo)
-{
-	set_bool(&philo->table->is_running_mutex, &philo->table->is_running, false);
 }
 
 int	get_time(void)
