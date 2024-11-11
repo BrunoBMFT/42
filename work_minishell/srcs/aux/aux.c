@@ -6,29 +6,30 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:15:54 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/25 03:57:13 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/10 00:45:50 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-//getpid
-int	ft_getpid(void)//does this work?
-{
-	FILE *fp;
-	int	pid;
 
-	fp = fopen("/proc/self/stat", "r");
-	if (!fp)
+int	ft_getpid(void)
+{
+	int		fd;
+	char	buffer[256];
+	int		pid;
+
+	fd = open("/proc/self/stat", O_RDONLY);
+	if (fd < 0)
 		return (ft_putendl_fd("minishell: getpid() error", 2), 0);
-	fscanf(fp, "%d", &pid);
-	fclose(fp);
+	read(fd, buffer, 255);
+	close (fd);
+	pid = ft_atoi(buffer);
 	return (pid);
 }
-//prompt
-char	*update_prompt(void)//void
+
+char	*update_prompt(void)
 {
 	char	cwd[PATH_MAX];
-	char	*dir;
 	char	*prompt;
 	char	**folders;
 	int		i;
@@ -41,7 +42,7 @@ char	*update_prompt(void)//void
 		return (free(folders), NULL);
 	i = 0;
 	if (!folders[i])
-		return (free_array(folders), ft_strdup("/$ "));//strdup because env frees this return
+		return (free_array(folders), ft_strdup("/$ "));
 	while (folders[i])
 		i++;
 	prompt = ft_strjoin(folders[i - 1], "$ ");
@@ -51,9 +52,7 @@ char	*update_prompt(void)//void
 	return (prompt);
 }
 
-
-//env
-char	**dup_env(char **envp)//error check
+char	**dup_env(char **envp)
 {
 	char	**new_env;
 	char	*temp;
@@ -62,24 +61,19 @@ char	**dup_env(char **envp)//error check
 	i = 0;
 	new_env = ft_calloc(sizeof(char *), ft_split_wordcount(envp) + 2);
 	if (!new_env || !envp || !envp[0])
-		return (NULL);//free new_env?
+		return (NULL);
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], "SHLVL=", 6) == 0)
 		{
-			temp = ft_itoa(ft_atoi(envp[i] + 6) + 1);//error check
-			new_env[i] = ft_strjoin("SHLVL=", temp);//error check
+			temp = ft_itoa(ft_atoi(envp[i] + 6) + 1);
+			new_env[i] = ft_strjoin("SHLVL=", temp);
 			free (temp);
 		}
 		else
-			new_env[i] = ft_strdup(envp[i]);//error check
+			new_env[i] = ft_strdup(envp[i]);
 		if (!new_env[i])
-		{
-			i = 0;
-			while (new_env[i])
-				free (new_env[i++]);//check if works
-			return (NULL);
-		}
+			free_array(new_env);//check
 		i++;
 	}
 	new_env[i] = NULL;
@@ -89,36 +83,40 @@ char	**dup_env(char **envp)//error check
 t_env	init_env(char **envp)
 {
 	t_env	env;
+	char	buf[PATH_MAX];
 
 	env.prompt = NULL;
-	env.status = 0;
 	env.env = NULL;
+	env.status = 0;
+	env.redir_error_flag = false;
 	if (!envp || !envp[0])
 	{
-		env.env = malloc(sizeof (char *));
+		env.env = malloc(sizeof (char *) * 3);
 		if (!env.env)
 			return (ft_printf_fd(2, "error allocating private path\n"), env);
-		env.env[0] = ft_strjoin("PATH=", "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:.:/.local/bin:/usr/local/vcpkg");
-	} //change path so that it works at school ++ add protections in cd to check where we are to avoid seg faults ++ fix printenv and env to avoid seg faults
-	env.env = dup_env(envp);
+		env.env[0] = ft_strdup("PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/snap/bin:");
+		env.env[1] = ft_strjoin("PWD=", getcwd(buf, PATH_MAX));
+		env.env[2] = NULL;
+	}
+	else
+		env.env = dup_env(envp);
 	return (env);
 }
 
-//pids
-int    count_processes(t_jobs **jobs)//take double pointer
+int	count_processes(t_jobs **jobs)
 {
-    int		i;
-    t_jobs *job;
+	int		i;
+	t_jobs	*job;
 
-    i = 0;
-    job = *jobs;
-    while (job)
-    {
-        if (job->type == PIPE || job->job)
-            i++;
-        job = job->next;
-    }
-    return (i + 1);
+	i = 0;
+	job = *jobs;
+	while (job)
+	{
+		if (job->type == PIPE || job->job)
+			i++;
+		job = job->next;
+	}
+	return (i + 1);
 }
 
 void	*ft_calloc_pids(t_jobs *job)
@@ -139,4 +137,3 @@ void	*ft_calloc_pids(t_jobs *job)
 	}
 	return (dest);
 }
-

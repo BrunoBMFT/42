@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:53:14 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/24 17:19:43 by bruno            ###   ########.fr       */
+/*   Updated: 2024/10/30 03:15:34 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,20 @@ char	*expand(char *str, t_env *env)
 			h.result = no_expansion(str, h);
 		if (str[h.i] == '$')
 		{
-			// if (!str[h.i + 1])
-			// {
-			// 	h.expanded = ft_strdup("$");
-			// 	return (h.result);
-			// }
-			// else
-			// {
+			if (!str[h.i + 1] || str[h.i + 1] == '\'' || str[h.i + 1] == '\"')
+			{
+				h.expanded = ft_strjoin(h.result, "$"); // why isnt it working?????
+				free(h.result);
+				h.result = h.expanded;
+				return (h.result);
+			}
+			else
+			{
+				// printf("%c\n", str[h.i]);
 				h.start = h.i;
 				h.i++;
 				h.result = expansion(str, &h, env);
-			// }
+			}
 		}
 	}
 	return (h.result);
@@ -49,6 +52,7 @@ char	*expand(char *str, t_env *env)
 char	*no_quotes(char *str, t_var_holder *h, t_env *env)
 {
 	h->temp = ft_strndup(str + h->start, h->i - h->start);
+	//printf("quote::%s\n", h->temp);
 	if (!h->temp)
 		return (h->new);
 	h->before = expand(h->temp, env);
@@ -59,9 +63,17 @@ char	*no_quotes(char *str, t_var_holder *h, t_env *env)
 		h->new = ft_strdup(h->before);//this is leaked in export????
 	else
 	{
-		h->temp = ft_strjoin(h->new, h->before);
-		free(h->new);
-		h->new = h->temp;
+		if (ft_strcmp(h->new, "$") == 0) //fix for $"$" and such thangs
+		{
+			free(h->new);
+			h->new = ft_strdup(h->before);
+		}
+		else
+		{
+			h->temp = ft_strjoin(h->new, h->before);
+			free(h->new);
+			h->new = h->temp;
+		}
 	}
 	free(h->before);
 	if (!h->new)
@@ -101,10 +113,8 @@ char *double_quotes(char *str, t_var_holder *h, t_env *env)
 bool	is_empty_arg(char *str, char end)
 {
 	int	i;
-	int	found;
 
 	i = 0;
-	found = 1;
 	while (str[i] && str[i] != end)
 	{
 		if (ft_isascii(str[i]) && str[i] != '\0')//check for spaces as well?
@@ -132,7 +142,7 @@ char *unquote_and_direct(char *str, t_env *env)
 		h.start = h.i;
 		while (str[h.i] && str[h.i] != '\'' && str[h.i] != '\"')
 			h.i++;
-		if (h.i > h.start)
+		if (h.i > h.start || h.i == '$')
 			h.new = no_quotes(str, &h, env);
 		if (str[h.i] == '\'')
 			h.new = single_quotes(str, &h);
@@ -142,20 +152,6 @@ char *unquote_and_direct(char *str, t_env *env)
 			h.i++;
 	}
 	return (h.new);
-}
-
-char	*expand_env_vars(char *input, t_env *env)
-{
-	char	*temp;
-
-	temp = ft_getenv(input + 1, env->env);
-	if (!temp)
-	{
-		// TODO do something so that $var and "" are technically different things
-	}
-//	if (!temp)
-//		temp = ft_strdup("");//keeping it at NULL???
-	return (temp);
 }
 
 char	*no_expansion(char *str, t_var_holder h)
@@ -193,7 +189,9 @@ char	*expansion(char *str, t_var_holder *h, t_env *env)
 		while (str[h->i] && (ft_isalnum(str[h->i]) || str[h->i] == '_'))
 			h->i++;
 		h->temp2 = ft_strndup(str + h->start, h->i - h->start);
-		h->expanded = expand_env_vars(h->temp2, env);
+		h->expanded = ft_getenv(h->temp2 + 1, env->env);
+		if (!h->expanded)
+			h->expanded = ft_strdup("");
 		free(h->temp2);
 	}
 	h->temp = ft_strjoin(h->result, h->expanded);

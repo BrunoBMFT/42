@@ -6,14 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 03:18:24 by bruno             #+#    #+#             */
-/*   Updated: 2024/10/12 14:15:05 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/08 18:16:47 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-//goncalo
-//nao funciona
 
 void	ignore_signal(struct sigaction *sa, int signal)
 {
@@ -53,7 +50,7 @@ void	here_handler(int signal, siginfo_t *info, void *context)
 	}
 }
 
-void	choose_signal_aux(t_signal type, struct sigaction sa)
+void	signal_aux(t_signal type, struct sigaction sa)
 {
 	if (type == HEREDOC_SIG)
 	{
@@ -70,7 +67,7 @@ void	choose_signal_aux(t_signal type, struct sigaction sa)
 		ignore_signal(&sa, SIGQUIT);
 	}
 }
-void	choose_signal(t_signal type)
+void	choose_sig(t_signal type)
 {
 	static struct sigaction	sa;
 
@@ -93,58 +90,15 @@ void	choose_signal(t_signal type)
 		sigaction(SIGQUIT, &sa, NULL);
 	}
 	else
-		choose_signal_aux(type, sa);
+		signal_aux(type, sa);
 }
 
-//mine
-
-//can call clean_exit and maybe have exit print a line for why its closing
-void	ctrld(char *line, t_env *env)//receives line to free it
+void	EOF_sig(char *line, t_env *env)
 {
 	free (line);
 	printf("exit\n");
-	free_array(env->env);//if
+	if (env->env)
+		free_array(env->env);
 	rl_clear_history();
 	exit (env->status);
 }
-
-//old
-/* 
-void	sigquit(int sig)
-{
-	(void)sig;
-	write(1, "Quit:\n", 7);
-}
-
-void	setup_sigquit_handler(void)//not called
-{
-	struct sigaction	sa;
-
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = SIG_IGN;
-	sa.sa_flags = 0;
-	sigaction(SIGQUIT, &sa, NULL);
-}
-
-// Example signal handlers
-void	handle_signal_main(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void	handle_signal_heredoc(int sig)
-{
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
-	close(STDIN_FILENO);
-}
-
-void	handle_signal_child(int sig)
-{
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
-} */
