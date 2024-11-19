@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 
-static void ft_putstr(const char *s, int *count)
+void ft_putstr(char *s, int *count)
 {
     if (!s)
         s = "(null)";
@@ -13,7 +13,7 @@ static void ft_putstr(const char *s, int *count)
     }
 }
 
-static void ft_putnbr(int n, int *count)
+void ft_putnbr(int n, int *count)
 {
     char c;
 
@@ -35,7 +35,7 @@ static void ft_putnbr(int n, int *count)
     (*count)++;
 }
 
-static void ft_puthex(unsigned int n, int *count)
+void ft_puthex(unsigned int n, int *count)
 {
     char *hex = "0123456789abcdef";
 
@@ -45,35 +45,36 @@ static void ft_puthex(unsigned int n, int *count)
     (*count)++;
 }
 
-int ft_printf(const char *format, ...) /* You can find all this function in the manual. "man va_arg", "man 2 va_arg", "man 3 va_arg" */
+/* You can find all this function in the manual. "man va_arg", "man 2 va_arg", "man 3 va_arg" */
+int ft_printf(const char *str, ...)
 {
     va_list args;
     int count = 0;
 
-    va_start(args, format);
-    while (*format)
+    va_start(args, str);
+    while (*str)
     {
-        if (*format == '%' && *(format + 1))
+        if (*str == '%' && *(str + 1))
         {
-            format++;
-            if (*format == 's')
+            str++;
+            if (*str == 's')
                 ft_putstr(va_arg(args, char *), &count);
-            else if (*format == 'd')
+            else if (*str == 'd')
                 ft_putnbr(va_arg(args, int), &count);
-            else if (*format == 'x')
+            else if (*str == 'x')
                 ft_puthex(va_arg(args, unsigned int), &count);
             else
             {
-                write(1, format, 1);
+                write(1, str, 1);
                 count++;
             }
         }
         else
         {
-            write(1, format, 1);
+            write(1, str, 1);
             count++;
         }
-        format++;
+        str++;
     }
     va_end(args);
     return count;

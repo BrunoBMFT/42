@@ -30,8 +30,8 @@ char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE];
 	char		line[70000];
-	static int	buffer_read;
-	static int 	buffer_pos;
+	static int	bytes_read;
+	static int 	pos;
 	int			i;
 
 	i = 0;
@@ -39,16 +39,19 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while (1)
 	{
-		if (buffer_pos >= buffer_read)
+		if (pos >= bytes_read)
 		{
-			buffer_read = read(fd, buffer, BUFFER_SIZE);
-			buffer_pos = 0;
-			if (buffer_read <= 0)
+			bytes_read = read(fd, buffer, BUFFER_SIZE);
+			pos = 0;
+			if (bytes_read <= 0)
 				break ;
 		}
-		if (line[i] == '\n')
-			break ;
-		line[i] = buffer[buffer_pos++];
+		// line[i] = buffer[pos];//fix?
+		// if (buffer[pos++] == '\n')//fix?
+		// 	break ;//fix?
+		if (line[i] == '\n')//git version
+			break ;//git version
+		line[i] = buffer[pos++];//git version
 		i++;
 	}
 	line[i] = '\0';
@@ -56,11 +59,10 @@ char	*get_next_line(int fd)
 		return (NULL);
 	return (ft_strdup(line));
 }
-/*
+/* 
 int main()
 {
     int fd = open("./txt.txt", O_RDONLY);
     printf("%s", get_next_line(fd));
     return (0);
-}
-*/
+} */
