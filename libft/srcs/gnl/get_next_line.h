@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 13:12:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/11/20 15:50:58 by bruno            ###   ########.fr       */
+/*   Created: 2024/11/20 15:31:25 by bruno             #+#    #+#             */
+/*   Updated: 2024/11/20 15:41:01 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <fcntl.h>
 
-bool	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (true);
-	return (false);
-}
+char	*clearbuf(char *buf);
+int		buffer(char	*buf);
+char	*gnl_ft_strjoin(char *line, char *buf);
+int		gnl_ft_strlen(char *str);
+
+#endif

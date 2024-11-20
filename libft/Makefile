@@ -1,10 +1,10 @@
 NAME = libft.a
 
 SRCS = $(addprefix srcs/,$(addsuffix .c, $(SRCFLD)))
-SRCFLD = $(addprefix aux/, $(AUX_SRCS)) $(addprefix is/, $(IS_SRCS)) $(addprefix list/, $(LIST_SRCS)) \
-$(addprefix mall/, $(MALL_SRCS)) $(addprefix mem/, $(MEM_SRCS)) $(addprefix printf/, $(PRINTF_SRCS)) \
-$(addprefix put/, $(PUT_SRCS)) $(addprefix str/, $(STR_SRCS))
-AUX_SRCS = get_next_line get_next_line_bonus get_next_line_utils ft_printf ft_printf_functions ft_printf_putnbr
+SRCFLD = $(addprefix is/, $(IS_SRCS)) $(addprefix list/, $(LIST_SRCS)) $(addprefix mall/, $(MALL_SRCS)) \
+$(addprefix mem/, $(MEM_SRCS)) $(addprefix put/, $(PUT_SRCS)) $(addprefix str/, $(STR_SRCS)) \
+$(addprefix printf/, $(PRINTF_SRCS)) $(addprefix gnl/, $(GNL_SRCS))
+
 IS_SRCS = ft_is_even ft_isalnum ft_isalpha ft_isascii ft_isdigit ft_isprint
 LIST_SRCS = ft_lstadd_back ft_lstadd_front ft_lstclear ft_lstdelone ft_lstiter ft_lstlast \
 ft_lstmap ft_lstnew ft_lstsize
@@ -14,6 +14,8 @@ MEM_SRCS = ft_memchr ft_memcmp ft_memcpy ft_memmove ft_memset
 PUT_SRCS = ft_putchar_fd ft_putendl_fd ft_putnbr_fd ft_putstr_fd ft_tolower ft_toupper
 STR_SRCS = ft_atoi ft_atol ft_strcat ft_strchr ft_striteri ft_strlcat ft_strlcpy \
 ft_strlen ft_strncmp ft_strnstr ft_strrchr
+PRINTF_SRCS = ft_printf ft_printf_functions
+GNL_SRCS = get_next_line get_next_line_utils
 
 OBJDIR = ./objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))

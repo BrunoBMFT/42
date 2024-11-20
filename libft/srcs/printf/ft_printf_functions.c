@@ -6,35 +6,63 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 00:04:49 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/20 16:36:46 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/20 16:55:58 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putstr(char *str, int *len)
+void	pf_putnbr(int n, int fd, int *len)
+{
+	if (n == -2147483648)
+		return (pf_putstr("-2147483648", fd, len));
+	if (n < 0)
+	{
+		pf_putchar('-', fd, len);
+		n *= -1;
+	}
+	if (n >= 10)
+	{
+		pf_putnbr(n / 10, fd, len);
+		n %= 10;
+	}
+	pf_putchar((n % 10 + '0'), fd, len);
+}
+
+void	pf_unsigned_int(unsigned int n, int fd, int *len)
+{
+	if (n == 0)
+		return (pf_putstr("0", fd, len));
+	if (n >= 10)
+		pf_unsigned_int(n / 10, fd, len);
+	pf_putchar(n % 10 + '0', fd, len);
+}
+
+void	pf_putstr(char *str, int fd, int *len)
 {
 	int	i;
 
 	if (!str)
-		return (ft_putstr("(null)", len));
+		return (pf_putstr("(null)", fd, len));
 	i = 0;
 	while (str[i])
 	{
-		ft_putchar(str[i], len);
+		pf_putchar(str[i], fd, len);
 		i++;
 	}
 }
 
-void	ft_pointer(size_t pointer, char *base, int *len)
+void	pf_pointer(size_t pointer, int fd, int *len)
 {
 	char	str[25];
 	int		i;
+	char	*base;
 
 	if (!pointer)
-		return (ft_putstr("(nil)", len));
+		return (pf_putstr("(nil)", fd, len));
 	i = 0;
-	ft_putstr("0x", len);
+	pf_putstr("0x", fd, len);
+	base = "0123456789abcdef";
 	while (pointer != 0)
 	{
 		str[i] = base[pointer % 16];
@@ -42,14 +70,14 @@ void	ft_pointer(size_t pointer, char *base, int *len)
 		i++;
 	}
 	while (i--)
-		ft_putchar(str[i], len);
+		pf_putchar(str[i], fd, len);
 }
 
-void	ft_hexa(unsigned int n, char *base, int *len)
+void	pf_hexa(unsigned int n, char *base, int fd, int *len)
 {
 	if (n == 0)
-		return (ft_putchar('0', len));
+		return (pf_putchar('0', fd, len));
 	if (n >= 16)
-		ft_hexa(n / 16, base, len);
-	ft_putchar(base[n % 16], len);
+		pf_hexa(n / 16, base, fd, len);
+	pf_putchar(base[n % 16], fd, len);
 }

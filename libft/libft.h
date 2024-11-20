@@ -6,23 +6,21 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 10:25:50 by brfernan          #+#    #+#             */
-/*   Updated: 2024/09/18 00:21:07 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/20 16:46:37 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
-# endif
-# define POSSIBLE "cspdiuxX%"
+
 # include <unistd.h>
-# include <stdarg.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <stdbool.h>
+# include "srcs/printf/ft_printf.h"
+# include "srcs/gnl/get_next_line.h"
 
 typedef struct s_list
 {
@@ -96,17 +94,8 @@ char	*ft_strrchr(const char *s, int c);
 
 //aux
 int		ft_printf(const char *str, ...);
-int		ft_printf_putchar(int c);
-int		format(va_list args, const char format);
-int		ft_printf_putstr(char *str);
-int		ft_printf_putnbr(int n);
-int		putnbr_len(int n);
-int		ft_unsigned_int(unsigned int u);
-int		unsigned_len(unsigned int num);
-int		ft_pointer(size_t pointer);
-int		ft_hexa(unsigned int x, char x_or_x);
+int		ft_printf_fd(int fd, const char *str, ...);
 char	*get_next_line(int fd);
 char	*get_next_line_bonus(int fd);
-char	*gnl_ft_strjoin(char *line, char *buf);
 
 #endif

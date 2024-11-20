@@ -6,11 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 17:35:23 by brfernan          #+#    #+#             */
-/*   Updated: 2024/09/18 00:01:36 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/20 16:57:51 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft.h"
+#include "get_next_line.h"
 
 int	gnl_ft_strlen(char *str)
 {
@@ -52,4 +52,37 @@ char	*gnl_ft_strjoin(char *line, char *buf)
 	str[i] = 0;
 	free (line);
 	return (str);
+}
+
+int	buffer(char	*buf)
+{
+	int	trig;
+	int	i;
+	int	j;
+
+	trig = 0;
+	i = 0;
+	j = 0;
+	while (buf[i])
+	{
+		if (trig == 1)
+		{
+			buf[j] = buf[i];
+			j++;
+		}
+		if (buf[i] == '\n')
+			trig = 1;
+		buf[i++] = 0;
+	}
+	return (trig);
+}
+
+char	*clearbuf(char *buf)
+{
+	int	i;
+
+	i = 0;
+	while (buf[i])
+		buf[i++] = 0;
+	return (NULL);
 }
