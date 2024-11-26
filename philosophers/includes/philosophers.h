@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:49:43 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/09 01:15:33 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/25 18:36:28 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int		get_time(void);
 
 bool		is_sim_running(t_philo *philo);
 
-int	get_int(pthread_mutex_t *mutex, int from);
+int		get_int(pthread_mutex_t *mutex, int from);
 void	set_int(pthread_mutex_t *mutex, int *to_set, int value);
-int	get_bool(pthread_mutex_t *mutex, bool from);
+int		get_bool(pthread_mutex_t *mutex, bool from);
 void	set_bool(pthread_mutex_t *mutex, bool *to_set, bool value);
 
 bool	is_dead(t_philo *philo);
@@ -90,5 +90,7 @@ long	ft_atol(const char *str);
 bool	ft_isdigit(int c);
 bool	ft_is_even(int n);
 void	ft_lstclear(t_philo **philo);
+t_philo	*ft_lstnew(int counter, char **av);
+void	ft_lstadd_back(t_philo **lst, t_philo *to_add);
 
 #endif

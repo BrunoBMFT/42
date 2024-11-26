@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:00:41 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/09 01:17:58 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/26 01:31:58 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ bool	is_dead(t_philo *philo)//dont use it twice, use only on observer or actions
 {
 	int	time_since_last;
 
-	set_int(&philo->last_meal_mutex, &time_since_last, get_time() - philo->last_meal);
+	time_since_last = get_time() - get_int(&philo->last_meal_mutex, philo->last_meal);
 	if (time_since_last < philo->info.time_die)
 		return (false);//still alive
 	set_bool(&philo->table->is_running_mutex, &philo->table->is_running, false);//put this in check_if_running func
@@ -34,9 +34,9 @@ bool	usleep_and_update(t_philo *philo, int time)
 			return (false);
 		usleep(10);
 	}
-	set_int(&philo->last_meal_mutex, &philo->last_meal, get_time());	
 	if (philo->info.num_times_eat == -1)
 		return (true);
+	set_int(&philo->last_meal_mutex, &philo->last_meal, get_time());	
 	set_int(&philo->info.num_times_eat_mutex,
 			&philo->info.num_times_eat, (philo->info.num_times_eat - 1));
 	return (true);
