@@ -6,72 +6,43 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/25 00:09:44 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/26 01:49:48 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	name_check(int ac, char **av)
+void	save_texture_data(t_data *data)
 {
-	int		len;
-	char	*temp;
+	int i;
 
-	if (ac != 2)
-		error("Wrong number of arguments");
-	len = ft_strlen(av[1]);
-	temp = av[1] + len - 4;
-	if (len < 5 || ft_strcmp(temp, ".cub"))
-		error("Name is wrong");
-}
-
-bool	read_into_map(t_data *data, int fd, int loop)
-{
-	char	*map_line;
-
-	map_line = get_next_line(fd);
-	if (map_line)//recursive part
-		read_into_map(data, fd, loop + 1);
-	else
+	i = 0;
+	while (data->file[i])
 	{
-		data->map = ft_calloc(sizeof(char *), loop + 1);
-		if (!data->map)
-			error("map calloc failed");
+		if (ft_strncmp("NO", data->file[i], 2) == 0)
+			data->tnorth = data->file[i] + 3;
+		if (ft_strncmp("SO", data->file[i], 2) == 0)
+			data->tsouth = data->file[i] + 3;
+		if (ft_strncmp("WE", data->file[i], 2) == 0)
+			data->twest = data->file[i] + 3;
+		if (ft_strncmp("EA", data->file[i], 2) == 0)
+			data->teast = data->file[i] + 3;
+		i++;
 	}
-	if (data->map)
-	{
-		data->map[loop] = ft_strtrim(map_line, "\n");
-		return (free (map_line), true);
-	}
-	return (false);
-}
-
-void	save_map(t_data *data, char *str)
-{
-	int	fd;
-
-	fd = open(str, O_RDONLY);
-	if (fd < 0)
-		error("fd failed to open");
-	read_into_map(data, fd, 0);
 }
 
 void	parser(int ac, char **av, t_data *data)
 {
 	name_check(ac, av);
 	save_map(data, av[1]);
-	int i = 0;
-	while (data->map[i])
-	{
-		printf("%s\n", data->map[i]);
-		i++;
-	}
+	save_texture_data(data);
 }
 
 int	main(int ac, char **av)
 {
 	t_data data;
 	parser(ac, av, &data);
-	printf("playable map\n");
+	print_file_info(&data);
+	clean_map(&data);
 	return (0);
 }

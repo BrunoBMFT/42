@@ -1,7 +1,7 @@
 NAME =	cub3d
 
 SRCS_DIR = ./srcs
-SRCS = main.c error.c
+SRCS = main.c parser.c clean.c error.c
 CFLAGS = -g #-Wall -Werror -Wextra
 
 OBJS_DIR = ./objs
