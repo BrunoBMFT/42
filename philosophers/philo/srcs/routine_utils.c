@@ -6,17 +6,40 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:25:32 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/27 16:09:50 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:38:51 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int	stop_sim(t_table *table)
+bool	is_sim_running(t_table *table)
 {
-	set_bool(&table->is_running_mutex, &table->is_running, false);
-	join_threads(table);
-	return (1);
+	bool	status;
+
+	pthread_mutex_lock(&table->is_running_mutex);
+	status = table->is_running;
+	pthread_mutex_unlock(&table->is_running_mutex);
+	return (status);
+}
+
+void	join_threads(t_table *table)
+{
+	t_philo	*first;
+
+	pthread_mutex_lock(&table->is_running_mutex);
+	first = table->philo;
+	pthread_mutex_unlock(&table->is_running_mutex);
+	while (table->philo)
+	{
+		pthread_join(table->philo->ptid, NULL);
+		table->philo = table->philo->next;
+		if (table->philo == first)
+			break ;
+	}
+	pthread_join(table->observer, NULL);
+	ft_lstclear(&table->philo);
+	pthread_mutex_destroy(&table->is_running_mutex);
+	pthread_mutex_destroy(&table->print_mutex);
 }
 
 void	lock_forks(t_philo *philo)
@@ -49,23 +72,4 @@ void	unlock_forks(t_philo *philo)
 		pthread_mutex_unlock(&philo->next->fork);
 		pthread_mutex_unlock(&philo->fork);
 	}
-}
-
-void	join_threads(t_table *table)
-{
-	t_philo	*first;
-
-	first = table->philo;
-	while (table->philo)
-	{
-		// pthread_mutex_destroy(&table->philo->fork);
-		// pthread_mutex_destroy(&table->philo->last_meal_mutex);
-		pthread_join(table->philo->ptid, NULL);
-		table->philo = table->philo->next;
-		if (table->philo == first)
-			break ;
-	}
-	pthread_join(table->observer, NULL);
-	ft_lstclear(&table->philo);
-	pthread_mutex_destroy(&table->is_running_mutex);
 }

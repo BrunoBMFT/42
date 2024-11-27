@@ -8,8 +8,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 
 SRCS = main.c libft.c parser.c init.c routine.c routine_utils.c mutex.c logs.c observer.c 
 
-CFLAGS = -Wall -Wextra -Werror -pthread
-#CFLAGS = -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
 all: $(NAME)
 
 $(NAME): $(OBJS)
@@ -25,16 +24,5 @@ fclean: clean
 	@echo $(NAME) fclean
 
 re: fclean all
-
-1:
-	cc test1.c $(CFLAGS)
-2:
-	cc test2.c $(CFLAGS)
-3:
-	cc test3.c $(CFLAGS)
-4:
-	cc test4.c $(CFLAGS)
-5:
-	cc test5.c $(CFLAGS)
 
 .PHONY: all fclean clean re

@@ -4,7 +4,11 @@
 FIX
 when num_times_eat is over, everyone should sleep and think one last time
 
+4 310 200 100 works
+threads not being joined
+4 200 205 200
 
+threads only dont close if 
 
 
 error check
