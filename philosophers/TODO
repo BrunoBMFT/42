@@ -1,15 +1,12 @@
-simulations dont end when dead
-
-PHILOS DYING EVEN IF THEY EAT
-
-
-weird: 
-5 800 200 200 7
-4 410 200 200 (shouldnt die) 
 
 
 
-check if all threads have been created
+FIX
+when num_times_eat is over, everyone should sleep and think one last time
+
+
+
+
 error check
 
 
@@ -23,17 +20,6 @@ error check
 
 
 
-
-
-
-
-notes
-	//pthreadexit ensure that the thread resources are cleaned up
-	//	and that the ret value is passed to pthreadjoin
-	//using return (NULL) also returns the return value to pthreadjoin
-	//threadexit explicitly terminates the thread, the other does it implicitly
-	//both clean up the thread and return control to the calling thread
-
 pthread create recieves a pthread id, NULL, a function, and NULL
 	said function has to be void *
 
@@ -43,22 +29,3 @@ pthread join makes execution stop at that line until the thread is terminated/co
 
 pthread detach makes it that it does not need to be joined when it terminates
 	when the thread is done, resources are automatically released 
-
-
-
-
-
-Need to understand better
-mutex is used to lock resources from other threads
-	it locks from other threads access to a region of code
-
-when a thread mutexes a part of the code, the other threads need to wait 
-	for it to be done to be able to access that region of code
-
-pthread mutex init initiates a pthread_mutex_t variable
-
-pthread mutex destroy frees the mutex resources
-
-pthread mutex lock locks that specific part of the code
-and
-pthread mutex unlock unlocks that same specific part

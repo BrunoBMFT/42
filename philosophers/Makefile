@@ -6,7 +6,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-SRCS = main.c init.c lists.c actions.c logs.c aux.c libft.c 
+SRCS = main.c libft.c parser.c init.c routine.c routine_utils.c mutex.c logs.c observer.c 
 
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -pthread
 #CFLAGS = -pthread

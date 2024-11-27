@@ -5,13 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/11 01:48:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/07 21:42:06 by bruno            ###   ########.fr       */
+/*   Created: 2024/11/26 18:33:45 by bruno             #+#    #+#             */
+/*   Updated: 2024/11/26 22:08:02 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//number_of_philosophers   time_die   time_eat  
-//time_sleep  [number_of_times_each_philosopher_must_eat]
 #include "../includes/philosophers.h"
 
 bool	num_check(char *str)
@@ -30,7 +28,7 @@ bool	num_check(char *str)
 
 bool	check(char **av)
 {
-	int		i = 0;
+	int		i;
 	size_t	num;
 
 	i = 1;
@@ -46,11 +44,13 @@ bool	check(char **av)
 	return (true);
 }
 
-bool	parser(int ac, char **av)
+bool	parser(int ac, char **av, t_table *table)
 {
 	if (ac < 5 || ac > 6)
 		return (printf("wrong number of arguments\n"), false);
 	if (!check(av))
+		return (false);
+	if (!init_table(table, av))
 		return (false);
 	return (true);
 }
