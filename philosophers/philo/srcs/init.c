@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:48:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/27 17:46:22 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:14:07 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_philo	*ft_lstnew(int i, char **av)
 	philo->info.time_eat = ft_atoi(av[3]);
 	philo->info.time_sleep = ft_atoi(av[4]);
 	philo->last_meal = get_time();
+	philo->done_eating = false;
 	pthread_mutex_init(&philo->fork, NULL);
 	pthread_mutex_init(&philo->last_meal_mutex, NULL);
 	pthread_mutex_init(&philo->info.num_times_eat_mutex, NULL);
@@ -107,6 +108,8 @@ bool	init_table(t_table *table, char **av)
 	if (ft_atoi(av[1]) == 1)
 		return (single(philo), false);
 	table->philo = philo;
+	table->philo_num = i;
+	table->all_done = 0;
 	table->is_running = true;
 	return (true);
 }

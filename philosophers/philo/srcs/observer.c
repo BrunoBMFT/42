@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:30:40 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/27 17:27:17 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:18:27 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,29 @@ bool	is_dead(t_philo *philo)
 bool	observer_check(t_table *table)
 {
 	t_philo	*current;
-	int		all_done;
-	
-	all_done = 0;
+	t_philo *first;
+
 	pthread_mutex_lock(&table->print_mutex);
 	current = table->philo;
+	first = table->philo;
 	pthread_mutex_unlock(&table->print_mutex);
 	while (current)
 	{
 		if (is_dead(current))
 			return (print_action(current, DIED), false);
 		pthread_mutex_lock(&current->info.num_times_eat_mutex);
-		int num_times = current->info.num_times_eat;
-		pthread_mutex_unlock(&current->info.num_times_eat_mutex);
-		if (num_times == 0)
-			all_done++;
-		if (all_done == table->philo_num)
+		if (current->done_eating)
 		{
-			pthread_mutex_lock(&current->table->is_running_mutex);
-			current->table->is_running = false;
-			pthread_mutex_unlock(&current->table->is_running_mutex);
-			return (false);
+			pthread_mutex_lock(&current->table->print_mutex);
+			table->all_done++;
+			pthread_mutex_unlock(&current->table->print_mutex);
 		}
+		pthread_mutex_unlock(&current->info.num_times_eat_mutex);
+		if (table->all_done == table->philo_num)
+			return (false);
 		current = current->next;
+		if (current == first)
+			break ;
 	}
 	return (true);
 }
@@ -66,7 +66,7 @@ void	*observe_experiment(void *tab)
 	table = (t_table *)tab;
 	while (is_sim_running(table))
 	{
-		if (observer_check(table))
+		if (!observer_check(table))
 			break ;
 		usleep(50);
 	}

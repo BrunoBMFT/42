@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:49:43 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/27 17:46:28 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:13:56 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,53 +43,43 @@ typedef struct s_info
 typedef struct s_philo
 {
 	int				id;
+	t_info			info;
 	t_table			*table;
 	pthread_t		ptid;
 	pthread_mutex_t	fork;
-	int				last_meal;
 	pthread_mutex_t	last_meal_mutex;
-	t_info			info;
+	int				last_meal;
+	bool			done_eating;
 	struct s_philo	*next;
 }				t_philo;
 
 struct			s_table
 {
 	t_philo			*philo;
-	pthread_t		observer;
+	int				philo_num;
+	int				all_done;
 	bool			is_running;
+	pthread_t		observer;
 	pthread_mutex_t	is_running_mutex;
 	pthread_mutex_t	print_mutex;
 	int				start_time;
 };
 
-//libft
 int		ft_atoi(const char *str);
 bool	ft_is_even(int n);
 bool	ft_isdigit(int c);
 long	ft_atol(const char *str);
-
-//parser
 bool	parser(int ac, char **av, t_table *table);
 bool	init_table(t_table *table, char **av);
-
-//philo
 void	*philo_routine(void *arg);
 void	print_action(t_philo *philo, int action);
 void	*observe_experiment(void *tab);
 bool	is_dead(t_philo *philo);
 int		stop_sim(t_table *table);
 bool	is_sim_running(t_table *table);
-
-//mutex
 void	lock_forks(t_philo *philo);
 void	unlock_forks(t_philo *philo);
-void	set_int(pthread_mutex_t *mutex, int *to_set, int value);
-void	set_bool(pthread_mutex_t *mutex, bool *to_set, bool value);
-int		get_int(pthread_mutex_t *mutex, int from);
-int		get_bool(pthread_mutex_t *mutex, bool from);
 int		get_time(void);
-
-//clean
 void	ft_lstclear(t_philo **philo);
 void	join_threads(t_table *table);
 

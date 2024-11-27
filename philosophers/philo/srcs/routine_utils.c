@@ -6,11 +6,20 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:25:32 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/27 17:38:51 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:49:03 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+
+int	stop_sim(t_table *table)
+{
+	pthread_mutex_lock(&table->is_running_mutex);
+	table->is_running = false;
+	pthread_mutex_unlock(&table->is_running_mutex);
+	join_threads(table);
+	return (1);
+}
 
 bool	is_sim_running(t_table *table)
 {
