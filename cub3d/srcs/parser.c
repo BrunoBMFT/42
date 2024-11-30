@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/26 01:49:06 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/30 18:29:17 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	name_check(int ac, char **av)
 		error("Name is wrong");
 }
 
-bool	read_into_map(t_data *data, int fd, int loop)
+bool	read_into_file(t_data *data, int fd, int loop)
 {
 	char	*map_line;
 
 	map_line = get_next_line(fd);
 	if (map_line)//recursive part
-		read_into_map(data, fd, loop + 1);
+		read_into_file(data, fd, loop + 1);
 	else
 	{
 		data->file = ft_calloc(sizeof(char *), loop + 1);
@@ -46,33 +46,37 @@ bool	read_into_map(t_data *data, int fd, int loop)
 	return (false);
 }
 
-void	save_map(t_data *data, char *str)
+void	save_file(t_data *data, char *str)
 {
 	int	fd;
 
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
 		error("fd failed to open");
-	read_into_map(data, fd, 0);
+	read_into_file(data, fd, 0);
 }
 
-void print_file_info(t_data *data)
+void	save_texture_path(t_data *data)
 {
-	int i = 0;
+	int		i;
+	char	*temp;
+
+	i = 0;
 	while (data->file[i])
 	{
-		printf("%s\n", data->file[i]);
-		i++;
-	}
-	printf("%s\n%s\n%s\n%s\n", data->tnorth, data->tsouth, data->twest, data->teast);
-}
-
-void print_map_info(t_data *data)
-{
-	int i = 0;
-	while (data->map[i])
-	{
-		printf("%s\n", data->map[i]);
+		temp = data->file[i];
+		if (ft_strncmp("NO", temp, 2) == 0)
+			data->p_north = ft_strdup(temp + 3);
+		if (ft_strncmp("EA", temp, 2) == 0)
+			data->p_east = ft_strdup(temp + 3);
+		if (ft_strncmp("SO", temp, 2) == 0)
+			data->p_south = ft_strdup(temp + 3);
+		if (ft_strncmp("WE", temp, 2) == 0)
+			data->p_west = ft_strdup(temp + 3);
+		if (ft_strncmp("F", temp, 1) == 0)
+			data->c_floor = ft_strdup(temp + 2);
+		if (ft_strncmp("C", temp, 1) == 0)
+			data->c_ceiling = ft_strdup(temp + 2);
 		i++;
 	}
 }

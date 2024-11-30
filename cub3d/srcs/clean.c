@@ -6,23 +6,50 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:01 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/26 01:36:16 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/30 18:23:28 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	clean_map(t_data *data)
+void	clean_array(char **arr)
 {
 	int	i;
 
-	if (!data->map)
+	if (!arr)
 		return ;
 	i = 0;
-	while (data->map[i])
+	while (arr[i])
 	{
-		free (data->map[i]);
+		if (arr[i])
+			free (arr[i]);
 		i++;
 	}
-	free (data->map);
+	free (arr);
+}
+
+void	clean_textures(t_data *data)
+{
+	if (data->p_north)
+		free(data->p_north);
+	if (data->p_east)
+		free(data->p_east);
+	if (data->p_south)
+		free(data->p_south);
+	if (data->p_west)
+		free(data->p_west);
+	if (data->c_floor)
+		free(data->c_floor);
+	if (data->c_ceiling)
+		free(data->c_ceiling);
+}
+
+void	clean_everything(t_data *data)
+{
+	if (data->file)
+		clean_array(data->file);
+	// if (data->map)
+	// 	clean_array(data->map);
+	clean_textures(data);
+
 }

@@ -6,43 +6,54 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/26 01:49:48 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/30 19:58:26 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	save_texture_data(t_data *data)
+bool	char_allowed(char *str)//not working too well
 {
-	int i;
+	int i = 0;
 
-	i = 0;
-	while (data->file[i])
+	while (str[i])
 	{
-		if (ft_strncmp("NO", data->file[i], 2) == 0)
-			data->tnorth = data->file[i] + 3;
-		if (ft_strncmp("SO", data->file[i], 2) == 0)
-			data->tsouth = data->file[i] + 3;
-		if (ft_strncmp("WE", data->file[i], 2) == 0)
-			data->twest = data->file[i] + 3;
-		if (ft_strncmp("EA", data->file[i], 2) == 0)
-			data->teast = data->file[i] + 3;
+		if (!ft_strchr(POSSIBLE, str[i]))
+			return (false);
 		i++;
 	}
+	return (true);
+}
+
+void	save_map(t_data *data)
+{
+	int i = 0;
+	int count = 0;
+	while (data->file[i])
+	{
+		if (char_allowed(data->file[i]))
+		{
+			count++;
+		}
+		i++;
+	}
+	printf("count: %d\n", count);
 }
 
 void	parser(int ac, char **av, t_data *data)
 {
 	name_check(ac, av);
-	save_map(data, av[1]);
-	save_texture_data(data);
+	save_file(data, av[1]);
+	save_texture_path(data);
+	save_map(data);
 }
 
 int	main(int ac, char **av)
 {
 	t_data data;
 	parser(ac, av, &data);
-	print_file_info(&data);
-	clean_map(&data);
+	print_file(&data);
+//	print_file_info(&data);
+	clean_everything(&data);
 	return (0);
 }

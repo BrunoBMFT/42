@@ -6,14 +6,14 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 10:25:50 by brfernan          #+#    #+#             */
-/*   Updated: 2024/11/20 16:51:18 by bruno            ###   ########.fr       */
+/*   Updated: 2024/11/30 19:05:14 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# define POSSIBLE "cspdiuxX%"
+# define PFPOSSIBLE "cspdiuxX%"
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdio.h>
