@@ -6,18 +6,20 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:38:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/30 18:22:07 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/03 17:16:57 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	print_file(t_data *data)
+void	print_array(char **arr)
 {
 	int i = 0;
-	while (data->file[i])
+	if (!arr)
+		return ;
+	while (arr[i])
 	{
-		printf("%s\n", data->file[i]);
+		printf("%s\n", arr[i]);
 		i++;
 	}
 }
@@ -36,10 +38,11 @@ void	print_textures(t_data *data)
 
 void print_file_info(t_data *data)
 {
-	print_file(data);
+	print_array(data->file);
 	printf("\n\nPROCESSED INFO\n\n");
 	print_textures(data);
-
+	printf("\nmap:\n");
+	print_array(data->map);
 
 
 

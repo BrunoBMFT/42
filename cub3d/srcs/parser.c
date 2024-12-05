@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/30 18:29:17 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/03 17:03:34 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	name_check(int ac, char **av)
 	char	*temp;
 
 	if (ac != 2)
-		error("Wrong number of arguments");
+		error(NULL, "Wrong number of arguments");
 	len = ft_strlen(av[1]);
 	temp = av[1] + len - 4;
 	if (len < 5 || ft_strcmp(temp, ".cub"))
-		error("Name is wrong");
+		error(NULL, "Name is wrong");
 }
 
 bool	read_into_file(t_data *data, int fd, int loop)
@@ -36,7 +36,7 @@ bool	read_into_file(t_data *data, int fd, int loop)
 	{
 		data->file = ft_calloc(sizeof(char *), loop + 1);
 		if (!data->file)
-			error("map calloc failed");
+			error(NULL, "map calloc failed");
 	}
 	if (data->file)
 	{
@@ -52,7 +52,7 @@ void	save_file(t_data *data, char *str)
 
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
-		error("fd failed to open");
+		error(NULL, "fd failed to open");
 	read_into_file(data, fd, 0);
 }
 

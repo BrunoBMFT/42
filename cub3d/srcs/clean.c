@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:01 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/30 18:23:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/03 17:16:53 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,12 @@ void	clean_textures(t_data *data)
 
 void	clean_everything(t_data *data)
 {
+	if (!data)
+		return ;
 	if (data->file)
 		clean_array(data->file);
-	// if (data->map)
-	// 	clean_array(data->map);
+	if (data->map)
+		clean_array(data->map);
 	clean_textures(data);
 
 }

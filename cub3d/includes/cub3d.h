@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2024/11/30 19:51:40 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/03 19:30:52 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 # include "libft/libft.h"
 
-# define POSSIBLE "01NEWS"
+# define POSSIBLE "01NEWS "
+
+# define POSSIBLE "\t\"
 
 typedef struct	s_data
 {
@@ -33,13 +35,15 @@ typedef struct	s_data
 void	name_check(int ac, char **av);
 void	save_file(t_data *data, char *str);
 void	save_texture_path(t_data *data);
+void	save_map(t_data *data);
+
 //remove
 void 	print_map_info(t_data *data);
 void 	print_file_info(t_data *data);
 void	print_file(t_data *data);
 
 //errors
-void	error(char *str);
+void	error(t_data *data, char *str);
 
 //clean
 void	clean_everything(t_data *data);
