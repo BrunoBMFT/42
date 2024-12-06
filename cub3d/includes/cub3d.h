@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/03 19:30:52 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/06 15:24:04 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include "libft/libft.h"
 
 # define POSSIBLE "01NEWS "
-
-# define POSSIBLE "\t\"
 
 typedef struct	s_data
 {

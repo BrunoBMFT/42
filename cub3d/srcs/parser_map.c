@@ -6,13 +6,13 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/03 19:30:11 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/06 15:25:37 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-bool	char_allowed(char *str)//not working too well, separators
+bool	char_allowed(char *str)
 {
 	int i = 0;
 	
@@ -32,12 +32,15 @@ bool	is_separator(char *str)
 	if (!str || !*str)
 		return (false);
 }
-
-void	save_map(t_data *data)//check separators
+//instead of saving only what is map, save everything but paths and colors by skipping them 
+//  while saving the map.
+//let flood fill resolve if there are \n or incorrect borders, it will find them either way
+//just give start pos to floodfill and let it find everything needed
+void	save_map(t_data *data)
 {
 	int i = 0;
 	int count = 0;
-	while (data->file[i])//discovers size and start
+	while (data->file[i])
 	{
 		if (*data->file[i] && char_allowed(data->file[i]))
 			count++;
