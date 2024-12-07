@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/06 15:24:04 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/07 02:50:16 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ typedef struct	s_data
 	char		*p_west;
 	char		*c_floor;
 	char		*c_ceiling;
+
+	bool		**visited;
+	int			y_start;
+	int			x_start;
+	int			starts;
 }				t_data;
 
 //parser
@@ -34,6 +39,7 @@ void	name_check(int ac, char **av);
 void	save_file(t_data *data, char *str);
 void	save_texture_path(t_data *data);
 void	save_map(t_data *data);
+void	flood_fill(t_data *data);
 
 //remove
 void 	print_map_info(t_data *data);
