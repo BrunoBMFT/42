@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/07 02:50:04 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/09 16:55:59 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	parser(int ac, char **av, t_data *data)
 	
 	//at the end of everything parser, free file
 }
-
+//test if parser frees everything in every case
 int	main(int ac, char **av)
 {
 	t_data data;

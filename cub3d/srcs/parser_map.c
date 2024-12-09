@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/07 02:01:02 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/09 12:29:58 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ void	save_map(t_data *data)
 	while (data->file[i])
 	{
 		if (char_allowed(data->file[i]))
-			data->map[j++] = ft_strdup(data->file[i]);//error check
+		{
+			data->map[j] = ft_strdup(data->file[i]);
+			if (!data->map[j])
+				error(data, "Map strdupo failed");
+			j++;
+		}
 		i++;
 	}
 	data->map[j] = NULL;
 }
-
-//instead of saving only what is map, save everything but paths and colors by skipping them 
-//  while saving the map.
-//let flood fill resolve if there are \n or incorrect borders, it will find them either way
-//just give start pos to floodfill and let it find everything needed

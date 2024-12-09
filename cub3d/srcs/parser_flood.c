@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 02:49:46 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/07 02:50:09 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/09 12:30:33 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,10 @@ bool	flood(t_data *data, int y, int x)
 
 void	flood_fill(t_data *data)
 {
+	if (!data->map || !data->map[0] || !data->map[0][0])
+		error(data, "No map");
 	init_flood(data);
 	find_start(data);
 	if (!flood(data, data->y_start, data->x_start))
-		error(data, "flood");
+		error(data, "Map is invalid");
 }

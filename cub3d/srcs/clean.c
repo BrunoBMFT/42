@@ -6,13 +6,29 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:01 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/03 17:16:53 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/09 12:32:10 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
 void	clean_array(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		if (arr[i])
+			free (arr[i]);
+		i++;
+	}
+	free (arr);
+}
+
+void	clean_bool(bool **arr)
 {
 	int	i;
 
@@ -52,6 +68,8 @@ void	clean_everything(t_data *data)
 		clean_array(data->file);
 	if (data->map)
 		clean_array(data->map);
+	if (data->visited)
+		clean_bool(data->visited);
 	clean_textures(data);
 
 }

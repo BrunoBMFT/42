@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/03 17:03:34 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/09 12:27:48 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	read_into_file(t_data *data, int fd, int loop)
 	char	*map_line;
 
 	map_line = get_next_line(fd);
-	if (map_line)//recursive part
+	if (map_line)
 		read_into_file(data, fd, loop + 1);
 	else
 	{
@@ -54,6 +54,7 @@ void	save_file(t_data *data, char *str)
 	if (fd < 0)
 		error(NULL, "fd failed to open");
 	read_into_file(data, fd, 0);
+	close (fd);
 }
 
 void	save_texture_path(t_data *data)
