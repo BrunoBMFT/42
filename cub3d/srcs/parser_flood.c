@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 02:49:46 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/14 12:57:29 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/14 13:50:43 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	init_flood(t_data *data)
 	int	y;
 	int	x;
 
-	data->starts = 0;
 	y = 0;
 	while (data->map[y])
 		y++;
@@ -40,12 +39,14 @@ void	init_flood(t_data *data)
 	}
 }
 
-void	find_start(t_data *data)
+void	find_start(t_data *data, int *ystart, int *xstart)
 {
 	int	y;
 	int	x;
+	int	starts;
 
 	y = 0;
+	starts = 0;
 	while (data->map[y])
 	{
 		x = 0;
@@ -53,15 +54,15 @@ void	find_start(t_data *data)
 		{
 			if (ft_strchr("NESW", data->map[y][x]))
 			{
-				data->y_start = y;
-				data->x_start = x;
-				data->starts++;
+				*ystart = y;
+				*xstart = x;
+				starts++;
 			}
 			x++;
 		}
 		y++;
 	}
-	if (data->starts != 1)
+	if (starts != 1)
 		error(data, "Invalid start position");
 }
 
@@ -87,8 +88,11 @@ bool	flood(t_data *data, int y, int x)
 
 void	flood_fill(t_data *data)
 {
+	int	ystart;
+	int	xstart;
+
 	init_flood(data);
-	find_start(data);
-	if (!flood(data, data->y_start, data->x_start))
+	find_start(data, &ystart, &xstart);
+	if (!flood(data, ystart, xstart))
 		error(data, "Map is invalid");
 }

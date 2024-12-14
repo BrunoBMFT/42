@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/14 12:57:10 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/14 14:24:47 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define CUB3D_H
 
 # include "libft/libft.h"
+# include "minilibx-linux/mlx.h"
+# include <X11/keysym.h>
+# include <X11/X.h>
 
 # define POSSIBLE "01NESW "
 
@@ -21,10 +24,12 @@ typedef struct	s_data
 {
 	char		**file;
 	bool		**visited;
-	int			y_start;
-	int			x_start;
-	int			starts;
 	char		**map;
+	
+	void		*mlx;
+	void		*win;
+
+	//find better place for these
 	char		*p_north;
 	char		*p_east;
 	char		*p_south;
@@ -48,7 +53,7 @@ void	print_file(t_data *data);
 void	error(t_data *data, char *str);
 
 //clean
-void	clean_everything(t_data *data);
+int	clean_everything(t_data *data);
 void	clean_file(t_data *data);
 void	clean_array(char **arr);//put in libft
 

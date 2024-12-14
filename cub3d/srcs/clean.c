@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:01 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/14 12:57:29 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/14 14:25:03 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,24 @@ void	clean_textures(t_data *data)
 		free(data->p_south);
 	if (data->p_west)
 		free(data->p_west);
-	if (data->c_floor)
-		free(data->c_floor);
-	if (data->c_ceiling)
-		free(data->c_ceiling);
+	// if (data->c_floor)
+	// 	free(data->c_floor);
+	// if (data->c_ceiling)
+	// 	free(data->c_ceiling);
 }
-
-void	clean_everything(t_data *data)
+//mlx, window
+int	clean_everything(t_data *data)
 {
 	if (!data)
-		return ;
+		return (0);
 	if (data->file)
 		clean_array(data->file);
 	if (data->visited)
 		clean_bool(data->visited);
 	if (data->map)
 		clean_array(data->map);
+	if (data->mlx)
+		free (data->mlx);
 	clean_textures(data);
+	return (0);
 }
