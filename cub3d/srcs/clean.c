@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:01 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/14 02:45:24 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/14 12:57:29 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	clean_everything(t_data *data)
 {
 	if (!data)
 		return ;
-	if (data->parser->file)
-		clean_array(data->parser->file);
-	if (data->parser->visited)
-		clean_bool(data->parser->visited);
+	if (data->file)
+		clean_array(data->file);
+	if (data->visited)
+		clean_bool(data->visited);
 	if (data->map)
 		clean_array(data->map);
 	clean_textures(data);

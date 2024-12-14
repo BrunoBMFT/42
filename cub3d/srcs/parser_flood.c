@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 02:49:46 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/14 02:46:05 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/14 12:57:29 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	init_flood(t_data *data)
 	int	y;
 	int	x;
 
-	data->parser->starts = 0;
+	data->starts = 0;
 	y = 0;
 	while (data->map[y])
 		y++;
-	data->parser->visited = ft_calloc(sizeof(bool *), y + 1);
-	if (!data->parser->visited)
+	data->visited = ft_calloc(sizeof(bool *), y + 1);
+	if (!data->visited)
 		error(data, "Malloc flood y fail");
 	y = 0;
 	while (data->map[y])
@@ -30,12 +30,12 @@ void	init_flood(t_data *data)
 		x = 0;
 		while (data->map[y][x])
 			x++;
-		data->parser->visited[y] = ft_calloc(sizeof(bool), x + 1);
-		if (!data->parser->visited[y])
+		data->visited[y] = ft_calloc(sizeof(bool), x + 1);
+		if (!data->visited[y])
 			error(data, "Malloc flood x fail");
 		x = 0;
 		while (data->map[y][x])
-			data->parser->visited[y][x++] = false;
+			data->visited[y][x++] = false;
 		y++;
 	}
 }
@@ -53,15 +53,15 @@ void	find_start(t_data *data)
 		{
 			if (ft_strchr("NESW", data->map[y][x]))
 			{
-				data->parser->y_start = y;
-				data->parser->x_start = x;
-				data->parser->starts++;
+				data->y_start = y;
+				data->x_start = x;
+				data->starts++;
 			}
 			x++;
 		}
 		y++;
 	}
-	if (data->parser->starts != 1)
+	if (data->starts != 1)
 		error(data, "Invalid start position");
 }
 
@@ -71,9 +71,9 @@ bool	flood(t_data *data, int y, int x)
 		|| x >= (int)ft_strlen(data->map[y])
 		|| data->map[y][x] == ' ')
 		return (false);
-	if (data->parser->visited[y][x] || data->map[y][x] == '1')
+	if (data->visited[y][x] || data->map[y][x] == '1')
 		return (true);
-	data->parser->visited[y][x] = true;
+	data->visited[y][x] = true;
 	if (!flood(data, y - 1, x))
 		return (false);
 	if (!flood(data, y + 1, x))
@@ -89,6 +89,6 @@ void	flood_fill(t_data *data)
 {
 	init_flood(data);
 	find_start(data);
-	if (!flood(data, data->parser->y_start, data->parser->x_start))
+	if (!flood(data, data->y_start, data->x_start))
 		error(data, "Map is invalid");
 }

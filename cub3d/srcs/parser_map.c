@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/14 02:24:41 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/14 12:57:29 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	save_map(t_data *data)
 	i = 0;
 	count = 0;
 	start = 0;
-	while (data->parser->file[i])
+	while (data->file[i])
 	{
-		if (char_allowed(data->parser->file[i]))
+		if (char_allowed(data->file[i]))
 			count++;
 		if (count == 1)
 			start = i;
@@ -71,11 +71,11 @@ void	save_map(t_data *data)
 		error(data, "Map allocation failed");
 	i = start;
 	j = 0;
-	while (data->parser->file[i])
+	while (data->file[i])
 	{
-		if (char_allowed(data->parser->file[i]))
+		if (char_allowed(data->file[i]))
 		{
-			data->map[j] = ft_strdup(data->parser->file[i]);
+			data->map[j] = ft_strdup(data->file[i]);
 			if (!data->map[j])
 				error(data, "Map strdup failed");
 			j++;

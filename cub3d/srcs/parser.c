@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/14 02:45:39 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/14 13:00:33 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	init_parser(t_data *data)
 {
-	data->parser = NULL;
-	data->parser->file = NULL;
-	data->parser->visited = NULL;
+	data->file = NULL;
+	data->visited = NULL;
 	data->map = NULL;
 	data->p_north = NULL;
 	data->p_east = NULL;
@@ -48,13 +47,13 @@ bool	read_into_file(t_data *data, int fd, int loop)
 		read_into_file(data, fd, loop + 1);
 	else
 	{
-		data->parser->file = ft_calloc(sizeof(char *), loop + 1);
-		if (!data->parser->file)
+		data->file = ft_calloc(sizeof(char *), loop + 1);
+		if (!data->file)
 			error(NULL, "map calloc failed");
 	}
-	if (data->parser->file)
+	if (data->file)
 	{
-		data->parser->file[loop] = ft_strtrim(map_line, "\n");
+		data->file[loop] = ft_strtrim(map_line, "\n");
 		return (free (map_line), true);
 	}
 	return (false);
@@ -66,10 +65,10 @@ void	save_file(t_data *data, char *str)
 
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
-		error(NULL, "fd failed to open");
+		error(NULL, "File not found");
 	read_into_file(data, fd, 0);
 	close (fd);
-	if (!*data->parser->file)
+	if (!*data->file)
 		error(data, "No file");
 }
 
@@ -79,9 +78,9 @@ void	save_texture_path(t_data *data)
 	char	*temp;
 
 	i = 0;
-	while (data->parser->file[i])
+	while (data->file[i])
 	{
-		temp = data->parser->file[i];
+		temp = data->file[i];
 		if (ft_strncmp("NO", temp, 2) == 0)
 			data->p_north = ft_strdup(temp + 3);
 		if (ft_strncmp("EA", temp, 2) == 0)

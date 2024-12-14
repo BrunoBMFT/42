@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/14 02:23:05 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/14 12:57:10 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,13 @@
 
 # define POSSIBLE "01NESW "
 
-typedef struct s_parser
+typedef struct	s_data
 {
 	char		**file;
 	bool		**visited;
 	int			y_start;
 	int			x_start;
 	int			starts;
-}				t_parser;
-
-
-typedef struct	s_data
-{
-	t_parser	*parser;
 	char		**map;
 	char		*p_north;
 	char		*p_east;

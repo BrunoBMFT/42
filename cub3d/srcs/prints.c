@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:38:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/14 02:46:18 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/14 12:57:29 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	print_textures(t_data *data)
 
 void	print_file_info(t_data *data)
 {
-	print_array(data->parser->file);
+	print_array(data->file);
 	printf("\n\nPROCESSED INFO\n\n");
 	print_textures(data);
 	printf("\nmap:\n");
