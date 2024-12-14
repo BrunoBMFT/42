@@ -12,20 +12,16 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 
 LIBFT_DIR = ./includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
-$(LIBFT):
-	@echo compiling $(NAME)!
-	@make -C $(LIBFT_DIR) --no-print-directory
-
-MLX_DIR = ./includes/minilibx-linux
-MLX = $(MLX_DIR)/libmlx_Linux.a -lXext -lX11 -lm -lz
-$(MLX):
-	@make -C $(MLX_DIR) --no-print-directory
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(MLX)
+	@cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
 	@echo $(NAME) ready to play!
+
+$(LIBFT):
+	@echo compiling $(NAME)!
+	@make -C $(LIBFT_DIR) --no-print-directory
 
 clean:
 	@rm -rf $(OBJS_DIR)
