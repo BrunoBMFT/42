@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:38:36 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/03 17:16:57 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/14 02:46:18 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	print_array(char **arr)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (!arr)
 		return ;
 	while (arr[i])
@@ -36,23 +38,21 @@ void	print_textures(t_data *data)
 	printf("ceiling: %s\n", data->c_ceiling);
 }
 
-void print_file_info(t_data *data)
+void	print_file_info(t_data *data)
 {
-	print_array(data->file);
+	print_array(data->parser->file);
 	printf("\n\nPROCESSED INFO\n\n");
 	print_textures(data);
 	printf("\nmap:\n");
 	print_array(data->map);
-
-
-
-	
 	printf("\n\n");
 }
 
-void print_map_info(t_data *data)
+void	print_map_info(t_data *data)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (data->map[i])
 	{
 		printf("%s\n", data->map[i]);

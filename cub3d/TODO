@@ -1,0 +1,1 @@
+check map noborder.cub (if flood doesnt get to wrong border, what happens)

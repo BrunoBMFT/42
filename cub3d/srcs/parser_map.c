@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/10 16:11:13 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/14 02:24:41 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 bool	char_allowed(char *str)
 {
-	int i = 0;
-	
+	int	i;
+
+	i = 0;
 	if (!str)
 		return (false);
 	while (str[i])
@@ -27,14 +28,39 @@ bool	char_allowed(char *str)
 	return (true);
 }
 
+bool	check_map_exists(t_data *data)//use the function above?
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (data->map[y])
+	{
+		x = 0;
+		while (data->map[y][x])
+		{
+			if (!ft_strchr("01NESW", data->map[y][x]))
+				return (true);
+			x++;
+		}
+		y++;
+	}
+	return (false);
+}
+
 void	save_map(t_data *data)
 {
-	int i = 0;
-	int count = 0;
-	int start = 0;
-	while (data->file[i])
+	int	i;
+	int	count;
+	int	start;
+	int	j;
+
+	i = 0;
+	count = 0;
+	start = 0;
+	while (data->parser->file[i])
 	{
-		if (char_allowed(data->file[i]))
+		if (char_allowed(data->parser->file[i]))
 			count++;
 		if (count == 1)
 			start = i;
@@ -44,42 +70,19 @@ void	save_map(t_data *data)
 	if (!data->map)
 		error(data, "Map allocation failed");
 	i = start;
-	int j = 0;
-	while (data->file[i])
+	j = 0;
+	while (data->parser->file[i])
 	{
-		if (char_allowed(data->file[i]))
+		if (char_allowed(data->parser->file[i]))
 		{
-			data->map[j] = ft_strdup(data->file[i]);
+			data->map[j] = ft_strdup(data->parser->file[i]);
 			if (!data->map[j])
-				error(data, "Map strdupo failed");
+				error(data, "Map strdup failed");
 			j++;
 		}
 		i++;
 	}
 	data->map[j] = NULL;
-}
-
-void	save_texture_path(t_data *data)
-{
-	int		i;
-	char	*temp;
-
-	i = 0;
-	while (data->file[i])
-	{
-		temp = data->file[i];
-		if (ft_strncmp("NO", temp, 2) == 0)
-			data->p_north = ft_strdup(temp + 3);
-		if (ft_strncmp("EA", temp, 2) == 0)
-			data->p_east = ft_strdup(temp + 3);
-		if (ft_strncmp("SO", temp, 2) == 0)
-			data->p_south = ft_strdup(temp + 3);
-		if (ft_strncmp("WE", temp, 2) == 0)
-			data->p_west = ft_strdup(temp + 3);
-		if (ft_strncmp("F", temp, 1) == 0)
-			data->c_floor = ft_strdup(temp + 2);
-		if (ft_strncmp("C", temp, 1) == 0)
-			data->c_ceiling = ft_strdup(temp + 2);
-		i++;
-	}
+	if (!check_map_exists(data))
+		error(data, "No map");
 }
