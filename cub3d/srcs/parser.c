@@ -6,11 +6,24 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/09 12:27:48 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/10 16:04:42 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+void	init_parser(t_data *data)
+{
+	data->file = NULL;
+	data->map = NULL;
+	data->visited = NULL;
+	data->p_north = NULL;
+	data->p_east = NULL;
+	data->p_south = NULL;
+	data->p_west = NULL;
+	data->c_floor = NULL;
+	data->c_ceiling = NULL;
+}
 
 void	name_check(int ac, char **av)
 {
@@ -55,29 +68,18 @@ void	save_file(t_data *data, char *str)
 		error(NULL, "fd failed to open");
 	read_into_file(data, fd, 0);
 	close (fd);
+	if (!*data->file)
+		error(data, "No file");
 }
 
-void	save_texture_path(t_data *data)
+void	parser(int ac, char **av, t_data *data)
 {
-	int		i;
-	char	*temp;
-
-	i = 0;
-	while (data->file[i])
-	{
-		temp = data->file[i];
-		if (ft_strncmp("NO", temp, 2) == 0)
-			data->p_north = ft_strdup(temp + 3);
-		if (ft_strncmp("EA", temp, 2) == 0)
-			data->p_east = ft_strdup(temp + 3);
-		if (ft_strncmp("SO", temp, 2) == 0)
-			data->p_south = ft_strdup(temp + 3);
-		if (ft_strncmp("WE", temp, 2) == 0)
-			data->p_west = ft_strdup(temp + 3);
-		if (ft_strncmp("F", temp, 1) == 0)
-			data->c_floor = ft_strdup(temp + 2);
-		if (ft_strncmp("C", temp, 1) == 0)
-			data->c_ceiling = ft_strdup(temp + 2);
-		i++;
-	}
+	init_parser(data);
+	name_check(ac, av);
+	save_file(data, av[1]);
+	save_texture_path(data);
+	save_map(data);
+	flood_fill(data);
+	
+	//at the end of everything parser, free file
 }
