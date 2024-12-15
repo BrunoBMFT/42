@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:20:51 by bruno             #+#    #+#             */
-/*   Updated: 2024/05/24 17:31:26 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/12/15 15:25:41 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 # include "minilibx-linux/mlx.h"
+# include "./libft/libft.h"
+# include "messages.h"
 # include <X11/keysym.h>
 # include <X11/X.h>
 # include <unistd.h>
@@ -22,8 +24,6 @@
 # include <stdarg.h>
 # include <fcntl.h>
 # include <time.h>
-# include "./libft/libft.h"
-# include "messages.h"
 
 # define VALID "01PECB"
 # define SCALE 96

@@ -1,1 +1,9 @@
 check map noborder.cub (if flood doesnt get to wrong border, what happens)
+
+GAME:
+puzzle/parkor game
+you have a dash, it has 4 substeps to the dash. 
+you only need floor on the 4th dash, 
+	but if you hit any wall in an substep, you stop there
+the substep distance will be shown by 2 pointers, showing you where you'll land
+they will change to red if you are hitting anything
