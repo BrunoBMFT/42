@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/14 14:24:47 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/15 13:35:34 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ void	print_file(t_data *data);
 void	error(t_data *data, char *str);
 
 //clean
-int	clean_everything(t_data *data);
-void	clean_file(t_data *data);
-void	clean_array(char **arr);//put in libft
+int		clean_everything(t_data *data);
+int		close_game(t_data *data);
+void	clean_array(char **arr);//use free_array
 
+//inputs
+int	handle_input(int keysym, t_data *data);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/14 13:57:23 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/15 13:30:26 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	init_parser(t_data *data)
 	data->p_west = NULL;
 	data->c_floor = NULL;
 	data->c_ceiling = NULL;
+	data->mlx = NULL;
+	data->win = NULL;
 }
 
 void	name_check(int ac, char **av)

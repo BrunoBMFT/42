@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/14 14:27:01 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/15 13:34:05 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ void	init(t_data *data)
 	if (!data->mlx)
 		error(data, "Mlx init failed");
 	//have textures open and save into img here
-	data->win = mlx_new_window(data->mlx, 100, 100, "cub3d");
+
+	int x, y;
+	mlx_get_screen_size(data->mlx, &x, &y);//check if it isnt too big
+	data->win = mlx_new_window(data->mlx, x, y, "cub3d");
 	if (!data->win)
 		error(data, "Window failed to open");
 }
@@ -34,7 +37,8 @@ int	main(int ac, char **av)
 
 	
 	printf("all ok\n");
+	mlx_key_hook(data.win, handle_input, &data);
+	mlx_hook(data.win, 17, 1L << 17, close_game, &data);
 	mlx_loop(data.mlx);
-	clean_everything(&data);
 	return (0);
 }
