@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:19:13 by brfernan          #+#    #+#             */
-/*   Updated: 2024/11/20 15:50:58 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/16 04:07:26 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,28 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	str[i + j] = '\0';
 	return (str);
+}
+
+char	*ft_strjoin3(char const *s1, char const *s2, char const *s3)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*full;
+
+	i = -1;
+	j = 0;
+	k = 0;
+	full = ft_calloc((ft_strlen(s1)
+				+ ft_strlen(s2) + ft_strlen(s3)) + 1, sizeof(char));
+	if (full == NULL)
+		return (NULL);
+	while (s1 && s1[++i])
+		full[i] = s1[i];
+	while (s2 && s2[j])
+		full[i++] = s2[j++];
+	while (s3 && s3[k])
+		full[i++] = s3[k++];
+	full[i] = '\0';
+	return (full);
 }

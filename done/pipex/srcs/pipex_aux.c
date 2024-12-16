@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_aux.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:40:35 by brfernan          #+#    #+#             */
-/*   Updated: 2024/06/18 10:04:14 by brfernan         ###   ########.fr       */
+/*   Updated: 2024/12/16 04:10:49 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-
-bool	path_exists(char **envp)
-{
-	int		i;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strnstr(envp[i], "PATH", 4) != 0)
-			return (true);
-		i++;
-	}
-	return (false);
-}
 
 char	*find_path(char **envp, char *com)
 {
@@ -34,8 +20,6 @@ char	*find_path(char **envp, char *com)
 	int		i;
 
 	i = 0;
-	if (!path_exists(envp))
-		return (NULL);
 	if (access(com, F_OK) == 0)
 		return (com);
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
@@ -51,19 +35,6 @@ char	*find_path(char **envp, char *com)
 			return (path);
 		free (path);
 	}
-	freecoms(paths);
+	free_array(paths);
 	return (NULL);
-}
-
-void	freecoms(char **cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		free(cmd[i]);
-		i++;
-	}
-	free (cmd);
 }

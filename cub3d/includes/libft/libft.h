@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 10:25:50 by brfernan          #+#    #+#             */
-/*   Updated: 2024/11/24 03:44:28 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/16 04:08:46 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char	**ft_split(const char *s, char c);
 int		ft_split_wordcount(char **split);
 char	*ft_strdup(char const*s1);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin3(char const *s1, char const *s2, char const *s3);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(const char *s, unsigned int start, size_t len);
