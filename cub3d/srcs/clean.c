@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:01 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/20 03:15:26 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/20 10:32:30 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	clean_bool(bool **arr)
 	free (arr);
 }
 
-void	clean_textures(t_data *data)
+void	clean_texture_path(t_data *data)//have this run after img is saved
 {
 	if (data->p_north)
 		free(data->p_north);
@@ -54,11 +54,40 @@ void	clean_textures(t_data *data)
 		free(data->p_south);
 	if (data->p_west)
 		free(data->p_west);
-	// if (data->c_floor)
-	// 	free(data->c_floor);//fix
-	// if (data->c_ceiling)
-	// 	free(data->c_ceiling);//fix
+	if (data->c_floor)
+		free(data->c_floor);//fix
+	if (data->c_ceiling)
+		free(data->c_ceiling);//fix
 }
+
+void	clean_textures(t_data *data)
+{
+	if (data->texture->north)
+	{
+		mlx_destroy_image(data->mlx, data->texture->north->img);
+		free (data->texture->north);
+	}
+	if (data->texture->east)
+	{
+		if (data->texture->east->img)
+			mlx_destroy_image(data->mlx, data->texture->east->img);
+		free (data->texture->east);
+	}
+	if (data->texture->south)
+	{
+		if (data->texture->south->img)
+			mlx_destroy_image(data->mlx, data->texture->south->img);
+		free (data->texture->south);
+	}
+	if (data->texture->west)
+	{
+		if (data->texture->west->img)
+			mlx_destroy_image(data->mlx, data->texture->west->img);
+		free (data->texture->west);
+	}
+	free (data->texture);
+}
+
 //mlx, window
 int	clean_everything(t_data *data)
 {
@@ -70,6 +99,11 @@ int	clean_everything(t_data *data)
 		clean_bool(data->visited);
 	if (data->map)
 		clean_array(data->map);//use free_array
+	if (data->texture)//check with parsing
+		clean_textures(data);
+		
+	// if (data->frame->img)
+	// 	mlx_destroy_image(data->mlx, data->frame->img);
 	if (data->win)
 		mlx_destroy_window(data->mlx, data->win);
 	if (data->mlx)
@@ -77,6 +111,6 @@ int	clean_everything(t_data *data)
 		mlx_destroy_display(data->mlx);
 		free (data->mlx);
 	}
-	clean_textures(data);
+	clean_texture_path(data);
 	return (0);
 }
