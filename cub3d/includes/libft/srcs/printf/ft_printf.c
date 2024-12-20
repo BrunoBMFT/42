@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 00:35:21 by brfernan          #+#    #+#             */
-/*   Updated: 2024/12/16 04:08:46 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/20 02:20:53 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ int	ft_printf(const char *str, ...)
 	{
 		if (str[i] == '%')
 		{
-			while (!is_possible(POSSIBLE, str[i + 1]))
+			while (!is_possible(POSSIBLE_PF, str[i + 1]))
 				i++;
-			if (is_possible(POSSIBLE, str[i + 1]))
+			if (is_possible(POSSIBLE_PF, str[i + 1]))
 				format(args, str[i++ + 1], 1, &len);
 		}
 		else
@@ -94,9 +94,9 @@ int	ft_printf_fd(int fd, const char *str, ...)
 	{
 		if (str[i] == '%')
 		{
-			while (!is_possible(POSSIBLE, str[i + 1]))
+			while (!is_possible(POSSIBLE_PF, str[i + 1]))
 				i++;
-			if (is_possible(POSSIBLE, str[i + 1]))
+			if (is_possible(POSSIBLE_PF, str[i + 1]))
 				format(args, str[i++ + 1], fd, &len);
 		}
 		else

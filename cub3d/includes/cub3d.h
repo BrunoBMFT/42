@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/15 13:35:34 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/20 04:09:33 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,30 @@
 
 # define POSSIBLE "01NESW "
 
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		endian;
+	int		line_len;
+	int		width;
+	int		height;
+}				t_img;
+
 typedef struct	s_data
 {
 	char		**file;
 	bool		**visited;
 	char		**map;
-	
+
 	void		*mlx;
 	void		*win;
+	t_img		*frame;
+
+
+
+
 
 	//find better place for these
 	char		*p_north;

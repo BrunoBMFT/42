@@ -3,7 +3,10 @@
         "messages.h": "c",
         "so_long.h": "c",
         "libft.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "atomic": "c",
+        "*.tcc": "c",
+        "ostream": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -13,7 +13,7 @@ ft_strmapi ft_strtrim ft_substr
 MEM_SRCS = ft_memchr ft_memcmp ft_memcpy ft_memmove ft_memset
 PUT_SRCS = ft_putchar_fd ft_putendl_fd ft_putnbr_fd ft_putstr_fd ft_tolower ft_toupper
 STR_SRCS = ft_atoi ft_atol ft_strcat ft_strchr ft_striteri ft_strlcat ft_strlcpy \
-ft_strlen ft_strncmp ft_strnstr ft_strrchr ft_strcmp.c
+ft_strlen ft_strncmp ft_strnstr ft_strrchr ft_strcmp
 PRINTF_SRCS = ft_printf ft_printf_functions
 GNL_SRCS = get_next_line get_next_line_utils
 
