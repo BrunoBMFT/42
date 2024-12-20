@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/20 10:34:07 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/20 10:53:29 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,18 @@ void	save_file(t_data *data, char *str)
 		error(data, "No file");
 }
 
+void	check_paths(t_data *data)
+{
+	if (access(data->p_north, R_OK))
+		error(data, "North texture not found");
+	if (access(data->p_east, R_OK))
+		error(data, "East texture not found");
+	if (access(data->p_south, R_OK))
+		error(data, "South texture not found");
+	if (access(data->p_west, R_OK))
+		error(data, "West texture not found");
+}
+
 void	save_texture_path(t_data *data)
 {
 	int		i;
@@ -104,6 +116,7 @@ void	save_texture_path(t_data *data)
 		error(data, "Missing paths");
 	if (!data->c_floor || !data->c_ceiling)
 		error(data, "Missing colors");
+	check_paths(data);
 }
 
 

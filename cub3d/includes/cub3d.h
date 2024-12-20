@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/20 10:04:10 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/20 10:54:36 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ void	parser(int ac, char **av, t_data *data);
 void	save_texture_path(t_data *data);
 void	save_map(t_data *data);
 void	flood_fill(t_data *data);
+
+//init
+void	init_textures(t_data *data);
 
 //remove
 void 	print_map_info(t_data *data);
