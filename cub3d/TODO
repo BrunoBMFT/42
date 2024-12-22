@@ -1,7 +1,23 @@
+wtf
+
+make a file of settings, where the user can change the field of view, the speed of player, sens of turning, etc...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 check map noborder.cub (if flood doesnt get to wrong border, what happens)
 
 minimap:
-
 while map[y]
 {
 	while map[y][x]
