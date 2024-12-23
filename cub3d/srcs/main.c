@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/20 11:16:23 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/23 03:11:41 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,34 @@
 //need to find a way to only put it somewhere on the map
 //also, want to find a simple way to change it position in the game
 //   like having it at top right, bottom left
-// void	add_coord(t_data *data, int y, int x)
-// {
-// 	//need a img init, to save to the img the color
-// 	//the img is what is gonna be each frame
-// 	//i need to find color values for the minimap and decide where to put it
-// }
-// void	create_minimap(t_data *data)
-// {
-// 	int y = 0;
-// 	while (data->map[y])
-// 	{
-// 		int x = 0;
-// 		while (data->map[y][x])
-// 		{
-// 			add_coord(data, y, x);//get a way to choose the color here
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
 
+void	init_frame(t_data *data, int x, int y)
+{
+	data->frame = malloc(sizeof(t_img));//ugly code from here
+	if (!data->frame)
+		error(data, "Frame image allocation failed");
+	data->frame->width = x / 2;
+	data->frame->height = y / 2;
+	data->frame->img = mlx_new_image(data->mlx, data->frame->width, data->frame->height);
+	if (!data->frame->img)
+		error(data, "Frame image failed");
+	data->frame->addr = mlx_get_data_addr(data->frame->img, &data->frame->bits_per_pixel,
+			&data->frame->line_len, &data->frame->endian);//ugly code to here
+}
+
+void	init_minimap(t_data *data, int x, int y)
+{
+	data->minimap = malloc(sizeof(t_img));//ugly code from here
+	if (!data->minimap)
+		error(data, "Minimap image allocation failed");
+	data->minimap->width = x / 4;
+	data->minimap->height = y / 4;
+	data->minimap->img = mlx_new_image(data->mlx, data->minimap->width, data->minimap->height);
+	if (!data->minimap->img)
+		error(data, "Minimap image failed");
+	data->minimap->addr = mlx_get_data_addr(data->minimap->img, &data->minimap->bits_per_pixel,
+			&data->minimap->line_len, &data->minimap->endian);//ugly code to here
+}
 
 void	init(t_data *data)
 {
@@ -51,18 +58,18 @@ void	init(t_data *data)
 	data->win = mlx_new_window(data->mlx, x / 2, y / 2, "cub3d");
 	if (!data->win)
 		error(data, "Window failed to open");
-	data->frame = mlx_new_image(data->mlx, x / 2, y / 2);
-	// mlx_put_image_to_window(data->mlx, data->win, data->texture->north->img, 0, 0);
-
-
+	
+	init_frame(data, x, y);
+	init_minimap(data, x, y);
 }
 
-int	get_pixel(t_img *img, int x, int y)
-{
-	char	*dst;
-	dst = img->addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
-	return (*(unsigned int *)dst);
-}
+// int	get_pixel(t_img *img, int x, int y)
+// {
+// 	char	*dst;
+// 	dst = img->addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
+// 	return (*(unsigned int *)dst);
+// }
+
 void	put_pixel(t_img *img, int x, int y, int color)
 {
 	char	*offset;
@@ -70,43 +77,24 @@ void	put_pixel(t_img *img, int x, int y, int color)
 	*(unsigned int *)offset = color;
 }
 
-void	make_img(t_data *data, t_img *src)//not working
+void	make_minimap_pixel(t_data *data, int color, int x, int y)//this make_img is good for 2d, so i can use it prob for minimap
 {
 	int				i;
 	int				j;
-	unsigned int	color;
+
 	i = 0;
-	while (i < src->width)
+	printf("frame width: %d\nframe height: %d\n", data->frame->width, data->frame->height);
+	printf("minimap width: %d\nminimap height: %d\n", data->minimap->width, data->minimap->height);
+	while (i < data->minimap->width)//find better way to not go out of bounds?
 	{
 		j = 0;
-		while (j < src->height)
+		while (j < data->minimap->height)//find better way to not go out of bounds?
 		{
-			color = get_pixel(src, i, j);
-			put_pixel(data->frame, i, j, color);
+			put_pixel(data->minimap, x + i, y + j, color);
 			j++;
 		}
 		i++;
 	}
-	mlx_put_image_to_window(data->mlx, data->win, data->frame->img, 0, 0);
-}
-
-int	loop(t_data *data)
-{
-	// int i = 0;
-	// while (i <= 400000)
-	// {
-	// 	if (i == 399999)
-	// 		i = 0;
-	// 	if (i == 100000)
-	// 		mlx_put_image_to_window(data->mlx, data->win, data->texture->north->img, 0, 0);
-	// 	if (i == 200000)
-	// 		mlx_put_image_to_window(data->mlx, data->win, data->texture->east->img, 0, 0);
-	// 	if (i == 300000)
-	// 		mlx_put_image_to_window(data->mlx, data->win, data->texture->south->img, 0, 0);
-	// 	if (i == 400000)
-	// 		mlx_put_image_to_window(data->mlx, data->win, data->texture->west->img, 0, 0);
-	// 	i++;
-	// }
 }
 
 int	main(int ac, char **av)
@@ -115,13 +103,33 @@ int	main(int ac, char **av)
 	parser(ac, av, &data);
 	init(&data);
 
-	// create_minimap(&data);
+	// make_img(&data, data.texture->north, 0, 0);
 
-	make_img(&data, data.texture->east);
+	int y = 0;
+//everything is tripping, have to normalise a screen size, possible will hard code it to a specific resolution
+	while (data.map[y])
+	{
+		int x = 0;
+		while (data.map[y][x])
+		{
+			if (data.map[y][x] == 0)
+				make_minimap_pixel(&data, 111111, x, y);
+			else if (data.map[y][x] == 0)
+				make_minimap_pixel(&data, 110011, x, y);
+			else if (ft_strchr("NESW", data.map[y][x]))
+				make_minimap_pixel(&data, 110011, x, y);
+			x++;
+		}
+		y++;
+	}
+
+
+
+	
+	mlx_put_image_to_window(data.mlx, data.win, data.frame->img, 0, 0);
 
 	mlx_key_hook(data.win, handle_input, &data);
 	mlx_hook(data.win, 17, 1L << 17, close_game, &data);
-	mlx_loop_hook(data.mlx, loop, &data);
 	printf("all ok\n");
 	mlx_loop(data.mlx);
 	return (0);
