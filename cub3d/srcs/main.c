@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/23 03:11:41 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/26 20:07:51 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,19 @@ void	init_frame(t_data *data, int x, int y)
 			&data->frame->line_len, &data->frame->endian);//ugly code to here
 }
 
-void	init_minimap(t_data *data, int x, int y)
-{
-	data->minimap = malloc(sizeof(t_img));//ugly code from here
-	if (!data->minimap)
-		error(data, "Minimap image allocation failed");
-	data->minimap->width = x / 4;
-	data->minimap->height = y / 4;
-	data->minimap->img = mlx_new_image(data->mlx, data->minimap->width, data->minimap->height);
-	if (!data->minimap->img)
-		error(data, "Minimap image failed");
-	data->minimap->addr = mlx_get_data_addr(data->minimap->img, &data->minimap->bits_per_pixel,
-			&data->minimap->line_len, &data->minimap->endian);//ugly code to here
-}
+// void	init_minimap(t_data *data, int x, int y)
+// {
+// 	data->minimap = malloc(sizeof(t_img));//ugly code from here
+// 	if (!data->minimap)
+// 		error(data, "Minimap image allocation failed");
+// 	data->minimap->width = x / 4;
+// 	data->minimap->height = y / 4;
+// 	data->minimap->img = mlx_new_image(data->mlx, data->minimap->width, data->minimap->height);
+// 	if (!data->minimap->img)
+// 		error(data, "Minimap image failed");
+// 	data->minimap->addr = mlx_get_data_addr(data->minimap->img, &data->minimap->bits_per_pixel,
+// 			&data->minimap->line_len, &data->minimap->endian);//ugly code to here
+// }
 
 void	init(t_data *data)
 {
@@ -60,7 +60,7 @@ void	init(t_data *data)
 		error(data, "Window failed to open");
 	
 	init_frame(data, x, y);
-	init_minimap(data, x, y);
+	// init_minimap(data, x, y);
 }
 
 // int	get_pixel(t_img *img, int x, int y)
@@ -77,25 +77,26 @@ void	put_pixel(t_img *img, int x, int y, int color)
 	*(unsigned int *)offset = color;
 }
 
-void	make_minimap_pixel(t_data *data, int color, int x, int y)//this make_img is good for 2d, so i can use it prob for minimap
+//just making colors
+void	make_sprite(t_data *data, int color, int x, int y)//this make_img is good for 2d, so i can use it prob for minimap
 {
 	int				i;
 	int				j;
 
 	i = 0;
-	printf("frame width: %d\nframe height: %d\n", data->frame->width, data->frame->height);
-	printf("minimap width: %d\nminimap height: %d\n", data->minimap->width, data->minimap->height);
-	while (i < data->minimap->width)//find better way to not go out of bounds?
+	while (i < 256)
 	{
 		j = 0;
-		while (j < data->minimap->height)//find better way to not go out of bounds?
+		while (j < 256)
 		{
-			put_pixel(data->minimap, x + i, y + j, color);
+			put_pixel(data->frame, x + i, y + j, color);
 			j++;
 		}
 		i++;
 	}
 }
+
+
 
 int	main(int ac, char **av)
 {
@@ -103,25 +104,42 @@ int	main(int ac, char **av)
 	parser(ac, av, &data);
 	init(&data);
 
-	// make_img(&data, data.texture->north, 0, 0);
+	// make_img(&data, data.texture->north, 0, 0);//works
 
+	
+
+	//THIS IS ACTING VERY WEIRD
 	int y = 0;
-//everything is tripping, have to normalise a screen size, possible will hard code it to a specific resolution
 	while (data.map[y])
 	{
 		int x = 0;
 		while (data.map[y][x])
 		{
-			if (data.map[y][x] == 0)
-				make_minimap_pixel(&data, 111111, x, y);
-			else if (data.map[y][x] == 0)
-				make_minimap_pixel(&data, 110011, x, y);
-			else if (ft_strchr("NESW", data.map[y][x]))
-				make_minimap_pixel(&data, 110011, x, y);
+			make_sprite(&data, 111111, x, y);
 			x++;
 		}
 		y++;
 	}
+
+	
+//everything is tripping, have to normalise a screen size, possible will hard code it to a specific resolution
+	// int y = 0;
+	// while (data.map[y])
+	// {
+	// 	int x = 0;
+	// 	while (data.map[y][x])
+	// 	{
+	// 		printf("y %d, x %d\n", y, x);
+	// 		// if (data.map[y][x] == 0)
+	// 		// 	make_minimap_pixel(&data, 111111, x, y);
+	// 		// else if (data.map[y][x] == 0)
+	// 		// 	make_minimap_pixel(&data, 110011, x, y);
+	// 		// else if (ft_strchr("NESW", data.map[y][x]))
+	// 		// 	make_minimap_pixel(&data, 110011, x, y);
+	// 		x++;
+	// 	}
+	// 	y++;
+	// }
 
 
 

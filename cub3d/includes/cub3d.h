@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/23 02:28:32 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/26 18:53:01 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct	s_data
 	void		*mlx;
 	void		*win;
 	t_img		*frame;
-	t_img		*minimap;
 	t_textures	*texture;
 
 
