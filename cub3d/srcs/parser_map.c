@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/26 19:43:36 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/27 21:11:14 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 bool	char_allowed(char *str)
 {
-	int	i;
+	int		i;
 
 	i = 0;
-	if (!str)
-		return (false);
 	while (str[i])
 	{
 		if (!ft_strchr(POSSIBLE, str[i]))
@@ -39,19 +37,39 @@ bool	check_map_exists(t_data *data)//use the function above?
 	int	y;
 	int	x;
 
+
+	//this skips empty lines, make it skip just tabs or spaces?
+	int i = 0;
+	int j = 0;
+	while (data->map[i])
+	{
+		if (!*data->map[i])
+		{
+			i++;
+			continue ;
+		}
+		data->map[j] = data->map[i];
+		i++;
+		j++;
+	}
+	data->map[j] = 0;
+	//this skips empty lines, make it skip just tabs or spaces?
+
+
+	
 	y = 0;
 	while (data->map[y])
 	{
 		x = 0;
 		while (data->map[y][x])
 		{
-			if (!ft_strchr("01NESW", data->map[y][x]))
-				return (true);
+			if (!ft_strchr("01NESW ", data->map[y][x]))
+				return (false);
 			x++;
 		}
 		y++;
 	}
-	return (false);
+	return (true);
 }
 
 void	save_map(t_data *data)
@@ -89,6 +107,15 @@ void	save_map(t_data *data)
 		i++;
 	}
 	data->map[j] = NULL;
+
+
+	
 	if (!check_map_exists(data))
 		error(data, "No map");
+	i = 0;
+	while (data->map[i])
+	{
+		printf("%s\n", data->map[i]);
+		i++;
+	}
 }

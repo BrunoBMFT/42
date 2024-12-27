@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/26 20:07:51 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/27 19:30:23 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ int	main(int ac, char **av)
 		int x = 0;
 		while (data.map[y][x])
 		{
-			make_sprite(&data, 111111, x, y);
+			// printf("y %d, x %d\n", y, x);
+			// make_sprite(&data, 111111, x, y);
 			x++;
 		}
 		y++;

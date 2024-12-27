@@ -9,12 +9,7 @@ make a file of settings, where the user can change the field of view, the speed 
 
 
 
-
-
-
-
-
-
+check error messages for nomap, not really good
 check map noborder.cub (if flood doesnt get to wrong border, what happens)
 
 minimap:
