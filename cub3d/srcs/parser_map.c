@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/27 21:11:14 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/28 18:58:06 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,15 +107,6 @@ void	save_map(t_data *data)
 		i++;
 	}
 	data->map[j] = NULL;
-
-
-	
 	if (!check_map_exists(data))
 		error(data, "No map");
-	i = 0;
-	while (data->map[i])
-	{
-		printf("%s\n", data->map[i]);
-		i++;
-	}
 }

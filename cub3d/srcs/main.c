@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/27 19:30:23 by bruno            ###   ########.fr       */
+/*   Updated: 2024/12/28 20:19:28 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,26 +70,26 @@ void	init(t_data *data)
 // 	return (*(unsigned int *)dst);
 // }
 
-void	put_pixel(t_img *img, int x, int y, int color)
+void	put_pixel(t_img *img, int y, int x, int color)
 {
 	char	*offset;
 	offset = img->addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)offset = color;
 }
 
-//just making colors
-void	make_sprite(t_data *data, int color, int x, int y)//this make_img is good for 2d, so i can use it prob for minimap
+// just making colors
+void	make_sprite(t_data *data, int y, int x, int color)//this make_img is good for 2d, so i can use it prob for minimap
 {
 	int				i;
 	int				j;
 
 	i = 0;
-	while (i < 256)
+	while (i < 64)
 	{
 		j = 0;
-		while (j < 256)
+		while (j < 64)
 		{
-			put_pixel(data->frame, x + i, y + j, color);
+			put_pixel(data->frame, y + i, x + j, color);
 			j++;
 		}
 		i++;
@@ -107,16 +107,19 @@ int	main(int ac, char **av)
 	// make_img(&data, data.texture->north, 0, 0);//works
 
 	
-
-	//THIS IS ACTING VERY WEIRD
+	
 	int y = 0;
 	while (data.map[y])
 	{
 		int x = 0;
 		while (data.map[y][x])
 		{
-			// printf("y %d, x %d\n", y, x);
-			// make_sprite(&data, 111111, x, y);
+			if (data.map[y][x] != ' ')
+			{
+				put_pixel(data.frame, y, x, 111111);//this works
+				// make_sprite(&data, y, x, 111111);//this doesnt
+			}
+			// printf("char: %c, y %d, x %d\n", data.map[y][x], y, x);
 			x++;
 		}
 		y++;
@@ -124,24 +127,6 @@ int	main(int ac, char **av)
 
 	
 //everything is tripping, have to normalise a screen size, possible will hard code it to a specific resolution
-	// int y = 0;
-	// while (data.map[y])
-	// {
-	// 	int x = 0;
-	// 	while (data.map[y][x])
-	// 	{
-	// 		printf("y %d, x %d\n", y, x);
-	// 		// if (data.map[y][x] == 0)
-	// 		// 	make_minimap_pixel(&data, 111111, x, y);
-	// 		// else if (data.map[y][x] == 0)
-	// 		// 	make_minimap_pixel(&data, 110011, x, y);
-	// 		// else if (ft_strchr("NESW", data.map[y][x]))
-	// 		// 	make_minimap_pixel(&data, 110011, x, y);
-	// 		x++;
-	// 	}
-	// 	y++;
-	// }
-
 
 
 	
