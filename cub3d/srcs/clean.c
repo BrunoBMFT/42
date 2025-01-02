@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:01 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/27 19:41:49 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/02 14:13:22 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,16 @@ int	clean_everything(t_data *data)
 		clean_array(data->map);//use free_array
 	if (data->texture)//check with parsing
 		clean_textures(data);
-		
-	// if (data->frame->img)
-	// 	mlx_destroy_image(data->mlx, data->frame->img);
+	if (data->frame->img)
+	{
+		mlx_destroy_image(data->mlx, data->frame->img);
+		free (data->frame);
+	}
+	if (data->minimap->img)
+	{
+		mlx_destroy_image(data->mlx, data->minimap->img);
+		free (data->minimap);
+	}
 	if (data->win)
 		mlx_destroy_window(data->mlx, data->win);
 	if (data->mlx)

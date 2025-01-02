@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/20 10:53:29 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/02 14:10:04 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_parser(t_data *data)
 	data->p_west = NULL;
 	data->c_floor = NULL;
 	data->c_ceiling = NULL;
-	
+
 	data->texture = NULL;
 	data->mlx = NULL;
 	data->win = NULL;

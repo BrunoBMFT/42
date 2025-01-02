@@ -6,7 +6,7 @@ make a file of settings, where the user can change the field of view, the speed 
 
 
 
-
+maybe fill empty parts of map with ' ' for simpler mallocs and widths?
 
 
 check error messages for nomap, not really good
