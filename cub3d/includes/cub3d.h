@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/02 14:05:23 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/03 23:04:33 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct	s_data
 
 	void		*mlx;
 	void		*win;
-	t_img		*minimap;
+	t_img		*minimap;//maybe have a minimap struct saving height, width and the image, optional, have the position
 	t_img		*frame;
 	t_textures	*texture;
 
