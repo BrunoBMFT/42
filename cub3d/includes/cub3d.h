@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/03 23:04:33 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/05 04:41:45 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@
 # include <X11/X.h>
 
 # define POSSIBLE "01NESW "
+# define SCALE 50
+# define WHITE 16777215
+# define RED 16711680
+# define GREEN 65280
+# define BLUE 255
+# define CYAN 65535
+# define PINK 16711935
+# define YELLOW 16776960
+# define GREY 4210752
 
 typedef struct s_img
 {
@@ -44,6 +53,7 @@ typedef struct	s_data
 	char		**file;
 	bool		**visited;
 	char		**map;
+	int			max_len;
 
 	void		*mlx;
 	void		*win;

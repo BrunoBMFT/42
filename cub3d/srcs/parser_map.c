@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2024/12/28 18:58:06 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/05 04:18:05 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	save_map(t_data *data)
 	i = 0;
 	count = 0;
 	start = 0;
+	data->max_len = 0;
+	int	temp;
 	while (data->file[i])
 	{
 		if (char_allowed(data->file[i]))
@@ -102,6 +104,9 @@ void	save_map(t_data *data)
 			data->map[j] = ft_strdup(data->file[i]);
 			if (!data->map[j])
 				error(data, "Map strdup failed");
+			temp = ft_strlen(data->file[i]);
+			if (data->max_len < temp)
+				data->max_len = temp;
 			j++;
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/04 00:05:01 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/05 05:11:07 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,34 +31,18 @@ void	init_frame(t_data *data, int x, int y)
 			&data->frame->line_len, &data->frame->endian);//ugly code to here
 }
 
-void	init_minimap(t_data *data, int x, int y)
+void	init_minimap(t_data *data, int x, int y)//make something that can initialize images in a function
 {
-	data->minimap = malloc(sizeof(t_img));//ugly code from here
+	data->minimap = malloc(sizeof(t_img));
 	if (!data->minimap)
 		error(data, "Minimap image allocation failed");
-	//! instead, make it a fixed size, and the pixels themselves change size depending on map size
-	//TODO find better logic
-	//knowing max length of line for calc
-	int max_len = 0;
-	int i = 0;
-	while (data->map[i])
-	{
-		int temp = ft_strlen(data->map[i]);
-		if (max_len < temp)
-			max_len = temp;
-		i++;
-	}
-	//knowing max length of line for calc
-	//TODO find better logic
-	//make so the size of the actual image is the same?
-	//SIZE OF THE IMG ISNT CORRECT, STUFF AT ALMOST THE END IS NOT SAVED IN THE IMG ITSELF
-	data->minimap->width = max_len * 30;//fix size to map size, for now like this to test
-	data->minimap->height = ft_split_wordcount(data->map) * 30;//fix size to map size, for now like this to test
+	data->minimap->width = data->max_len * SCALE / 4;//find better way for math of this
+	data->minimap->height = ft_split_wordcount(data->map) * SCALE / 4;//find better way for math of this
 	data->minimap->img = mlx_new_image(data->mlx, data->minimap->width, data->minimap->height);
 	if (!data->minimap->img)
 		error(data, "Minimap image failed");
 	data->minimap->addr = mlx_get_data_addr(data->minimap->img, &data->minimap->bits_per_pixel,
-			&data->minimap->line_len, &data->minimap->endian);//ugly code to here
+			&data->minimap->line_len, &data->minimap->endian);
 }
 
 void	init(t_data *data)
@@ -93,6 +77,15 @@ void	put_pixel(t_img *img, int y, int x, int color)
 	*(unsigned int *)offset = color;
 }
 
+//! ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//! ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//	decide a size for minimap (still have to decide how to take care of different shaped maps, size always the same, but pixels different size)
+//	then, change the main loop to loop through the map instead, and to then save to the minimap img
+//			(for this to work, dont forget to change make_minimap_pixel to put pixel onto minimap img)
+//! ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//! ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
 void	make_frame(t_data *data, t_img *img, int y, int x)
 {
 	int	i;
@@ -112,37 +105,21 @@ void	make_frame(t_data *data, t_img *img, int y, int x)
 	}
 }
 
-void	make_minimap_pixel(t_data *data, int y, int x, int color)//change to put_pixel to minimap img
+
+void	make_minimap_pixel(t_data *data, int y, int x, int color)
 {
-	put_pixel(data->frame, y, x, color);
 	int i = 0;
-	while (i < 20)
+	while (i < (SCALE / 4)- 2)//find better way for math of this (keep the -2 for border)
 	{
 		int j = 0;
-		while (j < 20)
+		while (j < (SCALE / 4) - 2)//find better way for math of this (keep the -2 for border)
 		{
-			put_pixel(data->frame, i + y, j + x, color);
+			put_pixel(data->minimap, i + (y / 4), j + (x / 4), color);
 			j++;
 		}
 		i++;
 	}
 }
-
-
-
-//! ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-//! ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-//! ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-
-//	have to decide a way to have a scale in make_minimap_pixel and in the loop of data.frame.height
-//	decide a size for minimap, and make it so that the scale changes depending on the size of the map
-//	then, change the main loop to loop through the map instead, and to then save to the minimap img
-//			(for this to work, dont forget to change make_minimap_pixel to put pixel onto minimap img)
-//	also, later, make borders for the pixels in the minimap so you can tell where one ends and another starts
-
-//! ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-//! ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-//! ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 
 int	main(int ac, char **av)
@@ -152,83 +129,42 @@ int	main(int ac, char **av)
 	init(&data);
 	// make_frame(&data, data.texture->north, 0, 0);//works
 
-//make an image with this background loop, then make minimap image on top
-	// int y = 0;
-	// while (y <= data.frame->height)
-	// {
-	// 	int x = 0;
-	// 	while (x <= data.frame->width)
-	// 	{
-	// 		put_pixel(data.frame, y, x, 1000);
-	// 		x++;
-	// 	}
-	// 	y++;
-	// }
-//create a function that creates images from any source to any destination
-//  easier management of minimap if i can put everything inside minimap img
-//	and then just scale it for what i need
-
-
+//makes an image with this background loop, then makes minimap image on top
 	int y = 0;
-	int i = 0;
-	while (i < data.frame->height)
+	while (y <= data.frame->height)
 	{
-		int j = 0;
 		int x = 0;
-		while (j < data.frame->width)
+		while (x <= data.frame->width)
 		{
-			if (data.map[y] && data.map[y][x])
-			{
-// todo this scale is weird
-				if (data.map[y][x] == '1')
-					make_minimap_pixel(&data, y * 50, x * 50, 111111);//green
-				if (data.map[y][x] == '0')
-					make_minimap_pixel(&data, y * 50, x * 50, 1111);//dark blue
-				if (data.map[y][x] == 'N')
-					make_minimap_pixel(&data, y * 50, x * 50, 110000);//dark blue
-				else
-					make_minimap_pixel(&data, y * 50, x * 50, 11111111);//pink
-				x++;
-			}
+			if (x % 30 == 0)
+				put_pixel(data.frame, y, x, PINK);
 			else
-			{
-				put_pixel(data.frame,  data.frame->height / 2, j, 110000);
-				put_pixel(data.frame, i, data.frame->width / 2, 110000);
-				put_pixel(data.frame,  data.frame->height / 3, j, 110000);
-				put_pixel(data.frame, i, data.frame->width / 3, 110000);
-				put_pixel(data.frame,  data.frame->height / 3 + data.frame->height / 3, j, 110000);
-				put_pixel(data.frame, i, data.frame->width / 3 +  data.frame->width / 3, 110000);
-			}
-			j++;
+				put_pixel(data.frame, y, x, GREY);
+			x++;
 		}
-		if (data.map[y])
-			y++;
-		i++;
+		y++;
 	}
-
-
-//this commented code saves into minimap img and puts it into the frame
-//	for this to work, dont forget to change make_minimap_pixel to put pixel onto minimap img
-	// y = 0;
-	// while (data.map[y])
-	// {
-	// 	int x = 0;
-	// 	while (data.map[y][x])
-	// 	{
-	// 		// if (data.map[y][x] != ' ')
-	// 		// 	make_minimap_pixel(&data, y, x, 111111);
-	// 		if (data.map[y][x] == '1')
-	// 			make_minimap_pixel(&data, y, x, 111111);//green
-	// 		if (data.map[y][x] == '0')
-	// 			make_minimap_pixel(&data, y, x, 1111);//dark blue
-	// 		else
-	// 			make_minimap_pixel(&data, y, x, 11111111);//pink
-	// 		x++;
-	// 	}
-	// 	y++;
-	// }
-	// make_frame(&data, data.minimap, 0, 0);
+	y = 0;
+	while (data.map[y])
+	{
+		int x = 0;
+		while (data.map[y][x])
+		{
+			if (data.map[y][x] == '1')
+				make_minimap_pixel(&data, y * SCALE, x * SCALE, BLUE);
+			else if (data.map[y][x] == '0')
+				make_minimap_pixel(&data, y * SCALE, x * SCALE, WHITE);
+			else if (data.map[y][x] == 'N')
+				make_minimap_pixel(&data, y * SCALE, x * SCALE, GREEN);
+			else
+				make_minimap_pixel(&data, y * SCALE, x * SCALE, PINK);
+			x++;
+		}
+		y++;
+	}
+	make_frame(&data, data.minimap, 0, 0);
 	
+//create a function that creates images from any source to any destination
 
 	
 	mlx_put_image_to_window(data.mlx, data.win, data.frame->img, 0, 0);
