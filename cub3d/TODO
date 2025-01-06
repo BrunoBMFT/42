@@ -4,6 +4,8 @@ make a file of settings, where the user can change the field of view, the speed 
 
 
 
+//todo create a function that creates images from any source to any destination
+
 
 
 maybe fill empty parts of map with ' ' for simpler mallocs and widths?
@@ -12,20 +14,6 @@ maybe fill empty parts of map with ' ' for simpler mallocs and widths?
 check error messages for nomap, not really good
 check map noborder.cub (if flood doesnt get to wrong border, what happens)
 
-minimap:
-while map[y]
-{
-	while map[y][x]
-		paint_block(y, x)
-}
-
-paint_block
-{
-	if (map[y][x] == 1)
-		color = white
-	else map == 0
-		color = grey
-}
 
 GAME:
 puzzle/parkor game

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/06 04:12:02 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/06 21:59:59 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 # include "libft/libft.h"
 # include "minilibx-linux/mlx.h"
+# include <math.h>
 # include <X11/keysym.h>
 # include <X11/X.h>
 
+//header for colors
 # define POSSIBLE "01NESW "
 # define SCALE 50
 # define WHITE 16777215
@@ -29,6 +31,11 @@
 # define YELLOW 16776960
 # define GREY 4210752
 
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
+
+//header for structs
 typedef struct s_img
 {
 	void	*img;
@@ -50,9 +57,12 @@ typedef struct s_textures
 
 typedef struct s_player
 {
-	float			y;
-	float			x;
+	float			pos_y;
+	float			pos_x;
+	float			dir_y;
+	float			dir_x;
 	int			color;//for minimap
+	int			size;//for minimap
 }				t_player;
 
 
@@ -67,6 +77,7 @@ typedef struct	s_data
 	void		*win;
 	int			mini_scale;//temp
 	t_img		*minimap;//maybe have a minimap struct saving height, width and the image, optional, have the position
+	int			pixel_size;
 	t_img		*frame;
 	t_textures	*texture;
 	t_player	*player;
@@ -91,6 +102,7 @@ void	save_map(t_data *data);
 void	flood_fill(t_data *data);
 
 //init
+void	init(t_data *data);
 void	init_textures(t_data *data);
 
 //img
@@ -99,7 +111,6 @@ void	put_pixel(t_img *img, int y, int x, int color);
 void	make_frame(t_data *data, t_img *img, int y, int x);
 
 //minimap
-void	init_minimap(t_data *data, int x, int y);
 void	make_minimap(t_data *data);
 
 //remove
