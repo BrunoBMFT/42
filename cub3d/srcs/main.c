@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/05 05:11:07 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/06 04:11:56 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,6 @@ void	init_frame(t_data *data, int x, int y)
 		error(data, "Frame image failed");
 	data->frame->addr = mlx_get_data_addr(data->frame->img, &data->frame->bits_per_pixel,
 			&data->frame->line_len, &data->frame->endian);//ugly code to here
-}
-
-void	init_minimap(t_data *data, int x, int y)//make something that can initialize images in a function
-{
-	data->minimap = malloc(sizeof(t_img));
-	if (!data->minimap)
-		error(data, "Minimap image allocation failed");
-	data->minimap->width = data->max_len * SCALE / 4;//find better way for math of this
-	data->minimap->height = ft_split_wordcount(data->map) * SCALE / 4;//find better way for math of this
-	data->minimap->img = mlx_new_image(data->mlx, data->minimap->width, data->minimap->height);
-	if (!data->minimap->img)
-		error(data, "Minimap image failed");
-	data->minimap->addr = mlx_get_data_addr(data->minimap->img, &data->minimap->bits_per_pixel,
-			&data->minimap->line_len, &data->minimap->endian);
 }
 
 void	init(t_data *data)
@@ -85,7 +71,6 @@ void	put_pixel(t_img *img, int y, int x, int color)
 //! ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 //! ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-
 void	make_frame(t_data *data, t_img *img, int y, int x)
 {
 	int	i;
@@ -105,69 +90,68 @@ void	make_frame(t_data *data, t_img *img, int y, int x)
 	}
 }
 
-
-void	make_minimap_pixel(t_data *data, int y, int x, int color)
+void	create_temp_screen(t_data *data)
 {
-	int i = 0;
-	while (i < (SCALE / 4)- 2)//find better way for math of this (keep the -2 for border)
+	//makes an image with this background loop, then makes minimap image on top
+	int y = 0;
+	while (y <= data->frame->height)
 	{
-		int j = 0;
-		while (j < (SCALE / 4) - 2)//find better way for math of this (keep the -2 for border)
+		int x = 0;
+		while (x <= data->frame->width)
 		{
-			put_pixel(data->minimap, i + (y / 4), j + (x / 4), color);
-			j++;
+			if (x % 30 == 0)
+				put_pixel(data->frame, y, x, PINK);
+			else
+				put_pixel(data->frame, y, x, GREY);
+			x++;
 		}
-		i++;
+		y++;
 	}
 }
 
+void	create_player(t_data *data)
+{
+	data->player = malloc(sizeof(t_player));
+	if (!data->player)
+		error(data, "Minimap player creation failed");
+	data->player->color = GREEN;
+	int y = 0;
+	while (data->map[y])
+	{
+		int x = 0;
+		while (data->map[y][x])
+		{
+			if (ft_strchr("NESW", data->map[y][x]))
+			{
+				data->player->y = y;
+				data->player->x = x;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+int	handle_move(t_data *data)
+{
+	make_minimap(data);
+	return (0);
+}
 
 int	main(int ac, char **av)
 {
 	t_data data;
 	parser(ac, av, &data);
 	init(&data);
+//todo create a function that creates images from any source to any destination
 	// make_frame(&data, data.texture->north, 0, 0);//works
-
-//makes an image with this background loop, then makes minimap image on top
-	int y = 0;
-	while (y <= data.frame->height)
-	{
-		int x = 0;
-		while (x <= data.frame->width)
-		{
-			if (x % 30 == 0)
-				put_pixel(data.frame, y, x, PINK);
-			else
-				put_pixel(data.frame, y, x, GREY);
-			x++;
-		}
-		y++;
-	}
-	y = 0;
-	while (data.map[y])
-	{
-		int x = 0;
-		while (data.map[y][x])
-		{
-			if (data.map[y][x] == '1')
-				make_minimap_pixel(&data, y * SCALE, x * SCALE, BLUE);
-			else if (data.map[y][x] == '0')
-				make_minimap_pixel(&data, y * SCALE, x * SCALE, WHITE);
-			else if (data.map[y][x] == 'N')
-				make_minimap_pixel(&data, y * SCALE, x * SCALE, GREEN);
-			else
-				make_minimap_pixel(&data, y * SCALE, x * SCALE, PINK);
-			x++;
-		}
-		y++;
-	}
-	make_frame(&data, data.minimap, 0, 0);
 	
-//create a function that creates images from any source to any destination
+	create_player(&data);
+	create_temp_screen(&data);
 
-	
+	make_minimap(&data);
 	mlx_put_image_to_window(data.mlx, data.win, data.frame->img, 0, 0);
+
 
 	mlx_key_hook(data.win, handle_input, &data);
 	mlx_hook(data.win, 17, 1L << 17, close_game, &data);

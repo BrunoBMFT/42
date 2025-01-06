@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/05 04:41:45 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/06 04:12:02 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ typedef struct s_textures
 	t_img *west;
 }			t_textures;
 
+typedef struct s_player
+{
+	float			y;
+	float			x;
+	int			color;//for minimap
+}				t_player;
+
+
 typedef struct	s_data
 {
 	char		**file;
@@ -57,9 +65,11 @@ typedef struct	s_data
 
 	void		*mlx;
 	void		*win;
+	int			mini_scale;//temp
 	t_img		*minimap;//maybe have a minimap struct saving height, width and the image, optional, have the position
 	t_img		*frame;
 	t_textures	*texture;
+	t_player	*player;
 
 
 
@@ -82,6 +92,15 @@ void	flood_fill(t_data *data);
 
 //init
 void	init_textures(t_data *data);
+
+//img
+int		get_pixel(t_img *img, int y, int x);
+void	put_pixel(t_img *img, int y, int x, int color);
+void	make_frame(t_data *data, t_img *img, int y, int x);
+
+//minimap
+void	init_minimap(t_data *data, int x, int y);
+void	make_minimap(t_data *data);
 
 //remove
 void 	print_map_info(t_data *data);

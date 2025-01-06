@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/05 04:18:05 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/06 00:40:15 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,14 @@ bool	char_allowed(char *str)
 	}
 	return (true);
 }
-//broken
 
-// 1111111111111111111111111
-// 1000000000110000000000001
-// 1011000001110000000000001
-// 10010000000000000N0000001
-// 1111111111111111111111111
 bool	check_map_exists(t_data *data)//use the function above?
 {
 	int	y;
 	int	x;
 
-
 	//this skips empty lines, make it skip just tabs or spaces?
+	//leaks
 	int i = 0;
 	int j = 0;
 	while (data->map[i])

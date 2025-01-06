@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:01 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/02 14:13:22 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/06 02:39:44 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ int	clean_everything(t_data *data)
 		mlx_destroy_image(data->mlx, data->minimap->img);
 		free (data->minimap);
 	}
+	if (data->player)
+		free (data->player);
 	if (data->win)
 		mlx_destroy_window(data->mlx, data->win);
 	if (data->mlx)
