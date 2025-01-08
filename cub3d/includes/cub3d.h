@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/06 21:59:59 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/08 02:34:12 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define POSSIBLE "01NESW "
 # define SCALE 50
 # define WHITE 16777215
+# define BACK 8421504
 # define RED 16711680
 # define GREEN 65280
 # define BLUE 255
@@ -30,10 +31,7 @@
 # define PINK 16711935
 # define YELLOW 16776960
 # define GREY 4210752
-
-# ifndef M_PI
-#  define M_PI 3.14159265358979323846
-# endif
+# define PI 3.14159265358979323846
 
 //header for structs
 typedef struct s_img
@@ -57,14 +55,14 @@ typedef struct s_textures
 
 typedef struct s_player
 {
-	float			pos_y;
-	float			pos_x;
+	float			y;
+	float			x;
 	float			dir_y;
 	float			dir_x;
 	int			color;//for minimap
-	int			size;//for minimap
+	int			size;//for minimap, float?
+    float		angle; // Current facing angle in radians
 }				t_player;
-
 
 typedef struct	s_data
 {
@@ -94,6 +92,7 @@ typedef struct	s_data
 	char		*c_floor;
 	char		*c_ceiling;
 }				t_data;
+void	raycast(t_data *data);
 
 //parser
 void	parser(int ac, char **av, t_data *data);

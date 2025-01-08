@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 17:57:32 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/06 17:58:00 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/08 02:04:50 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	get_pixel(t_img *img, int y, int x)
 
 void	put_pixel(t_img *img, int y, int x, int color)
 {
+	if (x < 0 || x > img->width || y < 0 || y > img->height)
+        error(NULL, "pixel put in wrong place");
 	char	*offset;
 	offset = img->addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)offset = color;

@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 23:15:33 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/07 01:10:52 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/08 02:02:55 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,52 +50,30 @@ void	wipe_minimap(t_data *data)//makes minimap a black screen
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-//todo take care of border
-
-// first, i have to draw a ray stemming from the played cube
-// then i have to assign it the floats of dirx and diry
 // start implementing math, by trying a few different angles (use printfs to test first)
 // implement the visualization of it on the minimap
 // implement moves
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-float deg_to_rad(float n)//degrees to radians
+//this function draws the player from the left bottom corner of the upside down t
+//then make it turn
+void	make_player(t_data *data)//includes the initial ray
 {
-	return (n * M_PI / 180);
-}
-
-void	make_player(t_data *data)//include the initial ray
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < data->player->size)
+	int	y;
+	int	x;
+	y = 0;
+	while (y < data->player->size)
 	{
-		j = 0;
-		while (j < data->player->size)
+		x = 0;
+		while (x < data->player->size)
 		{
-			put_pixel(data->minimap, i + (data->player->pos_y * SCALE / data->mini_scale)
-			, j + (data->player->pos_x * SCALE / data->mini_scale), GREEN);
-			j++;
+			put_pixel(data->minimap, y + (data->player->y * SCALE / data->mini_scale)
+			, x + (data->player->x * SCALE / data->mini_scale), GREEN);
+			x++;
 		}
-		i++;
+		y++;
 	}
-	
-	// //make ray pointing up
-	// i = 0;
-	// while (i < data->player->size * 3)
-	// {
-	// 	j = 0;
-	// 	while (j < 3)
-	// 	{
-			
-	// 	}
-	// }
-
-	
 }
 
 void	make_minimap(t_data *data)
@@ -113,9 +91,9 @@ void	make_minimap(t_data *data)
 			if (data->map[y][x] == '1')
 				make_minimap_pixel(data, y, x, BLUE);
 			else if (data->map[y][x] == '0' || ft_strchr("NESW", data->map[y][x]))
-				make_minimap_pixel(data, y, x, WHITE);
+				make_minimap_pixel(data, y, x, BACK);
 			else
-				make_minimap_pixel(data, y, x, PINK);
+				make_minimap_pixel(data, y, x, BACK);
 			x++;
 		}
 		y++;
