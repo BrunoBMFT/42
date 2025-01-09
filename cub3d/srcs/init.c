@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 17:55:52 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/08 02:38:20 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/08 17:28:27 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	init_player(t_data *data)
 	if (!data->player)
 		error(data, "Minimap player creation failed");
 	data->player->color = GREEN;
-	data->player->size = SCALE / data->mini_scale / 1;// / 4
-	data->player->y = 3;
-	data->player->x = 3;
+	data->player->size = SCALE / data->mini_scale / 1;// / 4=
+	data->player->y = 2.5;
+	data->player->x = 1.5;
 	// int y = 0;
 	// while (data->map[y])
 	// {

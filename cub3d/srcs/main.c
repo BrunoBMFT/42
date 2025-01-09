@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/08 03:01:09 by bruno            ###   ########.fr       */
+/*   Updated: 2025/01/09 02:38:11 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,26 @@ float deg_to_rad(float n)//degrees to radians
 	return (n * PI / 180);
 }
 
-float	find_distance(t_data *data)
+float	adj(float n, int angle)
 {
-	float	y_dist = 0;
-	float	x_dist = 0;
-	return (y_dist + x_dist);
+	return (1);
 }
+
+float	opp(float n, int angle)
+{
+	return (1);
+}
+
+float	hyp(float n, int angle)
+{
+	return (1);
+}
+
+float square(float n)//degrees to radians
+{
+	return (n * n);
+}
+
 void	temp_screen_divider(t_data *data, int x)
 {
 	int y = 0;
@@ -51,44 +65,105 @@ void	temp_screen_divider(t_data *data, int x)
 		y++;
 	}
 }
+
+// !
+// testing
+// 360 / 5 = 72
+//expected hypotenuse horizontal results:
+//72  6.4721
+//144 3.7082
+//216 
+//288
+//360
+// !
+
+
+
 //need center cause there where ill raycast from
-void	raycast(t_data *data)
+void	raycast(t_data *data)//make a function that does the return for the distance, to test if it is working
 {
 	int screen_div = 8;
 	float y_center = (data->player->y * data->pixel_size) + (data->player->size / 2);
 	float x_center = (data->player->x * data->pixel_size) + (data->player->size / 2);
-	printf("pixel size %d\n", data->pixel_size);
-	printf("player:\nlocation y: %.2f, x: %.2f\nsize %d\n", data->player->y, data->player->x, data->player->size);
-	printf("coord in map %.2f %.2f\n", data->player->y, data->player->x);
-	printf("coord in map %.2f %.2f\n", data->player->y * data->pixel_size, data->player->x * data->pixel_size);
-	printf("center pixel %.2f %.2f\n", y_center, x_center);
-	printf("center coord %.2f %.2f\n\n", y_center / data->pixel_size, x_center / data->pixel_size);
-
-
-	//need to draw a line from pixel 81 in an angle and keep sending it forward until pixel / pixelsize in map == '1'
+	// printf("pixel size %d\n", data->pixel_size);
+	// printf("player:\nlocation y: %.2f, x: %.2f\nsize %d\n", data->player->y, data->player->x, data->player->size);
+	// printf("coord in map %.2f %.2f\n", data->player->y, data->player->x);
+	// printf("coord in map %.2f %.2f\n", data->player->y * data->pixel_size, data->player->x * data->pixel_size);
+	// printf("center pixel %.2f %.2f\n", y_center, x_center);
+	// printf("center coord %.2f %.2f\n", y_center / data->pixel_size, x_center / data->pixel_size);
+	//divide 360 by 8 and check every final distance
+	//right now, its assuming the center is at the int value
 	int x = 0;
-	int angle = 0;//forward
+	int degree = 12;//! until 45 it seems like it works, test more
+	float rad = deg_to_rad(degree);
+	// printf("deg %d -> rad %f\n", degree, rad);
 	
+	// * also, will need to decide direction, since the way things are sent and the way the roundf gets done is based on that
 	bool	hit = false;
-	float y_ray = y_center;
-	float x_ray = x_center;
-	int temp_y = (int)roundf(y_ray);
-	int temp_x = (int)roundf(x_ray);
+	float temp_y = y_center;
+	float temp_x = x_center;
 	while (!hit)
 	{
-		temp_y = (int)roundf(y_ray) / data->pixel_size;
-		temp_x = (int)roundf(x_ray) / data->pixel_size;
-		printf("y %d x%d \n", temp_y, temp_x);
-		if (data->map[temp_y][temp_x] == '1'){
-			hit = true;
-		}
-		y_ray -= data->pixel_size;//protect out of bounds
+		// printf("y: %.2f, x: %.2f \n", temp_y / data->pixel_size, temp_x / data->pixel_size);
+		int y = (int)roundf(temp_y - 1) / data->pixel_size;//-1 so it checks above, although it feels weird checking like this
+		int x = (int)roundf(temp_x) / data->pixel_size;
+		if (x < 0 || x > data->max_len || y < 0 || y > ft_split_wordcount(data->map))
+			/* printf("over limit, prob will find with other loop\n"); */ break ;
+		// printf("testing y %d, x %d\n", y, x);
+		if (data->map[y][x] == '1')
+			break ;
+
+		//this part is actually simpler than i thought, cause sin (x) = y   &&   sin(360 - x) = -y
+		//basically rotations are taken care of by the tryg functions themselves, at least it seems
+		float diff = tan(rad);
+		temp_x += diff * data->pixel_size;
+		temp_y -= data->pixel_size;
 	}
-	printf("hit at y %d x%d \n", temp_y, temp_x);
+	// printf("distance y %.2f, x %.2f \n", (y_center - temp_y) / data->pixel_size, (x_center - temp_x) / data->pixel_size);
+	float distance1 = ((y_center - temp_y) / data->pixel_size) / cos(rad);
+	printf("horizontal distance %f\n", distance1);
+	// * final distance by 12 degrees is 2.0446811897 horizontal line
+	// * final distance by 24 degrees is 2.189272557 horizontal line
+
+	temp_y = y_center;
+	temp_x = x_center;
+	while (!hit)
+	{
+		// printf("y: %.2f, x: %.2f \n", temp_y / data->pixel_size, temp_x / data->pixel_size);
+		int x = (int)roundf(temp_x) / data->pixel_size;
+		int y = (int)roundf(temp_y + 1) / data->pixel_size;
+		if (x < 0 || x > data->max_len || y < 0 || y > ft_split_wordcount(data->map))
+			/* printf("over limit, prob will find with other loop\n"); */ break ;
+		// printf("testing y %d, x %d\n", y, x);
+		if (data->map[y][x] == '1')
+			break ;
+
+		//this part is actually simpler than i thought, cause sin (x) = y   &&   sin(360 - x) = -y
+		//basically rotations are taken care of by the tryg functions themselves, at least it seems
+		float diff = 1 / tan(rad);
+		temp_y -= diff * data->pixel_size;
+		temp_x += data->pixel_size;
+	}
+	// printf("distance y: %.4f, x: %.2f \nangle: %d\n", (temp_y - y_center) / data->pixel_size, (temp_x - x_center) / data->pixel_size, degree);
+	float distance2 = ((temp_x - x_center) / data->pixel_size) / sin(rad);
+	printf("vertical distance %f\n", distance2);
+	// * final distance by 12 degrees is 4.8097
+	// * final distance by 24 degrees is 2.4585
+	float final;
+	if (distance1 < distance2)
+		final = distance1;
+	else
+		final = distance2;
+	printf("closest distance at %d degrees is %f\n", degree, final);
+		
 
 // i think the way im checking if it hit a part of the map or not is wrong, since it doesnt account
 // for angles. possibly will need to check each int in map to see if it is a '1' or not
 // so basically i need to find the distance from center to int, and then from int to int at an angle?
+
+
+
+
 
 // ! from here down, pure and utter confusion
 // i have the angle for the first and 2nd, which is 0 and 12 degrees starting from north
@@ -96,27 +171,6 @@ void	raycast(t_data *data)
 // 	the jump y and x do is based of the angle that is being run
 // by have that y and x distance + the angle, simple sohcahtoa should get me the hypotenuse, right?
 // that hypotenuse is what decides the size of the line that will be drawn on screen
-
-
-	//tryg
-	float distance = tan(0);
-	printf("distance %.4f\n", distance);
-
-	// angle += 12;
-	// while (!hit)
-	// {
-
-		
-	// 	printf("before y %.2f x%.2f \n", y_ray, x_ray);
-	// 	temp_y = (int)roundf(y_ray) / data->pixel_size;
-	// 	temp_x = (int)roundf(x_ray) / data->pixel_size;
-	// 	printf("y %d x%d \n", temp_y, temp_x);
-	// 	if (data->map[temp_y][temp_x] == '1'){
-	// 		hit = true;
-	// 	}
-	// 	y_ray -= data->pixel_size;//here tryg
-	// }
-	// printf("hit at y %d x%d \n", temp_y, temp_x);
 
 	while (x <= data->frame->width)//this is rays
 	{
