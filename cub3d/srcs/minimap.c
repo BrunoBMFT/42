@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 23:15:33 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/08 02:02:55 by bruno            ###   ########.fr       */
+/*   Updated: 2025/02/11 13:12:08 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,7 @@ void	wipe_minimap(t_data *data)//makes minimap a black screen
 	}
 }
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// start implementing math, by trying a few different angles (use printfs to test first)
-// implement the visualization of it on the minimap
-// implement moves
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-//this function draws the player from the left bottom corner of the upside down t
-//then make it turn
-void	make_player(t_data *data)//includes the initial ray
+void	make_player(t_data *data)
 {
 	int	y;
 	int	x;

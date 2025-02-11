@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 17:55:52 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/08 17:28:27 by bruno            ###   ########.fr       */
+/*   Updated: 2025/02/11 13:12:17 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	init_minimap(t_data *data, int x, int y)//make something that can initializ
 	data->minimap = malloc(sizeof(t_img));
 	if (!data->minimap)
 		error(data, "Minimap image allocation failed");
-	data->mini_scale = 1;//careful with this, can lead to bad calculations
+	data->mini_scale = 2;//careful with this, can lead to bad calculations
 	data->pixel_size = SCALE / data->mini_scale;
 	data->minimap->width = data->frame->width / data->mini_scale;
 	data->minimap->height = data->frame->height / data->mini_scale;
@@ -48,24 +48,22 @@ void	init_player(t_data *data)
 	if (!data->player)
 		error(data, "Minimap player creation failed");
 	data->player->color = GREEN;
-	data->player->size = SCALE / data->mini_scale / 1;// / 4=
-	data->player->y = 2.5;
-	data->player->x = 1.5;
-	// int y = 0;
-	// while (data->map[y])
-	// {
-	// 	int x = 0;
-	// 	while (data->map[y][x])
-	// 	{
-	// 		if (ft_strchr("NESW", data->map[y][x]))
-	// 		{
-	// 			data->player->y = y;
-	// 			data->player->x = x;
-	// 		}
-	// 		x++;
-	// 	}
-	// 	y++;
-	// }
+	data->player->size = SCALE / data->mini_scale;
+	int y = 0;
+	while (data->map[y])
+	{
+		int x = 0;
+		while (data->map[y][x])
+		{
+			if (ft_strchr("NESW", data->map[y][x]))
+			{
+				data->player->y = y;
+				data->player->x = x;
+			}
+			x++;
+		}
+		y++;
+	}
 }
 
 void	init(t_data *data)
