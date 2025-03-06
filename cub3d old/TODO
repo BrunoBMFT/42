@@ -1,0 +1,30 @@
+wtf
+
+parsing has seg faults
+
+make a file of settings, where the user can change the field of view, the speed of player, sens of turning, etc...
+
+
+
+//todo create a function that creates images from any source to any destination
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GAME:
+puzzle/parkor game
+you have a dash, it has 4 substeps to the dash. 
+you only need floor on the 4th dash, 
+	but if you hit any wall in an substep, you stop there
+the substep distance will be shown by 2 pointers, showing you where you'll land
+they will change to red if you are hitting anything
