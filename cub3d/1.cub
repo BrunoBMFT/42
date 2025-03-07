@@ -1,0 +1,14 @@
+NO ./sprites/north.xpm
+SO ./sprites/south.xpm
+WE ./sprites/west.xpm
+EA ./sprites/east.xpm
+
+
+
+F 220,100,0
+C 225,30,0
+
+111111
+11N00000000111
+111111
+111111

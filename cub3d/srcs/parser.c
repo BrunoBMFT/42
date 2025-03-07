@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2025/01/02 14:10:04 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/07 18:33:52 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	init_parser(t_data *data)
 {
 	data->file = NULL;
-	data->visited = NULL;
 	data->map = NULL;
 	data->p_north = NULL;
 	data->p_east = NULL;
@@ -23,23 +22,20 @@ void	init_parser(t_data *data)
 	data->p_west = NULL;
 	data->c_floor = NULL;
 	data->c_ceiling = NULL;
-
-	data->texture = NULL;
-	data->mlx = NULL;
-	data->win = NULL;
 }
 
-void	name_check(int ac, char **av)
+bool	name_check(int ac, char **av)
 {
 	int		len;
 	char	*temp;
 
 	if (ac != 2)
-		error(NULL, "Wrong number of arguments");
+		return (error("Wrong number of arguments"));
 	len = ft_strlen(av[1]);
 	temp = av[1] + len - 4;
 	if (len < 5 || ft_strcmp(temp, ".cub"))
-		error(NULL, "Name is wrong");
+		return (error("Name is wrong"));
+	return (true);
 }
 
 bool	read_into_file(t_data *data, int fd, int loop)
@@ -53,42 +49,39 @@ bool	read_into_file(t_data *data, int fd, int loop)
 	{
 		data->file = ft_calloc(sizeof(char *), loop + 1);
 		if (!data->file)
-			error(NULL, "map calloc failed");
+			return (error("map calloc failed"));
 	}
 	if (data->file)
 	{
 		data->file[loop] = ft_strtrim(map_line, "\n");
 		return (free (map_line), true);
 	}
-	return (false);
+	return (true);
 }
 
-void	save_file(t_data *data, char *str)
+bool	save_file(t_data *data, char *str)
 {
 	int	fd;
 
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
-		error(NULL, "File not found");
+		return (error("File not found"));
 	read_into_file(data, fd, 0);
 	close (fd);
 	if (!*data->file)
-		error(data, "No file");
+		return (error("No file"));
+	return (true);
 }
 
-void	check_paths(t_data *data)
+bool	check_paths(t_data *data)
 {
-	if (access(data->p_north, R_OK))
-		error(data, "North texture not found");
-	if (access(data->p_east, R_OK))
-		error(data, "East texture not found");
-	if (access(data->p_south, R_OK))
-		error(data, "South texture not found");
-	if (access(data->p_west, R_OK))
-		error(data, "West texture not found");
+	if (access(data->p_north, R_OK) || access(data->p_east, R_OK)
+	 || access(data->p_south, R_OK) || access(data->p_west, R_OK))
+		return (error("missing texture"));
+	return (true);
 }
 
-void	save_texture_path(t_data *data)
+bool	save_texture_path(t_data *data)//check for duplicates?
 {
 	int		i;
 	char	*temp;
@@ -98,35 +91,37 @@ void	save_texture_path(t_data *data)
 	{
 		temp = data->file[i];
 		if (ft_strncmp("NO", temp, 2) == 0)
-			data->p_north = ft_strdup(temp + 3);
-		if (ft_strncmp("EA", temp, 2) == 0)
-			data->p_east = ft_strdup(temp + 3);
-		if (ft_strncmp("SO", temp, 2) == 0)
-			data->p_south = ft_strdup(temp + 3);
-		if (ft_strncmp("WE", temp, 2) == 0)
-			data->p_west = ft_strdup(temp + 3);
-		if (ft_strncmp("F", temp, 1) == 0)
-			data->c_floor = ft_strdup(temp + 2);
-		if (ft_strncmp("C", temp, 1) == 0)
-			data->c_ceiling = ft_strdup(temp + 2);
+			data->p_north = ft_strtrim(temp + 3, " \t");
+		else if (ft_strncmp("EA", temp, 2) == 0)
+			data->p_east = ft_strtrim(temp + 3, " \t");
+		else if (ft_strncmp("SO", temp, 2) == 0)
+			data->p_south = ft_strtrim(temp + 3, " \t");
+		else if (ft_strncmp("WE", temp, 2) == 0)
+			data->p_west = ft_strtrim(temp + 3, " \t");
+		else if (ft_strncmp("F", temp, 1) == 0)
+			data->c_floor = ft_strtrim(temp + 3, " \t");
+		else if (ft_strncmp("C", temp, 1) == 0)
+			data->c_ceiling = ft_strtrim(temp + 3, " \t");
 		i++;
 	}
 	if (!data->p_north || !data->p_east || !data->p_south
 		|| !data->p_west)
-		error(data, "Missing paths");
+		return (error("Missing paths"));
 	if (!data->c_floor || !data->c_ceiling)
-		error(data, "Missing colors");
-	check_paths(data);
+		return (error("Missing colors"));
+	return (check_paths(data));
 }
 
-
-void	parser(int ac, char **av, t_data *data)
+bool	parser(int ac, char **av, t_data *data)
 {
 	init_parser(data);
-	name_check(ac, av);
-	save_file(data, av[1]);
-	save_texture_path(data);
-	save_map(data);
-	flood_fill(data);
-	//at the end of everything parser, free file
+	if (!name_check(ac, av))
+		return (false);
+	if (!save_file(data, av[1]))
+		return (false);
+	if (!save_texture_path(data))
+		return (false);
+	if (!save_map(data))
+		return (false);
+	return (true);
 }

@@ -1,7 +1,7 @@
 NAME =	cub3d
 
 SRCS_DIR = ./srcs
-SRCS = main.c parser.c parser_map.c parser_flood.c init.c init_textures.c img.c minimap.c clean.c error.c input.c 
+SRCS = main.c parser.c parser_map.c clean.c error.c
 CFLAGS = -g #-Wall -Werror -Wextra
 
 OBJS_DIR = ./objs
@@ -45,5 +45,8 @@ fullclean: clean_mlx
 	@make -C $(LIBFT_DIR) fclean --no-print-directory
 
 re: fclean all
+
+v: $(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./cub3d test.cub
 
 .PHONY: all fclean clean re
