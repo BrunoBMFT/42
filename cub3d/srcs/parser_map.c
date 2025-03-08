@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/07 20:02:55 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/07 23:51:01 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ bool	char_allowed(char *str)
 
 bool	is_enclosed(char **map, int y, int x)
 {
-	if (y == 0 || x == 0 || !map[y + 1] || !map[y + 1][0] || !map[y][x + 1])
-		return (false);
+	if (y == 0 || x == 0 || !map[y + 1] || !map[y - 1] || x >= ft_strlen(map[y]) - 1)
+        return (false);
+    if (x >= ft_strlen(map[y - 1]) || x >= ft_strlen(map[y + 1]))
+        return (false);
 	if (!ft_strchr(POSSIBLE, map[y - 1][x]))
 		return (false);
 	if (!ft_strchr(POSSIBLE, map[y + 1][x]))
