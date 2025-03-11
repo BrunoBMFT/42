@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/11 00:49:55 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/11 17:58:54 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,19 +76,19 @@ bool	save_file(t_data *data, char *str)
 bool	check_paths(t_data *data)
 {
 	if (access(data->p_north, R_OK) || access(data->p_east, R_OK)
-	 || access(data->p_south, R_OK) || access(data->p_west, R_OK))
+		|| access(data->p_south, R_OK) || access(data->p_west, R_OK))
 		return (error("missing texture"));
 	return (true);
 }
 
 bool	path_already_saved(t_data *data, char *temp)
 {
-	if ((!ft_strncmp("NO", temp, 2) && data->p_north) ||
-		(!ft_strncmp("EA", temp, 2) && data->p_east) ||
-		(!ft_strncmp("SO", temp, 2) && data->p_south) ||
-		(!ft_strncmp("WE", temp, 2) && data->p_west) ||
-		(!ft_strncmp("F", temp, 1) && data->c_floor) ||
-		(!ft_strncmp("C", temp, 1) && data->c_ceiling))
+	if ((!ft_strncmp("NO", temp, 2) && data->p_north)
+		|| (!ft_strncmp("EA", temp, 2) && data->p_east)
+		|| (!ft_strncmp("SO", temp, 2) && data->p_south)
+		|| (!ft_strncmp("WE", temp, 2) && data->p_west)
+		|| (!ft_strncmp("F", temp, 1) && data->c_floor)
+		|| (!ft_strncmp("C", temp, 1) && data->c_ceiling))
 		return (true);
 	return (false);
 }
@@ -96,33 +96,29 @@ bool	path_already_saved(t_data *data, char *temp)
 bool	save_texture_path(t_data *data)
 {
 	int		i;
-	char	*temp;
 
 	i = 0;
 	while (data->file[i])
 	{
-		temp = data->file[i];
-		if (path_already_saved(data, temp))
+		if (path_already_saved(data, data->file[i]))
 			return (error("Duplicate paths"));
-		if (!ft_strncmp("NO", temp, 2))
-			data->p_north = ft_strtrim(temp + 3, " \t");
-		else if (!ft_strncmp("EA", temp, 2))
-			data->p_east = ft_strtrim(temp + 3, " \t");
-		else if (!ft_strncmp("SO", temp, 2))
-			data->p_south = ft_strtrim(temp + 3, " \t");
-		else if (!ft_strncmp("WE", temp, 2))
-			data->p_west = ft_strtrim(temp + 3, " \t");
-		else if (!ft_strncmp("F", temp, 1))
-			data->c_floor = ft_strtrim(temp + 3, " \t");
-		else if (!ft_strncmp("C", temp, 1))
-			data->c_ceiling = ft_strtrim(temp + 3, " \t");
+		if (!ft_strncmp("NO", data->file[i], 2))
+			data->p_north = ft_strtrim(data->file[i] + 3, " \t");
+		else if (!ft_strncmp("EA", data->file[i], 2))
+			data->p_east = ft_strtrim(data->file[i] + 3, " \t");
+		else if (!ft_strncmp("SO", data->file[i], 2))
+			data->p_south = ft_strtrim(data->file[i] + 3, " \t");
+		else if (!ft_strncmp("WE", data->file[i], 2))
+			data->p_west = ft_strtrim(data->file[i] + 3, " \t");
+		else if (!ft_strncmp("F", data->file[i], 1))
+			data->c_floor = ft_strtrim(data->file[i] + 3, " \t");
+		else if (!ft_strncmp("C", data->file[i], 1))
+			data->c_ceiling = ft_strtrim(data->file[i] + 3, " \t");
 		i++;
 	}
 	if (!data->p_north || !data->p_east || !data->p_south
-		|| !data->p_west)
-		return (error("Missing paths"));
-	if (!data->c_floor || !data->c_ceiling)
-		return (error("Missing colors"));
+		|| !data->p_west || !data->c_floor || !data->c_ceiling)
+		return (error("Missing info"));
 	return (check_paths(data));
 }
 

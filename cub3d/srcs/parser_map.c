@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/11 00:50:20 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/11 17:57:04 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,42 +26,66 @@ bool	is_allowed(char *str)
 	return (true);
 }
 
+//this is called twice to malloc and to save, call it only once
 bool	is_path(char *str)
 {
 	if (!ft_strncmp("NO", str, 2) || !ft_strncmp("SO", str, 2)
-	|| !ft_strncmp("WE", str, 2) || !ft_strncmp("EA", str, 2)
-	|| !ft_strncmp("F", str, 1) || !ft_strncmp("C", str, 1))
+		|| !ft_strncmp("WE", str, 2) || !ft_strncmp("EA", str, 2)
+		|| !ft_strncmp("F", str, 1) || !ft_strncmp("C", str, 1))
 		return (true);
 	return (false);
 }
 
-bool	save_map(t_data *data)
+bool	is_empty(const char *str)
 {
-	int	i;
+	if (!str)
+		return (true);
+	while (*str)
+	{
+		if (!(*str == ' ' || *str == '\t' || *str == '\n'
+				|| *str == '\r' || *str == '\v' || *str == '\f'))
+			return (false);
+		str++;
+	}
+	return (true);
+}
+
+int	line_count(t_data *data, int *i)
+{
 	int	count;
 	int	start;
-	int	j;
 
-	i = 0;
+	*i = 0;
 	count = 0;
 	start = 0;
-	while (data->file[i])
+	while (data->file[*i])
 	{
-		if (!is_path(data->file[i]))
+		if (!is_path(data->file[*i]))
 			count++;
 		if (count == 1)
-			start = i;
-		i++;
+			start = *i;
+		(*i)++;
 	}
-	data->map = ft_calloc(sizeof(char *), count + 2);
+	*i = start;
+	return (count);
+}
+
+bool	save_map(t_data *data)
+{
+	int		i;
+	int		j;
+	int		start;
+	bool	is_map;
+
+	data->map = ft_calloc(sizeof(char *), line_count(data, &i) + 2);
 	if (!data->map)
 		return (error("Map allocation failed"));
-	i = start;
 	j = 0;
-	bool	is_map = false;
+	is_map = false;
 	while (data->file[i])
 	{
-		if ((data->file[i][0] || is_map) && !is_path(data->file[i]))//TODO check whitespaces
+		if ((!is_empty(data->file[i]) || is_map)
+			&& !is_path(data->file[i]))
 		{
 			is_map = true;
 			data->map[j] = ft_strdup(data->file[i]);
@@ -79,19 +103,22 @@ bool	is_enclosed(char **map, int y, int x)
 {
 	if (y == 0 || x == 0 || !map[y + 1] || !map[y - 1]
 		|| x >= ft_strlen(map[y]) - 1
-		|| x >= ft_strlen(map[y - 1]) || x >= ft_strlen(map[y + 1])
-		|| !ft_strchr(POSSIBLE, map[y - 1][x]) || !ft_strchr(POSSIBLE, map[y + 1][x])
-		|| !ft_strchr(POSSIBLE, map[y][x + 1]) || !ft_strchr(POSSIBLE, map[y][x - 1]))
-        return (false);
+		|| x >= ft_strlen(map[y - 1])
+		|| x >= ft_strlen(map[y + 1])
+		|| !ft_strchr(POSSIBLE, map[y - 1][x])
+		|| !ft_strchr(POSSIBLE, map[y + 1][x])
+		|| !ft_strchr(POSSIBLE, map[y][x + 1])
+		|| !ft_strchr(POSSIBLE, map[y][x - 1]))
+		return (false);
 	return (true);
 }
-//WRONG CHAR
+
 bool	map_check(t_data *data)
 {
 	int	y;
 	int	x;
 	int	count;
-	
+
 	y = 0;
 	count = 0;
 	while (data->map[y])
