@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/07 19:37:55 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/10 20:50:49 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct	s_data
 //parser
 bool	parser(int ac, char **av, t_data *data);
 bool	save_map(t_data *data);
+bool	map_check(t_data *data);
 
 //errors
 bool	error(char *str);

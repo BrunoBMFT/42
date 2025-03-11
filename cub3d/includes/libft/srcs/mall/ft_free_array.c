@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:57:16 by brfernan          #+#    #+#             */
-/*   Updated: 2024/12/16 04:09:03 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/10 19:53:28 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_array(char **array)
 	int	i;
 
 	i = 0;
-	if (!array || !array[i])
+	if (!array)
 		return ;
 	while (array[i])
 	{

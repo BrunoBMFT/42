@@ -6,13 +6,13 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/07 23:51:01 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/11 00:50:20 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-bool	char_allowed(char *str)
+bool	is_allowed(char *str)
 {
 	int		i;
 
@@ -26,54 +26,16 @@ bool	char_allowed(char *str)
 	return (true);
 }
 
-bool	is_enclosed(char **map, int y, int x)
+bool	is_path(char *str)
 {
-	if (y == 0 || x == 0 || !map[y + 1] || !map[y - 1] || x >= ft_strlen(map[y]) - 1)
-        return (false);
-    if (x >= ft_strlen(map[y - 1]) || x >= ft_strlen(map[y + 1]))
-        return (false);
-	if (!ft_strchr(POSSIBLE, map[y - 1][x]))
-		return (false);
-	if (!ft_strchr(POSSIBLE, map[y + 1][x]))
-		return (false);
-	if (!ft_strchr(POSSIBLE, map[y][x + 1]))
-		return (false);
-	if (!ft_strchr(POSSIBLE, map[y][x - 1]))
-		return (false);
-	return (true);
-}
-//1.cub breaks
-bool	map_check(t_data *data)//call this in parser
-{
-	int	y;
-	int	x;
-	int	count;
-	
-	//checking everything is surrounded
-	y = 0;
-	count = 0;
-	while (data->map[y])
-	{
-		x = 0;
-		while (data->map[y][x])
-		{
-			if (ft_strchr("NESW", data->map[y][x]))
-				count++;
-			if (ft_strchr("0NESW", data->map[y][x]))
-			{
-				if (!is_enclosed(data->map, y, x))
-					return (error("Map not enclosed"));
-			}
-			x++;
-		}
-		y++;
-	}
-	if (count != 1)
-		return (error("Invalid player"));
-	return (true);
+	if (!ft_strncmp("NO", str, 2) || !ft_strncmp("SO", str, 2)
+	|| !ft_strncmp("WE", str, 2) || !ft_strncmp("EA", str, 2)
+	|| !ft_strncmp("F", str, 1) || !ft_strncmp("C", str, 1))
+		return (true);
+	return (false);
 }
 
-bool	save_map(t_data *data)//fix
+bool	save_map(t_data *data)
 {
 	int	i;
 	int	count;
@@ -85,7 +47,7 @@ bool	save_map(t_data *data)//fix
 	start = 0;
 	while (data->file[i])
 	{
-		if (char_allowed(data->file[i]))
+		if (!is_path(data->file[i]))
 			count++;
 		if (count == 1)
 			start = i;
@@ -99,7 +61,7 @@ bool	save_map(t_data *data)//fix
 	bool	is_map = false;
 	while (data->file[i])
 	{
-		if ((data->file[i][0] || is_map) && char_allowed(data->file[i]))
+		if ((data->file[i][0] || is_map) && !is_path(data->file[i]))//TODO check whitespaces
 		{
 			is_map = true;
 			data->map[j] = ft_strdup(data->file[i]);
@@ -110,7 +72,47 @@ bool	save_map(t_data *data)//fix
 		i++;
 	}
 	data->map[j] = NULL;
-	if (!map_check(data))
-		return (false);
+	return (true);
+}
+
+bool	is_enclosed(char **map, int y, int x)
+{
+	if (y == 0 || x == 0 || !map[y + 1] || !map[y - 1]
+		|| x >= ft_strlen(map[y]) - 1
+		|| x >= ft_strlen(map[y - 1]) || x >= ft_strlen(map[y + 1])
+		|| !ft_strchr(POSSIBLE, map[y - 1][x]) || !ft_strchr(POSSIBLE, map[y + 1][x])
+		|| !ft_strchr(POSSIBLE, map[y][x + 1]) || !ft_strchr(POSSIBLE, map[y][x - 1]))
+        return (false);
+	return (true);
+}
+//WRONG CHAR
+bool	map_check(t_data *data)
+{
+	int	y;
+	int	x;
+	int	count;
+	
+	y = 0;
+	count = 0;
+	while (data->map[y])
+	{
+		if (!is_allowed(data->map[y]))
+			return (error("Invalid character in map"));
+		x = 0;
+		while (data->map[y][x])
+		{
+			if (ft_strchr("0NESW", data->map[y][x]))
+			{
+				if (!is_enclosed(data->map, y, x))
+					return (error("Map not enclosed"));
+			}
+			if (ft_strchr("NESW", data->map[y][x]))
+				count++;
+			x++;
+		}
+		y++;
+	}
+	if (count != 1)
+		return (error("Invalid player"));
 	return (true);
 }

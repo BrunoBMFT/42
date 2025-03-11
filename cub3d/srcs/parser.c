@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/07 18:33:52 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/11 00:49:55 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,19 @@ bool	check_paths(t_data *data)
 	return (true);
 }
 
-bool	save_texture_path(t_data *data)//check for duplicates?
+bool	path_already_saved(t_data *data, char *temp)
+{
+	if ((!ft_strncmp("NO", temp, 2) && data->p_north) ||
+		(!ft_strncmp("EA", temp, 2) && data->p_east) ||
+		(!ft_strncmp("SO", temp, 2) && data->p_south) ||
+		(!ft_strncmp("WE", temp, 2) && data->p_west) ||
+		(!ft_strncmp("F", temp, 1) && data->c_floor) ||
+		(!ft_strncmp("C", temp, 1) && data->c_ceiling))
+		return (true);
+	return (false);
+}
+
+bool	save_texture_path(t_data *data)
 {
 	int		i;
 	char	*temp;
@@ -90,17 +102,19 @@ bool	save_texture_path(t_data *data)//check for duplicates?
 	while (data->file[i])
 	{
 		temp = data->file[i];
-		if (ft_strncmp("NO", temp, 2) == 0)
+		if (path_already_saved(data, temp))
+			return (error("Duplicate paths"));
+		if (!ft_strncmp("NO", temp, 2))
 			data->p_north = ft_strtrim(temp + 3, " \t");
-		else if (ft_strncmp("EA", temp, 2) == 0)
+		else if (!ft_strncmp("EA", temp, 2))
 			data->p_east = ft_strtrim(temp + 3, " \t");
-		else if (ft_strncmp("SO", temp, 2) == 0)
+		else if (!ft_strncmp("SO", temp, 2))
 			data->p_south = ft_strtrim(temp + 3, " \t");
-		else if (ft_strncmp("WE", temp, 2) == 0)
+		else if (!ft_strncmp("WE", temp, 2))
 			data->p_west = ft_strtrim(temp + 3, " \t");
-		else if (ft_strncmp("F", temp, 1) == 0)
+		else if (!ft_strncmp("F", temp, 1))
 			data->c_floor = ft_strtrim(temp + 3, " \t");
-		else if (ft_strncmp("C", temp, 1) == 0)
+		else if (!ft_strncmp("C", temp, 1))
 			data->c_ceiling = ft_strtrim(temp + 3, " \t");
 		i++;
 	}
@@ -122,6 +136,8 @@ bool	parser(int ac, char **av, t_data *data)
 	if (!save_texture_path(data))
 		return (false);
 	if (!save_map(data))
+		return (false);
+	if (!map_check(data))
 		return (false);
 	return (true);
 }
