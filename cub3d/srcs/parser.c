@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/11 17:58:54 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/17 21:37:49 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,35 @@ bool	path_already_saved(t_data *data, char *temp)
 	return (false);
 }
 
-bool	save_texture_path(t_data *data)
+bool	texture_char_check(char *color)// TODO check limits and commas
+{
+	int	i;
+
+	i = 0;
+	while (color[i])
+	{
+		if (!ft_strchr("0123456789,", color[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+bool	texture_check(t_data *data)
+{
+	int	i;
+
+	if (!data->p_north || !data->p_east || !data->p_south
+		|| !data->p_west || !data->c_floor || !data->c_ceiling)//put this in texture check
+		return (error("Missing info"));
+	if (!*data->c_ceiling || !*data->c_floor)
+		return (error("Missing info"));
+	if (!texture_char_check(data->c_ceiling) || !texture_char_check(data->c_floor))
+		return (error("Invalid colors"));
+	return (true);
+}
+
+bool	save_texture_path(t_data *data)//if the string ends, it invalid reads
 {
 	int		i;
 
@@ -103,23 +131,20 @@ bool	save_texture_path(t_data *data)
 		if (path_already_saved(data, data->file[i]))
 			return (error("Duplicate paths"));
 		if (!ft_strncmp("NO", data->file[i], 2))
-			data->p_north = ft_strtrim(data->file[i] + 3, " \t");
+			data->p_north = ft_strtrim(data->file[i] + 2, " \t");
 		else if (!ft_strncmp("EA", data->file[i], 2))
-			data->p_east = ft_strtrim(data->file[i] + 3, " \t");
+			data->p_east = ft_strtrim(data->file[i] + 2, " \t");
 		else if (!ft_strncmp("SO", data->file[i], 2))
-			data->p_south = ft_strtrim(data->file[i] + 3, " \t");
+			data->p_south = ft_strtrim(data->file[i] + 2, " \t");
 		else if (!ft_strncmp("WE", data->file[i], 2))
-			data->p_west = ft_strtrim(data->file[i] + 3, " \t");
+			data->p_west = ft_strtrim(data->file[i] + 2, " \t");
 		else if (!ft_strncmp("F", data->file[i], 1))
-			data->c_floor = ft_strtrim(data->file[i] + 3, " \t");
+			data->c_floor = ft_strtrim(data->file[i] + 1, " \t");
 		else if (!ft_strncmp("C", data->file[i], 1))
-			data->c_ceiling = ft_strtrim(data->file[i] + 3, " \t");
+			data->c_ceiling = ft_strtrim(data->file[i] + 1, " \t");
 		i++;
 	}
-	if (!data->p_north || !data->p_east || !data->p_south
-		|| !data->p_west || !data->c_floor || !data->c_ceiling)
-		return (error("Missing info"));
-	return (check_paths(data));
+	return (true);
 }
 
 bool	parser(int ac, char **av, t_data *data)
@@ -130,6 +155,8 @@ bool	parser(int ac, char **av, t_data *data)
 	if (!save_file(data, av[1]))
 		return (false);
 	if (!save_texture_path(data))
+		return (false);
+	if (!texture_check(data))
 		return (false);
 	if (!save_map(data))
 		return (false);
