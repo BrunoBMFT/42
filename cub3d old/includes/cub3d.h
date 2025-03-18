@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/02/11 13:05:35 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/18 17:33:20 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define POSSIBLE "01NESW "
 # define SCALE 50
 # define WHITE 16777215
-# define BACK 8421504
+# define BLACK 8421504
 # define RED 16711680
 # define GREEN 65280
 # define BLUE 255

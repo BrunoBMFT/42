@@ -6,23 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/17 21:37:49 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/18 17:02:00 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-void	init_parser(t_data *data)
-{
-	data->file = NULL;
-	data->map = NULL;
-	data->p_north = NULL;
-	data->p_east = NULL;
-	data->p_south = NULL;
-	data->p_west = NULL;
-	data->c_floor = NULL;
-	data->c_ceiling = NULL;
-}
 
 bool	name_check(int ac, char **av)
 {
@@ -112,7 +100,7 @@ bool	texture_check(t_data *data)
 	int	i;
 
 	if (!data->p_north || !data->p_east || !data->p_south
-		|| !data->p_west || !data->c_floor || !data->c_ceiling)//put this in texture check
+		|| !data->p_west || !data->c_floor || !data->c_ceiling)
 		return (error("Missing info"));
 	if (!*data->c_ceiling || !*data->c_floor)
 		return (error("Missing info"));
@@ -121,7 +109,7 @@ bool	texture_check(t_data *data)
 	return (true);
 }
 
-bool	save_texture_path(t_data *data)//if the string ends, it invalid reads
+bool	save_texture_path(t_data *data)
 {
 	int		i;
 
@@ -149,7 +137,6 @@ bool	save_texture_path(t_data *data)//if the string ends, it invalid reads
 
 bool	parser(int ac, char **av, t_data *data)
 {
-	init_parser(data);
 	if (!name_check(ac, av))
 		return (false);
 	if (!save_file(data, av[1]))
@@ -162,5 +149,6 @@ bool	parser(int ac, char **av, t_data *data)
 		return (false);
 	if (!map_check(data))
 		return (false);
+	//free file
 	return (true);
 }
