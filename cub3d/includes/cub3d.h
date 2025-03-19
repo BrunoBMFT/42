@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/18 17:33:38 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/19 02:47:22 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 # include <X11/X.h>
 
 # define POSSIBLE "01NESW"
+# define SCALE 30
 # define WHITE 16777215
 # define GREY 4210752
+# define GREEN 65280
 
 //header for structs
 typedef struct s_img

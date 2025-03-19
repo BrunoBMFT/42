@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/18 18:21:48 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/19 02:47:32 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,12 @@ int	input(int keysym, t_data *data)
 {
 	if (keysym == XK_Escape){	
 		clean_everything(data);
-		printf("exit escape\n");
 		exit(0);
 	}
 	return (0);
 }
 
-
-void	put_pixel(t_img *img, int y, int x, int color)
+void	put_pixel(t_img *img, int y, int x, int color)//put a limit for size? like if (y > win_width)
 {
 	char	*offset;
 
@@ -34,26 +32,22 @@ void	put_pixel(t_img *img, int y, int x, int color)
 void	loop_map(t_data *data, int y, int x, int color)
 {
 	int	i = 0;
-	while (i < 5)
+	while (i < SCALE)
 	{
 		int j = 0;
-		while (j < 5)
+		while (j < SCALE)
 		{
 			//find better way for pixels, maybe make the scale onto put_pixel itself?
-			put_pixel(&data->frame, (y * 5) + i, (x * 5) + j, color);
-			j++;	
+			put_pixel(&data->frame, (y * SCALE) + i, (x * SCALE) + j, color);
+			j++;
 		}
 		i++;
 	}
 }
 
-void	create_map_pixel(t_data *data, int y, int x)
+void	draw_player(t_data *data, int y, int x)
 {
-	if (data->map[y][x] == '1')
-		loop_map(data, y, x, WHITE);
-
-	if (data->map[y][x] == '0')
-		loop_map(data, y, x, GREY);
+	put_pixel(&data->frame, y * SCALE, x * SCALE, GREEN);
 }
 
 void	create_map(t_data *data)
@@ -64,7 +58,12 @@ void	create_map(t_data *data)
 		int x = 0;
 		while (data->map[y][x])
 		{
-			create_map_pixel(data, y, x);
+			if (data->map[y][x] == '1')
+				loop_map(data, y, x, WHITE);
+			else if (data->map[y][x] == '0')
+				loop_map(data, y, x, GREY);
+			else if (ft_strchr("NESW", data->map[y][x]))
+				draw_player(data, y, x);
 			x++;
 		}
 		y++;
