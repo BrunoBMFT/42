@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/19 02:47:22 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/19 15:37:03 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define WHITE 16777215
 # define GREY 4210752
 # define GREEN 65280
+
+# define PI 3.14159265358979323846
 
 //header for structs
 typedef struct s_img

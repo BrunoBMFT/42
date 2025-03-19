@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/19 02:47:32 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/19 18:50:29 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,53 @@ void	loop_map(t_data *data, int y, int x, int color)
 	}
 }
 
-void	draw_player(t_data *data, int y, int x)
+float	rad(int deg)
 {
-	put_pixel(&data->frame, y * SCALE, x * SCALE, GREEN);
+	return (deg * PI / 180);
+}
+
+void	draw_player(t_data *data, int d_y, int d_x)
+{
+	d_y = d_y * SCALE;
+	d_x = d_x * SCALE;
+	//pixel
+	put_pixel(&data->frame, d_y, d_x, GREEN);
+
+	//draw a line
+	//while loop starting where player is, and runs until y has changed by 1
+	int angle = 90;
+	float f_y = (float)d_y;
+	float f_x = (float)d_x;
+	printf("y: %.2f\n", f_y);
+	printf("x: %.2f\n", f_x);
+	float desty = f_y - 1 * SCALE;// this is + 30
+	printf("dy: %.4f\n", desty);
+	float destx = f_y + 1 * SCALE / tan(rad(angle));
+	printf("dx: %.4f\n", destx);
+	while (f_y > desty)//find another way for this loop
+	{
+		put_pixel(&data->frame, (int)f_y, (int)f_x, GREEN);
+		f_y -= 1;
+		f_x += 1 / tan(rad(angle));
+	}
+
+	
+	// angle = 20;
+	// f_y = (float)d_y;
+	// f_x = (float)d_x;
+	// printf("y: %.2f\n", f_y);
+	// printf("x: %.2f\n", f_x);
+	// desty = f_y + 1 * SCALE;// this is + 30
+	// printf("dy: %.4f\n", desty);
+	// destx = f_y + 1 * SCALE / tan(rad(angle));
+	// printf("dx: %.4f\n", destx);
+	// while (f_y < desty)
+	// {
+	// 	put_pixel(&data->frame, (int)f_y, (int)f_x, GREEN);
+	// 	f_y += 1;
+	// 	f_x += 1  / tan(rad(angle));
+	// }
+	
 }
 
 void	create_map(t_data *data)
