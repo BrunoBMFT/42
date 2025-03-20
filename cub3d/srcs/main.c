@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/19 18:50:29 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/20 20:54:50 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,24 @@ void	draw_player(t_data *data, int d_y, int d_x)
 
 	//draw a line
 	//while loop starting where player is, and runs until y has changed by 1
-	int angle = 90;
+	int angle = 90;//
 	float f_y = (float)d_y;
 	float f_x = (float)d_x;
 	printf("y: %.2f\n", f_y);
 	printf("x: %.2f\n", f_x);
-	float desty = f_y - 1 * SCALE;// this is + 30
-	printf("dy: %.4f\n", desty);
-	float destx = f_y + 1 * SCALE / tan(rad(angle));
-	printf("dx: %.4f\n", destx);
+
+	float desty;
+	float destx;
+	if (angle > 90 && angle < 180)//more checks xD
+	{
+		desty = f_y - 1 * SCALE;// this is + 30
+		printf("dy: %.4f\n", desty);
+		destx = f_y + 1 * SCALE / tan(rad(angle));
+		printf("dx: %.4f\n", destx);
+	}
 	while (f_y > desty)//find another way for this loop
 	{
-		put_pixel(&data->frame, (int)f_y, (int)f_x, GREEN);
+		// put_pixel(&data->frame, (int)f_y, (int)f_x, GREEN);
 		f_y -= 1;
 		f_x += 1 / tan(rad(angle));
 	}
@@ -107,7 +113,8 @@ void	create_map(t_data *data)
 			else if (data->map[y][x] == '0')
 				loop_map(data, y, x, GREY);
 			else if (ft_strchr("NESW", data->map[y][x]))
-				draw_player(data, y, x);
+				put_pixel(&data->frame, y * SCALE, x * SCALE, GREEN);
+				// draw_player(data, y, x);
 			x++;
 		}
 		y++;

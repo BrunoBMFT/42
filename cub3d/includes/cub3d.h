@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/19 15:37:03 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/20 20:55:34 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <X11/X.h>
 
 # define POSSIBLE "01NESW"
-# define SCALE 30
+# define SCALE 70
 # define WHITE 16777215
 # define GREY 4210752
 # define GREEN 65280
