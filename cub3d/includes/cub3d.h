@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/21 19:35:21 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/22 18:51:41 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@
 # include <X11/X.h>
 
 # define POSSIBLE "01NESW"
-# define SCALE 30
+# define SCALE 15
 # define WHITE 16777215
 # define GREY 4210752
+# define CEILING 8355711
+# define FLOOR 2171169
 # define GREEN 65280
+# define RED 16711680
 
 # define PI 3.14159265358979323846
 
@@ -41,11 +44,13 @@ typedef struct s_img
 
 typedef struct	s_data
 {
-	void	*mlx;
-	void	*win;
-	int		win_height;
-	int		win_width;
+	void		*mlx;
+	void		*win;
+	int			win_height;
+	int			win_width;
 	
+	int	p_y;
+	int	p_x;
 	t_img	frame;
 	t_img	north;
 	t_img	east;
