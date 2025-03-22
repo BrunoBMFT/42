@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/21 19:37:10 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/22 01:42:56 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ void	put_pixel(t_img *img, int y, int x, int color)//put a limit for size? like 
 {
 	char	*offset;
 
+	// if (y < 0 || y > img->height || x < 0 || x > img->width){
+	// 	// printf("tried to put pixel outside image\n");
+	// 	return ;
+	// }
 	offset = img->addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)offset = color;
 }
@@ -86,16 +90,15 @@ void	draw_ray(t_data *data, int d_y, int d_x, int angle)
 	//draw ray
 	int y = (int)round(f_y) / SCALE;
 	int x = (int)round(f_x) / SCALE;
-	while (data->map[y][x] != '1')//this loop will end at map[y][x] == 1
+	while (data->map[y][x] != '1')
 	{
-		y = (int)round(f_y) / SCALE;
-		x = (int)round(f_x) / SCALE;
 		put_pixel(&data->frame, (int)f_y, (int)f_x, GREEN);
+		y = (int)roundf(f_y) / SCALE;
+		x = (int)roundf(f_x) / SCALE;
 		f_y += 1 * y_dir;
+		
 		f_x += 1 * tan(rad(angle)) * x_dir;//tan 90 is infinite
 	}
-
-
 	// f_y = (float)d_y;
 	// f_x = (float)d_x;
 	// while (data->map[y][x] != '1')//this loop will end at map[y][x] == 1
@@ -105,6 +108,8 @@ void	draw_ray(t_data *data, int d_y, int d_x, int angle)
 	// 	put_pixel(&data->frame, (int)f_y, (int)f_x, GREEN);
 	// 	f_x += 1 * x_dir;
 	// 	f_y += 1 / tan(rad(angle)) * y_dir;
+		// if (f_y < 0 || f_y > data->frame.height)
+		// break ;
 	// }
 }
 
@@ -123,14 +128,14 @@ void	create_map(t_data *data)
 			else if (ft_strchr("NESW", data->map[y][x]))
 			{
 				put_pixel(&data->frame, y * SCALE, x * SCALE, GREEN);
-				draw_ray(data, y, x, 87);
-				// int i = 0;
-				// while (i < 360)
-				// {
-				// 	if (i % 90)
-				// 		draw_ray(data, y, x, i);
-				// 	i++;
-				// }
+				// draw_ray(data, y, x, 90);
+				int i = 0;
+				while (i < 360)
+				{
+					if (i % 90)
+						draw_ray(data, y, x, i);
+					i++;
+				}
 			}
 			x++;
 		}
