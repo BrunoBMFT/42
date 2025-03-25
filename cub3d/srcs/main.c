@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/22 18:53:21 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/25 20:41:56 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,25 +80,28 @@ float	rad(int deg)
 
 void	draw_wall_section(t_data *data, float hyp, int angle)
 {
-	// int fov = 60;
-	// int curr = 35;
-	int section_start = data->win_width / 2;
-	int section_end = data->win_width / 2 + data->win_width / 60;
-	printf("start %d end %d\n", section_start, section_end);
+	//section start and end need to be calculated using the angle that was sent
+	int section_start = data->win_width / 2 + angle * 20;
+	int section_end = data->win_width / 2 + angle * 20 + data->win_width / 64;
 	int x = 0;
+	hyp = hyp * -1;//to test, will put hyp to positive
 	while (x + section_start < section_end)
 	{
-		int y = 0;
-		while (y < data->win_height)
+		int line_size = data->win_height - (int)hyp;//roundf?
+		int start = 0;
+		//have it centered
+		while (start < line_size / 2)
 		{
-			put_pixel(&data->frame, y, x + section_start, RED);
-			y++;
+			put_pixel(&data->frame, start, x + section_start, RED);
+			start++;
 		}
 		x++;
 	}
 }
-
-void	draw_single_ray(t_data *data, int d_y, int d_x, int angle)
+//seems like its not giving the correct results
+//starting from angle 0, the difference between each distance should be increasing
+//it doesnt seem to do that, maybe fabs will help?
+float	draw_single_ray(t_data *data, int d_y, int d_x, int angle)
 {
 	d_y = d_y * SCALE;
 	d_x = d_x * SCALE;
@@ -112,6 +115,10 @@ void	draw_single_ray(t_data *data, int d_y, int d_x, int angle)
 	int y_dir;
 	int x_dir;
 	//dont forget loops or negatives
+	while (angle < 0)
+		angle += 360;
+	while (angle >= 360)
+		angle -= 360;
 	if (angle >= 0 && angle <= 90)
 	{
 		y_dir = -1;
@@ -158,21 +165,53 @@ void	draw_single_ray(t_data *data, int d_y, int d_x, int angle)
 	//all i need if the hypotenuse, with that, i just draw like that.
 	//still need to learn the theorem or whatever it is
 
+	return (hyp);
 	draw_wall_section(data, hyp, angle);
 }
 
 void	draw_rays(t_data *data)
 {
-	draw_single_ray(data, data->p_y, data->p_x, 5);
-	// draw_single_ray(data, data->p_y, data->p_x, 10);
-	// draw_single_ray(data, data->p_y, data->p_x, 15);
-	// int i = 0;
-	// while (i < 360)
-	// {
-	// 	if (i % 10 == 0)
-	// 		draw_single_ray(data, data->p_y, data->p_x, i);
-	// 	i++;
-	// }
+	int fov = 64;
+
+	int i = 0 - fov / 2;
+	while (i < fov / 2)
+	{
+		float hyp = draw_single_ray(data, data->p_y, data->p_x, i);
+		if (i >= 0)
+			printf("%.2f\n", hyp);
+		i++;
+	}
+	printf("rays drawn in map %d\n", i + fov / 2);
+
+
+
+	int section = data->win_width / fov;
+	printf("sections %d\n", section);
+	i = data->win_width / 2;
+	int count = 0;
+	while (i < data->win_width)
+	{
+		if (i % section == 0 && i > data->win_width / 2)
+		{
+			float hyp = draw_single_ray(data, data->p_y, data->p_x, count);//angle wrong
+			printf("%.2f\n", hyp);
+			draw_wall_section(data, hyp, count);
+			count++;
+			int j = 0;
+			while (j < data->win_height)
+			{
+				put_pixel(&data->frame, j, i, RED);
+				j++;
+			}
+		}
+		i++;
+	}
+	printf("sections counted %d\n", count);
+	//should be half of rays drawn since we are starting midway
+
+	
+	// draw_single_ray(data, data->p_y, data->p_x, 5);
+
 }
 
 void	create_background(t_data *data)//handle the colors here
