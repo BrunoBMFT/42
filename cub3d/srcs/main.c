@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/25 20:41:56 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/26 17:51:55 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,24 @@ float	rad(int deg)
 	return (deg * PI / 180);
 }
 
-void	draw_wall_section(t_data *data, float hyp, int angle)
+
+//  (screenwidth / 2 * )   hyp  / tan(rad(fov))
+// ! do 3 calcs by hand with with fov 64 from center to check if it is correct 
+
+void	draw_wall_section(t_data *data, float hyp, int angle)//wall division
 {
 	//section start and end need to be calculated using the angle that was sent
-	int section_start = data->win_width / 2 + angle * 20;
+	int section_start = data->win_width / 2 + angle * 20;// *20 because of fov, each section is 20
 	int section_end = data->win_width / 2 + angle * 20 + data->win_width / 64;
 	int x = 0;
-	hyp = hyp * -1;//to test, will put hyp to positive
 	while (x + section_start < section_end)
 	{
-		int line_size = data->win_height - (int)hyp;//roundf?
+		int line_size = data->win_height - (int)hyp;
 		int start = 0;
 		//have it centered
+
+		// float height = hyp / tan(rad(angle));
+		// printf("%.2f\n", height);
 		while (start < line_size / 2)
 		{
 			put_pixel(&data->frame, start, x + section_start, RED);
@@ -98,9 +104,8 @@ void	draw_wall_section(t_data *data, float hyp, int angle)
 		x++;
 	}
 }
-//seems like its not giving the correct results
-//starting from angle 0, the difference between each distance should be increasing
-//it doesnt seem to do that, maybe fabs will help?
+
+//rename
 float	draw_single_ray(t_data *data, int d_y, int d_x, int angle)
 {
 	d_y = d_y * SCALE;
@@ -151,23 +156,21 @@ float	draw_single_ray(t_data *data, int d_y, int d_x, int angle)
 		if ((angle > 45 && angle < 135) || (angle > 225 && angle < 315))
 		{
 			f_x += 1 * x_dir;
-			f_y += 1 / tan(rad(angle)) * y_dir;//tan 90 is infinite
+			f_y += 1 / tan(rad(angle)) * y_dir;
 		}
 		else
 		{
 			f_y += 1 * y_dir;
-			f_x += 1 * tan(rad(angle)) * x_dir;//tan 90 is infinite
+			f_x += 1 * tan(rad(angle)) * x_dir;
 		}
 	}
-	float hyp = (ori_x - f_x) / sin(rad(angle));
-	// printf("%.4f\n", hyp);
-	//i have the original coordinates, the new coordinates and the angle
-	//all i need if the hypotenuse, with that, i just draw like that.
-	//still need to learn the theorem or whatever it is
+	float dif_y = ori_y - f_y, dif_x = ori_x - f_x;
+	float hyp = sqrt((dif_y * dif_y) + (dif_x * dif_x));
+	// printf("y %.2f, x %.2f hyp %.2f\n", dif_y, dif_x, hyp);
 
 	return (hyp);
-	draw_wall_section(data, hyp, angle);
 }
+
 
 void	draw_rays(t_data *data)
 {
@@ -176,17 +179,12 @@ void	draw_rays(t_data *data)
 	int i = 0 - fov / 2;
 	while (i < fov / 2)
 	{
-		float hyp = draw_single_ray(data, data->p_y, data->p_x, i);
-		if (i >= 0)
-			printf("%.2f\n", hyp);
+		// float hyp = draw_single_ray(data, data->p_y, data->p_x, i);
 		i++;
 	}
-	printf("rays drawn in map %d\n", i + fov / 2);
-
 
 
 	int section = data->win_width / fov;
-	printf("sections %d\n", section);
 	i = data->win_width / 2;
 	int count = 0;
 	while (i < data->win_width)
@@ -194,19 +192,18 @@ void	draw_rays(t_data *data)
 		if (i % section == 0 && i > data->win_width / 2)
 		{
 			float hyp = draw_single_ray(data, data->p_y, data->p_x, count);//angle wrong
-			printf("%.2f\n", hyp);
-			draw_wall_section(data, hyp, count);
-			count++;
+			draw_wall_section(data, hyp, i);
 			int j = 0;
 			while (j < data->win_height)
 			{
 				put_pixel(&data->frame, j, i, RED);
 				j++;
 			}
+			count++;
 		}
 		i++;
 	}
-	printf("sections counted %d\n", count);
+	// printf("sections counted %d\n", count);
 	//should be half of rays drawn since we are starting midway
 
 	

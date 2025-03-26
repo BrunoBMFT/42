@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/25 20:23:44 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/26 16:58:22 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct	s_data
 	int			win_height;
 	int			win_width;
 	
-	int	p_y;
-	int	p_x;
+	int	p_y;//float
+	int	p_x;//float
 	t_img	frame;
 	t_img	north;
 	t_img	east;
