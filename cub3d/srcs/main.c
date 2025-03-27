@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/27 20:16:59 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/27 20:17:59 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,11 +174,13 @@ float	find_distance(t_data *data, int angle)
 	
 	return (hyp);
 }
-//has to be opposite. closer things are bigger
+
 void	draw_wall_section(t_data *data, float hyp, int angle, int i)
 {
 	// printf("angle %d, height %.4f\n", angle, hyp);
 	int height = (int)"something";//yay fuck this stupid code
+	//need to revert the height graph, basically has to be opposite.
+	//closer things are bigger on screen
 	int top = (data->win_height / 2) + (height / 2);
 	int bot = (data->win_height / 2) - (height / 2);
 	while (top < bot)
