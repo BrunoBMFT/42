@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/26 16:58:22 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/27 18:43:42 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct	s_data
 	int			win_height;
 	int			win_width;
 	
-	int	p_y;//float
-	int	p_x;//float
+	float	p_y;
+	float	p_x;
 	t_img	frame;
 	t_img	north;
 	t_img	east;
@@ -76,6 +76,15 @@ bool	map_check(t_data *data);
 
 //init
 bool	init(int ac, char **av, t_data *data);
+
+//minimap
+void	create_map(t_data *data);
+
+//img
+void	put_pixel(t_img *img, int y, int x, int color);
+
+//input
+int	input(int keysym, t_data *data);
 
 //errors
 bool	error(char *str);

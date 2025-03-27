@@ -6,72 +6,11 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/26 17:51:55 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/27 20:14:19 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-int	input(int keysym, t_data *data)
-{
-	if (keysym == XK_Escape){	
-		clean_everything(data);
-		exit(0);
-	}
-	return (0);
-}
-
-void	put_pixel(t_img *img, int y, int x, int color)//put a limit for size? like if (y > win_width)
-{
-	char	*offset;
-
-	// if (y < 0 || y > img->height || x < 0 || x > img->width){
-	// 	// printf("tried to put pixel outside image\n");
-	// 	return ;
-	// }
-	offset = img->addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)offset = color;
-}
-
-void	loop_map(t_data *data, int y, int x, int color)
-{
-	int	i = 0;
-	while (i < SCALE)
-	{
-		int j = 0;
-		while (j < SCALE)
-		{
-			//find better way for pixels, maybe make the scale onto put_pixel itself?
-			put_pixel(&data->frame, (y * SCALE) + i, (x * SCALE) + j, color);
-			j++;
-		}
-		i++;
-	}
-}
-
-void	create_map(t_data *data)
-{
-	int	y = 0;
-	while (data->map[y])
-	{
-		int x = 0;
-		while (data->map[y][x])
-		{
-			if (data->map[y][x] == '1')
-				loop_map(data, y, x, WHITE);
-			else if (data->map[y][x] == '0')
-				loop_map(data, y, x, GREY);
-			else if (ft_strchr("NESW", data->map[y][x]))
-			{
-				put_pixel(&data->frame, y, x, GREEN);
-				data->p_y = y;
-				data->p_x = x;
-			}
-			x++;
-		}
-		y++;
-	}
-}
 
 float	rad(int deg)
 {
@@ -82,131 +21,229 @@ float	rad(int deg)
 //  (screenwidth / 2 * )   hyp  / tan(rad(fov))
 // ! do 3 calcs by hand with with fov 64 from center to check if it is correct 
 
-void	draw_wall_section(t_data *data, float hyp, int angle)//wall division
-{
-	//section start and end need to be calculated using the angle that was sent
-	int section_start = data->win_width / 2 + angle * 20;// *20 because of fov, each section is 20
-	int section_end = data->win_width / 2 + angle * 20 + data->win_width / 64;
-	int x = 0;
-	while (x + section_start < section_end)
-	{
-		int line_size = data->win_height - (int)hyp;
-		int start = 0;
-		//have it centered
+// void	draw_wall_section(t_data *data, float hyp, int angle)//wall division
+// {
+// 	//section start and end need to be calculated using the angle that was sent
+// 	int section_start = data->win_width / 2 + angle * 20;// *20 because of fov, each section is 20
+// 	int section_end = data->win_width / 2 + angle * 20 + data->win_width / 64;
+// 	int x = 0;
+// 	while (x + section_start < section_end)
+// 	{
+// 		int line_size = data->win_height - (int)hyp;
+// 		int start = 0;
+// 		//have it centered
+// 		// float height = hyp / tan(rad(angle));
+// 		// printf("%.2f\n", height);
+// 		while (start < line_size / 2)
+// 		{
+// 			put_pixel(&data->frame, start, x + section_start, RED);
+// 			start++;
+// 		}
+// 		x++;
+// 	}
+// }
 
-		// float height = hyp / tan(rad(angle));
-		// printf("%.2f\n", height);
-		while (start < line_size / 2)
+// //rename
+// float	draw_single_ray(t_data *data, int d_y, int d_x, int angle)
+// {
+// 	d_y = d_y * SCALE;
+// 	d_x = d_x * SCALE;
+// 	float f_y = (float)d_y;
+// 	float f_x = (float)d_x;
+// 	float ori_y = f_y;
+// 	float ori_x = f_x;
+// 	//decide direction
+// 	int y_dir;
+// 	int x_dir;
+// 	//dont forget loops or negatives
+// 	while (angle < 0)
+// 		angle += 360;
+// 	while (angle >= 360)
+// 		angle -= 360;
+// 	if (angle >= 0 && angle <= 90)
+// 	{
+// 		y_dir = -1;
+// 		x_dir = 1;
+// 	}
+// 	if (angle > 90 && angle <= 180)
+// 	{
+// 		y_dir = 1;
+// 		x_dir = -1;
+// 	}
+// 	if (angle > 180 && angle <= 270)
+// 	{
+// 		y_dir = 1;
+// 		x_dir = -1;
+// 	}
+// 	if (angle > 270 && angle <= 360)
+// 	{
+// 		y_dir = -1;
+// 		x_dir = 1;
+// 	}
+// 	//draw ray
+// 	int y = (int)round(f_y) / SCALE;
+// 	int x = (int)round(f_x) / SCALE;
+// 	while (data->map[y][x] != '1')
+// 	{
+// 		put_pixel(&data->frame, (int)f_y, (int)f_x, GREEN);
+// 		y = (int)round(f_y) / SCALE;
+// 		x = (int)round(f_x) / SCALE;
+// 		if ((angle > 45 && angle < 135) || (angle > 225 && angle < 315))
+// 		{
+// 			f_x += 1 * x_dir;
+// 			f_y += 1 / tan(rad(angle)) * y_dir;
+// 		}
+// 		else
+// 		{
+// 			f_y += 1 * y_dir;
+// 			f_x += 1 * tan(rad(angle)) * x_dir;
+// 		}
+// 	}
+// 	float dif_y = ori_y - f_y, dif_x = ori_x - f_x;
+// 	float hyp = sqrt((dif_y * dif_y) + (dif_x * dif_x));
+// 	// printf("y %.2f, x %.2f hyp %.2f\n", dif_y, dif_x, hyp);
+// 	return (hyp);
+// }
+
+void	angle_dirs(int *angle, int *y_dir, int *x_dir)
+{
+	while (*angle < 0)
+		*angle += 360;
+	while (*angle >= 360)
+		*angle -= 360;
+	if (*angle >= 0 && *angle <= 90)
+	{
+		*y_dir = -1;
+		*x_dir = 1;
+	}
+	if (*angle > 90 && *angle <= 180)
+	{
+		*y_dir = 1;
+		*x_dir = -1;
+	}
+	if (*angle > 180 && *angle <= 270)
+	{
+		*y_dir = 1;
+		*x_dir = -1;
+	}
+	if (*angle > 270 && *angle <= 360)
+	{
+		*y_dir = -1;
+		*x_dir = 1;
+	}
+	// printf("dir y %d, dir x %d\n", *y_dir, *x_dir);
+}
+
+float	find_distance(t_data *data, int angle)
+{
+	int y_dir;
+	int x_dir;
+	
+	
+	float ori_y = data->p_y * SCALE;//origin
+	float ori_x = data->p_x * SCALE;
+	float y = ori_y;//moves through map
+	float x = ori_x;
+	
+	angle_dirs(&angle, &y_dir, &x_dir);
+	// todo depending on direction of ray, it can be one more pixel to any side (intercheck)
+	
+
+	int map_y = floor (y / SCALE);//coord in map
+	int map_x = floor (x / SCALE);
+		
+	float y_step = 1 * y_dir;
+	float x_step = 1 * tan(rad(angle)) * x_dir;
+	//check for y = 0, x = 0, outside map
+	while (data->map[map_y] && data->map[map_y][map_x] && data->map[map_y][map_x] != '1')
+	{
+		put_pixel(&data->frame, y, x, GREEN);
+		//with angle -32, y needs to be y-2 for the distance fo be correct
+		map_y = floor (y / SCALE);
+		map_x = floor (x  / SCALE);
+		y += y_step;//its going to high up for some reason
+		x += x_step;
+	}
+	float dif_y = ori_y - y, dif_x = ori_x - x;
+	float hyp = sqrt(pow(dif_y, 2) + pow(dif_x, 2));
+
+	// printf("angle     %d\n", angle);
+	// printf("origin y  %.2f\norigin x  %.2f\n", ori_y, ori_x);
+	// printf("now y     %.2f\nnow x     %.2f\n", y, x);
+	// printf("diff y    %.2f\ndiff x    %.2f\n", dif_y, dif_x);
+	
+	return (hyp);
+}
+//has to be opposite. closer things are bigger
+void	draw_wall_section(t_data *data, float hyp, int angle, int i)
+{
+	// printf("angle %d, height %.4f\n", angle, hyp);
+	int height = (int)"something";//yay fuck this stupid code
+	int x = 0;
+	while (x < 10)
+	{
+		int y = 0;
+		while (y < height)
 		{
-			put_pixel(&data->frame, start, x + section_start, RED);
-			start++;
+			put_pixel(&data->frame, y, x + i, RED);
+			y++;
 		}
 		x++;
 	}
+
 }
 
-//rename
-float	draw_single_ray(t_data *data, int d_y, int d_x, int angle)
+void	draw_rays(t_data *data)//rename
 {
-	d_y = d_y * SCALE;
-	d_x = d_x * SCALE;
-
-	float f_y = (float)d_y;
-	float f_x = (float)d_x;
-	float ori_y = f_y;
-	float ori_x = f_x;
-
-	//decide direction
-	int y_dir;
-	int x_dir;
-	//dont forget loops or negatives
-	while (angle < 0)
-		angle += 360;
-	while (angle >= 360)
-		angle -= 360;
-	if (angle >= 0 && angle <= 90)
-	{
-		y_dir = -1;
-		x_dir = 1;
-	}
-	if (angle > 90 && angle <= 180)
-	{
-		y_dir = 1;
-		x_dir = -1;
-	}
-	if (angle > 180 && angle <= 270)
-	{
-		y_dir = 1;
-		x_dir = -1;
-	}
-	if (angle > 270 && angle <= 360)
-	{
-		y_dir = -1;
-		x_dir = 1;
-	}
-	
-	//draw ray
-	int y = (int)round(f_y) / SCALE;
-	int x = (int)round(f_x) / SCALE;
-	while (data->map[y][x] != '1')
-	{
-		put_pixel(&data->frame, (int)f_y, (int)f_x, GREEN);
-		y = (int)round(f_y) / SCALE;
-		x = (int)round(f_x) / SCALE;
-		if ((angle > 45 && angle < 135) || (angle > 225 && angle < 315))
-		{
-			f_x += 1 * x_dir;
-			f_y += 1 / tan(rad(angle)) * y_dir;
-		}
-		else
-		{
-			f_y += 1 * y_dir;
-			f_x += 1 * tan(rad(angle)) * x_dir;
-		}
-	}
-	float dif_y = ori_y - f_y, dif_x = ori_x - f_x;
-	float hyp = sqrt((dif_y * dif_y) + (dif_x * dif_x));
-	// printf("y %.2f, x %.2f hyp %.2f\n", dif_y, dif_x, hyp);
-
-	return (hyp);
-}
-
-
-void	draw_rays(t_data *data)
-{
-	int fov = 64;
-
-	int i = 0 - fov / 2;
-	while (i < fov / 2)
-	{
-		// float hyp = draw_single_ray(data, data->p_y, data->p_x, i);
-		i++;
-	}
-
-
-	int section = data->win_width / fov;
-	i = data->win_width / 2;
-	int count = 0;
+	int i = data->win_width / 2;
+	int angle = -32;
 	while (i < data->win_width)
 	{
-		if (i % section == 0 && i > data->win_width / 2)
-		{
-			float hyp = draw_single_ray(data, data->p_y, data->p_x, count);//angle wrong
-			draw_wall_section(data, hyp, i);
-			int j = 0;
-			while (j < data->win_height)
-			{
-				put_pixel(&data->frame, j, i, RED);
-				j++;
-			}
-			count++;
-		}
-		i++;
+		//check that hyp is already closest intersection
+		float hyp = find_distance(data, angle);
+		draw_wall_section(data, hyp, angle, i);
+			
+		
+		
+		i += 10;//this is the player_fov degree by degree, 20
+		angle++;
+		// float hyp = draw_single_ray(data, data->p_y, data->p_x, i);//angle wrong
+		// draw_wall_section(data, hyp, i);
+		// int j = 0;
+		// while (j < data->win_height)
+		// {
+		// 	put_pixel(&data->frame, j, i, RED);
+		// 	j++;
+		// }
+		// i++;
 	}
-	// printf("sections counted %d\n", count);
-	//should be half of rays drawn since we are starting midway
 
 	
+	//old
+	// int fov = 64;//forget fov, use screen size
+	// int i = 0 - fov / 2;
+	// while (i < fov / 2)
+	// {
+	// 	draw_single_ray(data, data->p_y, data->p_x, i);
+	// 	i++;
+	// }
+	// int section = data->win_width / fov;
+	// i = data->win_width / 2;
+	// while (i < data->win_width)
+	// {
+	// 	if (i % section == 0 && i > data->win_width / 2)
+	// 	{
+	// 		// float hyp = draw_single_ray(data, data->p_y, data->p_x, i);//angle wrong
+	// 		// draw_wall_section(data, hyp, i);
+	// 		// int j = 0;
+	// 		// while (j < data->win_height)
+	// 		// {
+	// 		// 	put_pixel(&data->frame, j, i, RED);
+	// 		// 	j++;
+	// 		// }
+	// 	}
+	// 	i++;
+	// }	
 	// draw_single_ray(data, data->p_y, data->p_x, 5);
 
 }
@@ -232,6 +269,8 @@ void	create_background(t_data *data)//handle the colors here
 	}
 }
 
+
+
 int	main(int ac, char **av)
 {
 	t_data data;
@@ -242,6 +281,7 @@ int	main(int ac, char **av)
 	create_background(&data);
 	create_map(&data);
 	draw_rays(&data);
+
 
 	mlx_put_image_to_window(data.mlx, data.win, data.frame.img, 0, 0);
 	mlx_key_hook(data.win, input, &data);
