@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/27 20:14:19 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/27 20:16:59 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,16 +179,17 @@ void	draw_wall_section(t_data *data, float hyp, int angle, int i)
 {
 	// printf("angle %d, height %.4f\n", angle, hyp);
 	int height = (int)"something";//yay fuck this stupid code
-	int x = 0;
-	while (x < 10)
+	int top = (data->win_height / 2) + (height / 2);
+	int bot = (data->win_height / 2) - (height / 2);
+	while (top < bot)
 	{
 		int y = 0;
 		while (y < height)
 		{
-			put_pixel(&data->frame, y, x + i, RED);
+			put_pixel(&data->frame, y, top + i, RED);
 			y++;
 		}
-		x++;
+		top++;
 	}
 
 }
