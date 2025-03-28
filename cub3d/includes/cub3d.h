@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/27 18:43:42 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/28 16:39:34 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <X11/X.h>
 
 # define POSSIBLE "01NESW"
-# define SCALE 30
+# define SCALE 15
 # define WHITE 16777215
 # define GREY 4210752
 # define CEILING 8355711
@@ -79,6 +79,11 @@ bool	init(int ac, char **av, t_data *data);
 
 //minimap
 void	create_map(t_data *data);
+
+
+//test
+void	draw_rays(t_data *data);
+
 
 //img
 void	put_pixel(t_img *img, int y, int x, int color);

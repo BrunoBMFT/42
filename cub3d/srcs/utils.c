@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:49 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/27 17:04:49 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/28 16:44:14 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,7 @@ void	create_map(t_data *data)
 			else if (data->map[y][x] == '0')
 				loop_map(data, y, x, GREY);
 			else if (ft_strchr("NESW", data->map[y][x]))
-			{
 				put_pixel(&data->frame, y, x, GREEN);
-				data->p_y = y;
-				data->p_x = x;
-			}
 			x++;
 		}
 		y++;
@@ -66,6 +62,22 @@ int	input(int keysym, t_data *data)
 	if (keysym == XK_Escape){	
 		clean_everything(data);
 		exit(0);
+	}
+
+	if (keysym == 'w'){
+		data->p_y -= 1;
+		create_map(data);
+		draw_rays(data);
+		mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
+
+	}
+
+	if (keysym == 'a'){
+		data->p_x -= 1;
+		create_map(data);
+		draw_rays(data);
+		mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
+
 	}
 	return (0);
 }

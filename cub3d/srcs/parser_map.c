@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/22 17:41:51 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/28 16:40:27 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,11 @@ bool	map_check(t_data *data)
 					return (error("Map not enclosed"));
 			}
 			if (ft_strchr("NESW", data->map[y][x]))
+			{
+				data->p_y = y;
+				data->p_x = x;
 				count++;
+			}
 			x++;
 		}
 		y++;
