@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:49 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/28 17:31:19 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/28 19:08:30 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	input(int keysym, t_data *data)
 		data->p_y -= 0.5;
 		clear_img(data);
 		draw_rays(data);
+		// create_map(data);
 		mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 
 	}
@@ -105,6 +106,7 @@ int	input(int keysym, t_data *data)
 		data->p_y += 0.5;
 		clear_img(data);
 		draw_rays(data);
+		// create_map(data);
 		mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 
 	}
@@ -113,6 +115,7 @@ int	input(int keysym, t_data *data)
 		data->p_x -= 0.5;
 		clear_img(data);
 		draw_rays(data);
+		// create_map(data);
 		mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 	}
 
@@ -121,6 +124,7 @@ int	input(int keysym, t_data *data)
 		data->p_x += 0.5;
 		clear_img(data);
 		draw_rays(data);
+		// create_map(data);
 		mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 	}
 	return (0);

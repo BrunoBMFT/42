@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/28 17:31:10 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/28 19:14:53 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ float	find_distance(t_data *data, int angle)
 	//check for y = 0, x = 0, outside map
 	while (data->map[map_y] && data->map[map_y][map_x] && data->map[map_y][map_x] != '1')
 	{
-		// put_pixel(&data->frame, y, x, GREEN);
+		// put_pixel(data, y, x, GREEN);
 		//with angle -32, y needs to be y-2 for the distance fo be correct
 		map_y = floor (y / SCALE);
 		map_x = floor (x  / SCALE);

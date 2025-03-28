@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/28 17:29:17 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/28 19:15:55 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,13 @@
 # include <X11/X.h>
 
 # define POSSIBLE "01NESW"
-# define SCALE 15
+# define SCALE 30
+# define FOV 64//use this ffs
+
+
+
+
+
 # define WHITE 16777215
 # define GREY 4210752
 # define CEILING 8355711
