@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/28 19:14:53 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/31 22:00:05 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ float	rad(int deg)
 	return (deg * PI / 180);
 }
 
+//this isnt really used to its power, and is bad
 void	angle_dirs(int *angle, int *y_dir, int *x_dir)
 {
 	while (*angle < 0)
@@ -46,48 +47,53 @@ void	angle_dirs(int *angle, int *y_dir, int *x_dir)
 	// printf("dir y %d, dir x %d\n", *y_dir, *x_dir);
 }
 
+//do 2 functions, one for h inter, and one for v inters
 float	find_distance(t_data *data, int angle)
 {
-	int y_dir;
-	int x_dir;
-	
-	
-	float ori_y = data->p_y * SCALE;//origin
-	float ori_x = data->p_x * SCALE;
-	float y = ori_y;//moves through map
-	float x = ori_x;
-	
+	//decide angles and steps
+	int y_dir, x_dir;
 	angle_dirs(&angle, &y_dir, &x_dir);
+	
+	
+	float ori_y = data->p_y * SCALE, ori_x = data->p_x * SCALE;//origin
+	float y = ori_y, x = ori_x;//moves through map
+	
 	// depending on direction of ray, it can be one more pixel to any side (intercheck)
 	
 
 	int map_y = floor (y / SCALE);//coord in map
 	int map_x = floor (x / SCALE);
-		
-	float y_step = 1 * y_dir;
-	float x_step = 1 * tan(rad(angle)) * x_dir;
+
+	float y_step, x_step;
+	// y_step = 1 * y_dir;
+	// x_step = 1 * tan(rad(angle)) * x_dir;
+	if ((angle > 315 && angle < 360) || (angle > 0 || angle <= 45) ||
+		(angle > 135 && angle <= 225)){
+		y_step = 1 * y_dir;
+		x_step = 1 * tan(rad(angle)) * x_dir;
+	}
+	else if ((angle > 45 && angle <= 135) || (angle > 225 && angle <= 315)){
+		x_step = 1 * x_dir;
+		y_step = 1 / tan(rad(angle)) * y_dir;
+	}
+	
+	put_pixel(data, y, x, GREEN);
+	
 	//check for y = 0, x = 0, outside map
 	while (data->map[map_y] && data->map[map_y][map_x] && data->map[map_y][map_x] != '1')
 	{
-		// put_pixel(data, y, x, GREEN);
 		//with angle -32, y needs to be y-2 for the distance fo be correct
 		map_y = floor (y / SCALE);
 		map_x = floor (x  / SCALE);
 		y += y_step;//its going to high up for some reason
 		x += x_step;
+		put_pixel(data, y, x, GREEN);
 	}
 	float dif_y = ori_y - y, dif_x = ori_x - x;
 	float hyp = sqrt(pow(dif_y, 2) + pow(dif_x, 2));
-
-	// printf("angle     %d\n", angle);
-	// printf("origin y  %.2f\norigin x  %.2f\n", ori_y, ori_x);
-	// printf("now y     %.2f\nnow x     %.2f\n", y, x);
-	// printf("diff y    %.2f\ndiff x    %.2f\n", dif_y, dif_x);
-	
 	return (hyp);
 }
 
-//just drawing on half the screen for now
 void	draw_wall_section(t_data *data, float hyp, int angle, int i)
 {
 	float dist_to_plane = (data->win_width / 2) / tan(rad(64) / 2);
@@ -115,10 +121,12 @@ void	draw_wall_section(t_data *data, float hyp, int angle, int i)
 void	draw_rays(t_data *data)//rename
 {
 	int i = 0;
-	int angle = -32;
+	//angle related to fov
+	int angle = data->p_angle - 32;//related to facing angle
+	printf("%d\n", data->p_angle);
 	while (i < data->win_width)
 	{
-		//check that hyp is already closest intersection
+		//do a h_inter and a v_inter
 		float hyp = find_distance(data, angle);
 		draw_wall_section(data, hyp, angle, i);
 		
@@ -137,9 +145,9 @@ int	main(int ac, char **av)
 
 	if (!init(ac, av, &data))
 		return (clean_everything(&data), 1);
-
+	data.p_angle = 0;
 	create_background(&data);
-	// create_map(&data);
+	create_map(&data);
 	draw_rays(&data);
 
 

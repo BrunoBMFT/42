@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/28 19:15:55 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/31 21:31:11 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct	s_data
 	
 	float	p_y;
 	float	p_x;
+	int		p_angle;//init in player
 	t_img	frame;
 	t_img	north;
 	t_img	east;

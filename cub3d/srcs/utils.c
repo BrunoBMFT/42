@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:49 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/28 19:08:30 by bruno            ###   ########.fr       */
+/*   Updated: 2025/03/31 21:32:47 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,41 +90,30 @@ void	clear_img(t_data *data)
 
 int	input(int keysym, t_data *data)
 {
+	float step = 0.25;
 	if (keysym == XK_Escape){	
 		clean_everything(data);
 		exit(0);
 	}
-	if (keysym == 'w'){
-		data->p_y -= 0.5;
+	if (ft_strchr("wasd", keysym) || keysym == XK_Left || keysym == XK_Right)
+	{
+		if (keysym == XK_Right){
+			data->p_angle++;
+		}
+		if (keysym == XK_Left){
+			data->p_angle--;
+		}
+		if (keysym == 'w')
+			data->p_y -= step;
+		if (keysym == 's')
+			data->p_y += step;
+		if (keysym == 'a')
+			data->p_x -= step;
+		if (keysym == 'd')
+			data->p_x += step;
 		clear_img(data);
+		create_map(data);
 		draw_rays(data);
-		// create_map(data);
-		mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
-
-	}
-	if (keysym == 's'){
-		data->p_y += 0.5;
-		clear_img(data);
-		draw_rays(data);
-		// create_map(data);
-		mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
-
-	}
-
-	if (keysym == 'a'){
-		data->p_x -= 0.5;
-		clear_img(data);
-		draw_rays(data);
-		// create_map(data);
-		mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
-	}
-
-
-	if (keysym == 'd'){
-		data->p_x += 0.5;
-		clear_img(data);
-		draw_rays(data);
-		// create_map(data);
 		mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 	}
 	return (0);
