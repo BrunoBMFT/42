@@ -9,5 +9,6 @@
 		"limits": "c",
 		"*.tcc": "c",
 		"keysym.h": "c"
-	}
+	},
+	"makefile.configureOnOpen": false
 }

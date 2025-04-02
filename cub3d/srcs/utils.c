@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:49 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/31 21:32:47 by bruno            ###   ########.fr       */
+/*   Updated: 2025/04/02 16:39:49 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	put_pixel(t_data *data, int y, int x, int color)
 
 	if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)//check if its correct
 	{
+		printf("%d %d\n", y, x);
 		printf("putpixel outofbounds\n");
 		return ;
 	}
@@ -42,6 +43,21 @@ void	loop_map(t_data *data, int y, int x, int color)
 	}
 }
 
+void	loop_player(t_data *data, int color)
+{
+	int	i = 0;
+	while (i < SCALE / 4)
+	{
+		int j = 0;
+		while (j < SCALE / 4)
+		{
+			put_pixel(data, (data->p_y * SCALE) + i - 2, (data->p_x * SCALE) + j - 2, color);
+			j++;
+		}
+		i++;
+	}
+}
+
 void	create_map(t_data *data)
 {
 	int	y = 0;
@@ -52,14 +68,13 @@ void	create_map(t_data *data)
 		{
 			if (data->map[y][x] == '1')
 				loop_map(data, y, x, WHITE);
-			else if (data->map[y][x] == '0')
+			else if (data->map[y][x] == '0' || ft_strchr("NESW", data->map[y][x]))
 				loop_map(data, y, x, GREY);
-			else if (ft_strchr("NESW", data->map[y][x]))
-				put_pixel(data, y, x, GREEN);
 			x++;
 		}
 		y++;
 	}
+	loop_player(data, GREEN);
 }
 
 void	create_background(t_data *data)//handle the colors here
@@ -83,38 +98,66 @@ void	create_background(t_data *data)//handle the colors here
 	}
 }
 
-void	clear_img(t_data *data)
+void	clear_img(t_data *data)//bad lol
 {
 	create_background(data);
 }
 
-int	input(int keysym, t_data *data)
+float	rad(float deg)
+{
+	return (deg * PI / 180);
+}
+
+void	create_frame(t_data *data)
+{
+	clear_img(data);
+	raycast(data);
+	create_map(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
+}
+
+void	walk_check(t_data *data, int keysym)
 {
 	float step = 0.25;
+	float y_temp, x_temp;
+	if (keysym == 'w'){
+		y_temp = data->p_y - (step * cos(rad(data->p_angle)));
+		x_temp = data->p_x + (step * sin(rad(data->p_angle)));
+	}
+	if (keysym == 's'){
+		y_temp = data->p_y + (step * cos(rad(data->p_angle)));
+		x_temp = data->p_x - (step * sin(rad(data->p_angle)));
+	}
+	if (keysym == 'a'){
+		y_temp = data->p_y - (step * sin(rad(data->p_angle)));
+		x_temp = data->p_x - (step * cos(rad(data->p_angle)));
+	}
+	if (keysym == 'd'){
+		y_temp = data->p_y + (step * sin(rad(data->p_angle)));
+		x_temp = data->p_x + (step * cos(rad(data->p_angle)));
+	}
+	int map_y = floor (y_temp), map_x = floor (x_temp);
+	if (data->map[map_y][map_x] != '1'){
+		data->p_y = y_temp;
+		data->p_x = x_temp;
+	}
+}
+
+int	input(int keysym, t_data *data)
+{
 	if (keysym == XK_Escape){	
 		clean_everything(data);
 		exit(0);
 	}
 	if (ft_strchr("wasd", keysym) || keysym == XK_Left || keysym == XK_Right)
 	{
-		if (keysym == XK_Right){
-			data->p_angle++;
-		}
-		if (keysym == XK_Left){
-			data->p_angle--;
-		}
-		if (keysym == 'w')
-			data->p_y -= step;
-		if (keysym == 's')
-			data->p_y += step;
-		if (keysym == 'a')
-			data->p_x -= step;
-		if (keysym == 'd')
-			data->p_x += step;
-		clear_img(data);
-		create_map(data);
-		draw_rays(data);
-		mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
+		if (keysym == XK_Right)
+			data->p_angle += 10;
+		if (keysym == XK_Left)
+			data->p_angle -= 10;
+		if (ft_strchr("wasd", keysym))
+			walk_check(data, keysym);
+		create_frame(data);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/31 21:31:11 by bruno            ###   ########.fr       */
+/*   Updated: 2025/04/02 16:29:37 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <X11/X.h>
 
 # define POSSIBLE "01NESW"
-# define SCALE 30
+# define SCALE 16
 # define FOV 64//use this ffs
 
 
@@ -87,11 +87,14 @@ bool	init(int ac, char **av, t_data *data);
 //minimap
 void	create_map(t_data *data);
 
+float	rad(float deg);
 
 //test
-void	draw_rays(t_data *data);
+void	raycast(t_data *data);
 void	create_background(t_data *data);
 
+//frame
+void	create_frame(t_data *data);
 
 //img
 void	put_pixel(t_data *data, int y, int x, int color);
