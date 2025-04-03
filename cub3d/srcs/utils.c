@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:49 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/02 16:39:49 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:28:16 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,6 @@ float	rad(float deg)
 	return (deg * PI / 180);
 }
 
-void	create_frame(t_data *data)
-{
-	clear_img(data);
-	raycast(data);
-	create_map(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
-}
 
 void	walk_check(t_data *data, int keysym)
 {
@@ -137,7 +130,7 @@ void	walk_check(t_data *data, int keysym)
 		x_temp = data->p_x + (step * cos(rad(data->p_angle)));
 	}
 	int map_y = floor (y_temp), map_x = floor (x_temp);
-	if (data->map[map_y][map_x] != '1'){
+	if (data->map[map_y] && data->map[map_y][map_x] && data->map[map_y][map_x] != '1'){
 		data->p_y = y_temp;
 		data->p_x = x_temp;
 	}

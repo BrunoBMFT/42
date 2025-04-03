@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/02 16:29:37 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:28:47 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # define POSSIBLE "01NESW"
 # define SCALE 16
 # define FOV 64//use this ffs
-
-
 
 
 
@@ -76,6 +74,8 @@ typedef struct	s_data
 	char		*c_ceiling;
 }				t_data;
 
+
+void	clear_img(t_data *data);
 //parser
 bool	parser(int ac, char **av, t_data *data);
 bool	save_map(t_data *data);

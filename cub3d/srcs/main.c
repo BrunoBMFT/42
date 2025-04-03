@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/02 16:29:26 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:49:05 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ float	find_distance(t_data *data, float angle)
 		x += x_step;
 		if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)//needed?
 			break ;
-		// put_pixel(data, y, x, GREEN);
+		put_pixel(data, y, x, GREEN);
 	}
 	float dif_y = data->p_y * SCALE - y, dif_x = data->p_x * SCALE - x;
 	return (sqrt(pow(dif_y, 2) + pow(dif_x, 2)));
@@ -109,45 +109,46 @@ float	find_distance(t_data *data, float angle)
 // 	float dif_y = data->p_y - y, dif_x = data->p_x - x;
 // 	return (sqrt(pow(dif_y, 2) + pow(dif_x, 2)));
 // }
-// float	find_v_inter(t_data *data, float angle)
-// {
-// 	angle_correct(&angle);
-// 	int	y_dir;
-// 	int	x_dir;
-// 	if ((angle > 315 && angle <= 360) || (angle >= 0 && angle <= 135)){
-// 		y_dir = -1;
-// 		x_dir = 1;
-// 	}
-// 	else if ((angle > 135 && angle <= 315)){
-// 		y_dir = 1;
-// 		x_dir = -1;
-// 	}
-// 	// float y = data->p_y * SCALE, x = data->p_x * SCALE;//moves through map
-// 	//y will be already intercepting a int
-// 	//x will already be the angle of this
-// 	float	x_step = SCALE * x_dir;
-// 	float	y_step = SCALE * tan(rad(angle)) * y_dir;
-// 	float x = floor(data->p_x / SCALE) * SCALE;
-// 	float y = data->p_y + (x - data->p_x) * tan(rad(angle));
-// 	int map_y = floor (y / SCALE);//coord in map
-// 	int map_x = floor (x / SCALE);
-// 	while (1)
-// 	{
-// 		map_y = floor(y / SCALE);
-// 		map_x = floor(x / SCALE);
-// 		if (map_y < 0 || map_x < 0 || map_y >= data->win_height || map_x >= data->win_width)
-//             break;
-//         if (data->map[map_y][map_x] == '1')
-//             break;
-// 		y += y_step;
-// 		x += x_step;
-// 		if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)//needed?
-// 			break ;
-// 		put_pixel(data, y, x, GREEN);
-// 	}
-// 	float dif_y = data->p_y - y, dif_x = data->p_x - x;
-// 	return (sqrt(pow(dif_y, 2) + pow(dif_x, 2)));
-// }
+
+float	find_v_inter(t_data *data, float angle)
+{
+	angle_correct(&angle);
+	int	y_dir;
+	int	x_dir;
+	if ((angle > 315 && angle <= 360) || (angle >= 0 && angle <= 135)){
+		y_dir = -1;
+		x_dir = 1;
+	}
+	else if ((angle > 135 && angle <= 315)){
+		y_dir = 1;
+		x_dir = -1;
+	}
+	// float y = data->p_y * SCALE, x = data->p_x * SCALE;//moves through map
+	//y will be already intercepting a int
+	//x will already be the angle of this
+	float	x_step = SCALE * x_dir;
+	float	y_step = SCALE * tan(rad(angle)) * y_dir;
+	float x = floor(data->p_x / SCALE) * SCALE;
+	float y = data->p_y + (x - data->p_x) * tan(rad(angle));
+	int map_y = floor (y / SCALE);//coord in map
+	int map_x = floor (x / SCALE);
+	while (1)
+	{
+		map_y = floor(y / SCALE);
+		map_x = floor(x / SCALE);
+		if (map_y < 0 || map_x < 0 || map_y >= data->win_height || map_x >= data->win_width)
+            break;
+        if (data->map[map_y][map_x] == '1')
+            break;
+		y += y_step;
+		x += x_step;
+		if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)//needed?
+			break ;
+		put_pixel(data, y, x, GREEN);
+	}
+	float dif_y = data->p_y - y, dif_x = data->p_x - x;
+	return (sqrt(pow(dif_y, 2) + pow(dif_x, 2)));
+}
 
 
 //missing the fisheye fix
@@ -181,13 +182,13 @@ void	raycast(t_data *data)
 	float angle = data->p_angle - 32;//related to facing angle
 	while (i < data->win_width)
 	{
-		float hyp = find_distance(data, angle);
-		draw_wall_section(data, hyp, i);
+		// float hyp = find_distance(data, angle);
+		// draw_wall_section(data, hyp, i);
 		//do inters
-		// float v = find_v_inter(data, angle);
+		float v = find_v_inter(data, angle);
 		// float h = find_h_inter(data, angle);
 		// if (v < h)
-		// 	draw_wall_section(data, v, i);
+			draw_wall_section(data, v, i);
 		// else
 		// 	draw_wall_section(data, h, i);
 		
@@ -196,6 +197,14 @@ void	raycast(t_data *data)
 		i += 20;//this is the player_fov degree by degree, 20
 		angle++;
 	}
+}
+
+void	create_frame(t_data *data)
+{
+	clear_img(data);
+	create_map(data);
+	raycast(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 }
 
 
