@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:49 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/03 18:28:16 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:39:26 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void	loop_map(t_data *data, int y, int x, int color)
 void	loop_player(t_data *data, int color)
 {
 	int	i = 0;
-	while (i < SCALE / 4)
+	while (i < SCALE / 2)
 	{
 		int j = 0;
-		while (j < SCALE / 4)
+		while (j < SCALE / 2)
 		{
-			put_pixel(data, (data->p_y * SCALE) + i - 2, (data->p_x * SCALE) + j - 2, color);
+			put_pixel(data, (data->p_y * SCALE) + i - 4, (data->p_x * SCALE) + j - 4, color);
 			j++;
 		}
 		i++;

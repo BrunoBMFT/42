@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/03 18:49:05 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:25:04 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,21 @@ void	angle_correct(float *angle)
 		*angle += 360;
 	while (*angle >= 360)
 		*angle -= 360;
+}
+
+void	loop_player2(t_data *data, float y, float x, int color)
+{
+	int	i = 0;
+	while (i < SCALE / 4)
+	{
+		int j = 0;
+		while (j < SCALE / 4)
+		{
+			put_pixel(data, y + i - 2, x + j - 2, color);
+			j++;
+		}
+		i++;
+	}
 }
 
 void	check_steps(float angle, float *y_step, float *x_step)
@@ -123,13 +138,17 @@ float	find_v_inter(t_data *data, float angle)
 		y_dir = 1;
 		x_dir = -1;
 	}
-	// float y = data->p_y * SCALE, x = data->p_x * SCALE;//moves through map
-	//y will be already intercepting a int
-	//x will already be the angle of this
+
+	// ! CHATGPT IS RIGHT, check latest
 	float	x_step = SCALE * x_dir;
-	float	y_step = SCALE * tan(rad(angle)) * y_dir;
+	float	y_step = SCALE * tan(rad(angle)) * y_dir;//use x_step instead of SCALE
+	
 	float x = floor(data->p_x / SCALE) * SCALE;
+	if (x_dir == 1)
+		x+= SCALE;
 	float y = data->p_y + (x - data->p_x) * tan(rad(angle));
+	// put_pixel(data, y, x, GREEN);
+	
 	int map_y = floor (y / SCALE);//coord in map
 	int map_x = floor (x / SCALE);
 	while (1)
@@ -144,7 +163,7 @@ float	find_v_inter(t_data *data, float angle)
 		x += x_step;
 		if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)//needed?
 			break ;
-		put_pixel(data, y, x, GREEN);
+		// put_pixel(data, y, x, GREEN);
 	}
 	float dif_y = data->p_y - y, dif_x = data->p_x - x;
 	return (sqrt(pow(dif_y, 2) + pow(dif_x, 2)));
