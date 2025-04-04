@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/03 18:28:47 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/04 18:58:50 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct	s_data
 
 	
 	char		**map;
+	int			map_height;//useless
+	int			map_width;//useless
 	//find better place for these
 	char		**file;
 	char		*p_north;

@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:49 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/03 19:39:26 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/04 19:53:11 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	put_pixel(t_data *data, int y, int x, int color)
 	if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)//check if its correct
 	{
 		printf("%d %d\n", y, x);
-		printf("putpixel outofbounds\n");
+		printf("putpixel out of bounds\n");
 		return ;
 	}
 	offset = data->frame.addr + (y * data->frame.line_len + x * (data->frame.bits_per_pixel / 8));
@@ -51,7 +51,7 @@ void	loop_player(t_data *data, int color)
 		int j = 0;
 		while (j < SCALE / 2)
 		{
-			put_pixel(data, (data->p_y * SCALE) + i - 4, (data->p_x * SCALE) + j - 4, color);
+			put_pixel(data, (data->p_y) + i - 4, (data->p_x) + j - 4, color);
 			j++;
 		}
 		i++;
@@ -74,7 +74,7 @@ void	create_map(t_data *data)
 		}
 		y++;
 	}
-	loop_player(data, GREEN);
+	// loop_player(data, GREEN);
 }
 
 void	create_background(t_data *data)//handle the colors here

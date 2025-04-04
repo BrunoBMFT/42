@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/02 03:30:46 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/04 20:11:30 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ bool	map_check(t_data *data)
 
 	y = 0;
 	count = 0;
+	data->map_width = 0;
 	while (data->map[y])
 	{
 		if (!is_allowed(data->map[y]))
@@ -135,14 +136,17 @@ bool	map_check(t_data *data)
 			}
 			if (ft_strchr("NESW", data->map[y][x]))
 			{
-				data->p_y = y;
-				data->p_x = x;
+				data->p_y = y * SCALE;
+				data->p_x = x * SCALE;
 				count++;
 			}
+			if (data->map_width < x)
+				data->map_width = x;
 			x++;
 		}
 		y++;
 	}
+	data->map_height = y;
 	if (count != 1)
 		return (error("Invalid player"));
 	return (true);

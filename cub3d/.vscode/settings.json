@@ -8,7 +8,9 @@
 		"math.h": "c",
 		"limits": "c",
 		"*.tcc": "c",
-		"keysym.h": "c"
+		"keysym.h": "c",
+		"mlx_int.h": "c",
+		"cmath": "c"
 	},
 	"makefile.configureOnOpen": false
 }
