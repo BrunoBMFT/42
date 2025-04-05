@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/04 18:58:50 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/05 01:14:59 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <X11/X.h>
 
 # define POSSIBLE "01NESW"
-# define SCALE 16
+# define SCALE 32
 # define FOV 64//use this ffs
 
 

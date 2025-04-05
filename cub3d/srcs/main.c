@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/04 20:32:52 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/05 01:44:51 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,37 +58,38 @@ void	check_steps(float angle, float *y_step, float *x_step)
 	}
 }
 
-float	find_distance(t_data *data, float angle)
-{
-	float	y_step;
-	float	x_step;
-	angle_correct(&angle);	
-	check_steps(angle, &y_step, &x_step);
-	float y = data->p_y * SCALE, x = data->p_x * SCALE;//moves through map
-	int map_y = floor (y / SCALE);//coord in map
-	int map_x = floor (x / SCALE);
-	// put_pixel(data, y, x, GREEN);
-	//check for y = 0, x = 0, outside map
-	while (data->map[map_y] && data->map[map_y][map_x] && data->map[map_y][map_x] != '1')
-	{
-		map_y = floor(y / SCALE);
-		map_x = floor(x / SCALE);
-		y += y_step;
-		x += x_step;
-		if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)//needed?
-			break ;
-		put_pixel(data, y, x, GREEN);
-	}
-	float dif_y = data->p_y * SCALE - y, dif_x = data->p_x * SCALE - x;
-	return (sqrt(pow(dif_y, 2) + pow(dif_x, 2)));
-}
-
+// float	find_distance(t_data *data, float angle)
+// {
+// 	float	y_step;
+// 	float	x_step;
+// 	angle_correct(&angle);	
+// 	check_steps(angle, &y_step, &x_step);
+// 	float y = data->p_y * SCALE, x = data->p_x * SCALE;
+// 	int map_y = floor (y / SCALE);
+// 	int map_x = floor (x / SCALE);
+// 	// put_pixel(data, y, x, GREEN);
+// 	//check for y = 0, x = 0, outside map
+// 	while (data->map[map_y] && data->map[map_y][map_x] && data->map[map_y][map_x] != '1')
+// 	{
+// 		map_y = floor(y / SCALE);
+// 		map_x = floor(x / SCALE);
+// 		y += y_step;
+// 		x += x_step;
+// 		if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)//needed?
+// 			break ;
+// 		put_pixel(data, y, x, GREEN);
+// 	}
+// 	float dif_y = data->p_y - y, dif_x = data->p_x * SCALE - x;
+// 	return (sqrt(pow(dif_y, 2) + pow(dif_x, 2)));
+// }
 
 //angles are wrong
 float	inter_h_step(t_data *data, float angle)
 {
 	angle_correct(&angle);
 	int y_dir, x_dir;
+	if (fabs(tan(rad(angle))) < 0.0001)//wtf
+		return (INFINITY);
 	if ((angle > 315 && angle <= 360) || (angle >= 0 && angle <= 135)){
 		y_dir = -1;
 		x_dir = 1;
@@ -100,14 +101,12 @@ float	inter_h_step(t_data *data, float angle)
 	
 	float x_step = SCALE * x_dir;
 	float y_step = x_step / tan(rad(angle));
-	
-	float x = floor(data->p_x / SCALE) * SCALE;
-	if (x_dir == 1)
-		x += SCALE;
-	else
-		x -= 0.0001;
-	float y = data->p_y + (x - data->p_x) / tan(rad(angle));//check angle 90
 
+	// ! WHY THE FUCK DOES YSTEP GO NEGATIVE AND NOT ACCEPTED ANYWHERE
+	printf("y %.2f x %2.f\n", y_step, x_step);
+	
+	float x = floor(data->p_x / SCALE) * SCALE;//can be set outside
+	float y = data->p_y + (x - data->p_x) / tan(rad(angle));
 	//big problem char 24,31
 	put_pixel(data, y, x, GREEN);
 	while (1)
@@ -150,17 +149,17 @@ float	inter_v_step(t_data *data, float angle)
 	else
 		y -= 0.0001;
 	float x = data->p_x + (y - data->p_y) * tan(rad(angle));//check angle 90
-
+	
 	//big problem char 24,31
 	while (1)
 	{
 		int map_y = floor(y / SCALE);
 		int map_x = floor(x / SCALE);
+		// put_pixel(data, y, x, GREEN);
 		if (map_y < 0 || map_x < 0 || map_y >= data->win_height || map_x >= ft_strlen(data->map[map_y]))//needed?
 			break ;
 		if (data->map[map_y][map_x] == '1')
 			break ;
-		put_pixel(data, y, x, GREEN);
 		y += y_step;
 		x += x_step;
 	}
@@ -195,6 +194,7 @@ void	draw_wall_section(t_data *data, float hyp, int i)
 
 void	raycast(t_data *data)
 {
+	// put_pixel(data, data->p_y, data->p_x, GREEN);
 	int i = 0;
 	float angle = data->p_angle - 32;//related to facing angle
 	// printf("height %d width %d\n", data->map_height, data->map_width);
@@ -204,7 +204,7 @@ void	raycast(t_data *data)
 		// draw_wall_section(data, hyp, i);
 		//do inters
 		// float v = inter_v_step(data, angle);
-		float h = inter_h_step(data, angle);
+			float h = inter_h_step(data, angle);
 		// if (v < h)
 			// draw_wall_section(data, v, i);
 		// else
