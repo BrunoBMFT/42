@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:02:49 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/04 19:53:11 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/06 05:28:22 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,25 +114,25 @@ void	walk_check(t_data *data, int keysym)
 	float step = 0.25;
 	float y_temp, x_temp;
 	if (keysym == 'w'){
-		y_temp = data->p_y - (step * cos(rad(data->p_angle)));
-		x_temp = data->p_x + (step * sin(rad(data->p_angle)));
+		y_temp = data->p_y / SCALE - (step * cos(rad(data->p_angle)));
+		x_temp = data->p_x / SCALE + (step * sin(rad(data->p_angle)));
 	}
 	if (keysym == 's'){
-		y_temp = data->p_y + (step * cos(rad(data->p_angle)));
-		x_temp = data->p_x - (step * sin(rad(data->p_angle)));
+		y_temp = data->p_y / SCALE + (step * cos(rad(data->p_angle)));
+		x_temp = data->p_x / SCALE - (step * sin(rad(data->p_angle)));
 	}
 	if (keysym == 'a'){
-		y_temp = data->p_y - (step * sin(rad(data->p_angle)));
-		x_temp = data->p_x - (step * cos(rad(data->p_angle)));
+		y_temp = data->p_y / SCALE - (step * sin(rad(data->p_angle)));
+		x_temp = data->p_x / SCALE - (step * cos(rad(data->p_angle)));
 	}
 	if (keysym == 'd'){
-		y_temp = data->p_y + (step * sin(rad(data->p_angle)));
-		x_temp = data->p_x + (step * cos(rad(data->p_angle)));
+		y_temp = data->p_y / SCALE + (step * sin(rad(data->p_angle)));
+		x_temp = data->p_x / SCALE + (step * cos(rad(data->p_angle)));
 	}
 	int map_y = floor (y_temp), map_x = floor (x_temp);
 	if (data->map[map_y] && data->map[map_y][map_x] && data->map[map_y][map_x] != '1'){
-		data->p_y = y_temp;
-		data->p_x = x_temp;
+		data->p_y = y_temp * SCALE;
+		data->p_x = x_temp * SCALE;
 	}
 }
 

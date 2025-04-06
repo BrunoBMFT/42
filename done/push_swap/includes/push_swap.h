@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 02:41:58 by bruno             #+#    #+#             */
-/*   Updated: 2024/04/22 17:02:45 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/06 00:55:01 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,5 @@ int		cost_tail_b(t_dlist *b_node, t_dlist *node);
 //libft
 long	ft_atol(const char *str);
 int		ft_printf(const char *str, ...);
-int		ft_putstr(char *str);
 
 #endif
