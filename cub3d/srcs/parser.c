@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/18 17:02:00 by bruno            ###   ########.fr       */
+/*   Updated: 2025/04/07 02:28:34 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ bool	path_already_saved(t_data *data, char *temp)
 		|| (!ft_strncmp("EA", temp, 2) && data->p_east)
 		|| (!ft_strncmp("SO", temp, 2) && data->p_south)
 		|| (!ft_strncmp("WE", temp, 2) && data->p_west)
-		|| (!ft_strncmp("F", temp, 1) && data->c_floor)
-		|| (!ft_strncmp("C", temp, 1) && data->c_ceiling))
+		|| (!ft_strncmp("F", temp, 1) && data->p_floor)
+		|| (!ft_strncmp("C", temp, 1) && data->p_ceiling))
 		return (true);
 	return (false);
 }
@@ -100,11 +100,12 @@ bool	texture_check(t_data *data)
 	int	i;
 
 	if (!data->p_north || !data->p_east || !data->p_south
-		|| !data->p_west || !data->c_floor || !data->c_ceiling)
+		|| !data->p_west || !data->p_floor || !data->p_ceiling)
 		return (error("Missing info"));
-	if (!*data->c_ceiling || !*data->c_floor)
+	if (!*data->p_ceiling || !*data->p_floor)
 		return (error("Missing info"));
-	if (!texture_char_check(data->c_ceiling) || !texture_char_check(data->c_floor))
+	if (!texture_char_check(data->p_ceiling)
+		|| !texture_char_check(data->p_floor))
 		return (error("Invalid colors"));
 	return (true);
 }
@@ -127,11 +128,53 @@ bool	save_texture_path(t_data *data)
 		else if (!ft_strncmp("WE", data->file[i], 2))
 			data->p_west = ft_strtrim(data->file[i] + 2, " \t");
 		else if (!ft_strncmp("F", data->file[i], 1))
-			data->c_floor = ft_strtrim(data->file[i] + 1, " \t");
+			data->p_floor = ft_strtrim(data->file[i] + 1, " \t");
 		else if (!ft_strncmp("C", data->file[i], 1))
-			data->c_ceiling = ft_strtrim(data->file[i] + 1, " \t");
+			data->p_ceiling = ft_strtrim(data->file[i] + 1, " \t");
 		i++;
 	}
+	return (true);
+}
+
+void	player_angle_init(t_data *data, int facing)
+{
+	if (facing == 'N')
+		data->p_angle = 0;
+	else if (facing == 'E')
+		data->p_angle = 90;
+	else if (facing == 'S')
+		data->p_angle = 180;
+	else if (facing == 'W')
+		data->p_angle = 270;
+	data->door_opened = false;
+}
+
+bool	player_init(t_data *data)
+{
+	int	y;
+	int	x;
+	int	count;
+
+	y = 0;
+	count = 0;
+	while (data->map[y])
+	{
+		x = 0;
+		while (data->map[y][x])
+		{
+			if (ft_strchr("NESW", data->map[y][x]))
+			{
+				data->p_y = y * SCALE;
+				data->p_x = x * SCALE;
+				player_angle_init(data, data->map[y][x]);
+				count++;
+			}
+			x++;
+		}
+		y++;
+	}
+	if (count != 1)
+		return (error("Invalid player"));
 	return (true);
 }
 
@@ -149,6 +192,7 @@ bool	parser(int ac, char **av, t_data *data)
 		return (false);
 	if (!map_check(data))
 		return (false);
-	//free file
+	if (!player_init(data))
+		return (false);
 	return (true);
 }

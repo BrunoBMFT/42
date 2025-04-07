@@ -5,35 +5,35 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 17:02:49 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/06 05:28:22 by brfernan         ###   ########.fr       */
+/*   Created: 2025/04/06 23:10:36 by brfernan          #+#    #+#             */
+/*   Updated: 2025/04/07 02:29:36 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-//have a putpixel for frame and one for other images?
+// printf("%d %d\n", y, x);
+// printf("putpixel out of bounds\n");
 void	put_pixel(t_data *data, int y, int x, int color)
 {
 	char	*offset;
 
-	if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)//check if its correct
-	{
-		printf("%d %d\n", y, x);
-		printf("putpixel out of bounds\n");
+	if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)
 		return ;
-	}
-	offset = data->frame.addr + (y * data->frame.line_len + x * (data->frame.bits_per_pixel / 8));
+	offset = data->frame.addr + (y * data->frame.line_len + x
+			* (data->frame.bits_per_pixel / 8));
 	*(unsigned int *)offset = color;
 }
 
-//find better way for pixels, maybe make the scale onto put_pixel itself?
 void	loop_map(t_data *data, int y, int x, int color)
 {
-	int	i = 0;
+	int	i;
+	int	j;
+
+	i = 0;
 	while (i < SCALE)
 	{
-		int j = 0;
+		j = 0;
 		while (j < SCALE)
 		{
 			put_pixel(data, (y * SCALE) + i, (x * SCALE) + j, color);
@@ -43,12 +43,16 @@ void	loop_map(t_data *data, int y, int x, int color)
 	}
 }
 
+
 void	loop_player(t_data *data, int color)
 {
-	int	i = 0;
+	int	i;
+	int	j;
+
+	i = 0;
 	while (i < SCALE / 2)
 	{
-		int j = 0;
+		j = 0;
 		while (j < SCALE / 2)
 		{
 			put_pixel(data, (data->p_y) + i - 4, (data->p_x) + j - 4, color);
@@ -56,28 +60,45 @@ void	loop_player(t_data *data, int color)
 		}
 		i++;
 	}
+	float y = data->p_y;
+	float x = data->p_x;
+	i = 0;
+	while (i < 32)
+	{
+		y -= cos(rad(360 - data->p_angle)) * 0.5;
+		x += sin(rad(data->p_angle)) * 0.5;
+		put_pixel(data, (int)y, (int)x, RED);
+		i++;
+	}
 }
 
 void	create_map(t_data *data)
 {
-	int	y = 0;
+	int	y;
+	int	x;
+
+	y = 0;
 	while (data->map[y])
 	{
-		int x = 0;
+		x = 0;
 		while (data->map[y][x])
 		{
 			if (data->map[y][x] == '1')
 				loop_map(data, y, x, WHITE);
-			else if (data->map[y][x] == '0' || ft_strchr("NESW", data->map[y][x]))
+			else if (data->map[y][x] == '0'
+				|| ft_strchr("NESW", data->map[y][x]))
 				loop_map(data, y, x, GREY);
+			else if (data->map[y][x] == 'D')
+				loop_map(data, y, x, CEILING);
 			x++;
 		}
 		y++;
 	}
-	// loop_player(data, GREEN);
+	loop_player(data, GREEN);
 }
 
-void	create_background(t_data *data)//handle the colors here
+//! handle the colors from .cub here
+void	create_background(t_data *data)
 {
 	int	y;
 	int	x;
@@ -98,7 +119,8 @@ void	create_background(t_data *data)//handle the colors here
 	}
 }
 
-void	clear_img(t_data *data)//bad lol
+//bad lol
+void	clear_img(t_data *data)
 {
 	create_background(data);
 }
@@ -108,37 +130,62 @@ float	rad(float deg)
 	return (deg * PI / 180);
 }
 
-
-void	walk_check(t_data *data, int keysym)
+// if ((data->map[map_y] && data->map[map_y][map_x]) && 
+// 	(data->map[map_y][map_x] != '1' && !(data->map[map_y][map_x] == 'D' 
+//  && !data->door_opened)))
+void	check_collisions(t_data *data, float y_temp, float x_temp)
 {
-	float step = 0.25;
-	float y_temp, x_temp;
-	if (keysym == 'w'){
-		y_temp = data->p_y / SCALE - (step * cos(rad(data->p_angle)));
-		x_temp = data->p_x / SCALE + (step * sin(rad(data->p_angle)));
-	}
-	if (keysym == 's'){
-		y_temp = data->p_y / SCALE + (step * cos(rad(data->p_angle)));
-		x_temp = data->p_x / SCALE - (step * sin(rad(data->p_angle)));
-	}
-	if (keysym == 'a'){
-		y_temp = data->p_y / SCALE - (step * sin(rad(data->p_angle)));
-		x_temp = data->p_x / SCALE - (step * cos(rad(data->p_angle)));
-	}
-	if (keysym == 'd'){
-		y_temp = data->p_y / SCALE + (step * sin(rad(data->p_angle)));
-		x_temp = data->p_x / SCALE + (step * cos(rad(data->p_angle)));
-	}
-	int map_y = floor (y_temp), map_x = floor (x_temp);
-	if (data->map[map_y] && data->map[map_y][map_x] && data->map[map_y][map_x] != '1'){
+	int	map_y;
+	int	map_x;
+
+	map_y = floor (y_temp);
+	map_x = floor (x_temp);
+	if (data->map[map_y] && data->map[map_y][map_x] &&
+		data->map[map_y][map_x] != '1')
+	{
 		data->p_y = y_temp * SCALE;
 		data->p_x = x_temp * SCALE;
 	}
 }
 
+void	walk_check(t_data *data, int keysym)
+{
+	float	y_temp;
+	float	x_temp;
+
+	if (keysym == 'w')
+	{
+		y_temp = data->p_y / SCALE - W_STEP * cos(rad(data->p_angle));
+		x_temp = data->p_x / SCALE + W_STEP * sin(rad(data->p_angle));
+	}
+	if (keysym == 's')
+	{
+		y_temp = data->p_y / SCALE + W_STEP * cos(rad(data->p_angle));
+		x_temp = data->p_x / SCALE - W_STEP * sin(rad(data->p_angle));
+	}
+	if (keysym == 'a')
+	{
+		y_temp = data->p_y / SCALE - W_STEP * sin(rad(data->p_angle));
+		x_temp = data->p_x / SCALE - W_STEP * cos(rad(data->p_angle));
+	}
+	if (keysym == 'd')
+	{
+		y_temp = data->p_y / SCALE + W_STEP * sin(rad(data->p_angle));
+		x_temp = data->p_x / SCALE + W_STEP * cos(rad(data->p_angle));
+	}
+	check_collisions(data, y_temp, x_temp);
+}
+
+// if (keysym == 'f'){
+// 	if (!data->door_opened)
+// 		data->door_opened = true;
+// 	else
+// 		data->door_opened = false;
+// }
 int	input(int keysym, t_data *data)
 {
-	if (keysym == XK_Escape){	
+	if (keysym == XK_Escape)
+	{
 		clean_everything(data);
 		exit(0);
 	}

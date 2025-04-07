@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/06 05:26:17 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 02:28:48 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 # include <X11/X.h>
 
 # define POSSIBLE "01NESW"
-# define SCALE 32
+# define SCALE 16
+# define W_STEP 0.25
 # define FOV 64//use this ffs
 
 
@@ -55,25 +56,29 @@ typedef struct	s_data
 	
 	float	p_y;
 	float	p_x;
-	int		p_angle;//init in player
+	int		p_angle;
 	t_img	frame;
 	t_img	north;
 	t_img	east;
 	t_img	south;
 	t_img	west;
+	int		c_floor;
+	int		c_ceiling;
+
+	bool	door_opened;//bonus
 
 	
 	char		**map;
-	int			map_height;//useless
-	int			map_width;//useless
+	int			map_height;
+	int			map_width;
 	//find better place for these
 	char		**file;
 	char		*p_north;
 	char		*p_east;
 	char		*p_south;
 	char		*p_west;
-	char		*c_floor;
-	char		*c_ceiling;
+	char		*p_floor;
+	char		*p_ceiling;
 }				t_data;
 
 
