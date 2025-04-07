@@ -38,18 +38,7 @@ fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIBFT_DIR) fclean --no-print-directory
 
-#remove
-clean_mlx:
-	@rm -rf $(OBJS_DIR)
-	@make -C $(LIBFT_DIR) clean --no-print-directory
-	@make -C $(MLX_DIR) clean --no-print-directory
-fullclean: clean_mlx
-	@rm -rf $(NAME)
-	@make -C $(LIBFT_DIR) fclean --no-print-directory
-
 re: fclean all
 
-v: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./cub3d test.cub
 
 .PHONY: all fclean clean re
