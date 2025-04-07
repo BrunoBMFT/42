@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 20:05:47 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 20:18:15 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # define FOV 64
 # define WIN_WIDTH 1280
 # define WIN_HEIGHT 720
-
 
 # define WHITE 16777215
 # define GREY 4210752
