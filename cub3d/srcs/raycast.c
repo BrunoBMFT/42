@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:46:55 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 15:43:53 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:59:48 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ bool	hit_inter(t_data *data, float y, float x)
 		|| map_y >= data->map_height
 		|| map_x >= ft_strlen(data->map[map_y]))
 		return (false);
-	if (data->map[map_y][map_x] == '1')
+	// if (data->map[map_y][map_x] == '1')
+
+	if (data->map[map_y][map_x] == '1'
+	|| (data->map[map_y][map_x] == 'D' && !data->door_opened))
 		return (false);
 	return (true);
 }
@@ -96,44 +99,49 @@ float angle, int i, t_coord coord, bool vertical_hit)
 		top = 0;
 	if (bot > data->win_height)
 		bot = data->win_height;
-	
 
-    float tex_x;
-    float tex_pos;
-    float step;
-    int tex_y;
 
-    if (vertical_hit)
+	// while (top < bot)
+	// {
+	// 	put_pixel(data, top, i, RED);
+	// 	top++;
+	// }
+	float tex_x;
+	float tex_pos;
+	float step;
+	int tex_y;
+
+	if (vertical_hit)
 		tex_x = fmodf(coord.y, SCALE) * data->north.width / SCALE;
-    else
-        tex_x = fmodf(coord.x, SCALE) * data->north.width / SCALE;
+	else
+		tex_x = fmodf(coord.x, SCALE) * data->north.width / SCALE;
 
-	
 
-    step = (float)data->north.height / height;
-    tex_pos = (top - data->win_height / 2 + height / 2) * step;
-	
+
+	step = (float)data->north.height / height;
+	tex_pos = (top - data->win_height / 2 + height / 2) * step;
+
 	while (top < bot)
 	{
 		int tex_y = (int)tex_pos;
 		if (tex_y >= data->north.height)
 			tex_y = data->north.height - 1;
 
-        int color;
-        if (vertical_hit)
-        {
-            if (coord.x > data->p_x)//east
-                color = get_pixel(&data->east, tex_x, tex_y);
-            else//west
-                color = get_pixel(&data->west, tex_x, tex_y);
-        }
-        else
-        {
-            if (coord.y > data->p_y)
-                color = get_pixel(&data->south, tex_x, tex_y);
-            else//north
-                color = get_pixel(&data->north, tex_x, tex_y);
-        }
+		int color;
+		if (vertical_hit)
+		{
+			if (coord.x > data->p_x)
+				color = get_pixel(&data->east, tex_x, tex_y);
+			else
+				color = get_pixel(&data->west, tex_x, tex_y);
+		}
+		else
+		{
+			if (coord.y > data->p_y)
+				color = get_pixel(&data->south, tex_x, tex_y);
+			else
+				color = get_pixel(&data->north, tex_x, tex_y);
+		}
 		put_pixel(data, top, i, color);
 		tex_pos += step;
 		top++;
