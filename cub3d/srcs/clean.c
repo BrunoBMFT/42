@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:01 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 02:28:34 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 04:05:02 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 void	clean_texture_path(t_data *data)
 {
-	if (data->p_north)
-		free(data->p_north);
-	if (data->p_east)
-		free(data->p_east);
-	if (data->p_south)
-		free(data->p_south);
-	if (data->p_west)
-		free(data->p_west);
-	if (data->p_floor)
-		free(data->p_floor);
-	if (data->p_ceiling)
-		free(data->p_ceiling);
+	if (data->path_north)
+		free(data->path_north);
+	if (data->path_east)
+		free(data->path_east);
+	if (data->path_south)
+		free(data->path_south);
+	if (data->path_west)
+		free(data->path_west);
+	if (data->path_floor)
+		free(data->path_floor);
+	if (data->path_ceiling)
+		free(data->path_ceiling);
 }
 
 void	clean_imgs(t_data *data)

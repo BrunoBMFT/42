@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:10:36 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 02:29:36 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 04:17:29 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,23 @@ void	loop_map(t_data *data, int y, int x, int color)
 	}
 }
 
+void	show_dir(t_data *data)
+{
+	float	y;
+	float	x;
+	int		i;
+
+	i = 0;
+	y = data->p_y;
+	x = data->p_x;
+	while (i < 32)
+	{
+		y -= cos(rad(360 - data->p_angle)) * 0.5;
+		x += sin(rad(data->p_angle)) * 0.5;
+		put_pixel(data, (int)y, (int)x, RED);
+		i++;
+	}
+}
 
 void	loop_player(t_data *data, int color)
 {
@@ -60,16 +77,7 @@ void	loop_player(t_data *data, int color)
 		}
 		i++;
 	}
-	float y = data->p_y;
-	float x = data->p_x;
-	i = 0;
-	while (i < 32)
-	{
-		y -= cos(rad(360 - data->p_angle)) * 0.5;
-		x += sin(rad(data->p_angle)) * 0.5;
-		put_pixel(data, (int)y, (int)x, RED);
-		i++;
-	}
+	show_dir(data);
 }
 
 void	create_map(t_data *data)
@@ -89,7 +97,7 @@ void	create_map(t_data *data)
 				|| ft_strchr("NESW", data->map[y][x]))
 				loop_map(data, y, x, GREY);
 			else if (data->map[y][x] == 'D')
-				loop_map(data, y, x, CEILING);
+				loop_map(data, y, x, data->color_ceiling);
 			x++;
 		}
 		y++;
@@ -97,7 +105,6 @@ void	create_map(t_data *data)
 	loop_player(data, GREEN);
 }
 
-//! handle the colors from .cub here
 void	create_background(t_data *data)
 {
 	int	y;
@@ -110,9 +117,9 @@ void	create_background(t_data *data)
 		while (x < data->win_width)
 		{
 			if (y > data->win_height / 2)
-				put_pixel(data, y, x, FLOOR);
+				put_pixel(data, y, x, data->color_floor);
 			else
-				put_pixel(data, y, x, CEILING);
+				put_pixel(data, y, x, data->color_ceiling);
 			x++;
 		}
 		y++;
@@ -189,12 +196,12 @@ int	input(int keysym, t_data *data)
 		clean_everything(data);
 		exit(0);
 	}
-	if (ft_strchr("wasd", keysym) || keysym == XK_Left || keysym == XK_Right)
+	if (ft_strchr("wasdf", keysym) || keysym == XK_Left || keysym == XK_Right)
 	{
 		if (keysym == XK_Right)
-			data->p_angle += 10;
+			data->p_angle += 20;
 		if (keysym == XK_Left)
-			data->p_angle -= 10;
+			data->p_angle -= 20;
 		if (ft_strchr("wasd", keysym))
 			walk_check(data, keysym);
 		create_frame(data);

@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 02:28:48 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 04:17:21 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@
 
 # define POSSIBLE "01NESW"
 # define SCALE 16
-# define W_STEP 0.25
+# define W_STEP 0.5
+//define angle arrow
 # define FOV 64//use this ffs
 
 
 
 # define WHITE 16777215
 # define GREY 4210752
-# define CEILING 8355711
-# define FLOOR 2171169
 # define GREEN 65280
 # define RED 16711680
 
@@ -62,8 +61,8 @@ typedef struct	s_data
 	t_img	east;
 	t_img	south;
 	t_img	west;
-	int		c_floor;
-	int		c_ceiling;
+	int		color_floor;
+	int		color_ceiling;
 
 	bool	door_opened;//bonus
 
@@ -73,12 +72,12 @@ typedef struct	s_data
 	int			map_width;
 	//find better place for these
 	char		**file;
-	char		*p_north;
-	char		*p_east;
-	char		*p_south;
-	char		*p_west;
-	char		*p_floor;
-	char		*p_ceiling;
+	char		*path_north;
+	char		*path_east;
+	char		*path_south;
+	char		*path_west;
+	char		*path_floor;
+	char		*path_ceiling;
 }				t_data;
 
 
