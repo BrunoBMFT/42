@@ -6,11 +6,17 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:01 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 04:56:29 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 20:00:49 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+bool	error(char *str)
+{
+	ft_printf_fd(2, "Error!\n%s\n", str);
+	return (false);
+}
 
 void	clean_texture_path(t_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 19:40:41 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 20:05:47 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,18 @@ bool	save_map(t_data *data);
 bool	map_check(t_data *data);
 bool	save_texture_path(t_data *data);
 bool	texture_check(t_data *data);
+bool	init_imgs(t_data *data);
+bool	player_init(t_data *data);
 
 //raycast
 void	raycast(t_data *data);
+void	draw_wall_section(t_data *data, t_draw *info);
 void	create_background(t_data *data);
 void	angle_correct(float *angle, int *dir, bool is_h);
 float	rad(float deg);
 
 //utils
+bool	is_allowed(char *str);
 void	create_frame(t_data *data);
 void	create_map(t_data *data);
 void	put_pixel(t_data *data, int y, int x, int color);

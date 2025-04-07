@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:10:36 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 19:45:15 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 20:06:50 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	input(int keysym, t_data *data)
 		clean_everything(data);
 		exit(0);
 	}
-	if (ft_strchr("wasdf", keysym) || keysym == XK_Left || keysym == XK_Right)//stupid
+	if (ft_strchr("wasdf", keysym) || keysym == XK_Left || keysym == XK_Right)
 	{
 		if (keysym == XK_Right)
 			data->p_angle += A_STEP;
