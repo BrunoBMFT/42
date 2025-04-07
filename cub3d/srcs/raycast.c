@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:46:55 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 15:59:48 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:57:16 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ bool	hit_inter(t_data *data, float y, float x)
 		|| map_y >= data->map_height
 		|| map_x >= ft_strlen(data->map[map_y]))
 		return (false);
-	// if (data->map[map_y][map_x] == '1')
-
-	if (data->map[map_y][map_x] == '1'
-	|| (data->map[map_y][map_x] == 'D' && !data->door_opened))
+	if (data->map[map_y][map_x] == '1')
 		return (false);
 	return (true);
 }
@@ -87,86 +84,97 @@ float	inter_v_step(t_data *data, float angle, t_coord *coord)
 	return (sqrt(pow(data->p_y - y, 2) + pow(data->p_x - x, 2)));
 }
 
-
-void	draw_wall_section(t_data *data, float hyp, 
-float angle, int i, t_coord coord, bool vertical_hit)
+int	get_color(t_data *data, t_coord coord, t_coord texture, bool vert)
 {
-	int height = (SCALE * (data->win_width / 2) / tan(rad(FOV) / 2))
-		/ (hyp * cos(rad(angle - data->p_angle)));
-	int top = (data->win_height / 2) - (height / 2);
-	int bot = (data->win_height / 2) + (height / 2);
-	if (top < 0)
-		top = 0;
-	if (bot > data->win_height)
-		bot = data->win_height;
+	if (vert)
+	{
+		if (coord.x > data->p_x)
+			return (get_pixel(&data->east, texture.x, texture.y));
+		else
+			return (get_pixel(&data->west, texture.x, texture.y));
+	}
+	if (coord.y > data->p_y)
+		return (get_pixel(&data->south, texture.x, texture.y));
+	return (get_pixel(&data->north, texture.x, texture.y));
+}
 
+void	limit_check(t_data *data, int *top, int *bot)
+{
+	if (*top < 0)
+		*top = 0;
+	if (*bot > data->win_height)
+		*bot = data->win_height;
+}
 
-	// while (top < bot)
-	// {
-	// 	put_pixel(data, top, i, RED);
-	// 	top++;
-	// }
-	float tex_x;
-	float tex_pos;
-	float step;
-	int tex_y;
+int	get_wall_height(t_data *data, float hyp, float angle)
+{
+	return ((SCALE * (data->win_width / 2) / tan(rad(FOV) / 2))
+		/ (hyp * cos(rad(angle - data->p_angle))));
+}
 
-	if (vertical_hit)
-		tex_x = fmodf(coord.y, SCALE) * data->north.width / SCALE;
-	else
-		tex_x = fmodf(coord.x, SCALE) * data->north.width / SCALE;
+int	get_text_x(t_data *data, t_coord coord, bool vert)
+{
+	if (vert)
+		return (fmodf(coord.y, SCALE) * data->north.width / SCALE);
+	return (coord.x = fmodf(coord.x, SCALE) * data->north.width / SCALE);
+}
 
+void	draw_wall_section(t_data *data, t_draw *info)
+{
+	int		height;
+	int		top;
+	int		bot;
+	float	tex_pos;
+	t_coord	texture;
 
-
-	step = (float)data->north.height / height;
-	tex_pos = (top - data->win_height / 2 + height / 2) * step;
-
+	height = get_wall_height(data, info->hyp, info->angle);
+	top = (data->win_height / 2) - (height / 2);
+	bot = (data->win_height / 2) + (height / 2);
+	limit_check(data, &top, &bot);
+	texture.x = get_text_x(data, info->coord, info->vert);
+	tex_pos = (top - data->win_height / 2 + height / 2)
+		* (float)data->north.height / height;
 	while (top < bot)
 	{
-		int tex_y = (int)tex_pos;
-		if (tex_y >= data->north.height)
-			tex_y = data->north.height - 1;
-
-		int color;
-		if (vertical_hit)
-		{
-			if (coord.x > data->p_x)
-				color = get_pixel(&data->east, tex_x, tex_y);
-			else
-				color = get_pixel(&data->west, tex_x, tex_y);
-		}
-		else
-		{
-			if (coord.y > data->p_y)
-				color = get_pixel(&data->south, tex_x, tex_y);
-			else
-				color = get_pixel(&data->north, tex_x, tex_y);
-		}
-		put_pixel(data, top, i, color);
-		tex_pos += step;
+		texture.y = tex_pos;
+		if (texture.y >= data->north.height)
+			texture.y = data->north.height - 1;
+		put_pixel(data, top, info->section,
+			get_color(data, info->coord, texture, info->vert));
+		tex_pos += (float)data->north.height / height;
 		top++;
 	}
 }
 
+void	decide_dist(t_draw *info, bool which, float *dist, t_coord *coord)
+{
+	info->hyp = dist[which];
+	info->coord = coord[which];
+	info->vert = which;
+}
+
 void	raycast(t_data *data)
 {
-	float	v;
-	float	h;
 	int		section;
 	float	angle;
-	t_coord coord_v, coord_h;
+	t_coord	coord[2];
+	float	dist[2];
+	t_draw	info;
 
 	angle = data->p_angle - FOV / 2;
 	section = 0;
 	while (section < data->win_width)
 	{
-		v = inter_v_step(data, angle, &coord_v);
-		h = inter_h_step(data, angle, &coord_h);
-		if (v < h)
-			draw_wall_section(data, v, angle, section, coord_v, false);
+		dist[0] = inter_v_step(data, angle, &coord[0]);
+		dist[1] = inter_h_step(data, angle, &coord[1]);
+		info.angle = angle;
+		info.section = section;
+		if (dist[0] < dist[1])
+			decide_dist(&info, 0, dist, coord);
 		else
-			draw_wall_section(data, h, angle, section, coord_h, true);
+			decide_dist(&info, 1, dist, coord);
+		draw_wall_section(data, &info);
+		angle = angle + (FOV * 0.00078125);
 		section++;
-		angle = angle + (FOV * 0.00078125);// 1/128
 	}
 }

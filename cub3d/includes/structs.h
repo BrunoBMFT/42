@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:57:39 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 12:10:11 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:51:39 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ typedef struct	s_coord
 	float	y;
 	float	x;
 }				t_coord;
+
+typedef struct s_draw
+{
+	float	hyp;
+	float	angle;
+	int		section;
+	t_coord	coord;
+	bool	vert;
+}			t_draw;
 
 typedef struct s_img
 {

@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 15:59:55 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:48:26 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,11 @@ bool	map_check(t_data *data)
 		x = 0;
 		while (data->map[y][x])
 		{
-			// if (ft_strchr("0NESW", data->map[y][x]))
-			// {
-			// 	if (!is_enclosed(data->map, y, x))
-			// 		return (error("Map not enclosed"));
-			// }
+			if (ft_strchr("0NESW", data->map[y][x]))
+			{
+				if (!is_enclosed(data->map, y, x))
+					return (error("Map not enclosed"));
+			}
 			if (data->map_width < x)
 				data->map_width = x;
 			x++;
