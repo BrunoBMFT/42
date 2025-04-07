@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:46:19 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 14:07:33 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:43:22 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int	get_pixel(t_img *img, int x, int y)
 	return (*(unsigned int *)dst);
 }
 
-// printf("%d %d\n", y, x);
-// printf("putpixel out of bounds\n");
 void	put_pixel(t_data *data, int y, int x, int color)
 {
 	char	*offset;

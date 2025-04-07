@@ -2,7 +2,7 @@ NAME =	cub3d
 
 SRCS_DIR = ./srcs
 SRCS = main.c init.c parser.c parser_map.c parser_textures.c raycast.c raycast_utils.c minimap.c frame.c input.c clean.c error.c
-CFLAGS = #-Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))

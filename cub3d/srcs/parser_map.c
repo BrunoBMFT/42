@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 17:48:26 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:40:23 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ bool	save_map(t_data *data)
 {
 	int		i;
 	int		j;
-	int		start;
 	bool	is_map;
 
 	data->map = ft_calloc(sizeof(char *), line_count(data, &i) + 2);
@@ -98,7 +97,7 @@ bool	save_map(t_data *data)
 	return (true);
 }
 
-bool	is_enclosed(char **map, int y, int x)
+bool	is_enclosed(char **map, size_t y, size_t x)
 {
 	if (y == 0 || x == 0 || !map[y + 1] || !map[y - 1]
 		|| x >= ft_strlen(map[y]) - 1
@@ -114,8 +113,8 @@ bool	is_enclosed(char **map, int y, int x)
 
 bool	map_check(t_data *data)
 {
-	int	y;
-	int	x;
+	size_t	y;
+	size_t	x;
 
 	y = 0;
 	data->map_width = 0;
@@ -126,7 +125,7 @@ bool	map_check(t_data *data)
 		x = 0;
 		while (data->map[y][x])
 		{
-			if (ft_strchr("0NESW", data->map[y][x]))
+			if (ft_strchr("0NESWD", data->map[y][x]))
 			{
 				if (!is_enclosed(data->map, y, x))
 					return (error("Map not enclosed"));

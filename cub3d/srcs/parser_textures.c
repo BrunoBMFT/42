@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:41:37 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 05:02:07 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:38:10 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ bool	color_char_check(char *color)
 
 bool	texture_check(t_data *data)
 {
-	int	i;
-
 	if (!data->path_north || !data->path_east || !data->path_south
 		|| !data->path_west || !data->path_floor || !data->path_ceiling)
 		return (error("Missing info"));

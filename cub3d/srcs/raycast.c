@@ -6,18 +6,16 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:46:55 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 17:57:16 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:39:15 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-//if (data->map[map_y][map_x] == '1'
-//	|| (data->map[map_y][map_x] == 'D' && !data->door_opened))
 bool	hit_inter(t_data *data, float y, float x)
 {
-	int	map_y;
-	int	map_x;
+	size_t	map_y;
+	size_t	map_x;
 
 	map_x = floor(x / SCALE);
 	map_y = floor(y / SCALE);
@@ -25,7 +23,9 @@ bool	hit_inter(t_data *data, float y, float x)
 		|| map_y >= data->map_height
 		|| map_x >= ft_strlen(data->map[map_y]))
 		return (false);
-	if (data->map[map_y][map_x] == '1')
+	if (data->map[map_y][map_x] == '1'
+		|| (data->map[map_y][map_x] == 'D'
+		&& !data->door_opened))
 		return (false);
 	return (true);
 }

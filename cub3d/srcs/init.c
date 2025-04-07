@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:04:14 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 07:41:32 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:42:15 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	player_angle_init(t_data *data, int facing)
 		data->p_angle = 180;
 	else if (facing == 'W')
 		data->p_angle = 270;
-	data->door_opened = false;
 }
 
 bool	player_init(t_data *data)
@@ -145,6 +144,7 @@ bool	init(int ac, char **av, t_data *data)
 	if (!player_init(data))
 		return (false);
 	init_colors(data);
+	data->door_opened = false;
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		return (error("Failed to initialize mlx"));

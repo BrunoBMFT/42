@@ -6,13 +6,11 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:51:28 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 06:56:13 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:38:44 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-//CHANGE EVERY COORDINATE FOR THE STRUCT
 
 int	main(int ac, char **av)
 {

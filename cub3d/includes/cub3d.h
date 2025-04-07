@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 16:07:02 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:40:41 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <X11/keysym.h>
 # include <X11/X.h>
 
-# define POSSIBLE "01NESW"
+# define POSSIBLE "01NESWD"
 # define SCALE 16
 # define W_STEP 0.25
 # define A_STEP 10

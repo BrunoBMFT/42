@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 00:12:04 by bruno             #+#    #+#             */
-/*   Updated: 2025/03/07 15:07:41 by bruno            ###   ########.fr       */
+/*   Updated: 2025/04/07 19:43:14 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-bool	error(char *str)//have this call the frees function
+bool	error(char *str)
 {
 	ft_printf_fd(2, "Error!\n%s\n", str);
 	return (false);

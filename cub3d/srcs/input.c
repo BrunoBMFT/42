@@ -6,15 +6,12 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:10:36 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 16:34:00 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:45:15 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-// if ((data->map[map_y] && data->map[map_y][map_x]) && 
-// 	(data->map[map_y][map_x] != '1' && !(data->map[map_y][map_x] == 'D' 
-//  && !data->door_opened)))
 void	check_collisions(t_data *data, float y_temp, float x_temp)
 {
 	int	map_y;
@@ -22,8 +19,9 @@ void	check_collisions(t_data *data, float y_temp, float x_temp)
 
 	map_y = floor (y_temp);
 	map_x = floor (x_temp);
-	if (data->map[map_y] && data->map[map_y][map_x] &&
-		data->map[map_y][map_x] != '1')
+	if ((data->map[map_y] && data->map[map_y][map_x]) &&
+		(data->map[map_y][map_x] != '1' && !(data->map[map_y][map_x] == 'D'
+		&& !data->door_opened)))
 	{
 		data->p_y = y_temp * SCALE;
 		data->p_x = x_temp * SCALE;
@@ -58,12 +56,6 @@ void	walk_check(t_data *data, int keysym)
 	check_collisions(data, y_temp, x_temp);
 }
 
-// if (keysym == 'f'){
-// 	if (!data->door_opened)
-// 		data->door_opened = true;
-// 	else
-// 		data->door_opened = false;
-// }
 int	input(int keysym, t_data *data)
 {
 	if (keysym == XK_Escape)
@@ -71,7 +63,7 @@ int	input(int keysym, t_data *data)
 		clean_everything(data);
 		exit(0);
 	}
-	if (ft_strchr("wasd", keysym) || keysym == XK_Left || keysym == XK_Right)
+	if (ft_strchr("wasdf", keysym) || keysym == XK_Left || keysym == XK_Right)//stupid
 	{
 		if (keysym == XK_Right)
 			data->p_angle += A_STEP;
@@ -79,6 +71,13 @@ int	input(int keysym, t_data *data)
 			data->p_angle -= A_STEP;
 		if (ft_strchr("wasd", keysym))
 			walk_check(data, keysym);
+		if (keysym == 'f')
+		{
+			if (!data->door_opened)
+				data->door_opened = true;
+			else
+				data->door_opened = false;
+		}
 		create_frame(data);
 	}
 	return (0);

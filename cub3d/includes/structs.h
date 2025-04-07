@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:57:39 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 17:51:39 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:38:00 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ typedef struct s_data
 	int			color_ceiling;
 	bool		door_opened;//bonus
 	char		**map;
-	int			map_height;
-	int			map_width;
+	size_t		map_height;
+	size_t		map_width;
 	char		**file;
 	char		*path_north;
 	char		*path_east;
