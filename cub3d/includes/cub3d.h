@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 04:17:21 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 07:42:00 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 # include "libft/libft.h"
+# include "structs.h"
 # include "minilibx-linux/mlx.h"
 # include <math.h>
 # include <X11/keysym.h>
@@ -21,99 +22,39 @@
 
 # define POSSIBLE "01NESW"
 # define SCALE 16
-# define W_STEP 0.5
-//define angle arrow
-# define FOV 64//use this ffs
-
-
-
+# define W_STEP 0.25
+# define A_STEP 10
+# define FOV 64
+# define WIN_WIDTH 1280
+# define WIN_HEIGHT 720
 # define WHITE 16777215
 # define GREY 4210752
 # define GREEN 65280
 # define RED 16711680
-
 # define PI 3.14159265358979323846
-
-//header for structs
-typedef struct s_img
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		endian;
-	int		line_len;
-	int		width;
-	int		height;
-}				t_img;
-
-typedef struct	s_data
-{
-	void		*mlx;
-	void		*win;
-	int			win_height;
-	int			win_width;
-	
-	float	p_y;
-	float	p_x;
-	int		p_angle;
-	t_img	frame;
-	t_img	north;
-	t_img	east;
-	t_img	south;
-	t_img	west;
-	int		color_floor;
-	int		color_ceiling;
-
-	bool	door_opened;//bonus
-
-	
-	char		**map;
-	int			map_height;
-	int			map_width;
-	//find better place for these
-	char		**file;
-	char		*path_north;
-	char		*path_east;
-	char		*path_south;
-	char		*path_west;
-	char		*path_floor;
-	char		*path_ceiling;
-}				t_data;
-
-
-void	clear_img(t_data *data);
-//parser
-bool	parser(int ac, char **av, t_data *data);
-bool	save_map(t_data *data);
-bool	map_check(t_data *data);
 
 //init
 bool	init(int ac, char **av, t_data *data);
+bool	parser(int ac, char **av, t_data *data);
+bool	save_map(t_data *data);
+bool	map_check(t_data *data);
+bool	save_texture_path(t_data *data);
+bool	texture_check(t_data *data);
 
-//minimap
-void	create_map(t_data *data);
-
-float	rad(float deg);
-
-//test
+//raycast
 void	raycast(t_data *data);
 void	create_background(t_data *data);
+void	angle_correct(float *angle, int *dir, bool is_h);
+float	rad(float deg);
 
-//frame
+//utils
 void	create_frame(t_data *data);
-
-//img
+void	create_map(t_data *data);
 void	put_pixel(t_data *data, int y, int x, int color);
-
-//input
-int	input(int keysym, t_data *data);
-
-//errors
+void	clear_img(t_data *data);
+int		input(int keysym, t_data *data);
 bool	error(char *str);
-
-//clean
 int		clean_everything(t_data *data);
-void	clean_array(char **arr);//use free_array
-
+int		clean_exit(t_data *data);
 
 #endif

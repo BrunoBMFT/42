@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:04:14 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 04:15:19 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 07:41:32 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,8 @@ bool	init(int ac, char **av, t_data *data)
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		return (error("Failed to initialize mlx"));
-	data->win_width = 1280;
-	data->win_height = 720;
+	data->win_width = WIN_WIDTH;
+	data->win_height = WIN_HEIGHT;
 	if (!init_imgs(data))
 		return (false);
 	data->win = mlx_new_window(data->mlx,

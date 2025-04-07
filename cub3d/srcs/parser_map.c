@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:35:48 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 03:14:04 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 05:00:59 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ bool	is_allowed(char *str)
 	return (true);
 }
 
-//this is called twice to malloc and to save, call it only once
 bool	is_path(char *str)
 {
 	if (!ft_strncmp("NO", str, 2) || !ft_strncmp("SO", str, 2)

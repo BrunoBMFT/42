@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:01 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 04:05:02 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 04:56:29 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,12 @@ int	clean_everything(t_data *data)
 		free(data->mlx);
 	}
 	clean_texture_path(data);
+	return (0);
+}
+
+int	clean_exit(t_data *data)
+{
+	clean_everything(data);
+	exit(0);
 	return (0);
 }
