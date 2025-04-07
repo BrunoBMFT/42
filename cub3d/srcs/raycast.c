@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:46:55 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 07:58:12 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:43:53 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,95 +30,135 @@ bool	hit_inter(t_data *data, float y, float x)
 	return (true);
 }
 
-t_coord	inter_h_step(t_data *data, float angle)
+float	inter_h_step(t_data *data, float angle, t_coord *coord)
 {
-	t_coord	coord;
 	int		x_dir;
+	float	y;
+	float	x;
 	float	y_step;
 	float	x_step;
 
 	angle_correct(&angle, &x_dir, true);
-	coord.x = floor(data->p_x / SCALE) * SCALE;
+	x = floor(data->p_x / SCALE) * SCALE;
 	if (x_dir == 1)
-		coord.x += SCALE;
+		x += SCALE;
 	else
-		coord.x -= 0.0001f;
-	coord.y = data->p_y + (coord.x - data->p_x) / tan(rad(angle));
+		x -= 0.0001f;
+	y = data->p_y + (x - data->p_x) / tan(rad(angle));
 	x_step = SCALE * x_dir;
 	y_step = x_step / tan(rad(angle));
-	while (hit_inter(data, coord.y, coord.x))
+	while (hit_inter(data, y, x))
 	{
-		coord.y += y_step;
-		coord.x += x_step;
+		y += y_step;
+		x += x_step;
 	}
-	return (coord);
+	coord->y = y;
+	coord->x = x;
+	return (sqrt(pow(data->p_y - y, 2) + pow(data->p_x - x, 2)));
 }
 
-t_coord	inter_v_step(t_data *data, float angle)
+float	inter_v_step(t_data *data, float angle, t_coord *coord)
 {
-	t_coord	coord;
 	int		y_dir;
+	float	y;
+	float	x;
 	float	y_step;
 	float	x_step;
 
 	angle_correct(&angle, &y_dir, false);
-	coord.y = floor(data->p_y / SCALE) * SCALE;
+	y = floor(data->p_y / SCALE) * SCALE;
 	if (y_dir == 1)
-		coord.y += SCALE;
+		y += SCALE;
 	else
-		coord.y -= 0.0001f;
-	coord.x = data->p_x + (coord.y - data->p_y) * tan(rad(angle));
+		y -= 0.0001f;
+	x = data->p_x + (y - data->p_y) * tan(rad(angle));
 	y_step = SCALE * y_dir;
 	x_step = y_step * tan(rad(angle));
-	while (hit_inter(data, coord.y, coord.x))
+	while (hit_inter(data, y, x))
 	{
-		coord.y += y_step;
-		coord.x += x_step;
+		y += y_step;
+		x += x_step;
 	}
-	return (coord);
+	coord->y = y;
+	coord->x = x;
+	return (sqrt(pow(data->p_y - y, 2) + pow(data->p_x - x, 2)));
 }
 
-void	draw_wall_section(t_data *data, float hyp, float angle, int i)
-{
-	int	height;
-	int	top;
-	int	bot;
 
-	height = (SCALE * (data->win_width / 2) / tan(rad(64) / 2))
+void	draw_wall_section(t_data *data, float hyp, 
+float angle, int i, t_coord coord, bool vertical_hit)
+{
+	int height = (SCALE * (data->win_width / 2) / tan(rad(FOV) / 2))
 		/ (hyp * cos(rad(angle - data->p_angle)));
-	top = (data->win_height / 2) - (height / 2);
-	bot = (data->win_height / 2) + (height / 2);
+	int top = (data->win_height / 2) - (height / 2);
+	int bot = (data->win_height / 2) + (height / 2);
 	if (top < 0)
 		top = 0;
 	if (bot > data->win_height)
 		bot = data->win_height;
+	
+
+    float tex_x;
+    float tex_pos;
+    float step;
+    int tex_y;
+
+    if (vertical_hit)
+		tex_x = fmodf(coord.y, SCALE) * data->north.width / SCALE;
+    else
+        tex_x = fmodf(coord.x, SCALE) * data->north.width / SCALE;
+
+	
+
+    step = (float)data->north.height / height;
+    tex_pos = (top - data->win_height / 2 + height / 2) * step;
+	
 	while (top < bot)
 	{
-		put_pixel(data, top, i, RED);
+		int tex_y = (int)tex_pos;
+		if (tex_y >= data->north.height)
+			tex_y = data->north.height - 1;
+
+        int color;
+        if (vertical_hit)
+        {
+            if (coord.x > data->p_x)//east
+                color = get_pixel(&data->east, tex_x, tex_y);
+            else//west
+                color = get_pixel(&data->west, tex_x, tex_y);
+        }
+        else
+        {
+            if (coord.y > data->p_y)
+                color = get_pixel(&data->south, tex_x, tex_y);
+            else//north
+                color = get_pixel(&data->north, tex_x, tex_y);
+        }
+		put_pixel(data, top, i, color);
+		tex_pos += step;
 		top++;
 	}
 }
 
 void	raycast(t_data *data)
 {
-	t_coord	v;
-	t_coord	h;
+	float	v;
+	float	h;
 	int		section;
 	float	angle;
+	t_coord coord_v, coord_h;
 
 	angle = data->p_angle - FOV / 2;
 	section = 0;
 	while (section < data->win_width)
 	{
-		v = inter_v_step(data, angle);
-		h = inter_h_step(data, angle);
-		float v_dist = sqrt(pow(data->p_y - v.y, 2) + pow(data->p_x - v.x, 2));
-		float h_dist = sqrt(pow(data->p_y - h.y, 2) + pow(data->p_x - h.x, 2));
-		if (v_dist < h_dist)
-			draw_wall_section(data, v_dist, angle, section);
+		v = inter_v_step(data, angle, &coord_v);
+		h = inter_h_step(data, angle, &coord_h);
+		if (v < h)
+			draw_wall_section(data, v, angle, section, coord_v, false);
 		else
-			draw_wall_section(data, h_dist, angle, section);
+			draw_wall_section(data, h, angle, section, coord_h, true);
 		section++;
-		angle = angle + (FOV * 0.00078125);
+		angle = angle + (FOV * 0.00078125);// 1/128
 	}
 }

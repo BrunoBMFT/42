@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 00:43:02 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 07:42:00 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 09:30:17 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define FOV 64
 # define WIN_WIDTH 1280
 # define WIN_HEIGHT 720
+
+
 # define WHITE 16777215
 # define GREY 4210752
 # define GREEN 65280
@@ -51,6 +53,7 @@ float	rad(float deg);
 void	create_frame(t_data *data);
 void	create_map(t_data *data);
 void	put_pixel(t_data *data, int y, int x, int color);
+int     get_pixel(t_img *img, int x, int y);
 void	clear_img(t_data *data);
 int		input(int keysym, t_data *data);
 bool	error(char *str);

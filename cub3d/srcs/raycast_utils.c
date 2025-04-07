@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:46:19 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 04:48:17 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/07 14:07:33 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ void	angle_correct(float *angle, int *dir, bool is_h)
 		else
 			*dir = -1;
 	}
+}
+
+int	get_pixel(t_img *img, int x, int y)
+{
+	char	*dst;
+
+	dst = img->addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
+	return (*(unsigned int *)dst);
 }
 
 // printf("%d %d\n", y, x);
