@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:41:37 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 19:38:10 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/09 01:26:23 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 bool	path_already_saved(t_data *data, char *temp)
 {
 	if ((!ft_strncmp("NO", temp, 2) && data->path_north)
-		|| (!ft_strncmp("EA", temp, 2) && data->path_east)
+		|| (!ft_strncmp("EA", temp, 2)
+		 && data->path_east)
 		|| (!ft_strncmp("SO", temp, 2) && data->path_south)
 		|| (!ft_strncmp("WE", temp, 2) && data->path_west)
 		|| (!ft_strncmp("F", temp, 1) && data->path_floor)

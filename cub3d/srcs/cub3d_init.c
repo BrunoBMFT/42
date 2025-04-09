@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:04:14 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 20:04:41 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/09 01:32:48 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ bool	init(int ac, char **av, t_data *data)
 		return (false);
 	init_colors(data);
 	data->door_opened = false;
+	data->map_active = false;
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		return (error("Failed to initialize mlx"));

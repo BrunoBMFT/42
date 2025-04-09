@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   frame.c                                            :+:      :+:    :+:   */
+/*   raycast_frame.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:49:30 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 19:48:24 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/09 01:33:02 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	create_frame(t_data *data)
 {
 	clear_img(data);
 	raycast(data);
-	create_map(data);
+	if (data->map_active)
+		create_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 }
