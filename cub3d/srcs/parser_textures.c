@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:41:37 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/09 01:26:23 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:23:29 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ bool	save_texture_path(t_data *data)
 	return (true);
 }
 
-//verify if working
 bool	check_paths(t_data *data)
 {
 	if (access(data->path_north, R_OK) || access(data->path_east, R_OK)
@@ -60,18 +59,64 @@ bool	check_paths(t_data *data)
 	return (true);
 }
 
-// TODO check limits and commas
+int	parse_rgb(const char *str)
+{
+	int	i;
+	int	start;
+	int	red;
+	int	green;
+	int	blue;
+
+	i = 0;
+	start = 0;
+	while (str[i] && str[i] != ',')
+		i++;
+	red = ft_atoi(&str[start]);
+	start = ++i;
+	while (str[i] && str[i] != ',')
+		i++;
+	green = ft_atoi(&str[start]);
+	start = ++i;
+	blue = ft_atoi(&str[start]);
+	return ((red << 16) | (green << 8) | blue);
+}
+
+void	init_colors(t_data *data)
+{
+	data->color_floor = parse_rgb(data->path_floor);
+	data->color_ceiling = parse_rgb(data->path_ceiling);
+}
+
 bool	color_char_check(char *color)
 {
 	int	i;
+	int	value;
+	int	count;
 
 	i = 0;
-	while (color[i])
+	count = 0;
+	while (count < 3)
 	{
-		if (!ft_strchr("0123456789,", color[i]))
+		if (color[i] < '0' || color[i] > '9')
 			return (false);
-		i++;
+		value = 0;
+		while (color[i] >= '0' && color[i] <= '9')
+		{
+			value = value * 10 + (color[i] - '0');
+			i++;
+		}
+		if (value < 0 || value > 255)
+			return (false);
+		count++;
+		if (count < 3)
+		{
+			if (color[i] != ',')
+				return (false);
+			i++;
+		}
 	}
+	if (color[i] != '\0')
+		return (false);
 	return (true);
 }
 
@@ -82,8 +127,11 @@ bool	texture_check(t_data *data)
 		return (error("Missing info"));
 	if (!*data->path_ceiling || !*data->path_floor)
 		return (error("Missing info"));
-	if (!color_char_check(data->path_ceiling)
-		|| !color_char_check(data->path_floor))
+	if (!color_char_check(data->path_floor)
+		|| !color_char_check(data->path_ceiling))
 		return (error("Invalid colors"));
+	init_colors(data);
+	if (!check_paths(data))
+		return (false);
 	return (true);
 }

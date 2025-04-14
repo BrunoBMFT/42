@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:04:14 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/09 01:32:48 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:23:38 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,6 @@ void	init_variables(t_data *data)
 	data->frame.img = NULL;
 }
 
-int	parse_rgb(const char *str)
-{
-	int	i;
-	int	start;
-	int	red;
-	int	green;
-	int	blue;
-
-	i = 0;
-	start = 0;
-	while (str[i] && str[i] != ',')
-		i++;
-	red = ft_atoi(&str[start]);
-	start = ++i;
-	while (str[i] && str[i] != ',')
-		i++;
-	green = ft_atoi(&str[start]);
-	start = ++i;
-	blue = ft_atoi(&str[start]);
-	return ((red << 16) | (green << 8) | blue);
-}
-
-void	init_colors(t_data *data)
-{
-	data->color_floor = parse_rgb(data->path_floor);
-	data->color_ceiling = parse_rgb(data->path_ceiling);
-}
 
 bool	init(int ac, char **av, t_data *data)
 {
@@ -66,7 +39,6 @@ bool	init(int ac, char **av, t_data *data)
 		return (false);
 	if (!player_init(data))
 		return (false);
-	init_colors(data);
 	data->door_opened = false;
 	data->map_active = false;
 	data->mlx = mlx_init();

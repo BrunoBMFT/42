@@ -1,8 +1,8 @@
 NAME =	cub3d
 
 SRCS_DIR = ./srcs
-SRCS = main.c cub3d_init.c cub3d_init_2.c \
-		parser.c parser_map.c parser_map_2.c parser_textures.c \
+SRCS = main.c cub3d_init.c cub3d_init_utils.c \
+		parser.c parser_map.c parser_map_utils.c parser_textures.c \
 		raycast.c raycast_img.c raycast_utils.c raycast_draw.c raycast_frame.c \
 		minimap.c input.c cub3d_utils.c
 CFLAGS = -g #-Wall -Werror -Wextra

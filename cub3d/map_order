@@ -1,3 +1,4 @@
+
 nothing
 nomap
 nopath
@@ -8,5 +9,10 @@ missingwall
 nost
 2st
 wrongchar
+infowrong
+invcolor
 oknonl
 map
+
+
+also test colors

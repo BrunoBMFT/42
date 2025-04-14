@@ -6,7 +6,7 @@
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 01:36:45 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/07 05:00:45 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:07:26 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ bool	save_file(t_data *data, char *str)
 	read_into_file(data, fd, 0);
 	close (fd);
 	if (!*data->file)
-		return (error("No file"));
+		return (error("Nothing in file"));
 	return (true);
 }
 
