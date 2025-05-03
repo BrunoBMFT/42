@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_init_2.c                                     :+:      :+:    :+:   */
+/*   cub3d_init_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:04:53 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 20:06:36 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:17:07 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ bool	init_texture_img(t_data *data, t_img *texture, char *img_src)
 
 bool	init_imgs(t_data *data)
 {
-	if (!init_texture_img(data, &data->north, "./sprites/north.xpm"))
+	if (!init_texture_img(data, &data->north, "./includes/sprites/north.xpm"))
 		return (false);
-	if (!init_texture_img(data, &data->east, "./sprites/east.xpm"))
+	if (!init_texture_img(data, &data->east, "./includes//sprites/east.xpm"))
 		return (false);
-	if (!init_texture_img(data, &data->south, "./sprites/south.xpm"))
+	if (!init_texture_img(data, &data->south, "./includes//sprites/south.xpm"))
 		return (false);
-	if (!init_texture_img(data, &data->west, "./sprites/west.xpm"))
+	if (!init_texture_img(data, &data->west, "./includes//sprites/west.xpm"))
 		return (false);
 	data->frame.img = mlx_new_image(data->mlx,
 			data->win_width, data->win_height);
