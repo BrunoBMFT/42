@@ -1,0 +1,16 @@
+{
+	"files.associations": {
+		"libft.h": "c",
+		"cub3d.h": "c",
+		"get_next_line.h": "c",
+		"ft_printf.h": "c",
+		"mlx.h": "c",
+		"math.h": "c",
+		"limits": "c",
+		"*.tcc": "c",
+		"keysym.h": "c",
+		"mlx_int.h": "c",
+		"cmath": "c"
+	},
+	"makefile.configureOnOpen": false
+}
