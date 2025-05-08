@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:57:39 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/09 01:32:36 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/05/08 06:02:55 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ typedef struct s_data
 	t_img		west;
 	int			color_floor;
 	int			color_ceiling;
-	bool		door_opened;//bonus
-	bool		map_active;
+	int			door_opened;//bonus
+	int			map_active;
 	char		**map;
 	size_t		map_height;
 	size_t		map_width;

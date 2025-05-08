@@ -1,9 +1,9 @@
-NAME =	cub3D
+NAME =cub3D
 
 SRCS_DIR = ./srcs
 SRCS = main.c cub3d_init.c cub3d_init_utils.c \
 		parser.c parser_map.c parser_map_utils.c parser_textures.c \
-		raycast.c raycast_img.c raycast_utils.c raycast_draw.c raycast_frame.c \
+		raycast.c raycast_utils.c raycast_draw.c raycast_frame.c \
 		minimap.c input.c cub3d_utils.c
 CFLAGS = -g -Wall -Werror -Wextra
 
@@ -29,16 +29,17 @@ $(LIBFT):
 	@make -C $(LIBFT_DIR) --no-print-directory
 $(MLX):
 	@make -C $(MLX_DIR) #--no-print-directory
-	@echo $(MLX) compiled and ready!
 
 clean:
 	@rm -rf $(OBJS_DIR)
 	@make -C $(LIBFT_DIR) clean --no-print-directory
+	@echo $(NAME) cleaned
 fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIBFT_DIR) fclean --no-print-directory
+	@make -C $(MLX_DIR) clean #--no-print-directory
+	@echo $(NAME) fclean
 
 re: fclean all
-
 
 .PHONY: all fclean clean re

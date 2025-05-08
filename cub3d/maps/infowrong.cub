@@ -1,6 +1,6 @@
-NO ./sprites/north.xpm
-SO ./sprites/south.xpm
-WE ./sprites/west.xpm
+NO ./includes/sprites/north.xpm
+SO ./includes/sprites/south.xpm
+WE ./includes/sprites/west.xpm
 EA ./spri
 
 

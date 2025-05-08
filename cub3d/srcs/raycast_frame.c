@@ -3,18 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_frame.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:49:30 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/09 01:33:02 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/05/08 06:03:14 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	clear_img(t_data *data)
+int	get_pixel(t_img *img, int x, int y)
 {
-	create_background(data);
+	char	*dst;
+
+	dst = img->addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
+	return (*(unsigned int *)dst);
+}
+
+void	put_pixel(t_data *data, int y, int x, int color)
+{
+	char	*offset;
+
+	if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)
+		return ;
+	offset = data->frame.addr + (y * data->frame.line_len + x
+			* (data->frame.bits_per_pixel / 8));
+	*(unsigned int *)offset = color;
 }
 
 void	create_background(t_data *data)
@@ -40,9 +54,9 @@ void	create_background(t_data *data)
 
 void	create_frame(t_data *data)
 {
-	clear_img(data);
+	create_background(data);
 	raycast(data);
-	if (data->map_active)
+	if (!ft_is_even(data->map_active))
 		create_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 }

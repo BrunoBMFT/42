@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:10:36 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/09 01:33:34 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/05/08 06:02:51 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	check_collisions(t_data *data, float y_temp, float x_temp)
+void	walk_aux(t_data *data, float y_temp, float x_temp)
 {
 	int	map_y;
 	int	map_x;
@@ -20,40 +20,34 @@ void	check_collisions(t_data *data, float y_temp, float x_temp)
 	map_y = floor (y_temp);
 	map_x = floor (x_temp);
 	if ((data->map[map_y] && data->map[map_y][map_x]) &&
-		(data->map[map_y][map_x] != '1' && !(data->map[map_y][map_x] == 'D'
-		&& !data->door_opened)))
+		(data->map[map_y][map_x] != '1' &&
+		!(data->map[map_y][map_x] == 'D'
+		&& ft_is_even(data->door_opened))))
 	{
 		data->p_y = y_temp * SCALE;
 		data->p_x = x_temp * SCALE;
 	}
 }
 
-void	walk_check(t_data *data, int keysym)
+void	walk(t_data *data, int keysym)
 {
-	float	y_temp;
-	float	x_temp;
+	float	cos_value;
+	float	sin_value;
 
+	cos_value = W_STEP * cos(rad(data->p_angle));
+	sin_value = W_STEP * sin(rad(data->p_angle));
 	if (keysym == 'w')
-	{
-		y_temp = data->p_y / SCALE - W_STEP * cos(rad(data->p_angle));
-		x_temp = data->p_x / SCALE + W_STEP * sin(rad(data->p_angle));
-	}
+		walk_aux(data, data->p_y / SCALE - cos_value,
+			data->p_x / SCALE + sin_value);
 	if (keysym == 's')
-	{
-		y_temp = data->p_y / SCALE + W_STEP * cos(rad(data->p_angle));
-		x_temp = data->p_x / SCALE - W_STEP * sin(rad(data->p_angle));
-	}
+		walk_aux(data, data->p_y / SCALE + cos_value,
+			data->p_x / SCALE - sin_value);
 	if (keysym == 'a')
-	{
-		y_temp = data->p_y / SCALE - W_STEP * sin(rad(data->p_angle));
-		x_temp = data->p_x / SCALE - W_STEP * cos(rad(data->p_angle));
-	}
+		walk_aux(data, data->p_y / SCALE - sin_value,
+			data->p_x / SCALE - cos_value);
 	if (keysym == 'd')
-	{
-		y_temp = data->p_y / SCALE + W_STEP * sin(rad(data->p_angle));
-		x_temp = data->p_x / SCALE + W_STEP * cos(rad(data->p_angle));
-	}
-	check_collisions(data, y_temp, x_temp);
+		walk_aux(data, data->p_y / SCALE + sin_value,
+			data->p_x / SCALE + cos_value);
 }
 
 int	input(int keysym, t_data *data)
@@ -63,28 +57,18 @@ int	input(int keysym, t_data *data)
 		clean_everything(data);
 		exit(0);
 	}
-	if (ft_strchr("wasdfm", keysym) || keysym == XK_Left || keysym == XK_Right)
+	else if (ft_strchr("wasdfm", keysym) || keysym == XK_Left || keysym == XK_Right)
 	{
 		if (keysym == XK_Right)
 			data->p_angle += A_STEP;
-		if (keysym == XK_Left)
+		else if (keysym == XK_Left)
 			data->p_angle -= A_STEP;
-		if (ft_strchr("wasd", keysym))
-			walk_check(data, keysym);
-		if (keysym == 'f')
-		{
-			if (!data->door_opened)
-				data->door_opened = true;
-			else
-				data->door_opened = false;
-		}
+		else if (ft_strchr("wasd", keysym))
+			walk(data, keysym);
+		else if (keysym == 'f')
+			data->door_opened++;
 		if (keysym == 'm')
-		{
-			if (!data->map_active)
-				data->map_active = true;
-			else
-				data->map_active = false;
-		}
+			data->map_active++;
 		create_frame(data);
 	}
 	return (0);

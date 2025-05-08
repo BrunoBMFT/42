@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_init_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:04:53 by brfernan          #+#    #+#             */
-/*   Updated: 2025/05/03 18:17:07 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/05/08 06:03:49 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ bool	player_init(t_data *data)
 			{
 				data->p_y = y * SCALE;
 				data->p_x = x * SCALE;
-				player_angle_init(data, data->map[y][x]);
 				count++;
+				player_angle_init(data, data->map[y][x]);
 			}
 			x++;
 		}

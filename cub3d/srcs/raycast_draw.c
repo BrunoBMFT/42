@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_draw.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:57:22 by brfernan          #+#    #+#             */
 /*   Updated: 2025/04/07 20:02:19 by brfernan         ###   ########.fr       */

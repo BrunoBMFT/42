@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parser_map_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:02:47 by brfernan          #+#    #+#             */
 /*   Updated: 2025/04/07 20:03:21 by brfernan         ###   ########.fr       */

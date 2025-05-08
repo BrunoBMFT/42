@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 17:04:14 by bruno             #+#    #+#             */
-/*   Updated: 2025/04/14 17:23:38 by brfernan         ###   ########.fr       */
+/*   Created: 2025/03/18 17:04:14 by brfernan          #+#    #+#             */
+/*   Updated: 2025/05/08 05:57:44 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	init(int ac, char **av, t_data *data)
 	if (!player_init(data))
 		return (false);
 	data->door_opened = false;
-	data->map_active = false;
+	data->map_active = true;
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		return (error("Failed to initialize mlx"));

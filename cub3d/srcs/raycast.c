@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:46:55 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 19:59:25 by brfernan         ###   ########.fr       */
+/*   Updated: 2025/05/08 06:01:39 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool	hit_inter(t_data *data, float y, float x)
 		return (false);
 	if (data->map[map_y][map_x] == '1'
 		|| (data->map[map_y][map_x] == 'D'
-		&& !data->door_opened))
+		&& ft_is_even(data->door_opened)))
 		return (false);
 	return (true);
 }
