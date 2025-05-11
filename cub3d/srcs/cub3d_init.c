@@ -31,7 +31,6 @@ void	init_variables(t_data *data)
 	data->frame.img = NULL;
 }
 
-
 bool	init(int ac, char **av, t_data *data)
 {
 	init_variables(data);

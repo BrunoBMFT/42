@@ -57,7 +57,8 @@ int	input(int keysym, t_data *data)
 		clean_everything(data);
 		exit(0);
 	}
-	else if (ft_strchr("wasdfm", keysym) || keysym == XK_Left || keysym == XK_Right)
+	else if (ft_strchr("wasdfm", keysym)
+		|| keysym == XK_Left || keysym == XK_Right)
 	{
 		if (keysym == XK_Right)
 			data->p_angle += A_STEP;
