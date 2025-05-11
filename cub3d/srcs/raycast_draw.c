@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/07 19:57:22 by brfernan          #+#    #+#             */
-/*   Updated: 2025/04/07 20:02:19 by brfernan         ###   ########.fr       */
+/*   Created: 2025/05/11 03:51:51 by brfernan          #+#    #+#             */
+/*   Updated: 2025/05/11 03:52:05 by brfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	get_text_x(t_data *data, t_coord coord, bool vert)
 {
 	if (vert)
 		return (fmodf(coord.y, SCALE) * data->north.width / SCALE);
-	return (coord.x = fmodf(coord.x, SCALE) * data->north.width / SCALE);
+	return (fmodf(coord.x, SCALE) * data->north.width / SCALE);
 }
 
 int	get_color(t_data *data, t_coord coord, t_coord texture, bool vert)
