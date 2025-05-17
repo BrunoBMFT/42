@@ -44,7 +44,7 @@ bool	is_allowed(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_strchr("01NESW ", str[i]))
+		if (!ft_strchr("01NESWD ", str[i]))
 			return (false);
 		i++;
 	}
