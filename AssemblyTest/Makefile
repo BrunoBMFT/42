@@ -18,11 +18,11 @@ $(NAME): $(OBJS)
 
 
 $(OBJS_DIR)/%.o: %.c
-	@mkdir -p $(OBJS_DIR)
-	@$(CC) -c $< -o $@
+	mkdir -p $(OBJS_DIR)
+	$(CC) -c $< -o $@
 $(OBJS_DIR)/%.o: %.S
-	@mkdir -p $(OBJS_DIR)
-	@$(AS) $< -o $@
+	mkdir -p $(OBJS_DIR)
+	$(AS) $< -o $@
 
 clean:
 	rm -f -r $(OBJS_DIR)

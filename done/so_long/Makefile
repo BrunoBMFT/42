@@ -25,6 +25,10 @@ $(NAME): $(MLX) $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(MLX)
 	@echo $(NAME) ready!
 
+$(MLX):
+	@$(MAKE) -C $(MLX_DIR) --no-print-directory
+	@echo libft compiled and ready!
+
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 	@echo libft compiled and ready!
@@ -40,4 +44,8 @@ fclean: clean
 	@echo so_long fclean
 
 re: fclean all
-.PHONY: all bonus fclean clean re
+
+install:
+	git clone git@github.com:42paris/minilibx-linux.git $(MLX_DIR)
+
+.PHONY: all bonus fclean clean re install

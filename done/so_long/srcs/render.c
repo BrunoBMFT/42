@@ -16,6 +16,7 @@ void	render(t_vars *vars, t_img *img)
 {
 	render_map(vars, img);
 	render_player(vars, img);
+	// mlx_string_put(vars->mlx, vars->win, 0, 0, );
 	mlx_put_image_to_window(vars->mlx, vars->win, img->img, 0, 0);
 }
 

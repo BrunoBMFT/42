@@ -53,13 +53,8 @@ bool	read_file(t_map *map, int fd, int loop)
 bool	get_file(char *file, t_map *map)
 {
 	int		fd;
-	char	*new;
 
-	new = ft_strjoin("./maps/", file);
-	if (!new)
-		return (ft_putendl(ERR_ALLOC), clean_map(map), false);
-	fd = open(new, O_RDONLY);
-	free (new);
+	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (ft_putendl(INV_FILE), false);
 	if (!read_file(map, fd, 0))
