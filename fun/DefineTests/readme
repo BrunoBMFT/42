@@ -1,0 +1,4 @@
+this program tests having multiple definition for the same function
+the first definition is the one that i built beforehand
+the second definition is the one i'd be developing and testing, always having the first one to fall back on
+
