@@ -2,41 +2,34 @@
 # define VECT2_HPP
 # include <iostream>
 
-
 class vect2
 {
-    private:
-        int n0, n1;
-    public:
-        vect2() : n0(0), n1(0) {}
-        vect2(int a, int b) : n0(a), n1(b) {}
-        vect2(const vect2& other){n0 = other.n0; n1 = other.n1;}
+	private:
+		int n0, n1;
+	public:
+		vect2() : n0(0), n1(0) {}
+		vect2(int num0, int num1) : n0(num0), n1(num1) {}
+		vect2(const vect2& oth) : n0(oth[0]), n1(oth[1]) {}
 
-		//overload for =
-		vect2& operator=(const vect2& other) {
-			n0 = other[0];
-			n1 = other[1];
+		vect2& operator=(const vect2& oth){
+			n0 = oth[0];
+			n1 = oth[1];
 			return *this;
 		}
 
-		//overloads for []
-		int operator[](int n) const {
-			if (n == 0)
-				return n0;
-			return n1;
-		}
-		int& operator[](int n) {
-			if (n == 0)
-				return n0;
-			return n1;
+		int operator[](int i) const { if (i == 0) return n0; return n1; }
+		int& operator[](int i) { if (i == 0) return n0; return n1; }
+
+		friend std::ostream& operator<<(std::ostream& o, const vect2& v){
+			o << "{" << v[0] << ", " << v[1] << "}";
+			return o;
 		}
 
-		//++ and --
 		vect2 operator++(int){
-			vect2 copy(*this);
+			vect2 tmp(*this);
 			n0++;
 			n1++;
-			return copy;
+			return tmp;
 		}
 		vect2& operator++(){
 			n0++;
@@ -44,10 +37,10 @@ class vect2
 			return *this;
 		}
 		vect2 operator--(int){
-			vect2 copy(*this);
+			vect2 tmp(*this);
 			n0--;
 			n1--;
-			return copy;
+			return tmp;
 		}
 		vect2& operator--(){
 			n0--;
@@ -55,54 +48,39 @@ class vect2
 			return *this;
 		}
 
-
-		// += and -=
-		vect2 operator+=(const vect2& other){
-			n0 += other[0];
-			n1 += other[1];
+		vect2 operator+=(const vect2& oth){
+			n0 += oth[0];
+			n1 += oth[1];
 			return *this;
 		}
-		vect2 operator-=(const vect2& other){
-			n0 -= other[0];
-			n1 -= other[1];
+		vect2 operator-=(const vect2& oth){
+			n0 -= oth[0];
+			n1 -= oth[1];
 			return *this;
 		}
 
+		vect2 operator+(const vect2& oth) const {
+			return vect2(n0 + oth[0], n1 + oth[1]);
+		}
+		vect2 operator-(const vect2& oth) const {
+			return vect2(n0 - oth[0], n1 - oth[1]);
+		}
+		vect2 operator*(const vect2& oth) const {
+			return vect2(n0 * oth[0], n1 * oth[1]);
+		}
+		friend vect2 operator*(int i, const vect2& oth) {
+			return vect2(i * oth[0], i * oth[1]);
+		}
 
-		// + and - and *
-		vect2 operator+(const vect2& a) const {
-			vect2 temp(n0 + a[0], n1 + a[1]);
-			return temp;
+		bool operator==(const vect2& oth){
+			return (n0 == oth[0] && n1 == oth[1]);
 		}
-		vect2 operator-(const vect2& a) const {
-			vect2 temp(n0 - a[0], n1 - a[1]);
-			return temp;
+
+		bool operator!=(const vect2& oth){
+			return !(n0 == oth[0] && n1 == oth[1]);
 		}
-		friend vect2 operator*(int n, const vect2& a) {
-			vect2 temp(a[0] * n, a[1] * n);
-			return temp;
-		}
-		// == and !=
-		bool operator==(const vect2& other){
-			if (n0 == other[0] && n1 == other[1])
-				return true;
-			return false;
-		}
-		bool operator!=(const vect2& other){
-			if (n0 != other[0] && n1 != other[1])
-				return true;
-			return false;
-		}
+
 
 };
-	
-std::ostream& operator<<(std::ostream& o, const vect2& v) {
-	o << "{" << v[0] << ", " << v[1] << "}";
-	return o;
-}
-
-
-
-
 
 #endif
