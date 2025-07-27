@@ -1,10 +1,10 @@
-NAME = ex02
+NAME = ex00
 SRCS_DIR = ./srcs
-SRCS = main.cpp
+SRCS = main.cpp 
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
 CXX = c++
-CXXFLAGS = -g -std=c++98 -Wall -Wextra -Werror
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 INCLUDES = -I includes
 RM = rm -f
 
