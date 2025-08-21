@@ -35,4 +35,4 @@ if ! ./wp-cli.phar user get ${WP_GUEST_USER} --allow-root > /dev/null 2>&1 ; the
 	--user_pass=${WP_GUEST_PASSWORD} \
 	--allow-root
 fi
-php-fpm7.4 -F
+php-fpm8.2 -F

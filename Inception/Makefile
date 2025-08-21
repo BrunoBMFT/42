@@ -5,7 +5,7 @@ data:
     	mkdir -p /home/brfernan/data/mariadb && mkdir -p /home/brfernan/data/wordpress; fi
 
 up: data
-	@docker-compose -f ./srcs/docker-compose.yml up -d
+	@docker-compose -f ./srcs/docker-compose.yml up
 
 down: 
 	@docker-compose -f ./srcs/docker-compose.yml down
