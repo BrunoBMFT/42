@@ -1,6 +1,6 @@
-NAME = ex00
+NAME = ex01
 SRCS_DIR = ./srcs
-SRCS = main.cpp 
+SRCS = main.cpp Span.cpp
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
 CXX = c++

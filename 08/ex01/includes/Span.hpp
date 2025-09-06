@@ -6,14 +6,34 @@
 class Span
 {
 	private:
-		std::vector<int> vect;
+		unsigned int		max;
+		std::vector<int>	vect;
 	public:
-		Span(unsigned int n1) {
-			
-		}
+		Span();
+		Span(unsigned int n);
 
-		~Span() {}
-	
+		//COPIES!!!
+
+		~Span();
+
+		
+		void addNumber(int num);
+		int biggestSpan();
+		int shortestSpan();
+
+	// // Exceptions 
+	// // !RENAME
+	// class FullContainerException : public std::exception
+	// {
+	// 	public:
+	// 		virtual const char *what() const throw();
+	// };
+
+	// class NotEnoughNumbersException : public std::exception
+	// {
+	// 	public:
+	// 		virtual const char *what() const throw() {}
+	// };
 };
 
 #endif
