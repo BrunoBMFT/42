@@ -20,21 +20,19 @@ std::vector<std::string> saveFile(std::string infile)
 
 void	processDate(std::string input, std::vector<std::string> db)
 {	
-	std::cout << "input: " << input << std::endl;
+	// std::cout << "input: " << input << std::endl;
 	std::string date = input.substr(0, 10);//does this allocate
-	// std::cout << "date: " << date << std::endl;
 	//todo parse the date
 
-	//*find equivalent date (use lower)
-	std::string temp;//get the value from here
+	std::string temp;
 	for (size_t i = 0; i < db.size(); i++) {
 		if (date > db[i].substr(0, 10))
 			temp = db[i];//why does it not work with break???
 	}
-	std::cout << "in db: "<< temp << std::endl;
+	// std::cout << "in db: "<< temp << std::endl;
 
 	//*calculate info
-	//use find() to get the comma, then save everything else
+	//! USE FIND INSTEAD OF EVERYTHING ELSE
 	float inputNum = static_cast<float>(atof(input.substr(12, input.length()).c_str()));
 	float dbNum = static_cast<float>(atof(temp.substr(11, temp.length()).c_str()));
 
@@ -69,9 +67,9 @@ int main(int ac, char **av)
 		return 1;
 	}
 
-	processDate(input[1], db);
+	// processDate(input[1], db);
 	//*loop through input
-	// for (size_t i = 0; i < input.size(); i++)
-	// 	processDate(input[i], db);
+	for (size_t i = 0; i < input.size(); i++)
+		processDate(input[i], db);
 	return 0;
 }
