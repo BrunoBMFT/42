@@ -54,11 +54,13 @@ void	processData(std::map<std::string, double> db, char **av)
 		// std::cout << "input: " << line << std::endl;
 		std::string date = line.substr(0, 10);
 		std::cout << "date: " << date << std::endl;
-		std::map<std::string, double>::iterator pos = db.lower_bound(date);//doesnt work how i wanted it
+		//! LOWERBOUND ISNT WORKING CORRECTLY
+		std::map<std::string, double>::iterator pos = db.lower_bound(date);//!doesnt work how i wanted it
 		std::cout << "data in db: " << pos->first << std::endl;
+		//TODO now calculate the value difference and print it
 	}
 
-	
+
 }
 
 
