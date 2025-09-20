@@ -53,7 +53,6 @@ bool	processLine(std::map<std::string, double> db, std::string input)
 		return (false);
 	}
 	//todo use auto?
-	//todo parse dates using strptime
 	std::map<std::string, double>::iterator pos = db.lower_bound(date);
 	if (pos->first != date && pos != db.begin())//this should be safe enough, right?
 		--pos;
