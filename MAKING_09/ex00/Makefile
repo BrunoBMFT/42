@@ -1,10 +1,10 @@
 NAME = btc
 SRCS_DIR = ./srcs
-SRCS = main.cpp
+SRCS = main.cpp BitcoinExchange.cpp
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+CXXFLAGS = -std=c++98 #-Wall -Wextra -Werror 
 INCLUDES = -I includes
 RM = rm -f
 
