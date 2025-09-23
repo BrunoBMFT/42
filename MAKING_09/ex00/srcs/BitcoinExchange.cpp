@@ -1,4 +1,4 @@
-#include "BitcoinExchange.hpp"
+#include "../includes/BitcoinExchange.hpp"
 
 //*CONSTRUCTORS
 BitcoinExchange::BitcoinExchange()
