@@ -4,7 +4,7 @@ SRCS = main.cpp BitcoinExchange.cpp
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
 CXX = c++
-CXXFLAGS = -std=c++98 #-Wall -Wextra -Werror 
+CXXFLAGS = -std=c++98 -Wall -Wextra -Werror 
 INCLUDES = -I includes
 RM = rm -f
 
