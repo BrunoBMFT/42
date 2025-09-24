@@ -1,75 +1,79 @@
 #include "../includes/RPN.hpp"
-#include <stack>
-#include <vector>//only to start
 #include <iostream>
+#include <stack>
 
-std::vector<char> createTest() 
-{
-	std::vector<char> vec;
-	vec.push_back('7');
-	vec.push_back('7');
-	vec.push_back('*');
-	vec.push_back('7');
-	vec.push_back('-');
+/*
+	9 8 * 7 -
+	adds 9 to stack									9
+	adds 8 to stack									9 8
+	finds *											9 8 * (found, not saved)
+	saves 9 and 8									* (removes 9 and 8)
+	multiplies them to make 72						(removes *, calculate 72)
+	saves 72 onto the beginning of the list			72
+	adds 7 to stack									72 7
+	finds -											72 7 - (found, not saved)
+	saves 72 and 7									- (removes 72 and 7)
+	substracts 7 from 72							(removes -, calculate 65)
+	saves 65 onto stack								65
+*/
 
-	for (std::vector<char>::iterator it = vec.begin();
-	it != vec.end(); ++it)
-		std::cout << *it << " ";
-	std::cout << std::endl;
-	return (vec);
-}
-
-bool	isValid(int c)
+bool	isToken(int c)
 {
 	if (c == '+' || c == '-' || c == '*' || c == '/')
 		return (true);
 	return (false);
 }
 
-void printStack(std::stack<double> stack)
+bool	validString(char *str)
 {
-	while (!stack.empty()) {
+	int i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ' && !isToken(str[i]) && !isdigit(str[i]))
+		{
+			std::cout << "Error\n";
+			return (false);
+		}
+		i++;
+	}
+	return (true);
+}
+
+void	printStack(std::stack<char> stack)
+{
+	while (!stack.empty())
+	{
 		std::cout << stack.top() << " ";
 		stack.pop();
 	}
 	std::cout << std::endl;
 }
 
-int main(void)
+int main(int ac, char **av)
 {
-	std::vector<char> vec = createTest();
-
-
-	std::stack<double> stack;
-	
-	for (std::vector<char>::iterator it = vec.begin();
-	it != vec.end(); 
-	++it)
+	if (ac != 2)
 	{
-		if (isdigit(*it))
-			stack.push(*it);//so stupid
-		else if (isValid((*it)))
-		{
-			int n1, n2;
-			n1 = stack.top();
-			stack.pop();
-			n2 = stack.top();
-			stack.pop();
-			//calculate n1 (Token) n2, save it on top
-			double final;
-			if (*it == '+')
-				final = n1 + n2;
-			else if (*it == '-')
-				final = n1 - n2;
-			else if (*it == '*')
-				final = n1 * n2;
-			else if (*it == '/')
-				final = n1 / n2;
-			stack.push(final);
-		}
-		printStack(stack);
+		std::cout << "Error" << std::endl;
+		return 1;
 	}
+	if (!validString(av[1]))
+		return 1;
 
+	std::stack<char> stack;
+	char *str = av[1];
+	int i = 0; 
+	while (str[i])
+	{
+		if (str[i] == ' ') {
+			i++;
+			continue;
+		}
+		stack.push(str[i]);
+		//push to stack if number
+		//save 2 numbers and do operation if token
 
+		i++;
+	}
+	printStack(stack);//prints in reverse
 	return (0);
 }
