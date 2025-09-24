@@ -88,7 +88,7 @@ void	BitcoinExchange::execute(char *input)
 {
 	std::ifstream file(input);
 	if (!file.is_open())
-		throw std::runtime_error("Error: could not open file.");
+		throw FileOpenFail();
 
 	std::string line;
 	getline(file, line);

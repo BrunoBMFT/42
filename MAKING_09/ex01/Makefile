@@ -1,6 +1,6 @@
 NAME = RPN
 SRCS_DIR = ./srcs
-SRCS = main.cpp #RPN.cpp
+SRCS = main.cpp RPN.cpp
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
 CXX = c++
