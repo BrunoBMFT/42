@@ -3,28 +3,6 @@
 # include <iostream>
 # include <stack>
 
-bool	isToken(int c)
-{
-	if (c == '+' || c == '-' || c == '*' || c == '/')
-		return (true);
-	return (false);
-}
-
-bool	validString(char *str)// todo THROW
-{
-	int i = 0;
-	while (str[i])
-	{
-		if (str[i] != ' ' && !isToken(str[i]) && !isdigit(str[i]))
-		{
-			std::cout << "Error\n";
-			return (false);
-		}
-		i++;
-	}
-	return (true);
-}
-
 enum Token
 {
 	ADD,
@@ -33,28 +11,15 @@ enum Token
 	DIVISION,
 };
 
-int	getToken(int c)
-{
-	if (c == '+')
-		return (ADD);
-	else if (c == '-')
-		return (SUBTRACT);
-	else if (c == '*')
-		return (MULTIPLY);
-	else if (c == '/')
-		return (DIVISION);
-	return (-1);
-}
-
-void	printStack(std::stack<int> stack)
-{
-	while (!stack.empty())
-	{
-		std::cout << stack.top() - '0' << " ";
-		stack.pop();
-	}
-	std::cout << std::endl;
-}
+// void	printStack(std::stack<int> stack)
+// {
+// 	while (!stack.empty())
+// 	{
+// 		std::cout << stack.top() - '0' << " ";
+// 		stack.pop();
+// 	}
+// 	std::cout << std::endl;
+// }
 
 class RPN
 {
@@ -68,6 +33,41 @@ class RPN
 		~RPN();
 
 		//*FUNCTIONS
+
+		bool	isToken(int c)
+		{
+			if (c == '+' || c == '-' || c == '*' || c == '/')
+				return (true);
+			return (false);
+		}
+
+		bool	validString(char *str)// todo THROW
+		{
+			int i = 0;
+			while (str[i])
+			{
+				if (str[i] != ' ' && !isToken(str[i]) && !isdigit(str[i]))
+				{
+					std::cout << "Error\n";
+					return (false);
+				}
+				i++;
+			}
+			return (true);
+		}
+
+		int	getToken(int c)
+		{
+			if (c == '+')
+				return (ADD);
+			else if (c == '-')
+				return (SUBTRACT);
+			else if (c == '*')
+				return (MULTIPLY);
+			else if (c == '/')
+				return (DIVISION);
+			return (-1);
+		}
 		void execute(char *str)
 		{
 			int i = 0; 
@@ -96,7 +96,7 @@ class RPN
 					else if (token == DIVISION)
 						stack.push((n1 / n2) + '0');
 				}
-				printStack(stack);//inverse
+				// printStack(stack);//inverse
 				i++;
 			}
 			std::cout << stack.top() - '0' << std::endl;
