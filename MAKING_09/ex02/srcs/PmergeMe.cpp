@@ -26,14 +26,14 @@ PmergeMe::~PmergeMe() {}
 
 //*FUNCTIONS
 
-void	PmergeMe::printUnsorted()
+void	PmergeMe::printBefore()
 {
 	std::cout << "Before:\t";
 	for (int i = 0; i < _vector.size(); i++)
 		std::cout << _vector[i] << " ";
 	std::cout << std::endl;
 }
-void	PmergeMe::printSorted()
+void	PmergeMe::printAfter()
 {
 	std::cout << "After:\t";
 	for (int i = 0; i < _vector.size(); i++)
@@ -59,7 +59,13 @@ const char *PmergeMe::Exception::what() const throw() {
 //recursion will happen while (segment of the list / 2) < _size / 2
 
 
-void	PmergeMe::sort()
+void	PmergeMe::execute()
 {
+	printBefore();
 
+	//run functions that solve the vector and deque and return the times for each
+
+	printAfter();
+	printTimeVector();
+	printTimeDeque();
 }

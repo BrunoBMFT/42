@@ -16,8 +16,6 @@ void	parseData(int ac, char **args)
 	}
 }
 
-
-
 int main(int ac, char **av)
 {
 	try {
@@ -29,20 +27,9 @@ int main(int ac, char **av)
 
 	PmergeMe shit(av);
 
-	shit.printUnsorted();
 
 
-
-	shit.sort();
-
-
-
-
-
-	shit.printSorted();
-
-	// shit.printTimeVector();
-	// shit.printTimeDeque();
+	shit.execute();//execute command
 
 
 	return (0);

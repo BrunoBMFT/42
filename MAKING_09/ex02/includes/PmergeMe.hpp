@@ -21,12 +21,12 @@ class PmergeMe
 		~PmergeMe();//not done
 
 		//*FUNCTIONS
-		void	printUnsorted();
-		void	printSorted();
+		void	printBefore();
+		void	printAfter();
 		void	printTimeVector();
 		void	printTimeDeque();
 
-		void	sort();
+		void	execute();
 
 		//*EXCEPTIONS
 		class Exception : public std::exception
