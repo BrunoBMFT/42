@@ -1,18 +1,9 @@
-#include <iostream>
-#include <sys/types.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <string.h>
-#include <string>
+#include "../includes/IRC.hpp"
 //when saying study, learn the returns, what the functions can do, whatever else needed
 
-//class for server
-
-void	createServer()
+void	IRC()
 {
-
+	//todo SERVER
 	//create a socket
 	int listening = socket(AF_INET, SOCK_STREAM, 0);//*study socket, sockstream, AF_INET is IPv4
 	if (listening == -1)
@@ -21,7 +12,7 @@ void	createServer()
 	//bind the socket to IP / port
 	sockaddr_in hint;
 	hint.sin_family = AF_INET;
-	hint.sin_port = htons(54000);//study htons()
+	hint.sin_port = htons(6667);//study htons(), changed from 54000 to 6667
 	inet_pton(AF_INET, "0.0.0.0", &hint.sin_addr);//study inet_pton()
 
 	if (bind(listening, (sockaddr*)&hint, sizeof(hint)) == -1)
@@ -30,7 +21,9 @@ void	createServer()
 	//mark the socket for listening in
 	if (listen(listening, SOMAXCONN) == -1)//study listen()
 		throw (std::runtime_error("Cant listen"));
+	//todo SERVER
 	
+	//todo CLIENT
 	//accept the call
 	sockaddr_in	client;
 	socklen_t	clientSize = sizeof(client);
@@ -55,9 +48,12 @@ void	createServer()
 		std::cout << host << " connected on " << ntohs(client.sin_port) << std::endl;//study ntohs()
 		//study why do things manually like this
 	}
+	//todo CLIENT
 
 	//while recieving message, echo the message
 
+
+	//todo EXCHANGE
 	char	buf[4096];
 	while (1)
 	{
@@ -77,15 +73,20 @@ void	createServer()
 		//resend message
 		send (clientSocket, buf, bytesRecv + 1, 0);//study send()
 	}
+	//todo EXCHANGE
 
 	//close socket
 	close(clientSocket);
 }
 
-int	main()
+int		main(int ac, char **av)
 {
+	if (ac != 3) {
+		std::cout << "Bad arguments" << std::endl;
+		return 1;
+	}
 	try {
-		createServer();
+		IRC();
 	} catch (std::exception &e) {
 		std::cerr << "Exception caught! " << e.what() << std::endl;
 	}
