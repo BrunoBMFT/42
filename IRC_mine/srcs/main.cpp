@@ -1,56 +1,83 @@
 #include "../includes/IRC.hpp"
 //when saying study, learn the returns, what the functions can do, whatever else needed
 
+class Server
+{
+	private:
+		int _socket;
+		sockaddr_in server_addr;//study sockaddr_in and sockaddr
+		// int _port;
+	public:
+		Server() {
+		//! ALL OF THIS SHOULD GO IN SERVER CREATION RIGHT? 
+		//! SINCE ALL IT DOES IS CREATE A SERVER WITH A PORT AND A PASSWORD, 
+		//! EVERYTHING SHOULD RUN SMOOTHLY, right?
+			_socket = socket(AF_INET, SOCK_STREAM, 0);//*study socket, sockstream, AF_INET is IPv4
+			if (_socket == -1)
+				throw (std::runtime_error("Cant create socket"));
+
+			//study this part
+			server_addr.sin_family = AF_INET;
+			server_addr.sin_port = htons(6667);//study htons(), changed from 54000 to 6667
+			inet_pton(AF_INET, "0.0.0.0", &server_addr.sin_addr);//study inet_pton(), i guess save port in class
+
+			if (bind(_socket, (sockaddr*)&server_addr, sizeof(server_addr)) == -1)
+				throw (std::runtime_error("Cant bind to IP/port"));
+
+			if (listen(_socket, SOMAXCONN) == -1)//study listen()
+				throw (std::runtime_error("Cant listen"));
+
+		}
+
+		int getSocket() {
+			return _socket;
+		}
+};
+
 void	IRC()
 {
-	//todo SERVER
 	//create a socket
-	int listening = socket(AF_INET, SOCK_STREAM, 0);//*study socket, sockstream, AF_INET is IPv4
-	if (listening == -1)
-		throw (std::runtime_error("Cant create socket"));
-	
 	//bind the socket to IP / port
-	sockaddr_in hint;
-	hint.sin_family = AF_INET;
-	hint.sin_port = htons(6667);//study htons(), changed from 54000 to 6667
-	inet_pton(AF_INET, "0.0.0.0", &hint.sin_addr);//study inet_pton()
-
-	if (bind(listening, (sockaddr*)&hint, sizeof(hint)) == -1)
-		throw (std::runtime_error("Cant bind to IP/port"));
-
 	//mark the socket for listening in
-	if (listen(listening, SOMAXCONN) == -1)//study listen()
-		throw (std::runtime_error("Cant listen"));
-	//todo SERVER
+
+	//accept the client call
+	//close the listening socket
+
+	//wait for message from client
+	//receive message, print it, and echo it
+
+	//close client socket
 	
+
+	Server srv;//it will take parameters after
+
 	//todo CLIENT
-	//accept the call
 	sockaddr_in	client;
 	socklen_t	clientSize = sizeof(client);
 	char		host[NI_MAXHOST];
 	char		svc[NI_MAXSERV];
 
-	int clientSocket = accept(listening, (sockaddr*)&client, &clientSize);//study accept()
+	//save client socket (fd ig) in client class
+	int clientSocket = accept(srv.getSocket(), (sockaddr*)&client, &clientSize);//study accept()
 	if (clientSocket == -1)
 		throw (std::runtime_error("Problem with client connecting"));
 
-	//close the listening socket
-	close(listening);//why close the listening?
+	//! THIS SOCKET WILL NEVER CLOSE
+	// close(srv.getSocket());//!why close the listening?
 	memset(host, 0, NI_MAXHOST);//cleans whatever garbage data was in host before (doesnt feel needed but sure)
 	memset(svc, 0, NI_MAXSERV);
 
+	//save client_addr in client class
 	int result = getnameinfo((sockaddr*)&client, clientSize, host, NI_MAXHOST, svc, NI_MAXSERV, 0);//study what this is for
-	//if getnameinfo fails, this is a cheat
 	if (result)
 		std::cout << host << " connected on " << svc << std::endl;
-	else{//the case where getnameinfo fails{
+	else{//this seems stupid
 		inet_ntop(AF_INET, &client.sin_addr, host, NI_MAXHOST);
 		std::cout << host << " manually connected on " << ntohs(client.sin_port) << std::endl;//study ntohs()
 		//study why do things manually like this
 	}
 	//todo CLIENT
 
-	//while recieving message, echo the message
 
 
 	//todo EXCHANGE
@@ -59,7 +86,7 @@ void	IRC()
 	{
 		//clear buffer
 		memset(buf, 0, 4096);
-		//wait for a message
+		//waits for a message
 		int bytesRecv = recv(clientSocket, buf, 4096, 0);//study recv()
 		if (bytesRecv == -1)
 			throw (std::runtime_error("There was a connection issue"));
@@ -67,15 +94,11 @@ void	IRC()
 			std::cout << "The client disconnected" << std::endl;
 			break ;
 		}
-		//display message
 		std::cout << "Received: " << std::string(buf, 0, bytesRecv) << std::endl;
 
-		//resend message
-		send (clientSocket, buf, bytesRecv + 1, 0);//study send()
+		send(clientSocket, buf, bytesRecv + 1, 0);//study send()
 	}
-	//todo EXCHANGE
 
-	//close socket
 	close(clientSocket);
 }
 
