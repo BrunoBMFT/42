@@ -45,7 +45,7 @@ void	IRC()
 		std::cout << host << " connected on " << svc << std::endl;
 	else{//the case where getnameinfo fails{
 		inet_ntop(AF_INET, &client.sin_addr, host, NI_MAXHOST);
-		std::cout << host << " connected on " << ntohs(client.sin_port) << std::endl;//study ntohs()
+		std::cout << host << " manually connected on " << ntohs(client.sin_port) << std::endl;//study ntohs()
 		//study why do things manually like this
 	}
 	//todo CLIENT
@@ -68,7 +68,7 @@ void	IRC()
 			break ;
 		}
 		//display message
-		std::cout << "Received: " << buf/*string(buf, 0, bytesRecv)*/ << std::endl;
+		std::cout << "Received: " << std::string(buf, 0, bytesRecv) << std::endl;
 
 		//resend message
 		send (clientSocket, buf, bytesRecv + 1, 0);//study send()
@@ -81,10 +81,10 @@ void	IRC()
 
 int		main(int ac, char **av)
 {
-	if (ac != 3) {
-		std::cout << "Bad arguments" << std::endl;
-		return 1;
-	}
+	// if (ac != 3) {
+	// 	std::cout << "Bad arguments" << std::endl;
+	// 	return 1;
+	// }
 	try {
 		IRC();
 	} catch (std::exception &e) {
