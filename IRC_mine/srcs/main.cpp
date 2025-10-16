@@ -133,8 +133,12 @@ void	IRC()
 				int bytesRecv = recv(pfds[i].fd, buf, sizeof(buf), 0);
 				if (bytesRecv == -1)
 					throw (std::runtime_error("There was a connection issue: 1"));
-				if (bytesRecv == 0)
-					disconnectClient(pfds, clients, i);
+				if (bytesRecv == 0) {
+					std::cout << "The client disconnected" << std::endl;
+					close (pfds[i].fd);
+					clients.erase(clients.begin() + (i - 1));
+				}
+					// disconnectClient(pfds, clients, i);
 				else
 				{
 					buf[bytesRecv] = 0;
