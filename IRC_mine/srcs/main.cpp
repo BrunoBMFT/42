@@ -1,19 +1,6 @@
 #include "../includes/IRC.hpp"
 #include <vector>
 #include <poll.h>
-/*
-	create a socket
-	bind the socket to IP / port
-	mark the socket for listening in
-
-	accept the client call
-	close the listening socket
-
-	wait for message from client
-	receive message, print it, and echo it
-
-	close client socket
-*/
 //when saying study, learn the returns, what the functions can do, whatever else needed
 
 class Server
@@ -61,26 +48,18 @@ class Client
 		//private vars
 		int _clientSocket;//rename to _socket
 		pollfd pfd;
-		Client(int srvSocket) {
-			//*pollfds attempt
-			// _clientSocket = srvSocket;
-			// pfd.fd = srvSocket;
-			// pfd.events = POLLIN;
-			// pfd.revents = 0;
 
+		Client(int srvSocket) {
 			sockaddr_in	client;
 			socklen_t	clientSize = sizeof(client);
 			char		host[NI_MAXHOST];
 			char		svc[NI_MAXSERV];
-
-			//save client socket (fd ig) in client class
+			// save client socket (fd ig) in client class
 			_clientSocket = accept(srvSocket, (sockaddr*)&client, &clientSize);//study accept()
 			if (_clientSocket == -1)
 				throw (std::runtime_error("Problem with client connecting"));
-
 			memset(host, 0, NI_MAXHOST);//cleans whatever garbage data was in host before (doesnt feel needed but sure)
 			memset(svc, 0, NI_MAXSERV);
-
 			//save client_addr in client class
 			int result = getnameinfo((sockaddr*)&client, clientSize, host, NI_MAXHOST, svc, NI_MAXSERV, 0);//study what this is for
 			if (result)
@@ -90,9 +69,14 @@ class Client
 				std::cout << host << " manually connected on " << ntohs(client.sin_port) << std::endl;//study ntohs()
 				//study why do things manually like this
 			}
+
+			// _clientSocket = srvSocket;
+			pfd.fd = _clientSocket;
+			pfd.events = POLLIN;
+			pfd.revents = 0;
 		}
 
-		int	getClientSocket() {//rename to getSocket
+		int	getClientSocket() {
 			return _clientSocket;
 		}
 };
@@ -102,24 +86,85 @@ void	IRC()
 
 	Server srv;//it will take parameters after, for now its hard coded
 
+
+	pollfd srv_pfd;
+	srv_pfd.fd = srv.getSrvSocket();
+	srv_pfd.events = POLLIN;
+	srv_pfd.revents = 0;
+	std::vector<pollfd> pfds;
 	
-	//in client class, have the socket, the pfd same as socket, and pfd.events and revents
-	//create a pollfd for server and set it up
-	//create vector for clients
-	//start loop
-	//	create vector of pollfd
-	//	put client pfd into pollfd vector
-	//	poll()
-	//	check server POLLIN for new client, accept client, and place that fd into the client vector
-	//	check clients and print whatever client prints
-	//	update server.pfd.revents to be same as pfds[0].revents
-	//	update revents of each client
+	std::vector<Client> clients;
+	
+	while (1)
+	{
+		pfds.clear();
+		pfds.push_back(srv_pfd);
+		for (std::vector<Client>::iterator it = clients.begin(); it != clients.end(); it++)
+			pfds.push_back(it->pfd);
+
+		if (poll(pfds.data(), pfds.size(), -1) == -1)
+			throw (std::runtime_error("Poll failed"));
+		if (pfds[0].revents & POLLIN) {
+			Client temp(srv.getSrvSocket());
+			clients.push_back(temp);
+		}
+		for (int i = 1; i < pfds.size(); i++) {
+			if (pfds[i].revents & POLLIN) {	
+				char buf[512];
+				int bytesRecv = recv(pfds[i].fd, buf, sizeof(buf), 0);
+				if (bytesRecv == -1)
+					throw (std::runtime_error("There was a connection issue: 1"));
+				if (bytesRecv == 0) {
+					std::cout << "The client disconnected" << std::endl;
+					close (pfds[i].fd);
+					clients.erase(clients.begin() + (i - 1));
+				} else {
+					buf[bytesRecv] = 0;
+					std::cout << "Client " << i << " said: " << buf;
+				}
+			}
+		}
+	}
+
+	close(srv.getSrvSocket());
+	//close clients
+}
+
+int		main(int ac, char **av)
+{
+	if (ac != 3) {
+		std::cout << "Bad arguments" << std::endl;
+		return 1;
+	}
+	try {
+		IRC();
+	} catch (std::exception &e) {
+		std::cerr << "Exception caught! " << e.what() << std::endl;
+	}
+
+	return 0;
+}
 
 
+
+
+//todo 
+/*
+	create a socket
+	bind the socket to IP / port
+	mark the socket for listening in
+
+	accept the client call
+	close the listening socket
+
+	wait for message from client
+	receive message, print it, and echo it
+
+	close client socket
+*/
 
 	//* poll() test
-	/*
-		std::vector<Client> cls;
+/* 		std::vector<Client> cls;
 		Client cl1(srv.getSrvSocket()), cl2(srv.getSrvSocket());
 		cls.push_back(cl1);
 		cls.push_back(cl2);
@@ -146,13 +191,12 @@ void	IRC()
 					std::cout << "Client " << i + 1 << " said: " << buf;
 				}
 			}
-		}
-	*/
+		} */
+	
 
 	//* non poll() test
 	/*
 		Client cl1(srv.getSrvSocket()), cl2(srv.getSrvSocket());
-	
 	
 		//todo EXCHANGE
 		char	buf[4096];
@@ -171,24 +215,19 @@ void	IRC()
 			std::cout << "Received from 1: " << std::string(buf, 0, bytesRecv) << std::endl;
 	
 			send(cl1.getClientSocket(), buf, bytesRecv + 1, 0);//study send()
+			
+			//clear buffer
+			memset(buf, 0, 4096);
+			//waits for a message
+			bytesRecv = recv(cl1.getClientSocket(), buf, 4096, 0);//study recv()
+			if (bytesRecv == -1)
+				throw (std::runtime_error("There was a connection issue: 1"));
+			if (bytesRecv == 0) {
+				std::cout << "The client disconnected" << std::endl;
+				break ;
+			}
+			std::cout << "Received from 1: " << std::string(buf, 0, bytesRecv) << std::endl;
+	
+			send(cl1.getClientSocket(), buf, bytesRecv + 1, 0);//study send()
 		}
 	*/
-
-	close(srv.getSrvSocket());
-	//close clients
-}
-
-int		main(int ac, char **av)
-{
-	// if (ac != 3) {
-	// 	std::cout << "Bad arguments" << std::endl;
-	// 	return 1;
-	// }
-	try {
-		IRC();
-	} catch (std::exception &e) {
-		std::cerr << "Exception caught! " << e.what() << std::endl;
-	}
-
-	return 0;
-}
