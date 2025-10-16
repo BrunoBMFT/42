@@ -3,6 +3,8 @@
 #include <poll.h>
 //when saying study, learn the returns, what the functions can do, whatever else needed
 
+#define PORT 6667
+
 class Server
 {
 	private:
@@ -11,9 +13,6 @@ class Server
 		// int _port;
 	public:
 		Server() {
-		//! ALL OF THIS SHOULD GO IN SERVER CREATION RIGHT? 
-		//! SINCE ALL IT DOES IS CREATE A SERVER WITH A PORT AND A PASSWORD, 
-		//! EVERYTHING SHOULD RUN SMOOTHLY, right?
 			_srvSocket = socket(AF_INET, SOCK_STREAM, 0);//*study socket, sockstream, AF_INET is IPv4
 			if (_srvSocket == -1)
 				throw (std::runtime_error("Cant create socket"));
@@ -22,7 +21,7 @@ class Server
 			setsockopt(_srvSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));//study
 			//study this part
 			server_addr.sin_family = AF_INET;
-			server_addr.sin_port = htons(6667);//study htons(), changed from 54000 to 6667
+			server_addr.sin_port = htons(PORT);//study htons(), changed from 54000 to 6667
 			inet_pton(AF_INET, "0.0.0.0", &server_addr.sin_addr);//study inet_pton(), i guess save port in class
 
 			//if program closes badly, socket might still be in use by bind
@@ -32,6 +31,8 @@ class Server
 
 			if (listen(_srvSocket, SOMAXCONN) == -1)//study listen()
 				throw (std::runtime_error("Cant listen"));
+			
+			std::cout << "Server open in port: " << PORT << std::endl;
 		}
 
 		int getSrvSocket() {//rename to getSocket
@@ -58,7 +59,7 @@ class Client
 			_clientSocket = accept(srvSocket, (sockaddr*)&client, &clientSize);//study accept()
 			if (_clientSocket == -1)
 				throw (std::runtime_error("Problem with client connecting"));
-			memset(host, 0, NI_MAXHOST);//cleans whatever garbage data was in host before (doesnt feel needed but sure)
+			bzero(host, NI_MAXHOST);//cleans whatever garbage data was in host before (doesnt feel needed but sure)
 			memset(svc, 0, NI_MAXSERV);
 			//save client_addr in client class
 			int result = getnameinfo((sockaddr*)&client, clientSize, host, NI_MAXHOST, svc, NI_MAXSERV, 0);//study what this is for
@@ -79,6 +80,9 @@ class Client
 		int	getClientSocket() {
 			return _clientSocket;
 		}
+		// ~Client() {
+		// 	close (_clientSocket);
+		// }
 };
 
 void	IRC()
@@ -105,7 +109,7 @@ void	IRC()
 		if (poll(pfds.data(), pfds.size(), -1) == -1)
 			throw (std::runtime_error("Poll failed"));
 		if (pfds[0].revents & POLLIN) {
-			Client temp(srv.getSrvSocket());
+			Client temp(srv.getSrvSocket());//calling a client like this makes it destruct very early
 			clients.push_back(temp);
 		}
 		for (int i = 1; i < pfds.size(); i++) {
@@ -132,10 +136,10 @@ void	IRC()
 
 int		main(int ac, char **av)
 {
-	if (ac != 3) {
-		std::cout << "Bad arguments" << std::endl;
-		return 1;
-	}
+	// if (ac != 3) {
+	// 	std::cout << "Bad arguments" << std::endl;
+	// 	return 1;
+	// }
 	try {
 		IRC();
 	} catch (std::exception &e) {
