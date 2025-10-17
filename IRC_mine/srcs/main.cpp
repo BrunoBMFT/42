@@ -1,32 +1,35 @@
 #include "../includes/IRC.hpp"
 
+/* 
+	Client needs to put correct pass to be able to talk, 
+	otherwise it gets disconnected and socket closed
+*/
+
 class Server
 {
 	private:
-		int				_socket;//rename to _socket
-		sockaddr_in		server_addr;//study sockaddr_in and sockaddr
-		int _port;
+		int				_port;
+		char			_pass;
+		int				_socket;
+		sockaddr_in		server_addr;
 	public:
-		Server()
+		Server(char *port, char *pass)
 		{
-			_port = 6667;//hard coded, will be input
-			_socket = socket(AF_INET, SOCK_STREAM, 0);//*study socket, sockstream, AF_INET is IPv4
+			_port = atoi(port);
+			_socket = socket(AF_INET, SOCK_STREAM, 0);
 			if (_socket == -1)
 				throw (std::runtime_error("Cant create socket"));
 
 			int opt = 1;
-			setsockopt(_socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));//study
-			//study this part
+			setsockopt(_socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 			server_addr.sin_family = AF_INET;
-			server_addr.sin_port = htons(_port);//study htons(), 
-			inet_pton(AF_INET, "0.0.0.0", &server_addr.sin_addr);//study inet_pton(), i guess save port in class
+			server_addr.sin_port = htons(_port);
+			inet_pton(AF_INET, "0.0.0.0", &server_addr.sin_addr);
 
-			//if program closes badly, socket might still be in use by bind
-			//fix is use SO_REUSEADDR, using the setsockopt() func
 			if (bind(_socket, (sockaddr*)&server_addr, sizeof(server_addr)) == -1)
 				throw (std::runtime_error("Cant bind to IP/port"));
 
-			if (listen(_socket, SOMAXCONN) == -1)//study listen()
+			if (listen(_socket, SOMAXCONN) == -1)
 				throw (std::runtime_error("Cant listen"));
 			
 			std::cout << "Server open in port: " << _port << std::endl;
@@ -37,48 +40,36 @@ class Server
 		}
 };
 
-
 class Client
 {
 	private:
-		//have a int id for each client
+		static int	_globalId;
+		int			_id;
 		int			_socket;
 		pollfd		_pfd;
 	public:
-
 		Client(int srvSocket)
 		{
-			sockaddr_in	client;
-			socklen_t	clientSize = sizeof(client);
-			char		host[NI_MAXHOST];
-			char		svc[NI_MAXSERV];
-			
-			//accept should be outside?
-			_socket = accept(srvSocket, (sockaddr*)&client, &clientSize);//study accept()
-			if (_socket == -1)
-				throw (std::runtime_error("Problem with client connecting"));
-			memset(host, 0, NI_MAXHOST);
-			//!save client_addr in client class
-			//kinda want to connect them manually all the time
-			int result = getnameinfo((sockaddr*)&client, clientSize, host, NI_MAXHOST, svc, NI_MAXSERV, 0);
-			if (result)
-				std::cout << host << " connected on " << svc << std::endl;
-			else{//this seems stupid
-				inet_ntop(AF_INET, &client.sin_addr, host, NI_MAXHOST);
-				std::cout << host << " manually connected on " << ntohs(client.sin_port) << std::endl;//study ntohs()
-			}
+			_id = _globalId++;
+			_socket = srvSocket;
 			_pfd.fd = _socket;
 			_pfd.events = POLLIN;
 			_pfd.revents = 0;
 		}
 
-		int	getSocket() {
+		int		getId() {
+			return (_id);
+		}
+		int		getSocket() {
 			return (_socket);
 		}
-		pollfd getPfd() {
+		pollfd	&getPfd() {
 			return (_pfd);
 		}
 };
+
+//so weird so random
+int Client::_globalId;
 
 bool	shouldServerExit(Server srv, std::vector<Client> clients, char buf[])
 {
@@ -92,18 +83,26 @@ bool	shouldServerExit(Server srv, std::vector<Client> clients, char buf[])
 	return (false);
 }
 
-void	disconnectClient(std::vector<pollfd> pfds, std::vector<Client> clients, int i)
+int		acceptClient(int srvSocket)
 {
-	std::cout << "The client disconnected" << std::endl;
-	close (pfds[i].fd);
-	clients.erase(clients.begin() + (i - 1));
+	int			socket;
+	sockaddr_in	client;
+	socklen_t	clientSize = sizeof(client);
+	char		host[NI_MAXHOST];
+	
+	socket = accept(srvSocket, (sockaddr*)&client, &clientSize);
+	if (socket == -1)
+		throw (std::runtime_error("Problem with client connecting"));
+	memset(host, 0, NI_MAXHOST);
+	
+	inet_ntop(AF_INET, &client.sin_addr, host, NI_MAXHOST);
+	std::cout << host << " manually connected on " << ntohs(client.sin_port) << std::endl;
+	return (socket);
 }
 
-void	IRC()
+void	IRC(char *port, char *pass)
 {
-
-	Server srv;//it will take parameters after, for now its hard coded
-
+	Server srv(port, pass);//it will take parameters after, for now its hard coded
 
 	pollfd srv_pfd;
 	srv_pfd.fd = srv.getSocket();
@@ -123,12 +122,15 @@ void	IRC()
 
 		if (poll(pfds.data(), pfds.size(), -1) == -1)
 			throw (std::runtime_error("Poll failed"));
-		if (pfds[0].revents & POLLIN) {
-			std::cout << "client connecting" << std::endl;
-			clients.push_back(Client(srv.getSocket()));
+		if (pfds[0].revents & POLLIN)//* Client Connecting
+		{
+			int socket = acceptClient(srv.getSocket());
+			clients.push_back(Client(socket));
 		}
-		for (int i = 1; i < pfds.size(); i++) {
-			if (pfds[i].revents & POLLIN) {	
+		for (int i = 1; i < pfds.size(); i++)//*loop through clients
+		{
+			if (pfds[i].revents & POLLIN)//*print message from client
+			{	
 				char buf[512];
 				int bytesRecv = recv(pfds[i].fd, buf, sizeof(buf), 0);
 				if (bytesRecv == -1)
@@ -137,13 +139,18 @@ void	IRC()
 					std::cout << "The client disconnected" << std::endl;
 					close (pfds[i].fd);
 					clients.erase(clients.begin() + (i - 1));
-				}
-					// disconnectClient(pfds, clients, i);
-				else
-				{
+				} else {
 					buf[bytesRecv] = 0;
-					std::cout << "Client " << i << " said: " << buf;
-					send(clients[i - 1].getSocket(), buf, bytesRecv + 1, 0);
+					//*debugging line, it will use username instead of getId
+					std::cout << "Client " << clients[i - 1].getId() + 1<< " said: " << buf;
+					if (!strcmp(buf, pass))
+						std::cout << "Password correct\nClient should now be able to set user and talk\n";
+					else {
+						std::cout << "Password incorrect\n";
+						send(clients[i - 1].getSocket(), "Client closing", 15, 0);
+						close (pfds[i].fd);
+						clients.erase(clients.begin() + (i - 1));
+					}
 					if (shouldServerExit(srv, clients, buf))//TEMPORARY
 						return ;
 				}
@@ -155,12 +162,12 @@ void	IRC()
 
 int		main(int ac, char **av)
 {
-	// if (ac != 3) {
-	// 	std::cout << "Bad arguments" << std::endl;
-	// 	return 1;
-	// }
+	if (ac != 3) {
+		std::cout << "Bad arguments" << std::endl;
+		return 1;
+	}
 	try {
-		IRC();
+		IRC(av[1], av[2]);
 	} catch (std::exception &e) {
 		std::cerr << "Exception caught! " << e.what() << std::endl;
 	}

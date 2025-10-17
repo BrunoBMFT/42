@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <poll.h>
+#include <stdlib.h>//atoi
 
 #endif
 
