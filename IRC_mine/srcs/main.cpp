@@ -9,13 +9,14 @@ class Server
 {
 	private:
 		int				_port;
-		char			_pass;
+		std::string		_pass;
 		int				_socket;
 		sockaddr_in		server_addr;
 	public:
 		Server(char *port, char *pass)
 		{
 			_port = atoi(port);
+			_pass = pass;
 			_socket = socket(AF_INET, SOCK_STREAM, 0);
 			if (_socket == -1)
 				throw (std::runtime_error("Cant create socket"));
@@ -35,8 +36,14 @@ class Server
 			std::cout << "Server open in port: " << _port << std::endl;
 		}
 
-		int getSocket() {
+		int		getSocket() {
 			return (_socket);
+		}
+		int		getPort() {
+			return (_port);
+		}
+		std::string getPass() {
+			return (_pass);
 		}
 };
 
@@ -100,6 +107,29 @@ int		acceptClient(int srvSocket)
 	return (socket);
 }
 
+void	disconnectClient(std::vector<Client> &clients, std::vector<pollfd> &pfds, int i)
+{
+
+	std::cout << "The client disconnected" << std::endl;
+	close (pfds[i].fd);
+	clients.erase(clients.begin() + (i - 1));
+}
+
+//!PASSWORD CHECKING HERE, EXITS THIS CLIENT IF WRONG PASSWORD
+void	validateClient()
+{
+	// if (!strcmp(buf, pass))
+	// 	std::cout << "Password correct\nClient should now be able to set user and talk\n";
+	// else {
+	// 	std::cout << "Password incorrect\n";
+	// 	send(clients[i - 1].getSocket(), "Client closing", 15, 0);
+	// 	close (pfds[i].fd);
+	// 	clients.erase(clients.begin() + (i - 1));
+	// }
+}
+//!PASSWORD CHECKING HERE, EXITS THIS CLIENT IF WRONG PASSWORD
+
+//use getPass()
 void	IRC(char *port, char *pass)
 {
 	Server srv(port, pass);//it will take parameters after, for now its hard coded
@@ -135,22 +165,19 @@ void	IRC(char *port, char *pass)
 				int bytesRecv = recv(pfds[i].fd, buf, sizeof(buf), 0);
 				if (bytesRecv == -1)
 					throw (std::runtime_error("There was a connection issue: 1"));
-				if (bytesRecv == 0) {
-					std::cout << "The client disconnected" << std::endl;
-					close (pfds[i].fd);
-					clients.erase(clients.begin() + (i - 1));
-				} else {
+				if (bytesRecv == 0)
+					disconnectClient(clients, pfds, i);
+				else {
 					buf[bytesRecv] = 0;
 					//*debugging line, it will use username instead of getId
 					std::cout << "Client " << clients[i - 1].getId() + 1<< " said: " << buf;
-					if (!strcmp(buf, pass))
-						std::cout << "Password correct\nClient should now be able to set user and talk\n";
-					else {
-						std::cout << "Password incorrect\n";
-						send(clients[i - 1].getSocket(), "Client closing", 15, 0);
-						close (pfds[i].fd);
-						clients.erase(clients.begin() + (i - 1));
+					try {
+						validateClient();//!PASSWORD CHECKING HERE, EXITS THIS CLIENT IF WRONG PASSWORD
+					} catch (std::exception &e) {
+						std::cerr << "Client Exception caught! " << e.what() << std::endl;
+						throw e;
 					}
+					//todo AFTER THIS IT CAN KEEP CLIENT AND START ACCEPTING INPUTS
 					if (shouldServerExit(srv, clients, buf))//TEMPORARY
 						return ;
 				}
