@@ -1,36 +1,9 @@
 #include "../includes/IRC.hpp"
 
-/* 
-	Client needs to register itself in server before using stuff like JOIN or PRIVMSG
-	client should send info:
-		recommended order by ircdocs:
-			CAP LS 302 (will i be able to ignore this??)
-			PASS
-			NICK and USER
-			capability negotiation (what??)
-			SASL (more what??)
-			CAP END
-
-	have server send a ping, and client send a pong
-
-	server MUST send:
-		RPL_WELCOME
-		RPL_YOURHOST
-		RPL_CREATED
-		RPL_MYINFO
-		at least RPL_ISUPPORT numeric to the client
-		may send other numerics and messages
-		Server should respond as if client sent LUSERS and return numerics
-		Server should respond as if client sent MOTD
-		if user has client modes, set them automatically
-
-	(all this info idk what it means xD)
-
-	(this statement is now kinda fake)
-	Client needs to put correct pass to be able to talk, 
-	otherwise it gets disconnected and socket closed
-	(this statement is now kinda fake)
-*/
+//use MyFunc for functions that need checking
+//put colors in debugs
+//put stuff in classes to be able to not have that many parameters for each function
+// the actual next thing i should do is manage to print stuff on client 1 that client 2 sent
 
 class Server
 {
@@ -146,27 +119,57 @@ void	disconnectClient(std::vector<Client> &clients, std::vector<pollfd> &pfds, i
 	clients.erase(clients.begin() + (i - 1));
 }
 
-//PASSWORD CHECKING HERE, EXITS THIS CLIENT IF WRONG PASSWORD
-void	validateClient()
+void	debugClientMessage(int id, char buf[])
 {
-	// if (!strcmp(buf, pass))
-	// 	std::cout << "Password correct\nClient should now be able to set user and talk\n";
-	// else {
-	// 	std::cout << "Password incorrect\n";//!send the err instead of this
-	//! send ERR_PASSWDMISMATCH (464)
-	// 	send(clients[i - 1].getSocket(), "Client closing", 15, 0);//!send the err instead of this
-	// 	close (pfds[i].fd);
-	// 	clients.erase(clients.begin() + (i - 1));
-	// }
+	std::cout << "Client " << id + 1 << " said: " << buf;
 }
-//PASSWORD CHECKING HERE, EXITS THIS CLIENT IF WRONG PASSWORD
+
+
+/* 
+	if (!strcmp(buf, pass))
+		std::cout << "Password correct\nClient should now be able to set user and talk\n";
+	else {
+		std::cout << "Password incorrect\n";//!send the err instead of this
+	// ! send ERR_PASSWDMISMATCH (464)
+		send(clients[i - 1].getSocket(), "Client closing", 15, 0);//!send the err instead of this
+		close (pfds[i].fd);
+		clients.erase(clients.begin() + (i - 1));
+	}
+*/
+
+enum Command//use this???
+{
+	EXIT,
+	PASS,
+	QUIT,
+};
+
+int	getCommand(char buf[])//use this?
+{
+	//strcmp for values?
+	if (!strcmp(buf, pass))//should be in class already to process this?
+		return PASS;
+	return (-1);
+}
+
+//everything is a specific command
+void	processCommand(Client client, char line[])
+{
+	int command = getCommand(line);
+	switch (command)//use this??
+	{
+		case PASS:
+			std::cout << "Pass command found" << std::endl;
+			// processPass();
+		// default:
+			//throw
+	}
+}
 
 //use getPass()
-// !the actual next thing i should do is manage to print stuff on client 1 that client 2 sent
 void	IRC(char *port, char *pass)
 {
-	// Server srv(port, pass);
-	Server srv("6667", "pass");
+	Server srv(port, pass);
 
 	pollfd srv_pfd;
 	srv_pfd.fd = srv.getSocket();
@@ -193,27 +196,30 @@ void	IRC(char *port, char *pass)
 		}
 		for (int i = 1; i < pfds.size(); i++)//*loop through clients
 		{
-			if (pfds[i].revents & POLLIN)//*print message from client
+			if (pfds[i].revents & POLLIN)
 			{	
 				char buf[512];
-				int bytesRecv = recv(pfds[i].fd, buf, sizeof(buf), 0);
+				int bytesRecv = recv(pfds[i].fd, buf, sizeof(buf), 0);//myrecv
 				if (bytesRecv == -1)
 					throw (std::runtime_error("There was a connection issue: 1"));
 				if (bytesRecv == 0)
 					disconnectClient(clients, pfds, i);
 				else {
 					buf[bytesRecv] = 0;
-					//*debugging line, it will use username instead of getId
-					std::cout << "Client " << clients[i - 1].getId() + 1<< " said: " << buf;
-					try {
-						validateClient();//!PASSWORD CHECKING HERE, EXITS THIS CLIENT IF WRONG PASSWORD
-					} catch (std::exception &e) {
-						std::cerr << "Client Exception caught! " << e.what() << std::endl;
-						throw e;
-					}
-					//todo AFTER THIS IT CAN KEEP CLIENT AND START ACCEPTING INPUTS
-					if (shouldServerExit(srv, clients, buf))//TEMPORARY
+					debugClientMessage(clients[i - 1].getId(), buf);
+
+
+					if (shouldServerExit(srv, clients, buf))//TEMPORARY, put in processCommand?
 						return ;
+
+					processCommand(clients[i - 1], buf);
+/* 
+	cases client should disconnect 
+	client tries to talk before setting nick or user
+	client send data with no newline or too long
+	sends QUIT command
+	ping timeout
+*/
 				}
 			}
 		}
@@ -223,10 +229,10 @@ void	IRC(char *port, char *pass)
 
 int		main(int ac, char **av)
 {
-	// if (ac != 3) {
-	// 	std::cout << "Bad arguments" << std::endl;
-	// 	return 1;
-	// }
+	if (ac != 3) {
+		std::cout << "Bad arguments" << std::endl;
+		return 1;
+	}
 	try {
 		IRC(av[1], av[2]);
 	} catch (std::exception &e) {
@@ -238,3 +244,34 @@ int		main(int ac, char **av)
 
 
 
+/* 
+	Client needs to register itself in server before using stuff like JOIN or PRIVMSG
+	client should send info:
+		recommended order by ircdocs:
+			CAP LS 302 (will i be able to ignore this??)
+			PASS
+			NICK and USER
+			capability negotiation (what??)
+			SASL (more what??)
+			CAP END
+
+	have server send a ping, and client send a pong
+
+	server MUST send:
+		RPL_WELCOME
+		RPL_YOURHOST
+		RPL_CREATED
+		RPL_MYINFO
+		at least RPL_ISUPPORT numeric to the client
+		may send other numerics and messages
+		Server should respond as if client sent LUSERS and return numerics
+		Server should respond as if client sent MOTD
+		if user has client modes, set them automatically
+
+	(all this info idk what it means xD)
+
+	(this statement is now kinda fake)
+	Client needs to put correct pass to be able to talk, 
+	otherwise it gets disconnected and socket closed
+	(this statement is now kinda fake)
+*/
