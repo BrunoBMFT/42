@@ -1,8 +1,35 @@
 #include "../includes/IRC.hpp"
 
 /* 
+	Client needs to register itself in server before using stuff like JOIN or PRIVMSG
+	client should send info:
+		recommended order by ircdocs:
+			CAP LS 302 (will i be able to ignore this??)
+			PASS
+			NICK and USER
+			capability negotiation (what??)
+			SASL (more what??)
+			CAP END
+
+	have server send a ping, and client send a pong
+
+	server MUST send:
+		RPL_WELCOME
+		RPL_YOURHOST
+		RPL_CREATED
+		RPL_MYINFO
+		at least RPL_ISUPPORT numeric to the client
+		may send other numerics and messages
+		Server should respond as if client sent LUSERS and return numerics
+		Server should respond as if client sent MOTD
+		if user has client modes, set them automatically
+
+	(all this info idk what it means xD)
+
+	(this statement is now kinda fake)
 	Client needs to put correct pass to be able to talk, 
 	otherwise it gets disconnected and socket closed
+	(this statement is now kinda fake)
 */
 
 class Server
@@ -17,6 +44,7 @@ class Server
 		{
 			_port = atoi(port);
 			_pass = pass;
+			//have a function that calls trySocket() with same params, so that the throw is hidden
 			_socket = socket(AF_INET, SOCK_STREAM, 0);
 			if (_socket == -1)
 				throw (std::runtime_error("Cant create socket"));
@@ -27,9 +55,11 @@ class Server
 			server_addr.sin_port = htons(_port);
 			inet_pton(AF_INET, "0.0.0.0", &server_addr.sin_addr);
 
+			//have a function that calls tryBind() with same params, so that the throw is hidden
 			if (bind(_socket, (sockaddr*)&server_addr, sizeof(server_addr)) == -1)
 				throw (std::runtime_error("Cant bind to IP/port"));
 
+			//have a function that calls tryListen() with same params, so that the throw is hidden
 			if (listen(_socket, SOMAXCONN) == -1)
 				throw (std::runtime_error("Cant listen"));
 			
@@ -47,6 +77,7 @@ class Server
 		}
 };
 
+//todo when setting username and nick, have the setUser and setNick do the parsing
 class Client
 {
 	private:
@@ -115,24 +146,27 @@ void	disconnectClient(std::vector<Client> &clients, std::vector<pollfd> &pfds, i
 	clients.erase(clients.begin() + (i - 1));
 }
 
-//!PASSWORD CHECKING HERE, EXITS THIS CLIENT IF WRONG PASSWORD
+//PASSWORD CHECKING HERE, EXITS THIS CLIENT IF WRONG PASSWORD
 void	validateClient()
 {
 	// if (!strcmp(buf, pass))
 	// 	std::cout << "Password correct\nClient should now be able to set user and talk\n";
 	// else {
-	// 	std::cout << "Password incorrect\n";
-	// 	send(clients[i - 1].getSocket(), "Client closing", 15, 0);
+	// 	std::cout << "Password incorrect\n";//!send the err instead of this
+	//! send ERR_PASSWDMISMATCH (464)
+	// 	send(clients[i - 1].getSocket(), "Client closing", 15, 0);//!send the err instead of this
 	// 	close (pfds[i].fd);
 	// 	clients.erase(clients.begin() + (i - 1));
 	// }
 }
-//!PASSWORD CHECKING HERE, EXITS THIS CLIENT IF WRONG PASSWORD
+//PASSWORD CHECKING HERE, EXITS THIS CLIENT IF WRONG PASSWORD
 
 //use getPass()
+// !the actual next thing i should do is manage to print stuff on client 1 that client 2 sent
 void	IRC(char *port, char *pass)
 {
-	Server srv(port, pass);//it will take parameters after, for now its hard coded
+	// Server srv(port, pass);
+	Server srv("6667", "pass");
 
 	pollfd srv_pfd;
 	srv_pfd.fd = srv.getSocket();
@@ -189,10 +223,10 @@ void	IRC(char *port, char *pass)
 
 int		main(int ac, char **av)
 {
-	if (ac != 3) {
-		std::cout << "Bad arguments" << std::endl;
-		return 1;
-	}
+	// if (ac != 3) {
+	// 	std::cout << "Bad arguments" << std::endl;
+	// 	return 1;
+	// }
 	try {
 		IRC(av[1], av[2]);
 	} catch (std::exception &e) {
