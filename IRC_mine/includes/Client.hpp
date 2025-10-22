@@ -12,7 +12,7 @@
 # include <vector>
 # include <poll.h>
 # include <stdlib.h>//atoi
-#include "Colours.hpp"
+# include "Colours.hpp"
 
 
 //todo when setting username and nick, have the setUser and setNick do the parsing
@@ -24,6 +24,7 @@ class Client
 
 		int			_socket;
 		pollfd		_pfd;
+
 	public:
 		//*CONSTRUCTORS
 		Client(int srvSocket);
@@ -31,7 +32,9 @@ class Client
 		//*GETTERS
 		int		getId();
 		int		getSocket();
-		pollfd	&getPfd();
+		pollfd	&getPfd();//why &
+
+
 };
 
 

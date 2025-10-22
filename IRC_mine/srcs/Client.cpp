@@ -3,11 +3,6 @@
 //so weird so random
 int Client::_globalId;
 
-//*HELPERS
-// noexcept(true)
-// int		myAccept(int __domain, int __type, int __protocol) {
-// }
-
 
 //*CONSTRUCTORS
 Client::Client(int srvSocket){
