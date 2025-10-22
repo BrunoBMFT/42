@@ -4,17 +4,18 @@
 //put colors in debugs
 // the actual next thing i should do is manage to print stuff on client 1 that client 2 sent
 
+
 int		main(int ac, char **av)
 {
 	if (ac != 3) {
-		std::cout << "Bad arguments" << std::endl;
+		std::cout << RED("Bad arguments") << std::endl;
 		return 1;
 	}
 	try {
 		Server srv(av[1], av[2]);
 		srv.IRC();
 	} catch (std::exception &e) {
-		std::cerr << "Exception caught! " << e.what() << std::endl;//put this red
+		std::cerr << RED("Exception caught: ") << e.what() << std::endl;//put this red
 	}
 
 	return 0;

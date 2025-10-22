@@ -12,6 +12,7 @@
 # include <vector>
 # include <poll.h>
 # include <stdlib.h>//atoi
+#include "Colours.hpp"
 
 
 //todo when setting username and nick, have the setUser and setNick do the parsing

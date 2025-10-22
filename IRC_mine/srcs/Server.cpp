@@ -21,6 +21,15 @@ void	myListen(int __fd, int __n) {
 		throw (std::runtime_error("Cant listen"));
 }
 
+
+void	myPoll(pollfd *__fds, nfds_t __nfds, int __timeout) {
+	if (poll(__fds, __nfds, __timeout) == -1)
+		throw (std::runtime_error("Poll failed"));
+}
+
+
+
+
 //*CONSTRUCTORS
 Server::Server(char *port, char *pass){
 	_port = atoi(port);
@@ -38,19 +47,27 @@ Server::Server(char *port, char *pass){
 	myBind(_socket, (sockaddr*)&server_addr, sizeof(server_addr));
 
 	myListen(_socket, SOMAXCONN);
-	
+
 	std::cout << "Server open in port: " << _port << std::endl;
+	//*colour version
+	// std::cout << GREEN("Server open in port: ") << _port << std::endl;
 
-
-	_srv_pfd.fd = _socket;
-	_srv_pfd.events = POLLIN;
-	_srv_pfd.revents = 0;
+	_srvPfd.fd = _socket;
+	_srvPfd.events = POLLIN;
+	_srvPfd.revents = 0;
 }
+
+
+
 
 //*GETTERS
 int			Server::getSocket() { return (_socket); }
 int			Server::getPort() { return (_port); }
 std::string Server::getPass() { return (_pass); }
+
+
+
+
 
 
 //todo server
@@ -80,6 +97,7 @@ int		acceptClient(int srvSocket)
 	memset(host, 0, NI_MAXHOST);
 	
 	inet_ntop(AF_INET, &client.sin_addr, host, NI_MAXHOST);
+	//todo put color on this
 	std::cout << host << " manually connected on " << ntohs(client.sin_port) << std::endl;
 	return (socket);
 }
@@ -133,6 +151,7 @@ void	processCommand(Client client, char line[])
 }
  */
 
+
 void	Server::IRC()
 {
 
@@ -146,13 +165,17 @@ void	Server::IRC()
 	while (1)
 	{
 		//save the data
+		restartLoop(&pfds, _srvPfd, clients);//_srvpfd, pfds, and clients might be able to not be parameters
+
+
+
+
 		pfds.clear();
-		pfds.push_back(_srv_pfd);
+		pfds.push_back(_srvPfd);
 		for (std::vector<Client>::iterator it = clients.begin(); it != clients.end(); it++)
 			pfds.push_back(it->getPfd());
 
-		if (poll(pfds.data(), pfds.size(), -1) == -1)
-			throw (std::runtime_error("Poll failed"));
+		myPoll(pfds.data(), pfds.size(), -1);
 		if (pfds[0].revents & POLLIN)//* Client Connecting
 		{
 			int socket = acceptClient(_socket);//server should be the one calling this
@@ -160,6 +183,10 @@ void	Server::IRC()
 		}
 		for (int i = 1; i < pfds.size(); i++)//*loop through clients
 		{
+			/*
+				Ok so I could handle all this inside client, but then id have to call server again to disconnect client
+				so maybe ill actually handle this inside only server, and call the client to save buf and to debug the message
+			*/
 			if (pfds[i].revents & POLLIN)
 			{
 				//!client var
@@ -167,12 +194,12 @@ void	Server::IRC()
 				
 				int bytesRecv = recv(pfds[i].fd, buf, sizeof(buf), 0);//myrecv
 				if (bytesRecv == -1)
-					throw (std::runtime_error("There was a connection issue: 1"));
+					throw (std::runtime_error("There was a connection issue"));
 				if (bytesRecv == 0)
 					disconnectClient(clients, pfds, i);
 				else {
 					buf[bytesRecv] = 0;
-					debugClientMessage(clients[i - 1].getId(), buf);
+					debugClientMessage(clients[i - 1].getId(), buf);//the i - 1 is stupid
 
 
 					if (shouldServerExit(*this, clients, buf))//TEMPORARY, put in processCommand?

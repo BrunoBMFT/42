@@ -13,6 +13,7 @@
 # include <poll.h>
 # include <stdlib.h>//atoi
 # include "Client.hpp"
+#include "Colours.hpp"
 
 class Server
 {
@@ -24,7 +25,7 @@ class Server
 		sockaddr_in		server_addr;
 
 		//pollfd for first in pfds
-		pollfd			_srv_pfd;
+		pollfd			_srvPfd;
 	public:
 		//*CONSTRUCTORS
 		Server(char *port, char *pass);
