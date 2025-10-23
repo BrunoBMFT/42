@@ -28,8 +28,6 @@ class Server
 		std::vector<pollfd> _pfds;
 		std::vector<Client> _clients;
 
-		char	buf[512];//change for vector<char>
-
 		int		acceptClient();
 		void	setPfds();
 		int		handleClientPoll(int i);

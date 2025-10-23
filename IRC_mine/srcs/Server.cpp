@@ -20,7 +20,6 @@ Server::Server(char *port, char *pass){
 	myListen(_socket, SOMAXCONN);
 
 	std::cout << "Server open in port: " << _port << std::endl;
-	//*colour version
 	// std::cout << GREEN("Server open in port: ") << _port << std::endl;
 
 	_srvPfd.fd = _socket;
@@ -92,12 +91,12 @@ void	debugClientMessage(Client client, char buf[])
 }	
 
 
-enum	pollCondition {
+enum	pollCondition//fucking stupid find a better solution
+{
 	DISCONNECT,
 	EXIT,
 	OK
 };
-
 
 int	Server::handleClientPoll(int i)
 {
@@ -110,11 +109,10 @@ int	Server::handleClientPoll(int i)
 	buf[bytesRecv] = 0;
 	debugClientMessage(_clients[i - 1], buf);//the i - 1 is stupid
 
-	if (shouldServerExit(buf))//!FOR NOW THIS DOESNT WORK, NEEDS FIXING, JUST EXIT WONT WORK
+	if (shouldServerExit(buf))
 		return (EXIT);
-	//doesnt work because it tries returning from this function
 
-	// processCommand(clients[i - 1], buf);
+	// !processCommand(clients[i - 1], buf);
 	return (OK);
 }
 
@@ -136,19 +134,6 @@ void	Server::srvRun()
 		{
 			if (_pfds[i].revents & POLLIN) {
 				int ret = handleClientPoll(i);
-				// char buf[512];
-				// int bytesRecv = myRecv(_pfds[i].fd, buf, sizeof(buf), 0);
-				// if (bytesRecv == 0) {
-				// 	disconnectClient(_clients[i - 1], i);
-				// 	continue ;
-				// }
-				// buf[bytesRecv] = 0;
-				// debugClientMessage(_clients[i - 1], buf);
-
-				// if (shouldServerExit(buf))
-				// 	return ;
-
-				// processCommand(clients[i - 1], buf);
 				if (ret == DISCONNECT)//i dont like this
 					continue ;
 				else if (ret == EXIT)

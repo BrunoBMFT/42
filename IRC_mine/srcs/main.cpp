@@ -12,7 +12,7 @@ int		main(int ac, char **av)
 		Server srv(av[1], av[2]);
 		srv.srvRun();
 	} catch (std::exception &e) {
-		std::cerr << RED("Exception caught: ") << e.what() << std::endl;//put this red
+		std::cerr << RED("Exception caught: ") << e.what() << std::endl;
 	}
 
 	return 0;
