@@ -91,23 +91,31 @@ void	debugClientMessage(Client client, char buf[])
 	std::cout << "Client " << client.getId() << " said: " << buf;
 }	
 
-bool	Server::handleClientPoll(int i)
+
+enum	pollCondition {
+	DISCONNECT,
+	EXIT,
+	OK
+};
+
+
+int	Server::handleClientPoll(int i)
 {
 	char buf[512];//this can change for a vector if needed
 	int bytesRecv = myRecv(_pfds[i].fd, buf, sizeof(buf), 0);
 	if (bytesRecv == 0) {
 		disconnectClient(_clients[i - 1], i);//sending index like this feels stupid
-		return (false);
+		return (DISCONNECT);
 	}
 	buf[bytesRecv] = 0;
 	debugClientMessage(_clients[i - 1], buf);//the i - 1 is stupid
 
 	if (shouldServerExit(buf))//!FOR NOW THIS DOESNT WORK, NEEDS FIXING, JUST EXIT WONT WORK
-		exit(0);
+		return (EXIT);
 	//doesnt work because it tries returning from this function
 
 	// processCommand(clients[i - 1], buf);
-	return (true);
+	return (OK);
 }
 
 
@@ -127,8 +135,24 @@ void	Server::srvRun()
 		for (int i = 1; i < _pfds.size(); i++)//*loop through clients
 		{
 			if (_pfds[i].revents & POLLIN) {
-				if (!handleClientPoll(i))
+				int ret = handleClientPoll(i);
+				// char buf[512];
+				// int bytesRecv = myRecv(_pfds[i].fd, buf, sizeof(buf), 0);
+				// if (bytesRecv == 0) {
+				// 	disconnectClient(_clients[i - 1], i);
+				// 	continue ;
+				// }
+				// buf[bytesRecv] = 0;
+				// debugClientMessage(_clients[i - 1], buf);
+
+				// if (shouldServerExit(buf))
+				// 	return ;
+
+				// processCommand(clients[i - 1], buf);
+				if (ret == DISCONNECT)//i dont like this
 					continue ;
+				else if (ret == EXIT)
+					return ;
 			}
 		}
 	}

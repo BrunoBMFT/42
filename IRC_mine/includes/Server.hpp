@@ -32,7 +32,7 @@ class Server
 
 		int		acceptClient();
 		void	setPfds();
-		bool	handleClientPoll(int i);
+		int		handleClientPoll(int i);
 		void	disconnectClient(Client client, int i);
 
 		//just for testing
