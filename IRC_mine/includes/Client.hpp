@@ -25,14 +25,67 @@ class Client
 		int			_socket;
 		pollfd		_pfd;
 
+		//INFO
+		bool		_authenticated;
+		std::string	_username;
+		std::string _nick;
+		std::string	_realname;
+
 	public:
 		//*CONSTRUCTORS
-		Client(int srvSocket);
+
+		Client(int srvSocket) {
+			_id = _globalId++;
+			_socket = srvSocket;
+			_pfd.fd = _socket;
+			_pfd.events = POLLIN;
+			_pfd.revents = 0;
+			_authenticated = false;
+			_username = "Guest";
+		}
+
+		Client() {
+			_id = -1;
+		}//DUMMY
 
 		//*GETTERS
-		int		getId();
-		int		getSocket();
-		pollfd	&getPfd();//why &
+		int		getId() {
+			return (_id);
+		}
+		int		getSocket() {
+			return (_socket);
+		}
+		pollfd	&getPfd() {
+			return (_pfd);
+		}//why &
+
+
+		bool isAuthenticated() {
+			return (_authenticated);
+		}
+		void setAuthenticated(bool auth) {
+			_authenticated = auth;
+		}
+		std::string	getUsername() {
+			return (_username);
+		}
+		void	setUsername(std::string username) {
+			_username = username;
+		}
+		//check order
+		std::string	getNick() {
+			return (_nick);
+		}
+		void	setNick(std::string nick) {
+			_nick = nick;
+		}
+		std::string	getRealname() {
+			return (_realname);
+		}
+		void	setRealname(std::string realname) {
+			_realname = realname;
+		}
+
 
 
 };
