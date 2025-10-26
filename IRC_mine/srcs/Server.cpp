@@ -28,13 +28,6 @@ Server::Server(char *port, char *pass){
 	_clients.push_back(Client());//This is so that we dont have to work with _clients[i - 1]
 }
 
-
-//*GETTERS
-int			Server::getSocket() { return (_socket); }
-int			Server::getPort() { return (_port); }
-std::string Server::getPass() { return (_pass); }
-
-
 //*Accepting client
 int		Server::acceptClient()
 {
@@ -58,8 +51,7 @@ void	Server::setPfds()
 {
 	_pfds.clear();
 	_pfds.push_back(_srvPfd);
-	//changes it++ to ++it because it should skip the first one, hopefully it works
-	std::vector<Client>::iterator it = _clients.begin();
+	std::vector<Client>::iterator it = _clients.begin();//stupid fucking fix
 	it++;
 	while (it != _clients.end()){
 		_pfds.push_back(it->getPfd());
@@ -70,10 +62,12 @@ void	Server::setPfds()
 //*Disconnect client when client exits
 void	Server::disconnectClient(Client client, int i)
 {
-	std::cout << "Client " << client.getId() << " disconnected" << std::endl;
+	//remove client
+	std::cout << "Client " << client.getUsername() << " disconnected" << std::endl;
 
+	//use getID to make it one less parameter
 	close (_pfds[i].fd);
-	_clients.erase(_clients.begin() + i - 1);//! CHECK IF THIS IS CORRECT
+	_clients.erase(_clients.begin() + i - 1);
 }
 
 //this is just testing
@@ -81,8 +75,8 @@ bool	Server::shouldServerExit(char buf[])
 {
 	if (strncmp(buf, "exit", 4) == 0) {
 		std::cout << "exiting server" << std::endl;
-		for (std::vector<Client>::iterator client_it = _clients.begin(); client_it != _clients.end(); client_it++)
-			close(client_it->getSocket());
+		for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); it++)
+			close(it->getSocket());
 		close(_socket);
 		return (true);
 	}
@@ -90,7 +84,7 @@ bool	Server::shouldServerExit(char buf[])
 }
 
 
-//debug message
+//debug message, replace by printInfo when done
 void	debugClientMessage(Client client, char buf[])
 {
 	std::cout << "Client " << client.getId() << " said: " << buf;
@@ -105,7 +99,7 @@ enum	pollCondition//fucking stupid find a better solution
 };
 
 
-//!COLETESCOLETESCOLETESCOLETESCOLETESCOLETES
+//*Parsing i think, coletes double check
 std::string getUsername(const std::string &line) {
     size_t pos = 0;
     for (int i = 0; i < 1; ++i)
@@ -135,16 +129,23 @@ std::string getNick(const std::string &line) {
 	}
     return (nickname);
 }
-//!COLETESCOLETESCOLETESCOLETESCOLETESCOLETES
 
 
-//like sending a client as parameter is bad if i have classes right?
-int	Server::handleClientPoll(int i)//send specific client as well?
+
+
+
+
+
+
+
+
+
+int	Server::handleClientPoll(int i)//i here is only sent so that _pfds and _clients are at the same index
 {
 	char buf[512];//this can change for a vector if needed
 	int bytesRecv = myRecv(_pfds[i].fd, buf, sizeof(buf), 0);
 	if (bytesRecv == 0) {
-		disconnectClient(_clients[i], i);//NO NEED TO SEND CLIENTS LIKE THIS
+		disconnectClient(_clients[i], i);
 		return (DISCONNECT);
 	}
 	buf[bytesRecv] = 0;
@@ -153,9 +154,46 @@ int	Server::handleClientPoll(int i)//send specific client as well?
 	if (shouldServerExit(buf))
 		return (EXIT);
 
+	_clients[i].setBuf(buf);
 
-	//!COLETESCOLETESCOLETESCOLETESCOLETESCOLETES
-	//todo put this in processCommand function, and processCommand will be coletes?
+		//Vou por os comandos a serem processados assim, depois vemos isto juntos
+		/* 
+			tryPass(extractedPass) {
+				if (extractedPass != _pass)
+					throw WRONGPASS
+				setAuth()
+			}
+			
+			tryAuthClient() {
+				if (strcmp(PASS)) {
+					tryPass()
+				}
+				else {
+					cout Client cannot talk    (find out what actually happens)
+				}
+			}
+			processCommand() {
+				if (!clients.isauth())
+					tryAuthClient()
+				else {
+					Any other command, like USER or NICK or JOIN or PRIVMSG or whatever
+				}
+			}
+			
+			AQUI
+
+			try
+				processCommand
+			catch
+				cout "command error"
+
+				(check :IRC (RFC 1459 / 2812) for what to do in each case)
+
+		*/
+
+
+	
+
 	if (!_clients[i].isAuthenticated())
 	{
 		char *bufPass = buf/* strncpy(buf, bufPass, bytesRecv) */;
@@ -174,14 +212,11 @@ int	Server::handleClientPoll(int i)//send specific client as well?
 				_clients[i].setAuthenticated(true);
 			}
 			else {
-				std::cout << "Password incorrect\n";//Client shouldnt close, send errPass back, check comments
-				//function for cout, throwing the error. 
-				//handleClientPoll should have a try catch, and processcommand which is where this will be will throw here
+				std::cout << "Password incorrect\n";
 			}
 		}
 		else {
 			std::cout << "Client cannot talk\n";
-			//send error message to try catch here
 		}
 	}
 	else
@@ -199,9 +234,7 @@ int	Server::handleClientPoll(int i)//send specific client as well?
 			std::cout << "Nick set to: " << _clients[i].getNick() << std::endl;
 		}
 	}
-	//!COLETESCOLETESCOLETESCOLETESCOLETESCOLETES
 
-	// TODO processCommand(clients[i - 1], buf);
 	return (OK);
 }
 
@@ -241,39 +274,3 @@ void	Server::srvRun()
 
 	also, hard code a client with info already in it and pass a command as if it was written to test the parsing
 */
-
-/* 
-// ! send ERR_PASSWDMISMATCH (464)
-	send(clients[i - 1].getSocket(), "Client closing", 15, 0);//!send the err instead of this
-	close (pfds[i].fd);
-	clients.erase(clients.begin() + (i - 1));
-enum Command//use this???
-{
-	EXIT,
-	PASS,
-	QUIT,
-};
-
-int	getCommand(char buf[])//use this?
-{
-	//strcmp for values?
-	if (!strcmp(buf, pass))//should be in class already to process this?
-		return PASS;
-	return (-1);
-}
-
-//everything is a specific command
-void	processCommand(Client client, char line[])
-{
-	int command = getCommand(line);
-	switch (command)//use this??
-	{
-		case PASS:
-			std::cout << "Pass command found" << std::endl;
-			// processPass();
-		// default:
-			//throw
-	}
-}
-*/
-

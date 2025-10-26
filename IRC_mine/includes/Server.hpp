@@ -41,9 +41,9 @@ class Server
 		Server(char *port, char *pass);
 
 		//*GETTERS
-		int			getSocket();
-		int			getPort();
-		std::string	getPass();
+		int			getSocket() { return (_socket); }
+		int			getPort() { return (_port); }
+		std::string getPass() { return (_pass); }
 
 
 		void	srvRun();

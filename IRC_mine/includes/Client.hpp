@@ -31,6 +31,7 @@ class Client
 		std::string _nick;
 		std::string	_realname;
 
+		char		*_buf;
 	public:
 		//*CONSTRUCTORS
 
@@ -46,18 +47,13 @@ class Client
 
 		Client() {
 			_id = -1;
+			_socket = 0;
 		}//DUMMY
 
 		//*GETTERS
-		int		getId() {
-			return (_id);
-		}
-		int		getSocket() {
-			return (_socket);
-		}
-		pollfd	&getPfd() {
-			return (_pfd);
-		}//why &
+		int		getId() { return (_id); }
+		int		getSocket() { return (_socket); }
+		pollfd	&getPfd() { return (_pfd); }//why &
 
 
 		bool isAuthenticated() {
@@ -84,6 +80,14 @@ class Client
 		}
 		void	setRealname(std::string realname) {
 			_realname = realname;
+		}
+
+
+		void	setBuf(char buf[]) {
+			_buf = buf;
+		}
+		char*	getBuf() {
+			return (_buf);
 		}
 
 
