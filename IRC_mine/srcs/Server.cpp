@@ -60,12 +60,12 @@ void	Server::setPfds()
 }
 
 //*Disconnect client when client exits
+//todo tell client its disconnecting using sendToClient()
 void	Server::disconnectClient(Client client, int i)
 {
-	//remove client
+	//remove Client as parameter
 	std::cout << "Client " << client.getUsername() << " disconnected" << std::endl;
 
-	//use getID to make it one less parameter
 	close (_pfds[i].fd);
 	_clients.erase(_clients.begin() + i - 1);
 }
@@ -83,14 +83,6 @@ bool	Server::shouldServerExit(char buf[])
 	return (false);
 }
 
-
-//debug message, replace by printInfo when done
-void	debugClientMessage(Client client, char buf[])
-{
-	std::cout << "Client " << client.getId() << " said: " << buf;
-}	
-
-
 enum	pollCondition//fucking stupid find a better solution
 {
 	DISCONNECT,
@@ -99,22 +91,18 @@ enum	pollCondition//fucking stupid find a better solution
 };
 
 
-//*Parsing i think, coletes double check
-//these should throw if they fail, but need to double check with IRC protocol
 std::string getUsername(const std::string &line) {
     size_t pos = 0;
     for (int i = 0; i < 1; ++i)
         pos = line.find(' ', pos + 1);
     return line.substr(pos + 1, line.find(' ', pos + 2) - pos - 1);
 }
-
 std::string getRealname(const std::string &line) {
     size_t pos = 0;
     for (int i = 0; i < 4; ++i)
         pos = line.find(' ', pos + 1);
     return line.substr(pos + 1);
 }
-
 std::string getNick(const std::string &line) {
     size_t pos = 0;
 	std::string nickname;
@@ -132,9 +120,12 @@ std::string getNick(const std::string &line) {
 }
 
 
-
-
-
+void	sendToClient(Client client, std::string str) {
+	//have str be defines in .hpp
+	//also have the " :" be hardcoded here?
+	std::string reply = client.getNick() + str + "\r\n";//check if std::endl does the same as \r\n
+	send(client.getSocket(), reply.c_str(), reply.size(), 0);
+}
 
 
 void	Server::tryPass(int i, char *bufPass)
@@ -143,51 +134,59 @@ void	Server::tryPass(int i, char *bufPass)
 	size_t pos = 0;
 	for (int i = 0; i < 1; ++i)
 		pos = line.find(' ', pos + 1);
-	std::cout << "Extracted pass: " << line.substr(pos + 1) << std::endl;	
-	if (strcmp(line.substr(pos + 1).c_str(), _pass.c_str()) != 0)
-		throw std::runtime_error("Password incorrect");//check IRC protocol (RFC 1459 / 2812)
+	if (strcmp(line.substr(pos + 1).c_str(), _pass.c_str()) != 0) {
+		sendToClient(_clients[i], " :Password incorrect");
+		throw std::runtime_error(" guessed the password wrong");
+	}
 
-	std::cout << "Password correct\nClient should now be able to set user and talk\n";
 	_clients[i].setAuthenticated(true);
+	sendToClient(_clients[i], " :Authenticated, set User and Nick to register");
+	throw std::runtime_error(" has authenticated, needs to register");//not runtime_error
 }
-	
 
 
 void	Server::tryAuthClient(int i, int bytesRecv)//todo STUPID TO SEND bytesRecv LIKE THIS
 {
-	char *bufPass = _clients[i].getBuf();/* strncpy(buf, bufPass, bytesRecv) */
-	bufPass[bytesRecv - 1] = '\0'; //removing \r\n		//todo stupid to pass bytesRecv just for this
-	// std::cout << "Mine: " << bufPass << "\tOrig: " << _pass << "\tValue: " << (bufPass == _pass) << std::endl;
-	if (strncmp(_clients[i].getBuf(), "PASS ", 5) != 0)/* strcmp(bufPass, &pass[0]) == 0 */
-		throw std::runtime_error("Client cannot talk NEEDS TO DISCONNECT");//check IRC protocol (RFC 1459 / 2812) // ! SHOULD DISCONNECT, need a new try logic
+	//have a commandPass() for when already registered, to send error message
+	char *bufPass = _clients[i].getBuf();
+	bufPass[bytesRecv - 1] = '\0'; //todo stupid to pass bytesRecv just for this
+	if (strncmp(_clients[i].getBuf(), "PASS ", 5) != 0) {
+		sendToClient(_clients[i], " :Not authenticated");
+		throw std::runtime_error(" is Not Authenticated, cannot talk");
+	}
 	tryPass(i, bufPass);
 }
 
-
-void	Server::commandUser(int i)
+void	Server::registerUser(int i)
 {
 	_clients[i].setUsername(getUsername(_clients[i].getBuf()));
 	_clients[i].setRealname(getRealname(_clients[i].getBuf()));
 	std::cout << "Username set to: " << _clients[i].getUsername() << " || " << _clients[i].getRealname() << std::endl;
 }
-
-void	Server::commandNick(int i)
+void	Server::registerNick(int i)
 {
 	_clients[i].setNick(getNick(_clients[i].getBuf()));
 	std::cout << "Nick set to: " << _clients[i].getNick() << std::endl;
 }
 
+
+//todo CHECK ALL LOGS OF SERVER AND CLIENT
+//rename to processRegistration?
+//it then put isRegistered to true, and prints the welcome messages
 void	Server::processCommand(int i, int bytesRecv)
 {
 	if (!_clients[i].isAuthenticated()) {
-		tryAuthClient(i, bytesRecv);//todo STUPID TO SEND bytesRecv LIKE THIS
+		tryAuthClient(i, bytesRecv);//STUPID, dont send bytesRecv like this
 		return ;
 	}
-	std::cout << "Client " << _clients[i].getUsername()<< " said: " << _clients[i].getBuf();
+	std::cout << "Client " << _clients[i].getNick()<< " said: " << _clients[i].getBuf();
 	if (strncmp(_clients[i].getBuf(), "USER ", 5) == 0)
-		commandUser(i);//rename
+		registerUser(i);//rename
 	if (strncmp(_clients[i].getBuf(), "NICK ", 5) == 0)
-		commandNick(i);//rename
+		registerNick(i);//rename
+	//if (hasUser and hasNick) then isRegistered = true
+	//welcomeUser
+	//todo RPL_WELCOME RPL_YOURHOST RPL_CREATED RPL_MYINFO	 after registering
 }
 
 
@@ -201,51 +200,18 @@ int	Server::handleClientPoll(int i)//i here is only sent so that _pfds and _clie
 		return (DISCONNECT);
 	}
 	buf[bytesRecv] = 0;
-	// debugClientMessage(_clients[i], buf);
 
 	if (shouldServerExit(buf))
 		return (EXIT);
 
 	_clients[i].setBuf(buf);
 
-		//Vou por os comandos a serem processados assim, depois vemos isto juntos
-		/* 
-			tryPass(extractedPass) {
-				if (extractedPass != _pass)
-					throw WRONGPASS
-				setAuth()
-			}
-			
-			tryAuthClient() {
-				if (strcmp(PASS)) {
-					tryPass()
-				}
-				else {
-					cout Client cannot talk    (find out what actually happens)
-				}
-			}
-			processCommand() {
-				if (!clients.isauth())
-					tryAuthClient()
-				else {
-					Any other command, like USER or NICK or JOIN or PRIVMSG or whatever
-				}
-			}
-			
-			AQUI
 
-			try
-				processCommand
-			catch
-				cout "command error"
-
-				(check :IRC (RFC 1459 / 2812) for what to do in each case)
-
-		*/
 	try {
-		processCommand(i, bytesRecv);//todo STUPID TO SEND LIKE THIS
+		processCommand(i, bytesRecv);
 	} catch(const std::exception& e) {
-		std::cerr << YELLOW("Client error: ") << e.what() << std::endl;
+		//this should be server logs
+		std::cerr << YELLOW("Client log: ") << _clients[i].getNick() << e.what() << std::endl;
 	}
 	return (OK);
 }

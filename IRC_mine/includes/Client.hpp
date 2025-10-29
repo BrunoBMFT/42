@@ -43,6 +43,7 @@ class Client
 			_pfd.revents = 0;
 			_authenticated = false;
 			_username = "Guest";
+			_nick = "Guest";
 		}
 
 		Client() {

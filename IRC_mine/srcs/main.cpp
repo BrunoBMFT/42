@@ -19,6 +19,10 @@ int		main(int ac, char **av)
 }
 
 /* 
+	unless password, user or nick is incorrect in terms of parsing, 
+	nothing should be sent to client until registration is done
+
+
 	Client needs to register itself in server before using stuff like JOIN or PRIVMSG
 	client should send info:
 		recommended order by ircdocs:

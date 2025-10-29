@@ -39,8 +39,8 @@ class Server
 		void	tryAuthClient(int i, int bytesRecv);//todo STUPID TO SEND bytesRecv LIKE THIS
 		void	tryPass(int i, char *bufPass);
 		//Commands
-		void	commandUser(int i);
-		void	commandNick(int i);
+		void	registerUser(int i);
+		void	registerNick(int i);
 
 
 
