@@ -33,6 +33,19 @@ class Server
 		int		handleClientPoll(int i);
 		void	disconnectClient(Client client, int i);
 
+		//Running Commands
+		void	processCommand(int i, int bytesRecv);//todo STUPID TO SEND bytesRecv LIKE THIS
+		//Authing client
+		void	tryAuthClient(int i, int bytesRecv);//todo STUPID TO SEND bytesRecv LIKE THIS
+		void	tryPass(int i, char *bufPass);
+		//Commands
+		void	commandUser(int i);
+		void	commandNick(int i);
+
+
+
+
+
 		//just for testing
 		bool	shouldServerExit(char buf[]);
 

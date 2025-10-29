@@ -18,8 +18,8 @@ Server::Server(char *port, char *pass){
 
 	myListen(_socket, SOMAXCONN);
 
-	std::cout << "Server open in port: " << _port << std::endl;
-	// std::cout << GREEN("Server open in port: ") << _port << std::endl;
+	// std::cout << "Server open in port: " << _port << std::endl;
+	std::cout << GREEN("Server open in port: ") << _port << std::endl;
 
 	_srvPfd.fd = _socket;
 	_srvPfd.events = POLLIN;
@@ -100,6 +100,7 @@ enum	pollCondition//fucking stupid find a better solution
 
 
 //*Parsing i think, coletes double check
+//these should throw if they fail, but need to double check with IRC protocol
 std::string getUsername(const std::string &line) {
     size_t pos = 0;
     for (int i = 0; i < 1; ++i)
@@ -136,7 +137,58 @@ std::string getNick(const std::string &line) {
 
 
 
+void	Server::tryPass(int i, char *bufPass)
+{
+	std::string line(bufPass);
+	size_t pos = 0;
+	for (int i = 0; i < 1; ++i)
+		pos = line.find(' ', pos + 1);
+	std::cout << "Extracted pass: " << line.substr(pos + 1) << std::endl;	
+	if (strcmp(line.substr(pos + 1).c_str(), _pass.c_str()) != 0)
+		throw std::runtime_error("Password incorrect");//check IRC protocol (RFC 1459 / 2812)
 
+	std::cout << "Password correct\nClient should now be able to set user and talk\n";
+	_clients[i].setAuthenticated(true);
+}
+	
+
+
+void	Server::tryAuthClient(int i, int bytesRecv)//todo STUPID TO SEND bytesRecv LIKE THIS
+{
+	char *bufPass = _clients[i].getBuf();/* strncpy(buf, bufPass, bytesRecv) */
+	bufPass[bytesRecv - 1] = '\0'; //removing \r\n		//todo stupid to pass bytesRecv just for this
+	// std::cout << "Mine: " << bufPass << "\tOrig: " << _pass << "\tValue: " << (bufPass == _pass) << std::endl;
+	if (strncmp(_clients[i].getBuf(), "PASS ", 5) != 0)/* strcmp(bufPass, &pass[0]) == 0 */
+		throw std::runtime_error("Client cannot talk NEEDS TO DISCONNECT");//check IRC protocol (RFC 1459 / 2812) // ! SHOULD DISCONNECT, need a new try logic
+	tryPass(i, bufPass);
+}
+
+
+void	Server::commandUser(int i)
+{
+	_clients[i].setUsername(getUsername(_clients[i].getBuf()));
+	_clients[i].setRealname(getRealname(_clients[i].getBuf()));
+	std::cout << "Username set to: " << _clients[i].getUsername() << " || " << _clients[i].getRealname() << std::endl;
+}
+
+void	Server::commandNick(int i)
+{
+	_clients[i].setNick(getNick(_clients[i].getBuf()));
+	std::cout << "Nick set to: " << _clients[i].getNick() << std::endl;
+}
+
+void	Server::processCommand(int i, int bytesRecv)
+{
+	if (!_clients[i].isAuthenticated()) {
+		tryAuthClient(i, bytesRecv);//todo STUPID TO SEND bytesRecv LIKE THIS
+		return ;
+	}
+	std::cout << "Client " << _clients[i].getUsername()<< " said: " << _clients[i].getBuf();
+	if (strncmp(_clients[i].getBuf(), "USER ", 5) == 0)
+		commandUser(i);//rename
+	if (strncmp(_clients[i].getBuf(), "NICK ", 5) == 0)
+		commandNick(i);//rename
+}
 
 
 
@@ -190,51 +242,11 @@ int	Server::handleClientPoll(int i)//i here is only sent so that _pfds and _clie
 				(check :IRC (RFC 1459 / 2812) for what to do in each case)
 
 		*/
-
-
-	
-
-	if (!_clients[i].isAuthenticated())
-	{
-		char *bufPass = buf/* strncpy(buf, bufPass, bytesRecv) */;
-		bufPass[bytesRecv - 1] = '\0'; //removing \r\n
-		std::cout << "Mine: " << bufPass << "\tOrig: " << _pass << "\tValue: " << (bufPass == _pass) << std::endl;
-		if (!strncmp(buf, "PASS ", 5)/* strcmp(bufPass, &pass[0]) == 0 */)
-		{
-			std::string line(bufPass);
-			size_t pos = 0;
-			for (int i = 0; i < 1; ++i)
-				pos = line.find(' ', pos + 1);
-			std::cout << "Extracted pass: " << line.substr(pos + 1) << std::endl;	
-			if (strcmp(line.substr(pos + 1).c_str(), _pass.c_str()) == 0)
-			{
-				std::cout << "Password correct\nClient should now be able to set user and talk\n";
-				_clients[i].setAuthenticated(true);
-			}
-			else {
-				std::cout << "Password incorrect\n";
-			}
-		}
-		else {
-			std::cout << "Client cannot talk\n";
-		}
+	try {
+		processCommand(i, bytesRecv);//todo STUPID TO SEND LIKE THIS
+	} catch(const std::exception& e) {
+		std::cerr << YELLOW("Client error: ") << e.what() << std::endl;
 	}
-	else
-	{
-		std::cout << "Client " << _clients[i].getUsername()<< " said: " << buf;
-		if (strncmp(buf, "USER ", 5) == 0)
-		{
-			_clients[i].setUsername(getUsername(buf));
-			_clients[i].setRealname(getRealname(buf));
-			std::cout << "Username set to: " << _clients[i].getUsername() << " || " << _clients[i].getRealname() << std::endl;
-		}
-		if (strncmp(buf, "NICK ", 5) == 0)
-		{
-			_clients[i].setNick(getNick(buf));
-			std::cout << "Nick set to: " << _clients[i].getNick() << std::endl;
-		}
-	}
-
 	return (OK);
 }
 

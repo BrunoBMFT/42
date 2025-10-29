@@ -65,14 +65,14 @@ class Client
 		std::string	getUsername() {
 			return (_username);
 		}
-		void	setUsername(std::string username) {
+		void		setUsername(std::string username) {
 			_username = username;
 		}
 		//check order
 		std::string	getNick() {
 			return (_nick);
 		}
-		void	setNick(std::string nick) {
+		void		setNick(std::string nick) {
 			_nick = nick;
 		}
 		std::string	getRealname() {
