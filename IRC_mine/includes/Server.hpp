@@ -14,6 +14,7 @@
 # include <stdlib.h>//atoi
 # include "Client.hpp"
 # include "Colours.hpp"
+# include "Defines.hpp"
 
 class Server
 {

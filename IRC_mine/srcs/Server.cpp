@@ -1,7 +1,61 @@
 #include "../includes/Server.hpp"
 
+//todo do the isRegistered() part and the welcome part, then remove all comments and make it readable, then channels!!!
+
+//todo Channel logic
+/* 
+
+	class channel
+	{
+		vector ClientsInChannel (saves their id)
+
+	}
+
+	when a message is sent to server, save the channel that the client who sent it used, 
+	then go to that channels ClientsInChannel, then loop through getId to find which clients to sendInfo to
+
+
+
+	WHERE WOULD THIS GO THO????
+	SHALL I JUST TEST IT AFTER PROCESSING REGISTRATION???
+	while (_clients[i]) 
+	{
+		if (_clients[i].getId() == ClientsInChannel)      FIND INSIDE THE VECTOR OF ClientsInChannel
+		{
+			sendToClient(_clients[i], LINE_TO_SEND);
+		}
+	}
+
+
+	Server
+	{
+		vector Channel
+	}
+
+
+	commandJoin(std::string str) {
+		if (Channel with name str doesnt exist)
+		{
+			createChannel()
+			save _clients[i].getId() into channel.ClientsInChannel
+		}
+		else
+		{
+			save _clients[i].getId() into channel.ClientsInChannel
+		}
+	}
+
+
+
+ */
+
+
+
+
+
+
 //*CONSTRUCTORS
-Server::Server(char *port, char *pass){
+Server::Server(char *port, char *pass) {
 	_port = atoi(port);
 	_pass = pass;
 
@@ -93,6 +147,7 @@ enum	pollCondition//fucking stupid find a better solution
 
 std::string getUsername(const std::string &line) {
     size_t pos = 0;
+	std::cout << "IM HERE REEEEEEEEEEEEEEEEEEEE\n";
     for (int i = 0; i < 1; ++i)
         pos = line.find(' ', pos + 1);
     return line.substr(pos + 1, line.find(' ', pos + 2) - pos - 1);
@@ -121,9 +176,7 @@ std::string getNick(const std::string &line) {
 
 
 void	sendToClient(Client client, std::string str) {
-	//have str be defines in .hpp
-	//also have the " :" be hardcoded here?
-	std::string reply = client.getNick() + str + "\r\n";//check if std::endl does the same as \r\n
+	std::string reply = client.getNick() + str + "\r\n";
 	send(client.getSocket(), reply.c_str(), reply.size(), 0);
 }
 
@@ -135,23 +188,23 @@ void	Server::tryPass(int i, char *bufPass)
 	for (int i = 0; i < 1; ++i)
 		pos = line.find(' ', pos + 1);
 	if (strcmp(line.substr(pos + 1).c_str(), _pass.c_str()) != 0) {
-		sendToClient(_clients[i], " :Password incorrect");
+		sendToClient(_clients[i], ERR_PASSWDMISMATCH);
 		throw std::runtime_error(" guessed the password wrong");
 	}
 
 	_clients[i].setAuthenticated(true);
-	sendToClient(_clients[i], " :Authenticated, set User and Nick to register");
+	sendToClient(_clients[i], PASSACCEPT);
 	throw std::runtime_error(" has authenticated, needs to register");//not runtime_error
 }
 
 
-void	Server::tryAuthClient(int i, int bytesRecv)//todo STUPID TO SEND bytesRecv LIKE THIS
+void	Server::tryAuthClient(int i, int bytesRecv)
 {
 	//have a commandPass() for when already registered, to send error message
 	char *bufPass = _clients[i].getBuf();
-	bufPass[bytesRecv - 1] = '\0'; //todo stupid to pass bytesRecv just for this
+	bufPass[bytesRecv - 1] = '\0'; 
 	if (strncmp(_clients[i].getBuf(), "PASS ", 5) != 0) {
-		sendToClient(_clients[i], " :Not authenticated");
+		sendToClient(_clients[i], NOTAUTH);
 		throw std::runtime_error(" is Not Authenticated, cannot talk");
 	}
 	tryPass(i, bufPass);
@@ -180,20 +233,20 @@ void	Server::processCommand(int i, int bytesRecv)
 		return ;
 	}
 	std::cout << "Client " << _clients[i].getNick()<< " said: " << _clients[i].getBuf();
-	if (strncmp(_clients[i].getBuf(), "USER ", 5) == 0)
-		registerUser(i);//rename
+	//use switch
+	if (strncmp(_clients[i].getBuf(), "USER ", 5) == 0)//if user already registered: ERR_ALREADYREGISTERED
+		registerUser(i);
 	if (strncmp(_clients[i].getBuf(), "NICK ", 5) == 0)
-		registerNick(i);//rename
+		registerNick(i);
 	//if (hasUser and hasNick) then isRegistered = true
-	//welcomeUser
 	//todo RPL_WELCOME RPL_YOURHOST RPL_CREATED RPL_MYINFO	 after registering
 }
 
 
 
-int	Server::handleClientPoll(int i)//i here is only sent so that _pfds and _clients are at the same index
+int	Server::handleClientPoll(int i)
 {
-	char buf[512];//this can change for a vector if needed
+	char buf[512];
 	int bytesRecv = myRecv(_pfds[i].fd, buf, sizeof(buf), 0);
 	if (bytesRecv == 0) {
 		disconnectClient(_clients[i], i);
@@ -205,12 +258,14 @@ int	Server::handleClientPoll(int i)//i here is only sent so that _pfds and _clie
 		return (EXIT);
 
 	_clients[i].setBuf(buf);
-
+	&_clients + i;
 
 	try {
+		//!have here AuthClient() to only accept PASS as a command
+		//!then RegisterUser() to only register user as a command
+		//!then can be the infinite loop of commands
 		processCommand(i, bytesRecv);
 	} catch(const std::exception& e) {
-		//this should be server logs
 		std::cerr << YELLOW("Client log: ") << _clients[i].getNick() << e.what() << std::endl;
 	}
 	return (OK);
@@ -246,9 +301,3 @@ void	Server::srvRun()
 
 
 
-/* 
-	Have a function called printInfo, that will have client id, nick and/or user, authenticated, and the command
-	maybe for this, buffer or command will have to be saved onto client
-
-	also, hard code a client with info already in it and pass a command as if it was written to test the parsing
-*/
