@@ -4,16 +4,26 @@
 
 //todo Channel logic
 /* 
+when a message is sent to server, save the channel that the client who sent it used, 
+then go to that channels ClientsInChannel, then loop through getId to find which clients to sendInfo to
+
+
+
 
 	class channel
 	{
 		vector ClientsInChannel (saves their id)
-
+		
+	}
+	
+	
+	Server
+	{
+		vector Channel
 	}
 
-	when a message is sent to server, save the channel that the client who sent it used, 
-	then go to that channels ClientsInChannel, then loop through getId to find which clients to sendInfo to
 
+	
 
 
 	WHERE WOULD THIS GO THO????
@@ -24,12 +34,6 @@
 		{
 			sendToClient(_clients[i], LINE_TO_SEND);
 		}
-	}
-
-
-	Server
-	{
-		vector Channel
 	}
 
 
