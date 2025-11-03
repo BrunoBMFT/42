@@ -149,18 +149,24 @@ enum	pollCondition//fucking stupid find a better solution
 };
 
 
+//todo here STARTS REGISTRATION
 std::string getUsername(const std::string &line) {
     size_t pos = 0;
-	std::cout << "IM HERE REEEEEEEEEEEEEEEEEEEE\n";
     for (int i = 0; i < 1; ++i)
         pos = line.find(' ', pos + 1);
-    return line.substr(pos + 1, line.find(' ', pos + 2) - pos - 1);
+	std::string username = line.substr(pos + 1, line.find(' ', pos + 2) - pos - 1);
+	while (!username.empty() && (username[username.size() - 1] == '\r' || username[username.size() - 1] == '\n'))
+		username.erase(username.size() - 1);
+    return (username);
 }
 std::string getRealname(const std::string &line) {
     size_t pos = 0;
     for (int i = 0; i < 4; ++i)
         pos = line.find(' ', pos + 1);
-    return line.substr(pos + 1);
+	std::string realname = line.substr(pos + 1);
+	while (!realname.empty() && (realname[realname.size() - 1] == '\r' || realname[realname.size() - 1] == '\n'))
+		realname.erase(realname.size() - 1);
+    return (realname);
 }
 std::string getNick(const std::string &line) {
     size_t pos = 0;
@@ -175,12 +181,15 @@ std::string getNick(const std::string &line) {
 		if (nickname[i] == ' ')
 			return ("");
 	}
-    return (nickname);
+
+	while (!nickname.empty() && (nickname[nickname.size() - 1] == '\r' || nickname[nickname.size() - 1] == '\n'))
+		nickname.erase(nickname.size() - 1);
+	return (nickname);
 }
 
 
 void	sendToClient(Client client, std::string str) {
-	std::string reply = client.getNick() + str + "\r\n";
+	std::string reply = client.getNick() + " :"+ str + "\r\n";
 	send(client.getSocket(), reply.c_str(), reply.size(), 0);
 }
 
@@ -197,7 +206,8 @@ void	Server::tryPass(int i, char *bufPass)
 	}
 
 	_clients[i].setAuthenticated(true);
-	sendToClient(_clients[i], PASSACCEPT);
+	sendToClient(_clients[i], PASSACCEPT);//irc servers usually wait silently here
+	std::cout << "* has authenticated, needs to register" << std::endl;
 	throw std::runtime_error(" has authenticated, needs to register");//not runtime_error
 }
 
@@ -214,36 +224,64 @@ void	Server::tryAuthClient(int i, int bytesRecv)
 	tryPass(i, bufPass);
 }
 
+
+
+
+void	Server::checkRegistration(int i) {
+	if (!_clients[i].getNick().empty() && !_clients[i].getUsername().empty() && !_clients[i].getRealname().empty())
+	{
+		_clients[i].setRegistered(true);
+		sendToClient(_clients[i], "Welcome");
+		//RPL_WELCOME 
+		//RPL_YOURHOST 
+		//RPL_CREATED 
+		//RPL_MYINFO
+		//RPL_ISUPPORT (prob not needed)
+		//LUSERS?
+		//MOTD
+	}
+}
+
+
+
 void	Server::registerUser(int i)
 {
 	_clients[i].setUsername(getUsername(_clients[i].getBuf()));
 	_clients[i].setRealname(getRealname(_clients[i].getBuf()));
 	std::cout << "Username set to: " << _clients[i].getUsername() << " || " << _clients[i].getRealname() << std::endl;
+	checkRegistration(i);
 }
 void	Server::registerNick(int i)
 {
 	_clients[i].setNick(getNick(_clients[i].getBuf()));
 	std::cout << "Nick set to: " << _clients[i].getNick() << std::endl;
+	checkRegistration(i);
 }
 
+//todo here ENDS REGISTRATION
 
-//todo CHECK ALL LOGS OF SERVER AND CLIENT
-//rename to processRegistration?
-//it then put isRegistered to true, and prints the welcome messages
+
 void	Server::processCommand(int i, int bytesRecv)
 {
+	// std::cout << YELLOW("Debug: ") << "Client " << _clients[i].getNick()<< " said: " << _clients[i].getBuf();
 	if (!_clients[i].isAuthenticated()) {
-		tryAuthClient(i, bytesRecv);//STUPID, dont send bytesRecv like this
+		tryAuthClient(i, bytesRecv);
 		return ;
 	}
-	std::cout << "Client " << _clients[i].getNick()<< " said: " << _clients[i].getBuf();
-	//use switch
-	if (strncmp(_clients[i].getBuf(), "USER ", 5) == 0)//if user already registered: ERR_ALREADYREGISTERED
-		registerUser(i);
-	if (strncmp(_clients[i].getBuf(), "NICK ", 5) == 0)
-		registerNick(i);
-	//if (hasUser and hasNick) then isRegistered = true
-	//todo RPL_WELCOME RPL_YOURHOST RPL_CREATED RPL_MYINFO	 after registering
+	if (!_clients[i].isRegistered()) {
+		
+		if (strncmp(_clients[i].getBuf(), "USER ", 5) == 0)
+			registerUser(i);
+		else if (strncmp(_clients[i].getBuf(), "NICK ", 5) == 0)
+			registerNick(i);
+		else {
+			sendToClient(_clients[i], NOTREGISTERED);
+			throw std::runtime_error(" not registered, cant talk");
+		}
+	}
+	else {
+		sendToClient(_clients[i], _clients[i].getBuf());
+	}
 }
 
 
@@ -262,12 +300,8 @@ int	Server::handleClientPoll(int i)
 		return (EXIT);
 
 	_clients[i].setBuf(buf);
-	&_clients + i;
 
 	try {
-		//!have here AuthClient() to only accept PASS as a command
-		//!then RegisterUser() to only register user as a command
-		//!then can be the infinite loop of commands
 		processCommand(i, bytesRecv);
 	} catch(const std::exception& e) {
 		std::cerr << YELLOW("Client log: ") << _clients[i].getNick() << e.what() << std::endl;

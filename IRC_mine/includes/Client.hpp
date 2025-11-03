@@ -27,6 +27,7 @@ class Client
 
 		//INFO
 		bool		_authenticated;
+		bool		_registered;
 		std::string	_username;
 		std::string _nick;
 		std::string	_realname;
@@ -42,8 +43,10 @@ class Client
 			_pfd.events = POLLIN;
 			_pfd.revents = 0;
 			_authenticated = false;
-			_username = "Guest";
-			_nick = "Guest";
+			_registered = false;
+			_username = "";
+			_nick = "*";
+			_realname = "";
 		}
 
 		Client() {
@@ -62,6 +65,12 @@ class Client
 		}
 		void setAuthenticated(bool auth) {
 			_authenticated = auth;
+		}
+		bool isRegistered() {
+			return (_registered);
+		}
+		void setRegistered(bool auth) {
+			_registered = auth;
 		}
 		std::string	getUsername() {
 			return (_username);
