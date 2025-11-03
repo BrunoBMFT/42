@@ -19,6 +19,8 @@
 class Server
 {
 	private:
+		std::string		_name;
+		
 		int				_port;
 		std::string		_pass;
 
@@ -36,13 +38,15 @@ class Server
 
 		//Running Commands
 		void	processCommand(int i, int bytesRecv);//todo STUPID TO SEND bytesRecv LIKE THIS
-		//Authing client
+		
+		//AuthReg
 		void	tryAuthClient(int i, int bytesRecv);//todo STUPID TO SEND bytesRecv LIKE THIS
 		void	tryPass(int i, char *bufPass);
-		//Commands
 		void	checkRegistration(int i);
 		void	registerUser(int i);
 		void	registerNick(int i);
+		void	welcomeClient(int i);
+
 
 
 

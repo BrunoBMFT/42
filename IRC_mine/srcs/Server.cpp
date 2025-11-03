@@ -60,6 +60,7 @@ then go to that channels ClientsInChannel, then loop through getId to find which
 
 //*CONSTRUCTORS
 Server::Server(char *port, char *pass) {
+	_name = "MyIRC";
 	_port = atoi(port);
 	_pass = pass;
 
@@ -76,7 +77,6 @@ Server::Server(char *port, char *pass) {
 
 	myListen(_socket, SOMAXCONN);
 
-	// std::cout << "Server open in port: " << _port << std::endl;
 	std::cout << GREEN("Server open in port: ") << _port << std::endl;
 
 	_srvPfd.fd = _socket;
@@ -149,6 +149,14 @@ enum	pollCondition//fucking stupid find a better solution
 };
 
 
+
+void	sendToClient(Client client, std::string str) {
+	std::string reply = client.getNick() + " :"+ str + "\r\n";
+	send(client.getSocket(), reply.c_str(), reply.size(), 0);
+}
+
+
+
 //todo here STARTS REGISTRATION
 std::string getUsername(const std::string &line) {
     size_t pos = 0;
@@ -188,11 +196,6 @@ std::string getNick(const std::string &line) {
 }
 
 
-void	sendToClient(Client client, std::string str) {
-	std::string reply = client.getNick() + " :"+ str + "\r\n";
-	send(client.getSocket(), reply.c_str(), reply.size(), 0);
-}
-
 
 void	Server::tryPass(int i, char *bufPass)
 {
@@ -207,7 +210,6 @@ void	Server::tryPass(int i, char *bufPass)
 
 	_clients[i].setAuthenticated(true);
 	sendToClient(_clients[i], PASSACCEPT);//irc servers usually wait silently here
-	std::cout << "* has authenticated, needs to register" << std::endl;
 	throw std::runtime_error(" has authenticated, needs to register");//not runtime_error
 }
 
@@ -219,26 +221,32 @@ void	Server::tryAuthClient(int i, int bytesRecv)
 	bufPass[bytesRecv - 1] = '\0'; 
 	if (strncmp(_clients[i].getBuf(), "PASS ", 5) != 0) {
 		sendToClient(_clients[i], NOTAUTH);
-		throw std::runtime_error(" is Not Authenticated, cannot talk");
+		throw std::runtime_error(" is not authenticated, cannot talk");
 	}
 	tryPass(i, bufPass);
 }
 
 
+void	Server::welcomeClient(int i)
+{
+	std::string welcome = "Welcome to the " + _name + " Network, "
+		+ _clients[i].getNick() + "[!" + _clients[i].getUsername() 
+		+ "@"+ "host" + "]";//hardcoded
+	sendToClient(_clients[i], welcome);
+	//RPL_YOURHOST 
+	//RPL_CREATED 
+	//RPL_MYINFO
+	//RPL_ISUPPORT (prob not needed)
+	//LUSERS?
+	//MOTD
+}
 
-
-void	Server::checkRegistration(int i) {
-	if (!_clients[i].getNick().empty() && !_clients[i].getUsername().empty() && !_clients[i].getRealname().empty())
+void	Server::checkRegistration(int i)
+{
+	if (!_clients[i].getNick().empty() && !_clients[i].getUsername().empty() && !_clients[i].getRealname().empty() && _clients[i].getNick() != "*")
 	{
 		_clients[i].setRegistered(true);
-		sendToClient(_clients[i], "Welcome");
-		//RPL_WELCOME 
-		//RPL_YOURHOST 
-		//RPL_CREATED 
-		//RPL_MYINFO
-		//RPL_ISUPPORT (prob not needed)
-		//LUSERS?
-		//MOTD
+		welcomeClient(i);
 	}
 }
 
@@ -263,7 +271,9 @@ void	Server::registerNick(int i)
 
 void	Server::processCommand(int i, int bytesRecv)
 {
-	// std::cout << YELLOW("Debug: ") << "Client " << _clients[i].getNick()<< " said: " << _clients[i].getBuf();
+	if (strncmp(_clients[i].getBuf(), "CAP ", 4) == 0)
+		return;
+	std::cout << YELLOW("Debug: ") << "Client " << _clients[i].getNick()<< " said: " << _clients[i].getBuf();
 	if (!_clients[i].isAuthenticated()) {
 		tryAuthClient(i, bytesRecv);
 		return ;
