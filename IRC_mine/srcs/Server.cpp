@@ -84,6 +84,10 @@ Server::Server(char *port, char *pass) {
 	_srvPfd.revents = 0;
 
 	_clients.push_back(Client());//This is so that we dont have to work with _clients[i - 1]
+
+	//!VERY TEMPORARY
+	Channel temp("temp");//NAME WILL BE A PARAMETER FROM BUF
+	_channels.push_back(temp);
 }
 
 //*Accepting client
@@ -141,13 +145,6 @@ bool	Server::shouldServerExit(char buf[])
 	return (false);
 }
 
-enum	pollCondition//fucking stupid find a better solution
-{
-	DISCONNECT,
-	EXIT,
-	OK
-};
-
 
 
 void	sendToClient(Client client, std::string str) {
@@ -156,123 +153,43 @@ void	sendToClient(Client client, std::string str) {
 }
 
 
+//!THIS IS SO BAD HONESTLY
+//!THIS IS SO BAD HONESTLY
+//!THIS IS SO BAD HONESTLY
+void	Server::commandJoin(int i)
+{
+	//before creating a new channel, it will check if there is one with that name
+	// Channel temp("temp");//NAME WILL BE A PARAMETER FROM BUF
+	// _channels.push_back(temp);
 
-//todo here STARTS REGISTRATION
-std::string getUsername(const std::string &line) {
-    size_t pos = 0;
-    for (int i = 0; i < 1; ++i)
-        pos = line.find(' ', pos + 1);
-	std::string username = line.substr(pos + 1, line.find(' ', pos + 2) - pos - 1);
-	while (!username.empty() && (username[username.size() - 1] == '\r' || username[username.size() - 1] == '\n'))
-		username.erase(username.size() - 1);
-    return (username);
+	_channels[0].clientJoin(_clients[i].getId());
+	
 }
-std::string getRealname(const std::string &line) {
-    size_t pos = 0;
-    for (int i = 0; i < 4; ++i)
-        pos = line.find(' ', pos + 1);
-	std::string realname = line.substr(pos + 1);
-	while (!realname.empty() && (realname[realname.size() - 1] == '\r' || realname[realname.size() - 1] == '\n'))
-		realname.erase(realname.size() - 1);
-    return (realname);
-}
-std::string getNick(const std::string &line) {
-    size_t pos = 0;
-	std::string nickname;
-    for (int i = 0; i < 1; ++i)
-        pos = line.find(' ', pos + 1);
-	nickname = line.substr(pos + 1, line.find(' ', pos + 2) - pos - 1);
-	if (nickname[0] == ':' || nickname == "#" || !strncmp(nickname.c_str(), "#&", 2) || !strncmp(nickname.c_str(), "&#", 2) || nickname.empty())
-		return ("");
-	for (size_t i = 0; i < nickname.size(); i++)
+
+//!THIS IS SO BAD HONESTLY
+//!THIS IS SO BAD HONESTLY
+//!THIS IS SO BAD HONESTLY
+
+//!THIS IS BAD BECAUSE IT SENDS TO THE RIGHT CLIENT BUT THE WRONG NICKNAME, HOW TF DO I CORRECT THIS
+void	Channel::sendToClientsInChannel(std::vector<Client> clients, std::string str) {
+	for (std::vector<int>::iterator idIt = _clientsInChannel.begin(); idIt != _clientsInChannel.end(); idIt++)
 	{
-		if (nickname[i] == ' ')
-			return ("");
-	}
-
-	while (!nickname.empty() && (nickname[nickname.size() - 1] == '\r' || nickname[nickname.size() - 1] == '\n'))
-		nickname.erase(nickname.size() - 1);
-	return (nickname);
-}
-
-
-
-void	Server::tryPass(int i, char *bufPass)
-{
-	std::string line(bufPass);
-	size_t pos = 0;
-	for (int i = 0; i < 1; ++i)
-		pos = line.find(' ', pos + 1);
-	if (strcmp(line.substr(pos + 1).c_str(), _pass.c_str()) != 0) {
-		sendToClient(_clients[i], ERR_PASSWDMISMATCH);
-		throw std::runtime_error(" guessed the password wrong");
-	}
-
-	_clients[i].setAuthenticated(true);
-	sendToClient(_clients[i], PASSACCEPT);//irc servers usually wait silently here
-	throw std::runtime_error(" has authenticated, needs to register");//not runtime_error
-}
-
-
-void	Server::tryAuthClient(int i, int bytesRecv)
-{
-	//have a commandPass() for when already registered, to send error message
-	char *bufPass = _clients[i].getBuf();
-	bufPass[bytesRecv - 1] = '\0'; 
-	if (strncmp(_clients[i].getBuf(), "PASS ", 5) != 0) {
-		sendToClient(_clients[i], NOTAUTH);
-		throw std::runtime_error(" is not authenticated, cannot talk");
-	}
-	tryPass(i, bufPass);
-}
-
-
-void	Server::welcomeClient(int i)
-{
-	std::string welcome = "Welcome to the " + _name + " Network, "
-		+ _clients[i].getNick() + "[!" + _clients[i].getUsername() 
-		+ "@"+ "host" + "]";//hardcoded
-	sendToClient(_clients[i], welcome);
-	//RPL_YOURHOST 
-	//RPL_CREATED 
-	//RPL_MYINFO
-	//RPL_ISUPPORT (prob not needed)
-	//LUSERS?
-	//MOTD
-}
-
-void	Server::checkRegistration(int i)
-{
-	if (!_clients[i].getNick().empty() && !_clients[i].getUsername().empty() && !_clients[i].getRealname().empty() && _clients[i].getNick() != "*")
-	{
-		_clients[i].setRegistered(true);
-		welcomeClient(i);
+		int id = *idIt;
+		for (std::vector<Client>::iterator clientIt = clients.begin();
+			clientIt != clients.end(); ++clientIt) {
+				if (clientIt->getId() == id)
+				{
+					sendToClient(*clientIt, str);
+					break ;
+				}
+			}
 	}
 }
 
-
-
-void	Server::registerUser(int i)
-{
-	_clients[i].setUsername(getUsername(_clients[i].getBuf()));
-	_clients[i].setRealname(getRealname(_clients[i].getBuf()));
-	std::cout << "Username set to: " << _clients[i].getUsername() << " || " << _clients[i].getRealname() << std::endl;
-	checkRegistration(i);
-}
-void	Server::registerNick(int i)
-{
-	_clients[i].setNick(getNick(_clients[i].getBuf()));
-	std::cout << "Nick set to: " << _clients[i].getNick() << std::endl;
-	checkRegistration(i);
-}
-
-//todo here ENDS REGISTRATION
 
 
 void	Server::processCommand(int i, int bytesRecv)
 {
-	if (strncmp(_clients[i].getBuf(), "CAP ", 4) == 0)
-		return;
 	std::cout << YELLOW("Debug: ") << "Client " << _clients[i].getNick()<< " said: " << _clients[i].getBuf();
 	if (!_clients[i].isAuthenticated()) {
 		tryAuthClient(i, bytesRecv);
@@ -290,10 +207,18 @@ void	Server::processCommand(int i, int bytesRecv)
 		}
 	}
 	else {
-		sendToClient(_clients[i], _clients[i].getBuf());
+		// sendToClient(_clients[i], _clients[i].getBuf());
+		//!THIS IS SO BAD HONESTLY
+		//!THIS IS SO BAD HONESTLY
+		//!THIS IS SO BAD HONESTLY
+		if (strncmp(_clients[i].getBuf(), "JOIN ", 5) == 0)
+			commandJoin(i);
+		_channels[0].sendToClientsInChannel(_clients, _clients[i].getBuf());
+		//!THIS IS SO BAD HONESTLY
+		//!THIS IS SO BAD HONESTLY
+		//!THIS IS SO BAD HONESTLY
 	}
 }
-
 
 
 int	Server::handleClientPoll(int i)
@@ -304,14 +229,13 @@ int	Server::handleClientPoll(int i)
 		disconnectClient(_clients[i], i);
 		return (DISCONNECT);
 	}
-	buf[bytesRecv] = 0;
 
 	if (shouldServerExit(buf))
 		return (EXIT);
 
 	_clients[i].setBuf(buf);
 
-	try {
+	try {//stupid bruh
 		processCommand(i, bytesRecv);
 	} catch(const std::exception& e) {
 		std::cerr << YELLOW("Client log: ") << _clients[i].getNick() << e.what() << std::endl;
@@ -346,6 +270,3 @@ void	Server::srvRun()
 	}
 	close(_socket);
 }
-
-
-

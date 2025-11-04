@@ -15,6 +15,7 @@
 # include "Client.hpp"
 # include "Colours.hpp"
 # include "Defines.hpp"
+# include "Channel.hpp"
 
 class Server
 {
@@ -27,9 +28,11 @@ class Server
 		int				_socket;
 		sockaddr_in		server_addr;
 
-		pollfd				_srvPfd;
-		std::vector<pollfd> _pfds;
-		std::vector<Client> _clients;
+		pollfd					_srvPfd;
+		std::vector<pollfd>		_pfds;
+
+		std::vector<Client> 	_clients;
+		std::vector<Channel>	_channels;
 
 		int		acceptClient();
 		void	setPfds();
@@ -48,7 +51,8 @@ class Server
 		void	welcomeClient(int i);
 
 
-
+		//Channels
+		void	commandJoin(int i);
 
 
 
@@ -70,6 +74,14 @@ class Server
 
 		
 };
+
+enum	pollCondition//stupid find a better solution
+{
+	DISCONNECT,
+	EXIT,
+	OK
+};
+void	sendToClient(Client client, std::string str);
 
 //*helpers
 int		mySocket(int __domain, int __type, int __protocol);
