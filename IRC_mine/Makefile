@@ -1,6 +1,6 @@
 NAME = ircserv
 SRCS_DIR = ./srcs
-SRCS = main.cpp Server.cpp Client.cpp AuthReg.cpp myfuncs.cpp 
+SRCS = main.cpp Server.cpp Client.cpp AuthReg.cpp myfuncs.cpp aux.cpp
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
 CXX = c++

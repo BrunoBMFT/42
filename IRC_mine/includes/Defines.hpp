@@ -8,10 +8,10 @@
     
 */
 
-#define ERR_PASSWDMISMATCH "Password incorrect"
+#define ERR_PASSWDMISMATCH "464 :Password incorrect"
 #define PASSACCEPT "Authenticated, set User and Nick to register"
-#define NOTAUTH "Not authenticated"
-#define NOTREGISTERED "You have not registered"
+#define ERR_NOTAUTH "Not authenticated"
+#define ERR_NOTREGISTERED "You have not registered"
 
 
 #endif

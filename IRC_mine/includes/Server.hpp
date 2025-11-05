@@ -36,28 +36,32 @@ class Server
 
 		int		acceptClient();
 		void	setPfds();
-		int		handleClientPoll(int i);
-		void	disconnectClient(Client client, int i);
-
-		//Running Commands
-		void	processCommand(int i, int bytesRecv);//todo STUPID TO SEND bytesRecv LIKE THIS
+		bool	handleClientPoll(int i);
 		
+		
+		//Commands
+		void	processCommand(int i);
+		// int		getStatus(int i);
+		void	commandQuit(int i, std::string str);
+
+		void	commandJoin(int i);
+		
+
 		//AuthReg
-		void	tryAuthClient(int i, int bytesRecv);//todo STUPID TO SEND bytesRecv LIKE THIS
+		void	registration(int i);
+		void	tryAuthClient(int i);
 		void	tryPass(int i, char *bufPass);
 		void	checkRegistration(int i);
 		void	registerUser(int i);
 		void	registerNick(int i);
 		void	welcomeClient(int i);
-
-
-		//Channels
-		void	commandJoin(int i);
+		
+		
 
 
 
 		//just for testing
-		bool	shouldServerExit(char buf[]);
+		int	exitServer();
 
 	public:
 		//*CONSTRUCTORS
@@ -74,16 +78,10 @@ class Server
 
 		
 };
-
-enum	pollCondition//stupid find a better solution
-{
-	DISCONNECT,
-	EXIT,
-	OK
-};
 void	sendToClient(Client client, std::string str);
+void	serverLog(std::string nick, std::string str);
 
-//*helpers
+//*myFunctions
 int		mySocket(int __domain, int __type, int __protocol);
 void	myBind(int __fd, const sockaddr *__addr, socklen_t __len);
 void	myListen(int __fd, int __n);

@@ -13,6 +13,8 @@ int		main(int ac, char **av)
 		srv.srvRun();
 	} catch (std::exception &e) {
 		std::cerr << RED("Exception caught: ") << e.what() << std::endl;
+	} catch (int n) {
+		std::cerr << GREEN("Server exit Ok: ") << n << std::endl;
 	}
 
 	return 0;

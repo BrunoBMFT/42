@@ -33,7 +33,9 @@ class Client
 		std::string	_realname;
 
 		char		*_buf;
+
 	public:
+		id_t		_bytesRecv;//any other way?
 		//*CONSTRUCTORS
 
 		Client(int srvSocket) {
@@ -106,5 +108,4 @@ class Client
 
 
 #endif
-
 
