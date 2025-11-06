@@ -126,7 +126,7 @@ void	Server::setPfds()
 void	Server::commandQuit(int i, std::string str)//calling QUIT asks for reason, ctrl+c doesnt need reason
 {
 	serverLog(_clients[i].getNick(), "has disconnected");
-	sendToClient(i, _clients[i].getNick(), "QUIT :" + str);
+	sendToClient(_clients[i], "QUIT :" + str);
 	close (_pfds[i].fd);
 	_clients.erase(_clients.begin() + i - 1);
 }
@@ -144,16 +144,15 @@ void	Server::exitServer()
 
 
 
-
-void	Server::sendToClient(int i, std::string sender, std::string str) {
-	std::string reply = sender + " :" + str + "\r\n";
-	send(_clients[i].getSocket(), reply.c_str(), reply.size(), 0);
+//fix
+void	sendToClient(Client client, std::string str) {
+	std::string reply = client.getNick() + " :" + str + "\r\n";
+	send(client.getSocket(), reply.c_str(), reply.size(), 0);
 }
 
 
 
-
-//!THIS IS SO BAD HONESTLY
+//!FIX
 void	Server::commandJoin(int i)
 {
 	//before creating a new channel, it will check if there is one with that name
@@ -178,40 +177,16 @@ void	Channel::sendToClientsInChannel(std::vector<Client> clients, std::string st
 					int ind = clientIt - clients.begin();
 					//! SENDTOCLIENT IS A SERVER FUNCTION, HOW AM I GONNA USE IT IN CHANNEL
 					//! SHOULD I CHANGE SENDTOCLIENTSINCHANNEL TO BE IN SERVER CLASS????
-					sendToClient(ind, clientIt->getNick(), str);//this used to send the entire client
+					// sendToClient(ind, clientIt->getNick(), str);//this used to send the entire client
 					break ;
 				}
 		}
 	}
 }
 
-
-
-
-// enum	ClientStatus
-// {
-// 	NOT_AUTHED,
-// 	NOT_REGISTERED,
-// 	REGISTERED,
-// 	QUITTING,
-// 	EXITING_SRV
-// };
-// int		Server::getStatus(int i)
-// {
-// 	if (!_clients[i].isAuthenticated())
-// 		return NOT_AUTHED;
-// 	else if (!_clients[i].isRegistered())
-// 		return NOT_REGISTERED;
-// 	else if (strncmp(_clients[i].getBuf(), "QUIT ", 4) == 0)
-// 		return QUITTING;
-// 	else if (strncmp(_clients[i].getBuf(), "exit ", 4) == 0)
-// 		return EXITING_SRV;
-// }
-
-
 void	Server::processCommand(int i)
 {
-	// std::cout << YELLOW("Debug: ") << "Client " << _clients[i].getNick()<< " said: " << _clients[i].getBuf();
+	debugMessage(i);
 	
 	//*Closing server
 	if (strncmp(_clients[i].getBuf(), "exit ", 4) == 0)
@@ -228,7 +203,7 @@ void	Server::processCommand(int i)
 
 
 	//*echo
-	sendToClient(i, _clients[i].getNick(), _clients[i].getBuf());
+	sendToClient(_clients[i], _clients[i].getBuf());
 
 	//!THIS IS SO BAD HONESTLY
 	// if (strncmp(_clients[i].getBuf(), "JOIN ", 5) == 0)
@@ -248,7 +223,7 @@ bool	Server::handleClientPoll(int i)
 	}
 	_clients[i].setBuf(buf);
 
-	processCommand(i);
+	processCommand(i);//process command could be all here
 	return (true);
 }
 

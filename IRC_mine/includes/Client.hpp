@@ -28,6 +28,7 @@ class Client
 		//INFO
 		bool		_authenticated;
 		bool		_registered;
+		// bool		_capped;
 		std::string	_username;
 		std::string _nick;
 		std::string	_realname;
@@ -46,6 +47,7 @@ class Client
 			_pfd.revents = 0;
 			_authenticated = false;
 			_registered = false;
+			// _capped = false;
 			_username = "";
 			_nick = "*";
 			_realname = "";
@@ -57,50 +59,27 @@ class Client
 		}//DUMMY
 
 		//*GETTERS
-		int		getId() { return (_id); }
-		int		getSocket() { return (_socket); }
-		pollfd	&getPfd() { return (_pfd); }//why &
+		int			getId() { return (_id); }
+		int			getSocket() { return (_socket); }
+		pollfd		&getPfd() { return (_pfd); }//why &
+		bool		isAuthenticated() { return (_authenticated); }
+		bool		isRegistered() { return (_registered); }
+		// bool		isCapped() { return (_capped); }
+		std::string	getUsername() { return (_username); }
+		std::string	getNick() { return (_nick); }
+		std::string	getRealname() { return (_realname); }
+		char*		getBuf() { return (_buf); }
+
+		//*SETTERS
+		void	setAuthenticated(bool auth) { _authenticated = auth; }
+		void	setRegistered(bool auth) { _registered = auth; }
+		// void	setCapped(bool auth) { _capped = auth; }
+		void	setUsername(std::string username) { _username = username; }
+		void	setNick(std::string nick) { _nick = nick; }
+		void	setRealname(std::string realname) { _realname = realname; }
+		void	setBuf(char buf[]) { _buf = buf; }
 
 
-		bool isAuthenticated() {
-			return (_authenticated);
-		}
-		void setAuthenticated(bool auth) {
-			_authenticated = auth;
-		}
-		bool isRegistered() {
-			return (_registered);
-		}
-		void setRegistered(bool auth) {
-			_registered = auth;
-		}
-		std::string	getUsername() {
-			return (_username);
-		}
-		void		setUsername(std::string username) {
-			_username = username;
-		}
-		//check order
-		std::string	getNick() {
-			return (_nick);
-		}
-		void		setNick(std::string nick) {
-			_nick = nick;
-		}
-		std::string	getRealname() {
-			return (_realname);
-		}
-		void	setRealname(std::string realname) {
-			_realname = realname;
-		}
-
-
-		void	setBuf(char buf[]) {
-			_buf = buf;
-		}
-		char*	getBuf() {
-			return (_buf);
-		}
 
 
 

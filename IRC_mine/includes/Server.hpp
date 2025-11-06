@@ -21,16 +21,13 @@ class Server
 {
 	private:
 		std::string		_name;
-		
 		int				_port;
 		std::string		_pass;
-
 		int				_socket;
 		sockaddr_in		server_addr;
+		pollfd			_srvPfd;
 
-		pollfd					_srvPfd;
 		std::vector<pollfd>		_pfds;
-
 		std::vector<Client> 	_clients;
 		std::vector<Channel>	_channels;
 
@@ -39,7 +36,6 @@ class Server
 		bool	handleClientPoll(int i);
 
 		
-		
 		//Commands
 		void	processCommand(int i);
 		// int		getStatus(int i);
@@ -47,7 +43,6 @@ class Server
 
 		void	commandJoin(int i);
 		
-
 		//AuthReg
 		void	registration(int i);
 		void	tryAuthClient(int i);
@@ -58,13 +53,10 @@ class Server
 		void	welcomeClient(int i);
 
 		
-		
-		
-
-
 
 		//just for testing
 		void	exitServer();
+		void	debugMessage(int i);
 
 	public:
 		//*CONSTRUCTORS
@@ -79,16 +71,18 @@ class Server
 		void	srvRun();
 
 
-		//todo this will need sender, the command, which will already have the string in case of PRIVMSG
-		//command from Angel: 		PRIVMSG Wiz :Hello are you receiving this message ?
-		//sendtoClient to Wiz:		:Angel PRIVMSG Wiz :Hello are you receiving this message ?
-		//command from dan:			PRIVMSG #coolpeople :Hi everyone!
-		//sendtoClientinChannel:	:dan!~h@localhost PRIVMSG #coolpeople :Hi everyone!
-		
-		//*make a sendToSelf() so that i dont have to send getNick every time?
-		void	sendToClient(int i, std::string sender, std::string str);
 		
 };
+//todo this will need sender, the command, which will already have the string in case of PRIVMSG
+//command from Angel: 		PRIVMSG Wiz :Hello are you receiving this message ?
+//sendtoClient to Wiz:		:Angel PRIVMSG Wiz :Hello are you receiving this message ?
+//command from dan:			PRIVMSG #coolpeople :Hi everyone!
+//sendtoClientinChannel:	:dan!~h@localhost PRIVMSG #coolpeople :Hi everyone!
+
+//*make a sendToSelf() so that i dont have to send getNick every time?
+void	sendToClient(Client client, std::string str);
+
+
 void	serverLog(std::string nick, std::string str);
 
 //*myFunctions
