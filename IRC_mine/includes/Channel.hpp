@@ -37,9 +37,6 @@ class Channel
 		//!THIS IS SO BAD HONESTLY
 		//!THIS IS SO BAD HONESTLY
 		void	sendToClientsInChannel(std::vector<Client> clients, std::string str) ;
-		//!THIS IS SO BAD HONESTLY
-		//!THIS IS SO BAD HONESTLY
-		//!THIS IS SO BAD HONESTLY
 
 };
 

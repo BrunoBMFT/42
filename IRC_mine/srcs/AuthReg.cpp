@@ -13,7 +13,7 @@ void	Server::registration(int i)
 	else if (strncmp(_clients[i].getBuf(), "NICK ", 5) == 0)
 		registerNick(i);
 	else {
-		sendToClient(_clients[i], ERR_NOTREGISTERED);
+		sendToClient(i, _clients[i].getNick(), ERR_NOTREGISTERED);
 		serverLog(_clients[i].getNick(), "not registered, cant talk");
 	}
 }
@@ -28,12 +28,14 @@ void	Server::tryPass(int i, char *bufPass)
 	for (int i = 0; i < 1; ++i)
 		pos = line.find(' ', pos + 1);
 	if (strcmp(line.substr(pos + 1).c_str(), _pass.c_str()) != 0) {
-		sendToClient(_clients[i], ERR_PASSWDMISMATCH);
+		//todo can hard code to sender be "*"
+		sendToClient(i, _clients[i].getNick(), ERR_PASSWDMISMATCH);
 		return (serverLog(_clients[i].getNick(), "guessed the password wrong"));
 	}
 
 	_clients[i].setAuthenticated(true);
-	sendToClient(_clients[i], PASSACCEPT);
+	//todo can hard code to sender be "*"
+	sendToClient(i, _clients[i].getNick(), PASSACCEPT);
 	serverLog(_clients[i].getNick(), "has authenticated, needs to register");
 }
 void	Server::tryAuthClient(int i)
@@ -41,7 +43,8 @@ void	Server::tryAuthClient(int i)
 	char *bufPass = _clients[i].getBuf();
 	bufPass[_clients[i]._bytesRecv - 1] = '\0'; 
 	if (strncmp(_clients[i].getBuf(), "PASS ", 5) != 0) {
-		sendToClient(_clients[i], ERR_NOTAUTH);
+	//todo can hard code to sender be "*"
+		sendToClient(i, _clients[i].getNick(), ERR_NOTAUTH);
 		return (serverLog(_clients[i].getNick(), "is not authenticated, cannot talk"));
 	}
 	tryPass(i, bufPass);
@@ -93,7 +96,10 @@ void	Server::welcomeClient(int i)
 	std::string welcome = "Welcome to the " + _name + " Network, "
 		+ _clients[i].getNick() + "[!" + _clients[i].getUsername() 
 		+ "@"+ "host" + "]";//hardcoded
-	sendToClient(_clients[i], welcome);
+	sendToClient(i, _clients[i].getNick(), welcome);
+	std::string todo = "The rest of the welcome message will come after";
+
+	sendToClient(i, _clients[i].getNick(), todo);
 	//RPL_YOURHOST 
 	//RPL_CREATED 
 	//RPL_MYINFO

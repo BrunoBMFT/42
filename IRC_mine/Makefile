@@ -30,6 +30,6 @@ fclean: clean
 re: fclean all
 
 run: all
-	@./ft_irc
+	@./ircserv 6667 pass
 
 .PHONY: all fclean clean re

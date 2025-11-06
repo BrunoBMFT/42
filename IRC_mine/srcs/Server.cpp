@@ -126,28 +126,28 @@ void	Server::setPfds()
 void	Server::commandQuit(int i, std::string str)//calling QUIT asks for reason, ctrl+c doesnt need reason
 {
 	serverLog(_clients[i].getNick(), "has disconnected");
-	sendToClient(_clients[i], "QUIT :" + str);
+	sendToClient(i, _clients[i].getNick(), "QUIT :" + str);
 	close (_pfds[i].fd);
 	_clients.erase(_clients.begin() + i - 1);
 }
 
 
 //this is just testing
-int	Server::exitServer()
+void	Server::exitServer()
 {
 	std::cout << "exiting server" << std::endl;
 	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); it++)
 		close(it->getSocket());
 	close(_socket);
-	return (0);
+	throw (0);
 }
 
 
 
 
-void	sendToClient(Client client, std::string str) {
-	std::string reply = ":<FIXED_SENDER> :" + str + "\r\n";
-	send(client.getSocket(), reply.c_str(), reply.size(), 0);
+void	Server::sendToClient(int i, std::string sender, std::string str) {
+	std::string reply = sender + " :" + str + "\r\n";
+	send(_clients[i].getSocket(), reply.c_str(), reply.size(), 0);
 }
 
 
@@ -174,10 +174,14 @@ void	Channel::sendToClientsInChannel(std::vector<Client> clients, std::string st
 			clientIt != clients.end(); ++clientIt) {
 				if (clientIt->getId() == id)
 				{
-					sendToClient(*clientIt, str);
+					//now i need to send just an i, and a getNick()
+					int ind = clientIt - clients.begin();
+					//! SENDTOCLIENT IS A SERVER FUNCTION, HOW AM I GONNA USE IT IN CHANNEL
+					//! SHOULD I CHANGE SENDTOCLIENTSINCHANNEL TO BE IN SERVER CLASS????
+					sendToClient(ind, clientIt->getNick(), str);//this used to send the entire client
 					break ;
 				}
-			}
+		}
 	}
 }
 
@@ -211,7 +215,7 @@ void	Server::processCommand(int i)
 	
 	//*Closing server
 	if (strncmp(_clients[i].getBuf(), "exit ", 4) == 0)
-		throw (exitServer());
+		exitServer();
 	//*Disconnects client
 	else if (strncmp(_clients[i].getBuf(), "QUIT ", 4) == 0)
 		return (commandQuit(i, "hardcoded quit"));
@@ -224,7 +228,7 @@ void	Server::processCommand(int i)
 
 
 	//*echo
-	sendToClient(_clients[i], _clients[i].getBuf());
+	sendToClient(i, _clients[i].getNick(), _clients[i].getBuf());
 
 	//!THIS IS SO BAD HONESTLY
 	// if (strncmp(_clients[i].getBuf(), "JOIN ", 5) == 0)

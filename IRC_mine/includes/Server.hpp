@@ -37,6 +37,7 @@ class Server
 		int		acceptClient();
 		void	setPfds();
 		bool	handleClientPoll(int i);
+
 		
 		
 		//Commands
@@ -55,13 +56,15 @@ class Server
 		void	registerUser(int i);
 		void	registerNick(int i);
 		void	welcomeClient(int i);
+
+		
 		
 		
 
 
 
 		//just for testing
-		int	exitServer();
+		void	exitServer();
 
 	public:
 		//*CONSTRUCTORS
@@ -76,9 +79,16 @@ class Server
 		void	srvRun();
 
 
+		//todo this will need sender, the command, which will already have the string in case of PRIVMSG
+		//command from Angel: 		PRIVMSG Wiz :Hello are you receiving this message ?
+		//sendtoClient to Wiz:		:Angel PRIVMSG Wiz :Hello are you receiving this message ?
+		//command from dan:			PRIVMSG #coolpeople :Hi everyone!
+		//sendtoClientinChannel:	:dan!~h@localhost PRIVMSG #coolpeople :Hi everyone!
+		
+		//*make a sendToSelf() so that i dont have to send getNick every time?
+		void	sendToClient(int i, std::string sender, std::string str);
 		
 };
-void	sendToClient(Client client, std::string str);
 void	serverLog(std::string nick, std::string str);
 
 //*myFunctions
@@ -89,5 +99,3 @@ void	myPoll(pollfd *__fds, nfds_t __nfds, int __timeout);
 size_t	myRecv(int __fd, char *__buf, size_t __n, int __flags);
 
 #endif
-
-
