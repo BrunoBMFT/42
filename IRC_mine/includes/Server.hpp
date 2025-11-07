@@ -52,6 +52,9 @@ class Server
 		void	registerNick(int i);
 		void	welcomeClient(int i);
 
+		//send to channels
+		void	sendToClientsInChannel(int i, Channel channel, std::string str);
+
 		
 
 		//just for testing
@@ -69,7 +72,6 @@ class Server
 
 
 		void	srvRun();
-
 
 		
 };

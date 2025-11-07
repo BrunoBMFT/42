@@ -8,10 +8,14 @@
 class Channel
 {
 	private:
-		std::vector<int>	_clientsInChannel;
+		static int			_globalChannelId;
+		int					_id;
 		std::string			_name;
+
+		std::vector<int>	_clientsInChannel;
 	public:
 		Channel(std::string name) {
+			_id = _globalChannelId++;
 			_name = name;
 		}
 		
@@ -19,6 +23,7 @@ class Channel
 			return (_clientsInChannel);
 		}
 
+		//todo hardcoded
 		void	clientJoin(int id) {
 			_clientsInChannel.push_back(id);
 
@@ -30,11 +35,8 @@ class Channel
 			}
 			std::cout << std::endl;
 		}
-
-		//!THIS IS SO BAD HONESTLY
-		void	sendToClientsInChannel(std::vector<Client> clients, std::string str) ;
+		int			getId() { return (_id); }
 
 };
-
 
 #endif

@@ -144,49 +144,52 @@ void	Server::exitServer()
 
 
 
-//fix
+//!FIX SENDER
 void	sendToClient(Client client, std::string str) {
-	std::string reply = client.getNick() + " :" + str + "\r\n";
+	std::string reply = /* client.getNick() */ "<FIX SENDER> :" + str + "\r\n";
 	send(client.getSocket(), reply.c_str(), reply.size(), 0);
 }
 
 
-
-//!FIX
+//TODO HARDCODED
 void	Server::commandJoin(int i)
 {
-	//before creating a new channel, it will check if there is one with that name
+	//Temp Channel creation is hardcoded in Server Constructor
+
+
+	//it will use getBuf() to get the argument client sent as a client name
+	//if it doesnt exist, it will create a channel with that name (also parsing the name)
+	//first user will be op
+	//from the on, users will be just users lol
+
+
 	// Channel temp("temp");//NAME WILL BE A PARAMETER FROM BUF
 	// _channels.push_back(temp);
 
-	_channels[0].clientJoin(_clients[i].getId());
-	
+	//hardcoded to always join channel[0], will have to make it later
+	_channels[0].clientJoin(_clients[i].getId());//HARDCODED
+	_clients[i].setChannel(0);//HARDCODED
 }
 
+//this function will be called with the correct channel already selected, receiving it as parameter
+void	Server::sendToClientsInChannel(int i, Channel channel, std::string str)
+{
+	int channelId = _clients[i].getChannel();
 
-//!THIS IS BAD BECAUSE IT SENDS TO THE RIGHT CLIENT BUT THE WRONG NICKNAME, HOW TF DO I CORRECT THIS
-void	Channel::sendToClientsInChannel(std::vector<Client> clients, std::string str) {
-	for (std::vector<int>::iterator idIt = _clientsInChannel.begin(); idIt != _clientsInChannel.end(); idIt++)
-	{
-		int id = *idIt;
-		for (std::vector<Client>::iterator clientIt = clients.begin();
-			clientIt != clients.end(); ++clientIt) {
-				if (clientIt->getId() == id)
-				{
-					//now i need to send just an i, and a getNick()
-					int ind = clientIt - clients.begin();
-					//! SENDTOCLIENT IS A SERVER FUNCTION, HOW AM I GONNA USE IT IN CHANNEL
-					//! SHOULD I CHANGE SENDTOCLIENTSINCHANNEL TO BE IN SERVER CLASS????
-					// sendToClient(ind, clientIt->getNick(), str);//this used to send the entire client
-					break ;
-				}
+	for (std::vector<Client>::iterator clientIt = _clients.begin();
+		clientIt != _clients.end(); ++clientIt)
+		{
+			if (clientIt->getChannel() == _clients[i].getChannel())//SHOULDNT SEND BACK TO CLIENT, RIGHT?
+			{
+				//can send sender as parameter as _clients[i], check if worth it
+				sendToClient(*clientIt, str);
+			}
 		}
-	}
 }
 
 void	Server::processCommand(int i)
 {
-	debugMessage(i);
+	// debugMessage(i);
 	
 	//*Closing server
 	if (strncmp(_clients[i].getBuf(), "exit ", 4) == 0)
@@ -203,13 +206,13 @@ void	Server::processCommand(int i)
 
 
 	//*echo
-	sendToClient(_clients[i], _clients[i].getBuf());
+	// sendToClient(_clients[i], _clients[i].getBuf());
 
-	//!THIS IS SO BAD HONESTLY
-	// if (strncmp(_clients[i].getBuf(), "JOIN ", 5) == 0)
-	// 	commandJoin(i);
-	// _channels[0].sendToClientsInChannel(_clients, _clients[i].getBuf());
-	//!THIS IS SO BAD HONESTLY
+	//*START OF CHANNEL LOGIC
+	if (strncmp(_clients[i].getBuf(), "JOIN ", 5) == 0)
+		commandJoin(i);
+	
+	sendToClientsInChannel(i, _channels[0], _clients[i].getBuf());
 }
 
 
@@ -233,13 +236,13 @@ void	Server::srvRun()
 	while (1)
 	{
 		setPfds();
-
 		myPoll(_pfds.data(), _pfds.size(), -1);
 
-		if (_pfds[0].revents & POLLIN){
+		if (_pfds[0].revents & POLLIN)//* Client Connecting
+		{
 			int temp = acceptClient();
-			_clients.push_back(Client(temp));
-		}//* Client Connecting
+			_clients.push_back(Client(acceptClient()));
+		}
 	
 		for (int i = 1; i < _pfds.size(); i++)//*loop through clients
 		{
