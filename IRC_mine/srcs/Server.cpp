@@ -188,7 +188,14 @@ void	Server::sendToClientsInChannel(int i, Channel channel, std::string str)
 }
 
 void	Server::processCommand(int i)
-{
+{	/*
+		HAVE ALL COMMANDS BE CALLED HERE IN A SWITCH CASE
+		EACH COMMAND FUNCTION WILL THEN CHECK IF ITS REGISTERED, AND DO WHAT NEEDS TO BE DONE IN CASE IT ISNT
+		LIKE EXIT AND QUIT WONT CHECK
+		PASS WONT CHECK
+		USER AND NICK WILL CHECK ONLY IF ITS AUTHENTICATED
+		ALL OTHERS WILL CHECK EVERYTHING
+	*/
 	// debugMessage(i);
 	
 	//*Closing server
@@ -241,7 +248,7 @@ void	Server::srvRun()
 		if (_pfds[0].revents & POLLIN)//* Client Connecting
 		{
 			int temp = acceptClient();
-			_clients.push_back(Client(acceptClient()));
+			_clients.push_back(Client(temp));
 		}
 	
 		for (int i = 1; i < _pfds.size(); i++)//*loop through clients
