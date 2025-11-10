@@ -130,7 +130,7 @@ void	Server::commandJoin(int i, std::string name)
 	// 		}
 	// 	}
 	_clients[i].getChannel().setId(i);
-	_clients[i].getChannel().setName(name);
+	_clients[i].getChannel().setName(name);//!to test for this setname, will call it using the same parser getNick uses
 	_channels.push_back(_clients[i].getChannel());
 	std::cout << "Client " << _clients[i].getNick() << " created and joined channel " << name << std::endl;
 	
