@@ -18,6 +18,9 @@ class Channel
 			_id = _globalChannelId++;
 			_name = name;
 		}
+		Channel() {
+			_id = -1;
+		}
 		
 		std::vector<int> getClientsInChannel() {
 			return (_clientsInChannel);
@@ -27,15 +30,22 @@ class Channel
 		void	clientJoin(int id) {
 			_clientsInChannel.push_back(id);
 
-			//todo this is testing
-			std::cout << "Clients in Channel temp: ";
-			for (std::vector<int>::iterator it = _clientsInChannel.begin(); it != _clientsInChannel.end(); it++)
-			{
-				std::cout << *it << ", ";
-			}
-			std::cout << std::endl;
+			// //todo this is testing
+			// std::cout << "Clients in Channel temp: ";
+			// for (std::vector<int>::iterator it = _clientsInChannel.begin(); it != _clientsInChannel.end(); it++)
+			// {
+			// 	std::cout << *it << ", ";
+			// }
+			// std::cout << std::endl;
 		}
-		int			getId() { return (_id); }
+		int				getId() { return (_id); }
+		std::string		getName() { return (_name); }
+		int				getSize() { return (_globalChannelId); }
+		
+		void			setId(int id) { _id = id; }
+		void			setName(std::string name) { _name = name; }
+
+
 
 };
 

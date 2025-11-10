@@ -17,6 +17,8 @@
 # include "Defines.hpp"
 # include "Channel.hpp"
 
+//change to const std::string what should be const
+
 class Server
 {
 	private:
@@ -35,14 +37,6 @@ class Server
 		void	setPfds();
 		bool	handleClientPoll(int i);
 
-		
-		//Commands
-		void	processCommand(int i);
-		// int		getStatus(int i);
-		void	commandQuit(int i, std::string str);
-
-		void	commandJoin(int i);
-		
 		//AuthReg
 		void	registration(int i);
 		void	tryAuthClient(int i);
@@ -51,10 +45,27 @@ class Server
 		void	registerUser(int i);
 		void	registerNick(int i);
 		void	welcomeClient(int i);
+		
+		//Commands
+		void	processCommand(int i);
+		// int		getStatus(int i);
+		void	commandQuit(int i, std::string str);
+
+		void	commandJoin(int i, std::string name);
+		
 
 		//send to channels
-		void	sendToClientsInChannel(int i, Channel channel, std::string str);
+		void	sendToClientsInChannel(int i, std::string str);
 
+
+
+		//todo this will need sender, the command, which will already have the string in case of PRIVMSG
+		//command from Angel: 		PRIVMSG Wiz :Hello are you receiving this message ?
+		//sendtoClient to Wiz:		:Angel PRIVMSG Wiz :Hello are you receiving this message ?
+		//command from dan:			PRIVMSG #coolpeople :Hi everyone!
+		//sendtoClientinChannel:	:dan!~h@localhost PRIVMSG #coolpeople :Hi everyone!
+		void	sendToClient(int i, std::string sender, std::string str);
+		void	sendToClient(int i, std::string str);
 		
 
 		//just for testing
@@ -72,17 +83,9 @@ class Server
 
 
 		void	srvRun();
-
+		
 		
 };
-//todo this will need sender, the command, which will already have the string in case of PRIVMSG
-//command from Angel: 		PRIVMSG Wiz :Hello are you receiving this message ?
-//sendtoClient to Wiz:		:Angel PRIVMSG Wiz :Hello are you receiving this message ?
-//command from dan:			PRIVMSG #coolpeople :Hi everyone!
-//sendtoClientinChannel:	:dan!~h@localhost PRIVMSG #coolpeople :Hi everyone!
-
-//*make a sendToSelf() so that i dont have to send getNick every time?
-void	sendToClient(Client client, std::string str);
 
 
 void	serverLog(std::string nick, std::string str);

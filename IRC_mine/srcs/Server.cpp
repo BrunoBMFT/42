@@ -1,60 +1,16 @@
 #include "../includes/Server.hpp"
 
-//todo do the isRegistered() part and the welcome part, then remove all comments and make it readable, then channels!!!
 
-//todo Channel logic
-/* 
-when a message is sent to server, save the channel that the client who sent it used, 
-then go to that channels ClientsInChannel, then loop through getId to find which clients to sendInfo to
-
-
-
-
-	class channel
-	{
-		vector ClientsInChannel (saves their id)
-		
-	}
+/*
+	COLETES os comandos precisam de ser parsed para:
+		<Comando>				(sem mais nada, nem o espaço)
+		<Comando> 				(com o espaço)
+		<Comando> I				(um só caracter)
 	
-	
-	Server
-	{
-		vector Channel
-	}
+	especificamente, preciso também do commandJoin me guarde uma variavel chamada channelName, 
+	que esteja já só com o nome que o client der input. (Exemplo: JOIN Channel1   ->  channelName = Channel1)
 
-
-	
-
-
-	WHERE WOULD THIS GO THO????
-	SHALL I JUST TEST IT AFTER PROCESSING REGISTRATION???
-	while (_clients[i]) 
-	{
-		if (_clients[i].getId() == ClientsInChannel)      FIND INSIDE THE VECTOR OF ClientsInChannel
-		{
-			sendToClient(_clients[i], LINE_TO_SEND);
-		}
-	}
-
-
-	commandJoin(std::string str) {
-		if (Channel with name str doesnt exist)
-		{
-			createChannel()
-			save _clients[i].getId() into channel.ClientsInChannel
-		}
-		else
-		{
-			save _clients[i].getId() into channel.ClientsInChannel
-		}
-	}
-
-
-
- */
-
-
-
+*/
 
 
 
@@ -86,8 +42,8 @@ Server::Server(char *port, char *pass) {
 	_clients.push_back(Client());//This is so that we dont have to work with _clients[i - 1]
 
 	//!VERY TEMPORARY
-	Channel temp("temp");//NAME WILL BE A PARAMETER FROM BUF
-	_channels.push_back(temp);
+	// Channel temp("temp");//NAME WILL BE A PARAMETER FROM BUF
+	// _channels.push_back(temp);
 }
 
 //*Accepting client
@@ -126,7 +82,7 @@ void	Server::setPfds()
 void	Server::commandQuit(int i, std::string str)//calling QUIT asks for reason, ctrl+c doesnt need reason
 {
 	serverLog(_clients[i].getNick(), "has disconnected");
-	sendToClient(_clients[i], "QUIT :" + str);
+	sendToClient(i, "QUIT :" + str);
 	close (_pfds[i].fd);
 	_clients.erase(_clients.begin() + i - 1);
 }
@@ -144,51 +100,66 @@ void	Server::exitServer()
 
 
 
-//!FIX SENDER
-void	sendToClient(Client client, std::string str) {
-	std::string reply = /* client.getNick() */ "<FIX SENDER> :" + str + "\r\n";
-	send(client.getSocket(), reply.c_str(), reply.size(), 0);
+void	Server::sendToClient(int i, std::string sender, std::string str)
+{
+	std::string reply = sender + " :" + str + "\r\n";
+	send(_clients[i].getSocket(), reply.c_str(), reply.size(), 0);
+}
+void	Server::sendToClient(int i, std::string str) {
+	sendToClient(i, _clients[i].getNick(), str);
 }
 
 
 //TODO HARDCODED
-void	Server::commandJoin(int i)
+//For now name will be parameter until i have a parser from getBuf
+void	Server::commandJoin(int i, std::string name)
 {
-	//Temp Channel creation is hardcoded in Server Constructor
-
-
-	//it will use getBuf() to get the argument client sent as a client name
-	//if it doesnt exist, it will create a channel with that name (also parsing the name)
 	//first user will be op
 	//from the on, users will be just users lol
 
-
-	// Channel temp("temp");//NAME WILL BE A PARAMETER FROM BUF
-	// _channels.push_back(temp);
-
-	//hardcoded to always join channel[0], will have to make it later
-	_channels[0].clientJoin(_clients[i].getId());//HARDCODED
-	_clients[i].setChannel(0);//HARDCODED
+	
+	// for (std::vector<Channel>::iterator channelIt = _channels.begin();
+	// 	channelIt != _channels.end(); ++channelIt)
+	// 	{
+	// 		//!THIS SHIT IS BROKEN AS FUCK, BUT I HAVE A HARDCODED CHANNEL DOWN IN SRVRUN
+	// 		if (channelIt->getId() == i) {
+	// 			_clients[i].getChannel().setId(channelIt->getId());
+	// 			_clients[i].getChannel().setName(channelIt->getName());
+	// 			std::cout << "Client " << _clients[i].getNick() << " joined channel " << channelIt->getName() << std::endl;
+	// 			return ;
+	// 		}
+	// 	}
+	_clients[i].getChannel().setId(i);
+	_clients[i].getChannel().setName(name);
+	_channels.push_back(_clients[i].getChannel());
+	std::cout << "Client " << _clients[i].getNick() << " created and joined channel " << name << std::endl;
+	
 }
 
 //this function will be called with the correct channel already selected, receiving it as parameter
-void	Server::sendToClientsInChannel(int i, Channel channel, std::string str)
+void	Server::sendToClientsInChannel(int i, std::string str)
 {
-	int channelId = _clients[i].getChannel();
+	int				channelId = _clients[i].getChannel().getId();
+	std::string		channelName = _clients[i].getChannel().getName();
+	if (channelId == -1)
+		return ;
+	//also will need to be careful due to more clients having the same channel saved
 
 	for (std::vector<Client>::iterator clientIt = _clients.begin();
 		clientIt != _clients.end(); ++clientIt)
 		{
-			if (clientIt->getChannel() == _clients[i].getChannel())//SHOULDNT SEND BACK TO CLIENT, RIGHT?
-			{
-				//can send sender as parameter as _clients[i], check if worth it
-				sendToClient(*clientIt, str);
+			if (clientIt->getChannel().getId() == channelId) {
+				//DONT SEND THE MESSAGE BACK TO THE SENDER
+				int socketToSendTo = clientIt - _clients.begin();
+				std::string sender = channelName + " :" + _clients[i].getNick();
+				sendToClient(socketToSendTo, sender, str);
 			}
 		}
 }
 
 void	Server::processCommand(int i)
-{	/*
+{
+	/*
 		HAVE ALL COMMANDS BE CALLED HERE IN A SWITCH CASE
 		EACH COMMAND FUNCTION WILL THEN CHECK IF ITS REGISTERED, AND DO WHAT NEEDS TO BE DONE IN CASE IT ISNT
 		LIKE EXIT AND QUIT WONT CHECK
@@ -197,6 +168,7 @@ void	Server::processCommand(int i)
 		ALL OTHERS WILL CHECK EVERYTHING
 	*/
 	// debugMessage(i);
+	// sendToClient(_clients[i], _clients[i].getBuf());
 	
 	//*Closing server
 	if (strncmp(_clients[i].getBuf(), "exit ", 4) == 0)
@@ -212,14 +184,12 @@ void	Server::processCommand(int i)
 	}
 
 
-	//*echo
-	// sendToClient(_clients[i], _clients[i].getBuf());
 
 	//*START OF CHANNEL LOGIC
 	if (strncmp(_clients[i].getBuf(), "JOIN ", 5) == 0)
-		commandJoin(i);
+		commandJoin(i, _clients[i].getBuf() + 5);
 	
-	sendToClientsInChannel(i, _channels[0], _clients[i].getBuf());
+	sendToClientsInChannel(i, _clients[i].getBuf());
 }
 
 
@@ -242,13 +212,49 @@ void	Server::srvRun()
 {
 	while (1)
 	{
+		
 		setPfds();
 		myPoll(_pfds.data(), _pfds.size(), -1);
-
+		
 		if (_pfds[0].revents & POLLIN)//* Client Connecting
 		{
 			int temp = acceptClient();
 			_clients.push_back(Client(temp));
+
+			//HARDCODED CLIENTS
+			if (_clients.size() == 2) {
+				std::cout << "First client\n";
+				_clients[1].setAuthenticated(true);
+				_clients[1].setRegistered(true);
+				_clients[1].setNick("First");
+				_clients[1].setUsername("First");
+				_clients[1].setRealname("First");
+				_clients[1].getChannel().setId(1);
+				_clients[1].getChannel().setName("FirstChannel");
+				welcomeClient(1);
+			}
+			else if (_clients.size() == 3) {
+				std::cout << "Second client\n";
+				_clients[2].setAuthenticated(true);
+				_clients[2].setRegistered(true);
+				_clients[2].setNick("Second");
+				_clients[2].setUsername("Second");
+				_clients[2].setRealname("Second");
+				_clients[2].getChannel().setId(2);
+				_clients[2].getChannel().setName("SecondChannel");
+				welcomeClient(2);
+			}
+			else if (_clients.size() == 4) {
+				std::cout << "Third client\n";
+				_clients[3].setAuthenticated(true);
+				_clients[3].setRegistered(true);
+				_clients[3].setNick("Third");
+				_clients[3].setUsername("Third");
+				_clients[3].setRealname("Third");
+				_clients[3].getChannel().setId(1);
+				_clients[3].getChannel().setName("FirstChannel");
+				welcomeClient(3);
+			}
 		}
 	
 		for (int i = 1; i < _pfds.size(); i++)//*loop through clients
