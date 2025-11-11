@@ -17,8 +17,6 @@
 # include "Defines.hpp"
 # include "Channel.hpp"
 
-//change to const std::string what should be const
-
 class Server
 {
 	private:

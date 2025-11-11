@@ -35,9 +35,9 @@ class Client
 		std::string	_realname;
 
 		char		*_buf;
+		int		_channelId;
 
-		Channel		_channel;//channel client is connected to;
-
+		
 	public:
 		id_t		_bytesRecv;//! any other way? this is bad
 
@@ -54,13 +54,13 @@ class Client
 			_username = "";
 			_nick = "*";
 			_realname = "";
-			_channel.setId(-1);
+			_channelId = -1;
 		}
 
 		Client() {
 			_id = -1;
 			_socket = 0;
-			_channel.setId(-1);
+			_channelId = -1;
 		}//DUMMY
 
 		//*GETTERS
@@ -75,7 +75,7 @@ class Client
 		std::string	getRealname() { return (_realname); }
 		char*		getBuf() { return (_buf); }
 
-		Channel		&getChannel() { return (_channel); }
+		int			getChannelId() { return (_channelId); }
 
 		//*SETTERS
 		void	setAuthenticated(bool auth) { _authenticated = auth; }
@@ -86,7 +86,7 @@ class Client
 		void	setRealname(std::string realname) { _realname = realname; }
 		void	setBuf(char buf[]) { _buf = buf; }
 
-		void	setChannel(Channel channel) { _channel = channel; }
+		void	setChannelId(int channelId) { _channelId = channelId; }
 
 
 
