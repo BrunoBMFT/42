@@ -18,12 +18,10 @@ class Channel
 			_id = _globalChannelId++;
 			_name = name;
 		}
+
 		Channel() {
 			_id = -1;
-		}
-		~Channel() {
-			std::cout << "IT SHOULDNT PASS THROUGH HERE YET\n";
-		}
+		}//DUMMY
 		
 		std::vector<int> getClientsInChannel() {
 			return (_clientsInChannel);

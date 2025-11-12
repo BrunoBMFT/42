@@ -40,6 +40,7 @@ Server::Server(char *port, char *pass) {
 	_srvPfd.revents = 0;
 
 	_clients.push_back(Client());//This is so that we dont have to work with _clients[i - 1]
+	_channels.push_back(Channel());//This is so that we dont have to work with _channel[i - 1]
 
 	//!VERY TEMPORARY
 	// Channel temp("temp");//NAME WILL BE A PARAMETER FROM BUF
@@ -112,53 +113,44 @@ void	Server::sendToClient(int i, std::string str) {
 
 void	Server::commandJoin(int i, std::string name)
 {
-	//!CHANGE CHANNEL TO BE CREATED HERE, NOT EACH CLIENT WITH THEIR OWN, CLIENTS WILL ONLY HAVE THE CHANNEL ID THEY ARE CONNECTED TO
 	//first user will be op
 	//from the on, users will be just users lol
 
+
+
+	for (std::vector<Channel>::iterator channelIt = _channels.begin(); channelIt != _channels.end(); ++channelIt)
+	{
+		if (name.substr(0, name.size() - 1) == channelIt->getName())//PARSE AAAAAAAAA
+		{
+			_clients[i].setChannelId(channelIt->getId());
+			std::cout << "Client " << _clients[i].getNick() << " joined channel " << channelIt->getName() << std::endl;
+			return ;
+		}
+	}
+	Channel temp(name.substr(0, name.size() - 1));//PARSE AAAAAAAAA
+	// std::cout << "temp name: " << temp.getName() << std::endl;
+	_channels.push_back(temp);
+	std::cout << "last channel name " << _channels.rbegin()->getName() << std::endl;
+	std::cout << "id of channel that should be id 2: " << _channels.rbegin()->getId() << std::endl;//!WHY IS THE ID WRONG THE ID IS ALL WRONG
+	_clients[i].setChannelId(_channels.rbegin()->getId());
 	
-	// for (std::vector<Channel>::iterator channelIt = _channels.begin();
-	// 	channelIt != _channels.end(); ++channelIt)
-	// 	{
-	// 		if (channelIt->getId() == i) {
-	// 			_clients[i].getChannel().setId(channelIt->getId());
-	// 			_clients[i].getChannel().setName(channelIt->getName());
-	// 			std::cout << "Client " << _clients[i].getNick() << " joined channel " << channelIt->getName() << std::endl;
-	// 			return ;
-	// 		}
-	// 	}
-
-	// int	channelId;//!whatever id its supposed to find
-
-	// for (std::vector<Channel>::iterator channelIt = _channels.begin(); channelIt != _channels.end(); ++channelIt) {
-
-	// }
-	// _clients[i].setChannelId(channelId);//!setchannelId to whatever id it finds
-
-
-	//todo
-	// _clients[i].getChannel().setId(i);
-	// _clients[i].getChannel().setName(name);//!to test for this setname, will call it using the same parser getNick uses
-	// _channels.push_back(_clients[i].getChannel());
-	std::cout << "Client " << _clients[i].getNick() << " created and joined channel " << name << std::endl;
-	
+	// std::cout << "Client " << _clients[i].getNick() << " created and joined channel " << _channels.rbegin()->getName() << std::endl;
 }
 
-//this function will be called with the correct channel already selected, receiving it as parameter
 void	Server::sendToClientsInChannel(int i, std::string str)
 {
+	//*for now hardcoded to stop non channeled clients from sending to clients
 	int				channelId = _clients[i].getChannelId();
+	std::cout << "Client nicked " << _clients[i].getNick() << " called this function and has channel id " << channelId << std::endl;
 	if (channelId == -1)
 		return ;
-	std::cout << "channelId " << channelId << std::endl;
 	std::string		channelName = _channels[channelId].getName();
-	std::cout << "Client " << _clients[i].getNick() << " sent message to channel " << channelId << " " << _channels[channelId].getName() << std::endl;
 
 	for (std::vector<Client>::iterator clientIt = _clients.begin();
 		clientIt != _clients.end(); ++clientIt)
 		{
-			std::cout << "channelId " << clientIt->getChannelId() << " channel to send to " << channelId << std::endl;
 			if (clientIt->getChannelId() == channelId) {
+				std::cout << "Clients " << clientIt->getNick() << " will get the output" << std::endl;
 				//DONT SEND THE MESSAGE BACK TO THE SENDER
 				int socketToSendTo = clientIt - _clients.begin();
 				std::string sender = channelName + " :" + _clients[i].getNick();
@@ -196,8 +188,14 @@ void	Server::processCommand(int i)
 
 
 	//*START OF CHANNEL LOGIC
-	// if (strncmp(_clients[i].getBuf(), "JOIN ", 5) == 0)
-	// 	commandJoin(i, _clients[i].getBuf() + 5);
+	if (strncmp(_clients[i].getBuf(), "JOIN ", 5) == 0)
+		commandJoin(i, _clients[i].getBuf() + 5);
+	
+	/*
+		this function should only be called when other clients should know what happened. cases would be:
+		non-op:	USER, NICK, PRIVMSG, more to be added;
+		op: TOPIC, MODE, KICK, stuff like that to be checked later
+	*/
 	sendToClientsInChannel(i, _clients[i].getBuf());
 }
 
@@ -219,6 +217,7 @@ bool	Server::handleClientPoll(int i)
 
 void	Server::srvRun()
 {
+	std::cout << "ID FOR SENDTOCLIENTSINCHANNEL IS BAD\n";
 	while (1)
 	{
 		
@@ -250,9 +249,9 @@ void	Server::srvRun()
 				_clients[2].setNick("Second");
 				_clients[2].setUsername("Second");
 				_clients[2].setRealname("Second");
-				_clients[1].setChannelId(2);
-				Channel temp("SecondChannel");
-				_channels.push_back(temp);
+				// _clients[2].setChannelId(2);
+				// Channel temp("SecondChannel");
+				// _channels.push_back(temp);
 				welcomeClient(2);
 			}
 			else if (_clients.size() == 4) {
@@ -262,9 +261,9 @@ void	Server::srvRun()
 				_clients[3].setNick("Third");
 				_clients[3].setUsername("Third");
 				_clients[3].setRealname("Third");
-				_clients[1].setChannelId(1);
-				Channel temp("FirstChannel");
-				_channels.push_back(temp);
+				// _clients[3].setChannelId(1);
+				// Channel temp("FirstChannel");
+				// _channels.push_back(temp);
 				welcomeClient(3);
 			}
 		}
