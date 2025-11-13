@@ -96,7 +96,7 @@ void	Server::exitServer()
 	throw (0);
 }
 
-//RENAME i
+
 void	Server::sendToClient(int id, std::string sender, std::string str)
 {
 	std::string reply = sender + " :" + str + "\r\n";
@@ -116,7 +116,6 @@ void	Server::sendToClient(int i, std::string str) {
 	send(_clients[i].getSocket(), reply.c_str(), reply.size(), 0);
 }
 
-//need to be careful cause dummy is getting sent a message
 void	Server::sendToClientsInChannel(int i, std::string str)
 {
 	int	channelId = _clients[i].getChannelId();
@@ -131,10 +130,12 @@ void	Server::sendToClientsInChannel(int i, std::string str)
 				&& clientIt->getId() != _clients[i].getId())
 				{
 					std::string sender = channelName + " :" + _clients[i].getNick();
-					sendToClient(clientIt->getId(), sender, str);//+1 here is strange
+					sendToClient(clientIt->getId(), sender, str);
 				}
 		}
 }
+
+
 
 int		Server::findOrCreateChannel(int i, std::string name)
 {
@@ -149,8 +150,6 @@ int		Server::findOrCreateChannel(int i, std::string name)
 	std::cout << _channels.rbegin()->getName() << " has been created" << std::endl;
 	return (_channels.rbegin()->getId());
 }
-
-
 void	Server::commandJoin(int i, std::string name)
 {
 	int channelId = findOrCreateChannel(i, name);
@@ -162,6 +161,9 @@ void	Server::commandJoin(int i, std::string name)
 	sendToClientsInChannel(i, strToSend);
 	//!should send to the client that just joined a welcome message
 }
+
+
+
 void	Server::processCommand(int i)
 {
 	// debugMessage(i);
@@ -185,8 +187,6 @@ void	Server::processCommand(int i)
 	//*START OF CHANNEL LOGIC
 	if (strncmp(_clients[i].getBuf(), "JOIN ", 5) == 0)
 		commandJoin(i, _clients[i].getBuf() + 5);
-	// if (strncmp(_clients[i].getBuf(), "PRIVMSG ", 8) == 0)
-	// 	sendToClientsInChannel(i, _clients[i].getBuf());
 	else
 		sendToClientsInChannel(i, _clients[i].getBuf());
 
@@ -268,7 +268,7 @@ void	Server::srvRun()
 			_clients.push_back(Client(temp));
 
 			//HARDCODED CLIENTS AND CHANNELS
-			testClients();
+			// testClients();
 		}
 	
 		for (int i = 1; i < _pfds.size(); i++)//*loop through clients
@@ -279,12 +279,6 @@ void	Server::srvRun()
 					continue ;
 			}
 		}
-		// std::cout << "Client size: " << _clients.size() << std::endl;
-		// for (std::vector<Client>::iterator clientIt = _clients.begin();
-		// 	clientIt != _clients.end(); ++clientIt)
-		// 	{
-		// 		std::cout << "id: " << clientIt->getId() << " nick: " << clientIt->getNick() << std::endl;
-		// 	}
 	}
 	close(_socket);
 }
