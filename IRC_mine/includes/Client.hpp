@@ -39,7 +39,7 @@ class Client
 
 		
 	public:
-		id_t		_bytesRecv;//! any other way? this is bad
+		int		_bytesRecv;//! any other way? this is bad
 
 		//*CONSTRUCTORS
 		Client(int srvSocket) {
