@@ -104,20 +104,6 @@ class RPN
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		//*EXCEPTIONS
 		class Exception : public std::exception
 		{
