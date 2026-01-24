@@ -1,7 +1,4 @@
 #include "../includes/Server.hpp"
-//todo PARSING, OUTPUT FOR KICKED CLIENT
-
-
 
 bool	Server::isValidKick(int i, std::string args)
 {
@@ -11,7 +8,6 @@ bool	Server::isValidKick(int i, std::string args)
 		return (sendToClient(i, ERR_NEEDMOREPARAMS(_clients[i].getNick(), "KICK")), false);
 	return (true);
 }
-
 
 void	setKick(std::string line, std::string *chName, std::string *toKickName)
 {
@@ -26,19 +22,19 @@ void	Server::commandKick(int i, std::string args)
 		return ;
 	std::string chName, toKickName;
 	setKick(args, &chName, &toKickName);
-	
+
 	int chId = getChannelId(chName);
-	int toKickId = getClientId(toKickName);
-	if (!isUserInChannel(toKickId, chId))
+	if (!isUserInChannel(i, chId))
 		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), chName)));
 	if (!_channels[chId].isOp(i))
 		return (sendToClient(i, ERR_NOPRIVILEGES(_clients[i].getNick())));
-	if (toKickId == i)
-		return (sendToClient(i, " you cannot kick yourself FIX THIS STILL"));
 	
-	leaveChannel(toKickId, chId);
-	//todo output for kicked client
-
+	int toKickId = getClientId(toKickName);
+	if (!isUserInChannel(toKickId, chId))
+		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[toKickId].getNick(), chName)));
+	
 	std::string strToSend = _clients[i].getPrefix() + " KICK " + chName + " " + toKickName;
-	clientBroadcast(i, chId, strToSend);
+	channelBroadcast(chId, strToSend);
+	leaveChannel(toKickId, chId);
+	
 }

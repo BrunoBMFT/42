@@ -1,10 +1,5 @@
 #include "../includes/Server.hpp"
 
-//ERR_USERONCHANNEL
-//ERR_CHANNELISFULL, +l
-//TODO PARSE
-
-
 bool	Server::isValidInvite(int i, std::string args)
 {
 	if (!_clients[i].isRegistered())
@@ -20,7 +15,6 @@ void	setInvite(std::string line, std::string *invitedName, std::string *chName)
 	*invitedName = line.substr(0, pos);
 	*chName = line.substr(pos + 1);
 }
-
 
 void	Server::commandInvite(int i, std::string args)
 {
@@ -40,10 +34,10 @@ void	Server::commandInvite(int i, std::string args)
 	if (isUserInChannel(invitedId, chId))
 		return (sendToClient(invitedId, ERR_USERONCHANNEL(_clients[invitedId].getNick(), chName)));
 
-	_clients[invitedId].setChannel(chId, chName);
-	_channels[chId].addClient(invitedId);
 	std::string strToSend = _clients[i].getPrefix() + " INVITE " + invitedName + " " + chName;
-	channelBroadcast(chId, strToSend);
-	sendToClient(invitedId, RPL_TOPIC(_clients[invitedId].getNick(), chName, _channels[chId].getTopic()));
 	sendToClient(i, RPL_INVITING(invitedName, _clients[i].getNick(), chName));
+		// _clients[invitedId].setChannel(chId, chName);
+		// _channels[chId].addClient(invitedId);
+		// channelBroadcast(chId, strToSend);
+		// sendToClient(invitedId, RPL_TOPIC(_clients[invitedId].getNick(), chName, _channels[chId].getTopic()));
 }

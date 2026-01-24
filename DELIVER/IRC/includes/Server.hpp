@@ -32,6 +32,7 @@ class Server
 		void	clientBroadcast(int i, int chId, std::string str);
 		void	sendToClient(int i, std::string str);
 		
+		//*COMMANDS
 		void	commandPass(int, std::string);
 		void	commandNick(int, std::string);
 		bool	isValidNick(int, std::string);
@@ -58,7 +59,7 @@ class Server
 		void	commandMode(int, std::string);
 		bool	isValidMode(int, std::string);
 		void 	executeCommandMode(int, std::string, std::string, std::string);
-		void	outputMode(int, int, bool, char);
+		void	outputMode(int, int, bool, char, std::string);
 		void	modeInviteOnly(int, int, bool);
 		void	modeTopicRestriction(int, int, bool);
 		void	modeKey(int, int, std::string, bool);
@@ -78,8 +79,6 @@ class Server
 		int			getChannelId(std::string name);
 		bool		isUserInChannel(int i, int chId);
 
-		
-		void	testClients(int i);
 		void	test();
 
 	public:
@@ -92,7 +91,7 @@ class Server
 		void	srvRun();	
 };
 
-void	serverLog(std::string nick, std::string str);//remove
+void	serverLog(std::string nick, std::string str);
 
 int		mySocket(int __domain, int __type, int __protocol);
 void	myBind(int __fd, const sockaddr *__addr, socklen_t __len);

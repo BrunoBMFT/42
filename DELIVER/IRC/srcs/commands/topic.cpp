@@ -9,10 +9,10 @@ bool	Server::isValidTopic(int i, std::string args)
 	return (true);
 }
 
-void	setTopicArgs(std::string line, std::string *channel, std::string *newTopic)
+void	setTopicArgs(std::string line, std::string *chName, std::string *newTopic)
 {
 	size_t pos = line.find(' ');
-	*channel = line.substr(0, pos);
+	*chName = line.substr(0, pos);
 	if (pos != std::string::npos) {
 		std::string rest = line.substr(pos + 1);
 		*newTopic = rest;
@@ -42,7 +42,7 @@ void	Server::commandTopic(int i, std::string args)
 		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), chName)));
 	if (newTopic.empty())
 		return (noArgsTopic(i, chName));
-	if (_channels[chId].isTopicRestricted() && !_channels[chId].isOp(_clients[i].getId()))//prob replace for i
+	if (_channels[chId].isTopicRestricted() && !_channels[chId].isOp(i))
 		return (sendToClient(i, ERR_CHANOPRIVSNEEDED(_clients[i].getNick(), chName)));
 
 	_channels[chId].setTopic(newTopic);

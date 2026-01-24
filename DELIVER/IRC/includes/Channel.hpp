@@ -21,6 +21,7 @@ class Channel
 		Channel();
 		Channel(const Channel& other);
 		Channel& operator=(const Channel& other);
+		~Channel();
 		
 
 		int				getId();
@@ -31,7 +32,7 @@ class Channel
 		bool 			isTopicRestricted();
 		size_t			getLimit();
 		std::vector<int> &getClientsInChannel();
-		bool		isOp(int id);
+		bool			isOp(int id);
 		
 		void			setId(int id);
 		void			setName(std::string name);
@@ -39,12 +40,10 @@ class Channel
 		void			setTopic(std::string topic);
 		void			setInviteMode(bool value);
 		void			setTopicRestriction(bool value);
-		void		setLimit(int limit);
-		void		setOp(int id, bool opOrNot);
-
-
-
-
+		void			setLimit(int limit);
+		void			setOp(int id, bool opOrNot);
+		void			decrementId();
+		
 		void	addClient(int id);
 		void	removeClient(int id);
 };

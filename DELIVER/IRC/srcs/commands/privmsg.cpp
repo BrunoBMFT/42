@@ -15,7 +15,7 @@ bool	Server::isValidPrivmsg(int i, std::string args)
 
 void	setPrivmsg(std::string args, std::string *channel, std::string *message)
 {
-	int pos = args.find(' ');
+	size_t pos = args.find(' ');
 	*channel = args.substr(0, pos);
 	std::string rest = args.substr(pos + 1);
 	if (rest[0] == ':')
