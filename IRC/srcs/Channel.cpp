@@ -42,7 +42,7 @@ std::string		Channel::getName() {
 std::string		Channel::getChannelKey() {
 	return (_channelKey);
 }
-int				Channel::getLimit() {
+size_t			Channel::getLimit() {
 	return (_limit);
 }
 std::string		Channel::getTopic() {

@@ -29,7 +29,7 @@ class Channel
 		std::string		getTopic();
 		bool			isInviteOnly();
 		bool 			isTopicRestricted();
-		int				getLimit();
+		size_t			getLimit();
 		std::vector<int> &getClientsInChannel();
 		bool		isOp(int id);
 		

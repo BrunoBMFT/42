@@ -89,13 +89,3 @@ make re      # Rebuild the project
 ### Tutorials & References
 - [IBM - Using poll() instead of select()](https://www.ibm.com/docs/en/i/7.1?topic=designs-using-poll-instead-select) - Understanding poll() for I/O multiplexing
 - [GeeksforGeeks - Socket Programming in C/C++](https://www.geeksforgeeks.org/socket-programming-cc/) - Socket programming basics
-
-### AI Usage
-
-AI tools (such as GitHub Copilot and ChatGPT) were used during the development of this project for the following purposes:
-- **Documentation**: Assistance in writing and formatting this README file
-- **Code Review**: Reviewing code snippets for potential improvements and best practices
-- **Debugging**: Help in identifying and understanding error messages and edge cases
-- **Research**: Clarifying IRC protocol specifications and socket programming concepts
-
-All AI-generated suggestions were reviewed, tested, and adapted to fit the project requirements and coding standards.

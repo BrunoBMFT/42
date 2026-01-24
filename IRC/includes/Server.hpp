@@ -84,7 +84,10 @@ class Server
 		void	test();
 
 	public:
+		Server();
 		Server(char *port, char *pass);
+		Server(const Server& other);
+		Server& operator=(const Server& other);
 		~Server();
 
 		void	srvRun();	
