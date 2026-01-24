@@ -123,9 +123,9 @@ void Server::executeCommandMode(int i, std::string chName, std::string opr, std:
 	}
 }
 
-/*
-	MODE <channel> -lio     -> -l +i +o
-*/
+
+// MODE <channel> -lio     -> -l +i +o
+
 void	Server::commandMode(int i, std::string line)
 {
 	if (!isValidMode(i, line))

@@ -1,0 +1,5 @@
+REDO MODE
+PRIVMSG should also do direct messages
+INVITE IS JUST WRONG		-> just makes it that client can join the channel by joining himself
+if inviting to key restricted channel, the invitedClient needs to input key
+topic <chan> :				-> will erase topic

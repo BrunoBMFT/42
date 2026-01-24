@@ -1,6 +1,5 @@
 #include "Client.hpp"
 
-//*Constructors
 Client::Client() {
 	_id = -1;
 }
@@ -40,8 +39,6 @@ Client& Client::operator=(const Client& other) {
 	return (*this);
 }
 
-
-//*GETTERS
 int			Client::getId() {
 	return (_id);
 }
@@ -77,7 +74,6 @@ std::map<int, std::string>	&Client::getChannels() {
 	return (_chans);
 }
 
-//*SETTERS
 void	Client::setId(int id) {
 	_id = id;
 }

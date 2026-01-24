@@ -1,7 +1,5 @@
 #include "Channel.hpp"
 
-//*CONSTRUCTORS
-
 Channel::Channel() {
 	_id = -1;
 }
@@ -32,7 +30,6 @@ Channel& Channel::operator=(const Channel& other) {
 	return (*this);
 }
 
-//*GETTERS
 int				Channel::getId() {
 	return (_id);
 }
@@ -63,7 +60,6 @@ bool				Channel::isOp(int id) {
 	return (false);
 }
 
-//*SETTERS
 void	Channel::setId(int id) {
 	_id = id;
 }
@@ -92,7 +88,6 @@ void	Channel::setOp(int id, bool opOrNot) {
 		_ops.erase(find(_ops.begin(), _ops.end(), id));
 }
 
-//*OTHERS
 void	Channel::addClient(int id) {
 	_clientsInChannel.push_back(id);
 }

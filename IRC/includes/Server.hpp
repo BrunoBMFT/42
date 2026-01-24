@@ -32,7 +32,6 @@ class Server
 		void	clientBroadcast(int i, int chId, std::string str);
 		void	sendToClient(int i, std::string str);
 		
-		//*COMMANDS
 		void	commandPass(int, std::string);
 		void	commandNick(int, std::string);
 		bool	isValidNick(int, std::string);

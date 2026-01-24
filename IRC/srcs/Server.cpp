@@ -74,7 +74,6 @@ int		Server::acceptClient()
 	memset(host, 0, NI_MAXHOST);
 	
 	inet_ntop(AF_INET, &clientAddr.sin_addr, host, NI_MAXHOST);
-	// std::cout << host << " manually connected on " << ntohs(clientAddr.sin_port) << std::endl;
 	return (tempSocket);
 }
 
@@ -93,7 +92,7 @@ void	Server::processCommand(int i, std::string line)
 {
 	// std::cout << RED("--------------------------------------------------------------------------------\n");
 	std::cout << _clients[i].getNick() << " said: [" + line + "]\n";
-	if (line.compare(0, 6, "CAP LS") == 0)//todo figure out what to do
+	if (line.compare(0, 6, "CAP LS") == 0)
 		return ;
 	else if (line.compare(0, 4, "exit") == 0)
 		throw (0);
@@ -188,16 +187,13 @@ void	Server::srvRun()
 		{
 			int temp = acceptClient();
 			_clients.insert(std::make_pair(temp, Client(temp)));
-
-			//HARDCODED CLIENTS AND CHANNELS
-			// testClients(temp);
 		}
 	
 		for (size_t i = 1; i < _pfds.size(); i++)
 		{
 			if (_pfds[i].revents & POLLIN) {
 				int ret = handleClientPoll(_pfds[i].fd);
-				if (ret == false)//i dont like this
+				if (ret == false)
 					continue ;
 			}
 		}
