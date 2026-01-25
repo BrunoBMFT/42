@@ -1,3 +1,4 @@
+TOPIC HAS TO SEND TIME, CHECK COLETES
 REDO INVITE, all it does is open the inviteonly Channel for client to join by himself
 REDO MODE parsing and handling
 PRIVMSG should also do direct messages

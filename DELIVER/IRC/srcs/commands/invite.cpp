@@ -16,6 +16,8 @@ void	setInvite(std::string line, std::string *invitedName, std::string *chName)
 	*chName = line.substr(pos + 1);
 }
 
+
+//!WRONG, IT HAS TO JUST OPEN THE I-ONLY CHANNEL FOR THE CLIENT
 void	Server::commandInvite(int i, std::string args)
 {
 	if (!isValidInvite(i, args))
