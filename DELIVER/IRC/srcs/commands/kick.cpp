@@ -36,5 +36,4 @@ void	Server::commandKick(int i, std::string args)
 	std::string strToSend = _clients[i].getPrefix() + " KICK " + chName + " " + toKickName;
 	channelBroadcast(chId, strToSend);
 	leaveChannel(toKickId, chId);
-	
 }

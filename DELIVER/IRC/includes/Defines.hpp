@@ -7,8 +7,9 @@
 
 #define RPL_CHANNELMODEIS(client, channel) ("324 " + client + " " + channel + " :Available user modes: io, channel modes: tkl")
 
-#define RPL_NOTOPIC(client, channel) ("331 " + client + " " + channel + " :No topic is set")
-#define RPL_TOPIC(client, channel, topic) ("332 " + client + " " + channel + " " + topic)
+#define RPL_TOPICWHOTIME(serverName, client, channel, author, setat) (":" + serverName + " 333 " + client + " " + channel + " " + author + " " + setat)
+#define RPL_NOTOPIC(serverName, client, channel) (":" + serverName + " 331 " + client + " " + channel + " :No topic is set")
+#define RPL_TOPIC(serverName, client, channel, topic) (":" + serverName + " 332 " + client + " " + channel + " " + topic)
 #define RPL_INVITING(client, nick, channel) ("341 " + client + " " + nick + " :" + channel)
 #define RPL_NAMREPLY(nick, channel, users) (": 353 " + nick + " = " + channel + " :" + users + "")
 #define RPL_MOTD(nick, motd) ("372 " + nick + ":- " + motd)

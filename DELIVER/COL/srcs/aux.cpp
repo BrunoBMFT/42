@@ -220,7 +220,6 @@ bool	parseMain(int ac, char **av)
 	return (true);
 }
 
-std::string	Server::getServerName()
-{
+std::string	Server::getServerName() {
 	return (_name);
 }

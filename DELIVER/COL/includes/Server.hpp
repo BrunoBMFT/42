@@ -72,11 +72,6 @@ class Server
 		void	commandTopic(int, std::string);
 		bool	isValidTopic(int, std::string);
 		void	noArgsTopic(int, std::string);
-		/**
-		 * Changed the class by adding getServerName function
-		 * and sendTopicTime function
-		 */
-		void	sendTopicTime(int, std::string);
 
 		std::string	getServerName();
 		int			getClientId(std::string name);

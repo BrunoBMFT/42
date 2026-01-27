@@ -38,8 +38,8 @@ Channel::~Channel() {
 std::string		Channel::getTopicTimeSet() {
 	return (_topicTimeSet);
 }
-std::string	Channel::getTopicSetter() {
-	return (_topicSetter);
+std::string	Channel::getTopicAuthor() {
+	return (_TopicAuthor);
 }
 int				Channel::getId() {
 	return (_id);
@@ -80,8 +80,8 @@ void	Channel::setTopicTimeSet() {
 	if (_topicTimeSet.find('\n') != std::string::npos)
 		_topicTimeSet.erase(_topicTimeSet.find('\n'));
 }
-void	Channel::setTopicSetter(std::string setter) {
-	_topicSetter = setter;
+void	Channel::setTopicAuthor(std::string setter) {
+	_TopicAuthor = setter;
 }
 void	Channel::setId(int id) {
 	_id = id;

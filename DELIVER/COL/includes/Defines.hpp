@@ -11,7 +11,7 @@
  * from what i saw we need to send the server name aswell
  * I also added 
 */
-#define RPL_TOPICWHOTIME(serverName, client, channel, nick, setat) (":" + serverName + " 333 " + client + " " + channel + " " + nick + " " + setat)
+#define RPL_TOPICWHOTIME(serverName, client, channel, author, setat) (":" + serverName + " 333 " + client + " " + channel + " " + author + " " + setat)
 #define RPL_NOTOPIC(serverName, client, channel) (":" + serverName + " 331 " + client + " " + channel + " :No topic is set")
 #define RPL_TOPIC(serverName, client, channel, topic) (":" + serverName + " 332 " + client + " " + channel + " " + topic)
 #define RPL_INVITING(client, nick, channel) ("341 " + client + " " + nick + " :" + channel)

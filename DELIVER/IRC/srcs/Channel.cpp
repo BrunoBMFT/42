@@ -64,6 +64,12 @@ bool				Channel::isOp(int id) {
 		return (true);
 	return (false);
 }
+std::string		Channel::getTopicTimeSet() {
+	return (_topicTimeSet);
+}
+std::string	Channel::getTopicAuthor() {
+	return (_topicAuthor);
+}
 
 //*SETTERS
 void	Channel::setId(int id) {
@@ -93,12 +99,23 @@ void	Channel::setOp(int id, bool opOrNot) {
 	else
 		_ops.erase(find(_ops.begin(), _ops.end(), id));
 }
+void	Channel::setTopicTimeSet() {
+	time_t timestamp = time(&timestamp);
+	std::stringstream ss;
+	ss << timestamp;
+	_topicTimeSet = ss.str();
+	if (_topicTimeSet.find('\n') != std::string::npos)
+		_topicTimeSet.erase(_topicTimeSet.find('\n'));
+}
+void	Channel::setTopicAuthor(std::string setter) {
+	_topicAuthor = setter;
+}
 
+
+//*OTHERS
 void		Channel::decrementId() {
 	_globalChannelId--;
 }
-
-//*OTHERS
 void	Channel::addClient(int id) {
 	_clientsInChannel.push_back(id);
 }

@@ -4,7 +4,7 @@
 # include "Utils.hpp"
 /**
  * Changed by adding topicTimeSet to store the time when topic was set
- * and topicSetter to store who set the topic
+ * and TopicAuthor to store who set the topic
  * then i made the correspondig get and setter functions
  */
 class Channel
@@ -17,7 +17,7 @@ class Channel
 		int				    _limit;
 		std::string			_topic;
 		std::string 		_topicTimeSet;
-		std::string			_topicSetter;
+		std::string			_TopicAuthor;
 		bool				_isInviteOnly;
 		bool				_isTopicRestricted;
 		std::vector<int>	_clientsInChannel;
@@ -31,7 +31,7 @@ class Channel
 		
 
 		std::string		getTopicTimeSet();
-		std::string		getTopicSetter();
+		std::string		getTopicAuthor();
 		int				getId();
 		std::string		getName();
 		std::string		getChannelKey();
@@ -43,7 +43,7 @@ class Channel
 		bool			isOp(int id);
 		
 		void			setTopicTimeSet();
-		void			setTopicSetter(std::string setter);
+		void			setTopicAuthor(std::string setter);
 		void			setId(int id);
 		void			setName(std::string name);
 		void			setChannelKey(std::string key);
