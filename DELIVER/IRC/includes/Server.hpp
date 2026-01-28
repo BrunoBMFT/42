@@ -58,7 +58,6 @@ class Server
 		
 		void	commandMode(int, std::string);
 		bool	isValidMode(int, std::string);
-		// void 	executeCommandMode(int, std::string, std::string, std::string);
 		void	outputMode(int, int, bool, char, std::string);
 		void	modeInviteOnly(int, int, bool *);
 		void	modeTopicRestriction(int, int, bool *);
@@ -71,7 +70,6 @@ class Server
 
 		void	commandTopic(int, std::string);
 		bool	isValidTopic(int, std::string);
-		void	noArgsTopic(int, std::string);
 
 
 

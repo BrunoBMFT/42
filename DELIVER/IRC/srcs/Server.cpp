@@ -78,6 +78,7 @@ int		Server::acceptClient()
 }
 
 //todo skip all whitespaces
+//can use istringstream to skip
 std::string parseLine(std::string line)
 {
 	size_t pos = line.find(' ');

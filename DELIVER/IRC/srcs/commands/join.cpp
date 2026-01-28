@@ -56,7 +56,7 @@ void	Server::commandJoin(int i, std::string args)
 		return (sendToClient(i, ERR_BADCHANMASK(_clients[i].getNick(), chName)));
 
 	int chId = findOrCreateChannel(i, chName);
-	if (_channels[chId].isInviteOnly() && !_channels[chId].isInvited(i))//!BIG PROBLEM HERE
+	if (_channels[chId].isInviteOnly() && !_channels[chId].isInvited(i))
 		return (sendToClient(i, ERR_INVITEONLYCHAN(_clients[i].getNick(), chName)));
 	if (key != _channels[chId].getChannelKey())
 		return (sendToClient(i, ERR_BADCHANNELKEY(_clients[i].getNick(), chName)));
@@ -76,10 +76,7 @@ void	Server::commandJoin(int i, std::string args)
 
 
 
-	//!FUNCTION CALLED GETUSERLIST AND SEND IT
-	/*
-		have a thing in Channel class called userList, have a setList, and make that list in server utils
-	*/
+	//todo FUNCTION CALLED GETUSERLIST
 	std::string user_list;
 	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++)	{
 		if (isUserInChannel(it->first, chId)) {

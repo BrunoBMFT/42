@@ -39,5 +39,5 @@ void	Server::commandInvite(int i, std::string args)
 	std::string strToSend = _clients[i].getPrefix() + " INVITE " + invitedName + " " + chName;
 	sendToClient(i, RPL_INVITING(_clients[i].getPrefix(), invitedName, chName));
 	sendToClient(invitedId, "YOU ARE BEING INVITED BITCH");
-	// channelBroadcast(chId, strToSend);//!CHECK OUTPUT FOR OTHER USERS
+	//!CHECK OUTPUT FOR OTHER USERS
 }
