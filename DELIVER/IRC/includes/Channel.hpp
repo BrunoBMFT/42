@@ -16,8 +16,10 @@ class Channel
 		std::string			_topicAuthor;
 		bool				_isInviteOnly;
 		bool				_isTopicRestricted;
+
 		std::vector<int>	_clientsInChannel;
 		std::vector<int>	_ops;
+		std::vector<int>	_invited;
 	public:
 		Channel(std::string name);
 		Channel();
@@ -34,21 +36,24 @@ class Channel
 		bool 			isTopicRestricted();
 		size_t			getLimit();
 		std::vector<int> &getClientsInChannel();
-		bool			isOp(int id);
 		std::string		getTopicTimeSet();
 		std::string		getTopicAuthor();
 		
-		void			setId(int id);
-		void			setName(std::string name);
-		void			setChannelKey(std::string key);
-		void			setTopic(std::string topic);
-		void			setInviteMode(bool value);
-		void			setTopicRestriction(bool value);
-		void			setLimit(int limit);
-		void			setOp(int id, bool opOrNot);
-		void			setTopicTimeSet();
-		void			setTopicAuthor(std::string setter);
+		void	setId(int);
+		void	setName(std::string);
+		void	setChannelKey(std::string);
+		void	setTopic(std::string);
+		void	setInviteMode(bool);
+		void	setTopicRestriction(bool);
+		void	setLimit(int);
+		void	setTopicTimeSet();
+		void	setTopicAuthor(std::string);
 		
+		
+		bool	isOp(int);
+		void	setOp(int, bool);
+		bool	isInvited(int);
+		void	addInvited(int);
 		void	decrementId();
 		void	addClient(int id);
 		void	removeClient(int id);

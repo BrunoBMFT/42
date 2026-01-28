@@ -16,8 +16,6 @@ void	setInvite(std::string line, std::string *invitedName, std::string *chName)
 	*chName = line.substr(pos + 1);
 }
 
-
-//!WRONG, IT HAS TO JUST OPEN THE I-ONLY CHANNEL FOR THE CLIENT
 void	Server::commandInvite(int i, std::string args)
 {
 	if (!isValidInvite(i, args))
@@ -29,17 +27,17 @@ void	Server::commandInvite(int i, std::string args)
 	int chId = getChannelId(chName);
 	if (!isUserInChannel(i, chId))
 		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), chName)));
-	if (!_channels[chId].isOp(i) && _channels[chId].isInviteOnly())
+	if (!_channels[chId].isOp(i))
 		return (sendToClient(i, ERR_CHANOPRIVSNEEDED(_clients[i].getNick(), chName)));
 
-	int invitedId = getClientId(invitedName);
+	int invitedId = getClientId(invitedName);//!no such user to be added
 	if (isUserInChannel(invitedId, chId))
 		return (sendToClient(invitedId, ERR_USERONCHANNEL(_clients[invitedId].getNick(), chName)));
 
+	_channels[chId].addInvited(invitedId);
+
 	std::string strToSend = _clients[i].getPrefix() + " INVITE " + invitedName + " " + chName;
-	sendToClient(i, RPL_INVITING(invitedName, _clients[i].getNick(), chName));
-		// _clients[invitedId].setChannel(chId, chName);
-		// _channels[chId].addClient(invitedId);
-		// channelBroadcast(chId, strToSend);
-		// sendToClient(invitedId, RPL_TOPIC(_clients[invitedId].getNick(), chName, _channels[chId].getTopic()));
+	sendToClient(i, RPL_INVITING(_clients[i].getPrefix(), invitedName, chName));
+	sendToClient(i, "YOU ARE BEING INVITED BITCH");
+	// channelBroadcast(chId, strToSend);//!CHECK OUTPUT FOR OTHER USERS
 }

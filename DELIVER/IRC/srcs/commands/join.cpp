@@ -39,6 +39,8 @@ int		Server::findOrCreateChannel(int i, std::string chName)
 	int chId = _channels.rbegin()->getId();
 	_channels[chId].setOp(i, true);
 	_channels[chId].setTopic("general");
+	_channels[chId].setTopicTimeSet();
+	_channels[chId].setTopicAuthor(_clients[i].getPrefix());
 	serverLog("channel created: ", _channels.rbegin()->getName());
 	return (chId);
 }
@@ -54,23 +56,30 @@ void	Server::commandJoin(int i, std::string args)
 		return (sendToClient(i, ERR_BADCHANMASK(_clients[i].getNick(), chName)));
 
 	int chId = findOrCreateChannel(i, chName);
+	if (_channels[chId].isInviteOnly() && !_channels[chId].isInvited(i))//!BIG PROBLEM HERE
+		return (sendToClient(i, ERR_INVITEONLYCHAN(_clients[i].getNick(), chName)));
 	if (key != _channels[chId].getChannelKey())
 		return (sendToClient(i, ERR_BADCHANNELKEY(_clients[i].getNick(), chName)));
 	if (_channels[chId].getClientsInChannel().size() >= _channels[chId].getLimit() && _channels[chId].getLimit() != 0)
 		return (sendToClient(i, ERR_CHANNELISFULL(_clients[i].getNick(), chName)));
-	if (_channels[chId].isInviteOnly())
-		return (sendToClient(i, ERR_INVITEONLYCHAN(_clients[i].getNick(), chName)));
 
 	if (isUserInChannel(i, chId))
 		return (sendToClient(i, ERR_USERONCHANNEL(_clients[i].getNick(), chName)));
 
 	_clients[i].setChannel(chId, chName);
 	_channels[chId].addClient(i);
+	//replace for RPL_JOIN
 	std::string strToSend = _clients[i].getPrefix() + " JOIN " + chName;
 	channelBroadcast(chId, strToSend);
-	sendToClient(i, RPL_TOPIC(_clients[i].getNick(), chName, _channels[chId].getTopic()));
+	sendToClient(i, RPL_TOPIC(_name, _clients[i].getNick(), chName, _channels[chId].getTopic()));
 
-	//!FUNCTIO CALLED GETUSERLIST AND SEND IT
+
+
+
+	//!FUNCTION CALLED GETUSERLIST AND SEND IT
+	/*
+		have a thing in Channel class called userList, have a setList, and make that list in server utils
+	*/
 	std::string user_list;
 	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++)	{
 		if (isUserInChannel(it->first, chId)) {

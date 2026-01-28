@@ -96,8 +96,8 @@ int		Server::findOrCreateChannel(int i, std::string chName)
 	int chId = _channels.rbegin()->getId();
 	_channels[chId].setOp(i, true);
 	_channels[chId].setTopic("general");
-	_channels[chId].setTopicAuthor(_clients[i].getPrefix());
 	_channels[chId].setTopicTimeSet();
+	_channels[chId].setTopicAuthor(_clients[i].getPrefix());
 	serverLog("channel created: ", _channels.rbegin()->getName());
 	return (chId);
 }

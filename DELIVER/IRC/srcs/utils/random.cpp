@@ -12,10 +12,9 @@ void	Server::setPfds()
 
 int Server::getClientId(std::string name)
 {
-	for (size_t i = 1; i < _clients.size(); i++)
-	{
-		if (name == _clients[i].getNick())
-			return (i);
+	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++)	{
+		if (name == _clients[it->first].getNick())
+			return (_clients[it->first].getId());
 	}
 	return (-1);
 }
@@ -32,7 +31,7 @@ int Server::getChannelId(std::string name)
 
 bool Server::isUserInChannel(int i, int chId)
 {
-	if (chId == -1)
+	if (chId == -1 || i == -1)
 		return (false);
 	for (std::vector<int>::iterator it = _channels[chId].getClientsInChannel().begin(); 
 		it != _channels[chId].getClientsInChannel().end(); it++) {
