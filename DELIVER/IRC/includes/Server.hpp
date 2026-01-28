@@ -58,13 +58,13 @@ class Server
 		
 		void	commandMode(int, std::string);
 		bool	isValidMode(int, std::string);
-		void 	executeCommandMode(int, std::string, std::string, std::string);
+		// void 	executeCommandMode(int, std::string, std::string, std::string);
 		void	outputMode(int, int, bool, char, std::string);
-		void	modeInviteOnly(int, int, bool);
-		void	modeTopicRestriction(int, int, bool);
-		void	modeKey(int, int, std::string, bool);
-		void	modeOp(int, int, std::string, bool);
-		void	modeLim(int, int, std::string);
+		void	modeInviteOnly(int, int, bool *);
+		void	modeTopicRestriction(int, int, bool *);
+		void	modeKey(int, int, std::vector<std::string>, bool *, int *);
+		void	modeOp(int, int, std::vector<std::string>, bool *, int *);
+		void	modeLim(int, int, std::vector<std::string>, bool *, int *);
 		
 		void	commandInvite(int, std::string);
 		bool	isValidInvite(int, std::string);
@@ -101,5 +101,6 @@ size_t	myRecv(int __fd, char *__buf, size_t __n, int __flags);
 
 bool	parseMain(int ac, char **av);
 bool	isNum(std::string str);
+std::vector<std::string> getArgs(std::string line);
 
 #endif

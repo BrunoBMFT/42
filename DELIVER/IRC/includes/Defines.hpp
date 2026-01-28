@@ -36,7 +36,7 @@
 #define ERR_BADCHANMASK(client, channel) ("476 " + client + " " + channel + " :Bad Channel Mask")
 #define ERR_NOPRIVILEGES(client) ("481 " + client + " :Permission Denied- You're not an IRC operator")
 #define ERR_CHANOPRIVSNEEDED(client, channel) ("482 " + client + " " + channel + " :You're not channel operator")
-#define ERR_UMODEWUNKNOWNFLAG "501 :Unknown MODE flag"
+#define ERR_UMODEWUNKNOWNFLAG "501 :Unknown MODE flag: "
 
 #define ERR_NOTAUTH "Not authenticated FIX LATER"
 

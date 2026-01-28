@@ -89,6 +89,7 @@ std::string parseLine(std::string line)
 
 void	Server::processCommand(int i, std::string line)
 {
+	std::cout << RED("--------------------------------------------------------------------------------\n");
 	std::cout << _clients[i].getNick() << " said: [" + line + "]\n";
 	if (line.compare(0, 6, "CAP LS") == 0)
 		return ;

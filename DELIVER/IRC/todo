@@ -1,8 +1,5 @@
-replace strToSend for RPL_s
-REDO INVITE, all it does is open the inviteonly Channel for client to join by himself
 REDO MODE parsing and handling
 PRIVMSG should also do direct messages
-INVITE IS JUST WRONG		-> just makes it that client can join the channel by joining himself
-if inviting to key restricted channel, the invitedClient needs to input key
 topic <chan> :				-> will erase topic
+replace strToSend for RPL_s
 REPLACE GETNICK FOR GETPREFIX

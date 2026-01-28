@@ -2,6 +2,16 @@
 int Channel::_globalChannelId;
 int Client::_globalId;
 
+std::vector<std::string> getArgs(std::string line)
+{
+	std::vector<std::string> args;
+	std::istringstream iss(line);
+	std::string temp;
+	while (iss >> temp)
+		args.push_back(temp);
+	return (args);
+}
+
 void	Server::setPfds()
 {
 	_pfds.clear();
@@ -13,8 +23,8 @@ void	Server::setPfds()
 int Server::getClientId(std::string name)
 {
 	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++)	{
-		if (name == _clients[it->first].getNick())
-			return (_clients[it->first].getId());
+		if (name == _clients[it->first].getNick()) 
+			return (it->first);
 	}
 	return (-1);
 }

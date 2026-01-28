@@ -30,7 +30,7 @@ void	Server::commandInvite(int i, std::string args)
 	if (!_channels[chId].isOp(i))
 		return (sendToClient(i, ERR_CHANOPRIVSNEEDED(_clients[i].getNick(), chName)));
 
-	int invitedId = getClientId(invitedName);//!no such user to be added
+	int invitedId = getClientId(invitedName);
 	if (isUserInChannel(invitedId, chId))
 		return (sendToClient(invitedId, ERR_USERONCHANNEL(_clients[invitedId].getNick(), chName)));
 
@@ -38,6 +38,6 @@ void	Server::commandInvite(int i, std::string args)
 
 	std::string strToSend = _clients[i].getPrefix() + " INVITE " + invitedName + " " + chName;
 	sendToClient(i, RPL_INVITING(_clients[i].getPrefix(), invitedName, chName));
-	sendToClient(i, "YOU ARE BEING INVITED BITCH");
+	sendToClient(invitedId, "YOU ARE BEING INVITED BITCH");
 	// channelBroadcast(chId, strToSend);//!CHECK OUTPUT FOR OTHER USERS
 }
