@@ -94,7 +94,7 @@ void	Server::processCommand(int i, std::string line)
 	std::cout << _clients[i].getNick() << " said: [" + line + "]\n";
 	if (line.compare(0, 6, "CAP LS") == 0)
 		return ;
-	if (line.compare(0, 3, "WHO") == 0)
+	else if (line.compare(0, 3, "WHO") == 0)
 		return ;
 	else if (line.compare(0, 4, "exit") == 0)
 		throw (0);

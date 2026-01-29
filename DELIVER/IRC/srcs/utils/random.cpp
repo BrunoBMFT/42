@@ -41,7 +41,7 @@ int Server::getChannelId(std::string name)
 
 bool Server::isUserInChannel(int i, int chId)
 {
-	if (chId == -1 || i == -1)
+	if (chId == -1)
 		return (false);
 	for (std::vector<int>::iterator it = _channels[chId].getClientsInChannel().begin(); 
 		it != _channels[chId].getClientsInChannel().end(); it++) {

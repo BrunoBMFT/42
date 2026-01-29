@@ -9,38 +9,18 @@ bool	Server::isValidMode(int i, std::string args)
 	return (true);
 }
 
-//!TEST USING ALL COMMANDS POSITIVE AND NEGATIVE AND POSITIVE TO SEE ITS ALRIGHT
-
-void	testOutput(std::string mode, bool enable, std::vector<std::string> args, int index) {
-	std::cout << (enable ? '+' : '-') << "mode: " << mode /*<< ", bool: " << (enable ? '+' : '-')*/;
-	if (!args.empty())
-		std::cout << ", args: " << args[index] << std::endl;
-}
-
-//* maybe the outputs need a ':' before prefix?
-
 void	Server::modeInviteOnly(int i, int chId, bool *enableMode)
 {
-	//todo testing
-	// testOutput("Invite", enableMode, std::vector<std::string>(NULL), 0);
 	_channels[chId].setInviteMode(*enableMode);
-	
-	std::string strToSend = _clients[i].getPrefix() + " MODE " + _channels[chId].getName() + " " + (*enableMode ? '+' : '-') + 'i';
-	sendToClient(i, strToSend);
-
+	sendToClient(i, MODE1(_clients[i].getNick(), _channels[chId].getName(), (*enableMode ? '+' : '-') + 'i'));
 	if (!*enableMode)
 		*enableMode = true;
 }
 
 void	Server::modeTopicRestriction(int i, int chId, bool *enableMode)
 {
-	//todo testing
-	// testOutput("Topic", *enableMode, std::vector<std::string>(NULL), 0);
 	_channels[chId].setTopicRestriction(*enableMode);
-
-	std::string strToSend = _clients[i].getPrefix() + " MODE " + _channels[chId].getName() + " " + (*enableMode ? '+' : '-') + 't';
-	sendToClient(i, strToSend);
-
+	sendToClient(i, MODE1(_clients[i].getNick(), _channels[chId].getName(), (*enableMode ? '+' : '-') + 't'));
 	if (!*enableMode)
 		*enableMode = true;
 }
@@ -48,90 +28,59 @@ void	Server::modeTopicRestriction(int i, int chId, bool *enableMode)
 void	Server::modeKey(int i, int chId, std::vector<std::string> args, bool *enableMode, int *argsIdx)
 {
 	if (!*enableMode) {
-	//todo testing
-		// testOutput("Key", *enableMode, std::vector<std::string>(NULL), 0);
 		_channels[chId].setChannelKey("");
-		std::string strToSend = _clients[i].getPrefix() + " MODE " + _channels[chId].getName() + " -k";
-		sendToClient(i, strToSend);
+		sendToClient(i, MODE1(_clients[i].getNick(), _channels[chId].getName(), "-k"));
 		*enableMode = true;
 		return ;
 	}
 	if (*argsIdx >= args.size())
 		return (sendToClient(i, ERR_NEEDMOREPARAMS(_clients[i].getNick(), "MODE")));
-	//todo testing
-	// testOutput("Key", enableMode, args, *argsIdx);
 	_channels[chId].setChannelKey(args[*argsIdx]);
-	std::string strToSend = _clients[i].getPrefix() + " MODE " + _channels[chId].getName() + " +k " + args[*argsIdx];
-	sendToClient(i, strToSend);
-	*argsIdx++;
+	sendToClient(i, MODE2(_clients[i].getNick(), _channels[chId].getName(), "+k", args[*argsIdx]));
+	(*argsIdx)++;
 }
 
 void	Server::modeOp(int i, int chId, std::vector<std::string> args, bool *enableMode, int *argsIdx)
 {
-	//todo testing
-	// testOutput("Operator", enableMode, args, *argsIdx);
 	if (*argsIdx >= args.size())
 		return (sendToClient(i, ERR_NEEDMOREPARAMS(_clients[i].getNick(), "MODE")));
 
-	int toOpId = getClientId(args[*argsIdx]);//if id == -1 ->	NOSUCHNICK?
-
+	int toOpId = getClientId(args[*argsIdx]);
+	if (toOpId == -1)
+		return (sendToClient(i, ERR_NOSUCHNICK(_clients[i].getNick(), args[*argsIdx])));
 	if (!isUserInChannel(toOpId, chId))
 		return (sendToClient(i, ERR_USERNOTINCHANNEL(_clients[i].getNick(), args[*argsIdx], _channels[chId].getName())));
-	
-	if (_clients[i].getNick() == args[*argsIdx])
-		return (sendToClient(i, "you cannot op yourself"));//maybe remove
-	
+		
 	_channels[chId].setOp(toOpId, *enableMode);
-
-	std::string strToSend = _clients[i].getPrefix() + " MODE " + _channels[chId].getName() + " " + (*enableMode ? '+' : '-') + "o " + args[*argsIdx];
-	sendToClient(i, strToSend);
-	
-
+	channelBroadcast(chId, MODE2(_clients[i].getNick(), _channels[chId].getName(), (*enableMode ? '+' : '-') + 'o', args[*argsIdx]));
 	if (!*enableMode)
 		*enableMode = true;
-	*argsIdx++;
+	(*argsIdx)++;
 }
 
 void	Server::modeLim(int i, int chId, std::vector<std::string> args, bool *enableMode, int *argsIdx)
 {
-	int limit;
-	if (!*enableMode)//todo || !enableMode
-		limit = 0;
-	// else if (!isNum(args[*argsIdx]))
-	// 	return (*argsIdx++, sendToClient(i, args[*argsIdx] + " is not a number"));
+	if (!*enableMode) {
+		_channels[chId].setLimit(0);
+		return (sendToClient(i, MODE1(_clients[i].getNick(), _channels[chId].getName(), "-l")));
+	}
 	else if (*argsIdx >= args.size())
 		return (sendToClient(i, ERR_NEEDMOREPARAMS(_clients[i].getNick(), "MODE")));
 	else
-		limit = atoi(args[*argsIdx].c_str());
+		_channels[chId].setLimit(atoi(args[*argsIdx].c_str()));
 	
-	_channels[chId].setLimit(limit);
-
-	std::string strToSend = _clients[i].getPrefix() + " MODE " + _channels[chId].getName() + " " + (*enableMode ? '+' : '-') + "l " + args[*argsIdx];
-	sendToClient(i, strToSend);
-
-
-	if (limit == 0) {//todo || !enableMode
-		//todo testing
-		// testOutput("Limit", *enableMode, std::vector<std::string>(NULL), 0);
+	sendToClient(i, MODE2(_clients[i].getNick(), _channels[chId].getName(), "+l", args[*argsIdx]));
+	if (!*enableMode)
 		*enableMode = true;
-	}
-	else {
-		//todo testing
-		// testOutput("Limit", enableMode, args, *argsIdx);
-	}
-	*argsIdx++;
+	(*argsIdx)++;
 }
 
 void	Server::commandMode(int i, std::string line)
 {
-	if (!isValidMode(i, line))//name this parseAndSet(), and put every if in it
+	if (!isValidMode(i, line))
 		return ;
-
-	std::vector<std::string> args = getArgs(line);
-	std::cout << "OUTPUTTING MODE ARGUMENTS\n";
-	for (size_t j = 0; j < args.size(); j++) 
-		std::cout << "Argument: " << j << ": [" << args[j] << "]\n";
 	
+	std::vector<std::string> args = getArgs(line);
 	int chId = getChannelId(args[0]);
 	if (!isUserInChannel(i, chId))
 		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), args[0])));
@@ -145,7 +94,6 @@ void	Server::commandMode(int i, std::string line)
 	bool	enableMode = (args[1][0] != '-');
 	if (args[1][0] == '+' || args[1][0] == '-')
 		j++;
-	
 	for (; j < args[1].length(); j++) {
 		switch (args[1][j]) {
 			case 'i':
@@ -170,7 +118,7 @@ void	Server::commandMode(int i, std::string line)
 				enableMode = false;
 				break ;
 			default:
-				sendToClient(i, ERR_UMODEWUNKNOWNFLAG(args[1][j]));//todo FIX OUTPUT to also have flag
+				sendToClient(i, ERR_UMODEWUNKNOWNFLAG(args[1][j]));
 				break;
 		}
 	}

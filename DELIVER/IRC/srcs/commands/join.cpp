@@ -68,15 +68,14 @@ void	Server::commandJoin(int i, std::string args)
 
 	_clients[i].setChannel(chId, chName);
 	_channels[chId].addClient(i);
-	//replace for RPL_JOIN
-	std::string strToSend = _clients[i].getPrefix() + " JOIN " + chName;
-	channelBroadcast(chId, strToSend);
-	sendToClient(i, RPL_TOPIC(_clients[i].getPrefix(), chName, _channels[chId].getTopic()));
+	
+	channelBroadcast(chId, JOIN(_clients[i].getNick(), chName));
+	sendToClient(i, RPL_TOPIC(_clients[i].getNick(), chName, _channels[chId].getTopic()));
 
 
 
 
-	//todo FUNCTION CALLED GETUSERLIST
+	//todo FUNCTION CALLED GETUSERLIST. userlist will be saved in channel
 	std::string user_list;
 	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++)	{
 		if (isUserInChannel(it->first, chId)) {

@@ -21,6 +21,7 @@ void	setTopicArgs(std::string line, std::string *chName, std::string *newTopic)
 		*newTopic = "";
 }
 
+//erase topic needs to be checked
 void	Server::commandTopic(int i, std::string args)
 {
 	if (!isValidTopic(i, args))
@@ -46,5 +47,6 @@ void	Server::commandTopic(int i, std::string args)
 	_channels[chId].setTopicTimeSet();
 	_channels[chId].setTopicAuthor(_clients[i].getPrefix());
 	// channelBroadcast(chId, RPL_TOPIC(_clients[i].getNick(), chName, newTopic));
+	//CHANGE THIS TO A RPLY
 	channelBroadcast(chId, _clients[i].getPrefix() + " TOPIC " + chName + " :" + newTopic);
 }

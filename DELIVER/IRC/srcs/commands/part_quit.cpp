@@ -37,11 +37,8 @@ void	Server::commandPart(int i, std::string args)
 	if (!isUserInChannel(i, chId))
 		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), chName)));
 
+	channelBroadcast(chId, PART(_clients[i].getNick(), chName));
 	leaveChannel(i, chId);
-	std::string strToSend = _clients[i].getPrefix() + " PART " + chName;
-	clientBroadcast(i, chId, strToSend);
-	strToSend = _clients[i].getPrefix() + " PART " + chName;
-	sendToClient(i, strToSend);
 }
 
 void	Server::commandQuit(int i, std::string args)

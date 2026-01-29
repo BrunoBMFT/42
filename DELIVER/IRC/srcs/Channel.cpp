@@ -140,4 +140,6 @@ void	Channel::addClient(int id) {
 }
 void	Channel::removeClient(int id) {
 	_clientsInChannel.erase(find(_clientsInChannel.begin(), _clientsInChannel.end(), id));
+	_invited.erase(find(_invited.begin(), _invited.end(), id));
+	_ops.erase(find(_ops.begin(), _ops.end(), id));
 }

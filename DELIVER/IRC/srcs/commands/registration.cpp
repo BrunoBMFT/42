@@ -95,9 +95,9 @@ void	Server::commandNick(int i, std::string args)
 void	Server::welcomeClient(int i)
 {
 	sendToClient(i, "CAP * LS");
-	sendToClient(i, RPL_WELCOME(_clients[i].getNick(), _name));
-	sendToClient(i, RPL_YOURHOST);
-	sendToClient(i, RPL_MYINFO(_clients[i].getNick()));
+	// sendToClient(i, RPL_WELCOME(_clients[i].getNick(), _name));
+	// sendToClient(i, RPL_YOURHOST);
+	// sendToClient(i, RPL_MYINFO(_clients[i].getNick()));
 	// sendToClient(i, RPL_MOTDSTART(_clients[i].getNick(), _name));
 	// sendToClient(i, RPL_MOTD(_clients[i].getNick(), _motd));
 	// sendToClient(i, RPL_ENDOFMOTD(_clients[i].getNick()));
