@@ -2,7 +2,7 @@
 # define DEFINES_HPP
 
 #define RPL_WELCOME(nick, network) (":" + SERVERNAME + " 001 " + nick + " :Welcome to "+ network + ", " + nick)
-#define RPL_YOURHOST(server) (":" + SERVERNAME + " 002 :Your host is " + server + ", running version 1.0")
+#define RPL_YOURHOST (":" + SERVERNAME + " 002 :Your host is " + SERVERNAME + ", running version 1.0")
 #define RPL_MYINFO(nick) (":" + SERVERNAME + " 004 " + nick + " 1.0 :Available user modes: io, channel modes: tkl")
 
 #define RPL_CHANNELMODEIS(client, channel) (":" + SERVERNAME + " 324 " + client + " " + channel + " :Available user modes: io, channel modes: tkl")
