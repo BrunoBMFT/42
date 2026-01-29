@@ -25,7 +25,7 @@ Server& Server::operator=(const Server& other) {
 
 Server::Server(char *port, char *pass)
 {
-	_name = "MyIRC";
+	_name = SERVERNAME;
 	_port = atoi(port);
 	_pass = pass;
 

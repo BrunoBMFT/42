@@ -6,6 +6,8 @@
 # include "Defines.hpp"
 # include "Utils.hpp"
 
+const std::string SERVERNAME = "MyIRC";
+
 class Server
 {
 	private:
@@ -58,7 +60,6 @@ class Server
 		
 		void	commandMode(int, std::string);
 		bool	isValidMode(int, std::string);
-		void	outputMode(int, int, bool, char, std::string);
 		void	modeInviteOnly(int, int, bool *);
 		void	modeTopicRestriction(int, int, bool *);
 		void	modeKey(int, int, std::vector<std::string>, bool *, int *);

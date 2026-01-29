@@ -9,15 +9,7 @@ bool	Server::isValidMode(int i, std::string args)
 	return (true);
 }
 
-// void	Server::outputMode(int i, int chId, bool enable, char mode, std::string args)
-// {
-// 	char sign = (enable) ? '+' : '-';
-// 	std::string strToSend = _clients[i].getPrefix() + " MODE " +  _channels[chId].getName() + " " + sign + mode + " " +args;
-// 	channelBroadcast(chId, strToSend);
-// }
-
 //!TEST USING ALL COMMANDS POSITIVE AND NEGATIVE AND POSITIVE TO SEE ITS ALRIGHT
-//todo Check which ones broadcast to channel or to client
 
 void	testOutput(std::string mode, bool enable, std::vector<std::string> args, int index) {
 	std::cout << (enable ? '+' : '-') << "mode: " << mode /*<< ", bool: " << (enable ? '+' : '-')*/;
@@ -25,12 +17,17 @@ void	testOutput(std::string mode, bool enable, std::vector<std::string> args, in
 		std::cout << ", args: " << args[index] << std::endl;
 }
 
+//* maybe the outputs need a ':' before prefix?
+
 void	Server::modeInviteOnly(int i, int chId, bool *enableMode)
 {
 	//todo testing
-	testOutput("Invite", enableMode, std::vector<std::string>(NULL), 0);
+	// testOutput("Invite", enableMode, std::vector<std::string>(NULL), 0);
 	_channels[chId].setInviteMode(*enableMode);
-	// outputMode(i, chId, enableMode, 'i', "");
+	
+	std::string strToSend = _clients[i].getPrefix() + " MODE " + _channels[chId].getName() + " " + (*enableMode ? '+' : '-') + 'i';
+	sendToClient(i, strToSend);
+
 	if (!*enableMode)
 		*enableMode = true;
 }
@@ -38,9 +35,12 @@ void	Server::modeInviteOnly(int i, int chId, bool *enableMode)
 void	Server::modeTopicRestriction(int i, int chId, bool *enableMode)
 {
 	//todo testing
-	testOutput("Topic", *enableMode, std::vector<std::string>(NULL), 0);
+	// testOutput("Topic", *enableMode, std::vector<std::string>(NULL), 0);
 	_channels[chId].setTopicRestriction(*enableMode);
-	// outputMode(i, chId, enableMode, 't', "");
+
+	std::string strToSend = _clients[i].getPrefix() + " MODE " + _channels[chId].getName() + " " + (*enableMode ? '+' : '-') + 't';
+	sendToClient(i, strToSend);
+
 	if (!*enableMode)
 		*enableMode = true;
 }
@@ -49,23 +49,27 @@ void	Server::modeKey(int i, int chId, std::vector<std::string> args, bool *enabl
 {
 	if (!*enableMode) {
 	//todo testing
-		testOutput("Key", *enableMode, std::vector<std::string>(NULL), 0);
+		// testOutput("Key", *enableMode, std::vector<std::string>(NULL), 0);
 		_channels[chId].setChannelKey("");
+		std::string strToSend = _clients[i].getPrefix() + " MODE " + _channels[chId].getName() + " -k";
+		sendToClient(i, strToSend);
 		*enableMode = true;
 		return ;
 	}
 	if (*argsIdx >= args.size())
 		return (sendToClient(i, ERR_NEEDMOREPARAMS(_clients[i].getNick(), "MODE")));
 	//todo testing
-	testOutput("Key", enableMode, args, *argsIdx);
+	// testOutput("Key", enableMode, args, *argsIdx);
 	_channels[chId].setChannelKey(args[*argsIdx]);
+	std::string strToSend = _clients[i].getPrefix() + " MODE " + _channels[chId].getName() + " +k " + args[*argsIdx];
+	sendToClient(i, strToSend);
 	*argsIdx++;
 }
 
 void	Server::modeOp(int i, int chId, std::vector<std::string> args, bool *enableMode, int *argsIdx)
 {
 	//todo testing
-	testOutput("Operator", enableMode, args, *argsIdx);
+	// testOutput("Operator", enableMode, args, *argsIdx);
 	if (*argsIdx >= args.size())
 		return (sendToClient(i, ERR_NEEDMOREPARAMS(_clients[i].getNick(), "MODE")));
 
@@ -78,6 +82,10 @@ void	Server::modeOp(int i, int chId, std::vector<std::string> args, bool *enable
 		return (sendToClient(i, "you cannot op yourself"));//maybe remove
 	
 	_channels[chId].setOp(toOpId, *enableMode);
+
+	std::string strToSend = _clients[i].getPrefix() + " MODE " + _channels[chId].getName() + " " + (*enableMode ? '+' : '-') + "o " + args[*argsIdx];
+	sendToClient(i, strToSend);
+	
 
 	if (!*enableMode)
 		*enableMode = true;
@@ -97,13 +105,19 @@ void	Server::modeLim(int i, int chId, std::vector<std::string> args, bool *enabl
 		limit = atoi(args[*argsIdx].c_str());
 	
 	_channels[chId].setLimit(limit);
+
+	std::string strToSend = _clients[i].getPrefix() + " MODE " + _channels[chId].getName() + " " + (*enableMode ? '+' : '-') + "l " + args[*argsIdx];
+	sendToClient(i, strToSend);
+
+
 	if (limit == 0) {//todo || !enableMode
-		testOutput("Limit", *enableMode, std::vector<std::string>(NULL), 0);
+		//todo testing
+		// testOutput("Limit", *enableMode, std::vector<std::string>(NULL), 0);
 		*enableMode = true;
 	}
 	else {
 		//todo testing
-		testOutput("Limit", enableMode, args, *argsIdx);
+		// testOutput("Limit", enableMode, args, *argsIdx);
 	}
 	*argsIdx++;
 }
@@ -123,7 +137,7 @@ void	Server::commandMode(int i, std::string line)
 		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), args[0])));
 	if (args.size() < 2)
 		return (sendToClient(i, RPL_CHANNELMODEIS(_clients[i].getNick(), args[0])));
-	if (_channels[chId].isOp(i))
+	if (!_channels[chId].isOp(i))
 		return (sendToClient(i, ERR_NOPRIVILEGES(_clients[i].getNick())));
 	
 	size_t j = 0;
@@ -156,7 +170,7 @@ void	Server::commandMode(int i, std::string line)
 				enableMode = false;
 				break ;
 			default:
-				sendToClient(i, ERR_UMODEWUNKNOWNFLAG);//todo FIX OUTPUT to also have flag
+				sendToClient(i, ERR_UMODEWUNKNOWNFLAG(args[1][j]));//todo FIX OUTPUT to also have flag
 				break;
 		}
 	}

@@ -34,9 +34,9 @@ void	Server::commandTopic(int i, std::string args)
 		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), chName)));
 	if (newTopic.empty()) {
 		if (_channels[chId].getTopic().empty() || _channels[chId].getTopic() == ":")
-			return (sendToClient(i, RPL_NOTOPIC(_name, _clients[i].getNick(), chName)));
-		sendToClient(i, RPL_TOPIC(_name, _clients[i].getNick(), chName, _channels[chId].getTopic()));
-		sendToClient(i, RPL_TOPICWHOTIME(_name, _clients[i].getPrefix(), chName, _channels[chId].getTopicAuthor(), _channels[chId].getTopicTimeSet()));
+			return (sendToClient(i, RPL_NOTOPIC(_clients[i].getNick(), chName)));
+		sendToClient(i, RPL_TOPIC( _clients[i].getNick(), chName, _channels[chId].getTopic()));
+		sendToClient(i, RPL_TOPICWHOTIME(_clients[i].getPrefix(), chName, _channels[chId].getTopicAuthor(), _channels[chId].getTopicTimeSet()));
 		return ;
 	}
 	if (_channels[chId].isTopicRestricted() && !_channels[chId].isOp(i))

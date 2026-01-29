@@ -71,7 +71,7 @@ void	Server::commandJoin(int i, std::string args)
 	//replace for RPL_JOIN
 	std::string strToSend = _clients[i].getPrefix() + " JOIN " + chName;
 	channelBroadcast(chId, strToSend);
-	sendToClient(i, RPL_TOPIC(_name, _clients[i].getNick(), chName, _channels[chId].getTopic()));
+	sendToClient(i, RPL_TOPIC(_clients[i].getPrefix(), chName, _channels[chId].getTopic()));
 
 
 
