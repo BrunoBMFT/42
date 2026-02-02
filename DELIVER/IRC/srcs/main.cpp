@@ -2,16 +2,6 @@
 
 Server *srv = NULL;
 
-/**
- * @brief Handles termination signals for graceful server shutdown.
- * 
- * Deletes the global server instance and exits the program on most signals,
- * but ignores SIGPIPE and SIGSEGV.
- * 
- * @param signum The signal number received.
- * 
- * @note Frees server resources before exiting, except for SIGPIPE and SIGSEGV.
- */
 void signalHandler(int signum)
 {
 	if (signum == SIGPIPE || signum == SIGSEGV)

@@ -7,7 +7,7 @@ void	Server::commandPass(int i, std::string line)
 	if (line.compare(_pass))
 		return (sendToClient(i, ERR_PASSWDMISMATCH(_clients[i].getNick())));
 	_clients[i].setAuthenticated(true);
-	serverLog(_clients[i].getNick(), "has authenticated");
+	// serverLog(_clients[i].getNick(), "has authenticated");
 }
 
 bool	Server::isValidUser(int i, std::string args)
@@ -49,8 +49,8 @@ void	Server::commandUser(int i, std::string args)
 	_clients[i].setRealname(real);
 	_clients[i].setUsername(user);
 		
-	std::cout << _clients[i].getNick() << " set their username to: ";
-	std::cout << _clients[i].getUsername() << " || " << _clients[i].getRealname() << std::endl;
+	// std::cout << _clients[i].getNick() << " set their username to: ";
+	// std::cout << _clients[i].getUsername() << " || " << _clients[i].getRealname() << std::endl;
 	checkRegistration(i);
 }
 
@@ -84,8 +84,9 @@ void	Server::commandNick(int i, std::string args)
 	
 	_clients[i].setNick(args);
 
+	//CHANGE THIS TO A RPLY
 	if (_clients[i].isRegistered())
-		serverBroadcast(_clients[i].getPrefix() + " NICK " + args);
+		serverBroadcast(":" + oldNick + " NICK " + args);
 	checkRegistration(i);
 	_clients[i].setPrefix();
 }
@@ -95,12 +96,12 @@ void	Server::commandNick(int i, std::string args)
 void	Server::welcomeClient(int i)
 {
 	sendToClient(i, "CAP * LS");
-	// sendToClient(i, RPL_WELCOME(_clients[i].getNick(), _name));
-	// sendToClient(i, RPL_YOURHOST);
-	// sendToClient(i, RPL_MYINFO(_clients[i].getNick()));
-	// sendToClient(i, RPL_MOTDSTART(_clients[i].getNick(), _name));
-	// sendToClient(i, RPL_MOTD(_clients[i].getNick(), _motd));
-	// sendToClient(i, RPL_ENDOFMOTD(_clients[i].getNick()));
+	sendToClient(i, RPL_WELCOME(_clients[i].getNick(), _name));
+	sendToClient(i, RPL_YOURHOST);
+	sendToClient(i, RPL_MYINFO(_clients[i].getNick()));
+	sendToClient(i, RPL_MOTDSTART(_clients[i].getNick(), _name));
+	sendToClient(i, RPL_MOTD(_clients[i].getNick(), _motd));
+	sendToClient(i, RPL_ENDOFMOTD(_clients[i].getNick()));
 }
 
 

@@ -33,8 +33,17 @@ void	Server::commandPrivmsg(int i, std::string args)
 	setPrivmsg(args, &chName, &message);
 
 	int chId = getChannelId(chName);
+	/*
+		if (chId == -1) {
+			chId = getClientId(targetName) (targetName is chName)
+			if (chId == -1)
+				return DOES NOT EXIST
+			sendtoClient(message)
+			return 
+		}
+	*/
 	if (!isUserInChannel(i, chId))
 		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), chName)));
-		
+	
 	clientBroadcast(i, chId, PRIVMSG(_clients[i].getNick(), chName, message));
 }

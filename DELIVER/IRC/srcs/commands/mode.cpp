@@ -44,13 +44,11 @@ void	Server::modeOp(int i, int chId, std::vector<std::string> args, bool *enable
 {
 	if (*argsIdx >= args.size())
 		return (sendToClient(i, ERR_NEEDMOREPARAMS(_clients[i].getNick(), "MODE")));
-
 	int toOpId = getClientId(args[*argsIdx]);
 	if (toOpId == -1)
 		return (sendToClient(i, ERR_NOSUCHNICK(_clients[i].getNick(), args[*argsIdx])));
 	if (!isUserInChannel(toOpId, chId))
 		return (sendToClient(i, ERR_USERNOTINCHANNEL(_clients[i].getNick(), args[*argsIdx], _channels[chId].getName())));
-		
 	_channels[chId].setOp(toOpId, *enableMode);
 	channelBroadcast(chId, MODE2(_clients[i].getNick(), _channels[chId].getName(), (*enableMode ? '+' : '-') + 'o', args[*argsIdx]));
 	if (!*enableMode)

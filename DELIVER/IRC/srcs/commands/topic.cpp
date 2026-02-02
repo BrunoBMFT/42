@@ -14,7 +14,7 @@ void	setTopicArgs(std::string line, std::string *chName, std::string *newTopic)
 	size_t pos = line.find(' ');
 	*chName = line.substr(0, pos);
 	if (pos != std::string::npos) {
-		std::string rest = line.substr(pos + 1);
+		std::string rest = line.substr(pos + 2);
 		*newTopic = rest;
 	}
 	else
@@ -48,5 +48,5 @@ void	Server::commandTopic(int i, std::string args)
 	_channels[chId].setTopicAuthor(_clients[i].getPrefix());
 	// channelBroadcast(chId, RPL_TOPIC(_clients[i].getNick(), chName, newTopic));
 	//CHANGE THIS TO A RPLY
-	channelBroadcast(chId, _clients[i].getPrefix() + " TOPIC " + chName + " :" + newTopic);
+	channelBroadcast(chId, ":" + _clients[i].getNick() + " TOPIC " + chName + " :" + newTopic);
 }
