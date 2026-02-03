@@ -140,7 +140,10 @@ void	Channel::addClient(int id) {
 }
 void	Channel::removeClient(int id) {
 	_clientsInChannel.erase(find(_clientsInChannel.begin(), _clientsInChannel.end(), id));
-	// ! THIS BREAKS IF THESE VECTORS BELOW ARE EMPTY
-	_invited.erase(find(_invited.begin(), _invited.end(), id));
-	_ops.erase(find(_ops.begin(), _ops.end(), id));
+	std::vector<int>::iterator pos = find(_invited.begin(), _invited.end(), id);
+	if (pos != _invited.end())
+		_invited.erase(pos);
+	pos = find(_ops.begin(), _ops.end(), id);
+	if (pos != _ops.end())
+		_ops.erase(pos);
 }

@@ -43,11 +43,9 @@
 #define JOIN(client, channel) (":" + client + " JOIN " + channel)
 #define PART(client, channel) (":" + client + " PART " + channel)
 #define INVITE(client, invited, channel) (":" + client + " INVITE " + invited + " " + channel)
-#define KICK(client, kicked, channel) (":" + client + " KICK " + kicked + " " + channel)
+#define KICK(client, channel, kicked) (":" + client + " KICK " + channel + " " + kicked)
 #define PRIVMSG(client, channel, message) (":" + client + " PRIVMSG " + channel + " " + message)
 #define MODE1(client, channel, flag) (":" + client + " MODE " + channel + " " + flag)
 #define MODE2(client, channel, flag, args) (":" + client + " MODE " + channel + " " + flag + " " + args)
-
-
 
 #endif

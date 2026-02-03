@@ -27,8 +27,8 @@ void	Server::commandKick(int i, std::string args)
 	if (toKickId == -1)
 		return (sendToClient(i, ERR_NOSUCHNICK(_clients[i].getNick(), toKickName)));
 	if (!isUserInChannel(toKickId, chId))
-		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[toKickId].getNick(), chName)));
+		return (sendToClient(i, ERR_USERNOTINCHANNEL(_clients[i].getNick(), _clients[toKickId].getNick(), chName)));
 	
-	channelBroadcast(chId, KICK(_clients[i].getNick(), toKickName, chName));
+	channelBroadcast(chId, KICK(_clients[i].getNick(), chName, toKickName));
 	leaveChannel(toKickId, chId);
 }
