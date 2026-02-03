@@ -1,6 +1,6 @@
 #include "Client.hpp"
 
-//*Constructors
+//*CONSTRUCTORS
 Client::Client() {
 	_id = -1;
 }

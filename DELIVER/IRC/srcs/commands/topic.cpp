@@ -46,7 +46,5 @@ void	Server::commandTopic(int i, std::string args)
 	_channels[chId].setTopic(newTopic);
 	_channels[chId].setTopicTimeSet();
 	_channels[chId].setTopicAuthor(_clients[i].getPrefix());
-	// channelBroadcast(chId, RPL_TOPIC(_clients[i].getNick(), chName, newTopic));
-	//CHANGE THIS TO A RPLY
-	channelBroadcast(chId, ":" + _clients[i].getNick() + " TOPIC " + chName + " :" + newTopic);
+	channelBroadcast(chId, TOPIC(_clients[i].getNick(), chName, newTopic));
 }

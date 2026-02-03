@@ -37,9 +37,7 @@
 #define ERR_CHANOPRIVSNEEDED(client, channel) (":" + SERVERNAME + " 482 " + client + " " + channel + " :You're not channel operator")
 #define ERR_UMODEWUNKNOWNFLAG(flag) (":" + SERVERNAME + " 501 :Unknown MODE flag: " + flag)
 
-#define ERR_NOTAUTH "Not authenticated FIX LATER"
-
-//reorder
+#define NICK(oldNick, newNick) (":" + oldNick + " NICK " + newNick)
 #define JOIN(client, channel) (":" + client + " JOIN " + channel)
 #define PART(client, channel) (":" + client + " PART " + channel)
 #define INVITE(client, invited, channel) (":" + client + " INVITE " + invited + " " + channel)
@@ -47,5 +45,6 @@
 #define PRIVMSG(client, channel, message) (":" + client + " PRIVMSG " + channel + " " + message)
 #define MODE1(client, channel, flag) (":" + client + " MODE " + channel + " " + flag)
 #define MODE2(client, channel, flag, args) (":" + client + " MODE " + channel + " " + flag + " " + args)
+#define TOPIC(client, channel, topic) (":" + client + " TOPIC " + channel + " :" + topic)
 
 #endif
