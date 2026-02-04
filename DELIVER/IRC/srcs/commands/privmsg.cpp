@@ -13,10 +13,10 @@ bool	Server::isValidPrivmsg(int i, std::string args)
 	return (true);
 }
 
-void	setPrivmsg(std::string args, std::string *channel, std::string *message)
+void	setPrivmsg(std::string args, std::string *target, std::string *message)
 {
 	size_t pos = args.find(' ');
-	*channel = args.substr(0, pos);
+	*target = args.substr(0, pos);
 	std::string rest = args.substr(pos + 1);
 	if (rest[0] == ':')
 		*message = rest.substr(1);
@@ -24,26 +24,30 @@ void	setPrivmsg(std::string args, std::string *channel, std::string *message)
 		*message = rest.substr(0, rest.find(' '));
 }
 
+void	Server::privmsgChannel(int i, std::string chName, std::string message) {
+	int chId = getChannelId(chName);
+	if (!isUserInChannel(i, chId))
+		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), chName)));
+	clientBroadcast(i, chId, PRIVMSG(_clients[i].getNick(), chName, message));
+}
+
+void	Server::privmsgUser(int i, std::string clientName, std::string message) {
+	int clientId = getClientId(clientName);
+	if (clientId == -1)
+		return (sendToClient(i, ERR_NOSUCHNICK(_clients[i].getNick(), clientName)));
+	sendToClient(clientId, PRIVMSG(_clients[i].getNick(), clientName, message));
+}
+
 void	Server::commandPrivmsg(int i, std::string args)
 {
 	if (!isValidPrivmsg(i, args))
 		return ;
 	
-	std::string chName, message;
-	setPrivmsg(args, &chName, &message);
+	std::string targetName, message;
+	setPrivmsg(args, &targetName, &message);
 
-	int chId = getChannelId(chName);
-	/*
-		if (chId == -1) {
-			chId = getClientId(targetName) (targetName is chName)
-			if (chId == -1)
-				return DOES NOT EXIST
-			sendtoClient(message)
-			return 
-		}
-	*/
-	if (!isUserInChannel(i, chId))
-		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), chName)));
-	
-	clientBroadcast(i, chId, PRIVMSG(_clients[i].getNick(), chName, message));
+	if (targetName[0] == '#')
+		privmsgChannel(i, targetName, message);
+	else
+		privmsgUser(i, targetName, message);
 }

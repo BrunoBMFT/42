@@ -23,6 +23,15 @@ Server& Server::operator=(const Server& other) {
 	return (*this);
 }
 
+Server::~Server()
+{
+	serverLog("Server", "closing");
+	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++) {
+		close(it->second.getSocket());
+	}
+	close(_socket);
+}
+
 Server::Server(char *port, char *pass)
 {
 	_name = SERVERNAME;
@@ -49,16 +58,6 @@ Server::Server(char *port, char *pass)
 	_srvPfd.revents = 0;
 
 	_motd = "it is wednesday my dudes";
-}
-
-
-Server::~Server()
-{
-	serverLog("Server", "closing");
-	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++) {
-		close(it->second.getSocket());
-	}
-	close(_socket);
 }
 
 int		Server::acceptClient()

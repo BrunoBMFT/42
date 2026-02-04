@@ -51,12 +51,14 @@ class Server
 		void	commandPart(int, std::string);
 		bool	isValidPart(int, std::string);
 		void	commandKick(int, std::string);
-		bool	isValidKick(int, std::string);
+		bool	isValidKick(int, std::string);//remove all IsValids
 		void	commandQuit(int, std::string);
 		void	leaveChannel(int, int);
 		
 		void	commandPrivmsg(int, std::string);
 		bool	isValidPrivmsg(int, std::string);
+		void	privmsgChannel(int, std::string, std::string);
+		void	privmsgUser(int, std::string, std::string);
 		
 		void	commandMode(int, std::string);
 		bool	isValidMode(int, std::string);
