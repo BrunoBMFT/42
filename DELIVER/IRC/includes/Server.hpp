@@ -38,7 +38,6 @@ class Server
 		void	commandPass(int, std::string);
 		void	commandNick(int, std::string);
 		bool	isValidNick(int, std::string);
-		bool	isNickInUse(std::string);
 		void	commandUser(int, std::string);
 		bool	isValidUser(int, std::string);
 		void	checkRegistration(int);
@@ -51,7 +50,6 @@ class Server
 		void	commandPart(int, std::string);
 		bool	isValidPart(int, std::string);
 		void	commandKick(int, std::string);
-		bool	isValidKick(int, std::string);//remove all IsValids
 		void	commandQuit(int, std::string);
 		void	leaveChannel(int, int);
 		
@@ -69,7 +67,6 @@ class Server
 		void	modeLim(int, int, std::vector<std::string>, bool *, int *);
 		
 		void	commandInvite(int, std::string);
-		bool	isValidInvite(int, std::string);
 
 		void	commandTopic(int, std::string);
 		bool	isValidTopic(int, std::string);

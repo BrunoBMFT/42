@@ -8,9 +8,8 @@ void	Server::sendToClient(int i, std::string str) {
 
 void	Server::serverBroadcast(std::string str)
 {
-	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++)	{
+	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++)
 		sendToClient(it->first, str);
-	}
 }
 
 void	Server::channelBroadcast(int chId, std::string str)

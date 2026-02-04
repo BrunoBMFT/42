@@ -21,7 +21,6 @@ void	setTopicArgs(std::string line, std::string *chName, std::string *newTopic)
 		*newTopic = "";
 }
 
-//erase topic needs to be checked
 void	Server::commandTopic(int i, std::string args)
 {
 	if (!isValidTopic(i, args))

@@ -37,7 +37,6 @@ Server::Server(char *port, char *pass)
 	_name = SERVERNAME;
 	_port = atoi(port);
 	_pass = pass;
-
 	_socket = mySocket(AF_INET, SOCK_STREAM, 0);
 
 	int opt = 1;
@@ -48,16 +47,13 @@ Server::Server(char *port, char *pass)
 	inet_pton(AF_INET, "0.0.0.0", &server_addr.sin_addr);
 
 	myBind(_socket, (sockaddr*)&server_addr, sizeof(server_addr));
-
 	myListen(_socket, SOMAXCONN);
-
-	std::cout << GREEN("Server open in port: ") << _port << std::endl;
 
 	_srvPfd.fd = _socket;
 	_srvPfd.events = POLLIN;
 	_srvPfd.revents = 0;
-
 	_motd = "it is wednesday my dudes";
+	std::cout << GREEN("Server open in port: ") << _port << std::endl;
 }
 
 int		Server::acceptClient()
