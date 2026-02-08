@@ -20,7 +20,9 @@ class Channel
 		std::vector<int>	_clientsInChannel;
 		std::vector<int>	_ops;
 		std::vector<int>	_invited;
+	
 	public:
+		//*CONSTRUCTORS
 		Channel(std::string name);
 		Channel();
 		Channel(const Channel& other);

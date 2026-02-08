@@ -59,6 +59,8 @@ bool	Server::isValidNick(int i,std::string args)
 		return (sendToClient(i, ERR_NONICKNAMEGIVEN()), false);
 	if (args.find(' ') != std::string::npos || args[0] == ':' || args[0] == '#' || args.compare(0, 2, "#&") == 0 || args.compare(0, 2, "&#") == 0)
 		return (sendToClient(i, ERR_ERRONEUSNICKNAME(_clients[i].getNick(), args)), false);
+	std::string lowerNick = args;
+	std::transform(lowerNick.begin(), lowerNick.end(), lowerNick.begin(), ::tolower);
 	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++)	{
 		if (_clients[it->first].getNick() == args)
 			return (sendToClient(i, ERR_NICKNAMEINUSE(_clients[i].getNick(), args)), false);
@@ -73,7 +75,7 @@ void	Server::commandNick(int i, std::string args)
 	std::string oldNick = _clients[i].getNick();
 	_clients[i].setNick(args);
 	if (_clients[i].isRegistered())
-		serverBroadcast(NICK(oldNick, args));
+		serverBroadcast(NICK(oldNick, _clients[i].getNick()));
 	checkRegistration(i);
 	_clients[i].setPrefix();
 }
@@ -83,9 +85,9 @@ void	Server::welcomeClient(int i)
 {
 	sendToClient(i, "CAP * LS");
 	sendToClient(i, RPL_WELCOME(_clients[i].getNick(), _name));
+	sendToClient(i, RPL_YOURHOST);
 	//uncomment for full welcome
 	/*
-	sendToClient(i, RPL_YOURHOST);
 	sendToClient(i, RPL_MYINFO(_clients[i].getNick()));
 	sendToClient(i, RPL_MOTDSTART(_clients[i].getNick(), _name));
 	sendToClient(i, RPL_MOTD(_clients[i].getNick(), _motd));

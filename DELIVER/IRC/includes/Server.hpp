@@ -65,21 +65,21 @@ class Server
 		void	modeKey(int, int, std::vector<std::string>, bool *, int *);
 		void	modeOp(int, int, std::vector<std::string>, bool *, int *);
 		void	modeLim(int, int, std::vector<std::string>, bool *, int *);
-		
+	
 		void	commandInvite(int, std::string);
-
+		
 		void	commandTopic(int, std::string);
 		bool	isValidTopic(int, std::string);
 
 
-
-		int			getClientId(std::string name);
-		int			getChannelId(std::string name);
-		bool		isUserInChannel(int i, int chId);
+		int		getClientId(std::string name);
+		int		getChannelId(std::string name);
+		bool	isUserInChannel(int i, int chId);
 
 		void	test();
 
 	public:
+		//*CONSTRUCTORS
 		Server();
 		Server(char *port, char *pass);
 		Server(const Server& other);

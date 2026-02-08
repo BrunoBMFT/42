@@ -17,6 +17,7 @@ void	setJoin(std::string args, std::string *chName, std::string *key)
 	*chName = args.substr(0, pos);
 	if (pos != std::string::npos)
 		*key = args.substr(pos + 1);
+	std::transform((*chName).begin(), (*chName).end(), (*chName).begin(), ::tolower);
 }
 
 bool ischNameValid(std::string chName)

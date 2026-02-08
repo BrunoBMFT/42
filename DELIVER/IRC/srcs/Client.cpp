@@ -73,9 +73,6 @@ std::string	Client::getRealname() {
 std::string	Client::getPrefix() {
 	return (_prefix);
 }
-std::string	Client::getHost() {
-	return (_host);
-}
 std::map<int, std::string>	&Client::getChannels() {
 	return (_chans);
 }
@@ -94,6 +91,7 @@ void	Client::setUsername(std::string username) {
 	_username = username;
 }
 void	Client::setNick(std::string nick) {
+	std::transform(nick.begin(), nick.end(), nick.begin(), ::tolower);
 	_nick = nick;
 }
 void	Client::setRealname(std::string realname) {

@@ -5,6 +5,8 @@ void	setKick(std::string line, std::string *chName, std::string *toKickName)
 	int pos = line.find(' ');
 	*chName = line.substr(0, pos);
 	*toKickName = line.substr(pos + 1);
+	std::transform((*chName).begin(), (*chName).end(), (*chName).begin(), ::tolower);
+	std::transform((*toKickName).begin(), (*toKickName).end(), (*toKickName).begin(), ::tolower);
 }
 
 void	Server::commandKick(int i, std::string args)

@@ -22,6 +22,7 @@ void	setPrivmsg(std::string args, std::string *target, std::string *message)
 		*message = rest.substr(1);
 	else
 		*message = rest.substr(0, rest.find(' '));
+	std::transform((*target).begin(), (*target).end(), (*target).begin(), ::tolower);
 }
 
 void	Server::privmsgChannel(int i, std::string chName, std::string message) {

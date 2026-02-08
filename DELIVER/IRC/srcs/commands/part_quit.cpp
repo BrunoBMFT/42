@@ -25,6 +25,7 @@ void	setPart(std::string args, std::string *chName, std::string *reason)
 	size_t pos = args.find(' ');
 	*chName = args.substr(0, pos);
 	*reason = args.substr(pos + 1);
+	std::transform((*chName).begin(), (*chName).end(), (*chName).begin(), ::tolower);
 }
 
 void	Server::commandPart(int i, std::string args)
@@ -33,10 +34,10 @@ void	Server::commandPart(int i, std::string args)
 		return ;
 	std::string chName, reason;
 	setPart(args, &chName, &reason);
+	
 	int chId = getChannelId(chName);
 	if (!isUserInChannel(i, chId))
 		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), chName)));
-
 	channelBroadcast(chId, PART(_clients[i].getNick(), chName));
 	leaveChannel(i, chId);
 }

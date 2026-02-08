@@ -44,6 +44,7 @@ void	Server::modeOp(int i, int chId, std::vector<std::string> args, bool *enable
 {
 	if (*argsIdx >= args.size())
 		return (sendToClient(i, ERR_NEEDMOREPARAMS(_clients[i].getNick(), "MODE")));
+	std::transform(args[*argsIdx].begin(), args[*argsIdx].end(), args[*argsIdx].begin(), ::tolower);
 	int toOpId = getClientId(args[*argsIdx]);
 	if (toOpId == -1)
 		return (sendToClient(i, ERR_NOSUCHNICK(_clients[i].getNick(), args[*argsIdx])));
@@ -79,6 +80,7 @@ void	Server::commandMode(int i, std::string line)
 		return ;
 	
 	std::vector<std::string> args = getArgs(line);
+	std::transform(args[0].begin(), args[0].end(), args[0].begin(), ::tolower);
 	int chId = getChannelId(args[0]);
 	if (!isUserInChannel(i, chId))
 		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), args[0])));

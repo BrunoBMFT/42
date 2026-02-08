@@ -5,6 +5,8 @@ void	setInvite(std::string line, std::string *invitedName, std::string *chName)
 	int pos = line.find(' ');
 	*invitedName = line.substr(0, pos);
 	*chName = line.substr(pos + 1);
+	std::transform((*chName).begin(), (*chName).end(), (*chName).begin(), ::tolower);
+	std::transform((*invitedName).begin(), (*invitedName).end(), (*invitedName).begin(), ::tolower);
 }
 
 void	Server::commandInvite(int i, std::string args)

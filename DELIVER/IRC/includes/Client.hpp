@@ -18,10 +18,10 @@ class Client
 		std::string	_realname;
 		std::string	_host;
 		std::string	_prefix;
-
 		std::map<int, std::string> _chans;
 		
 	public:
+		//*CONSTRUCTORS
 		Client();
 		Client(int srvSocket);
 		Client(const Client& other);
@@ -34,7 +34,6 @@ class Client
 		bool		isAuthenticated();
 		bool		isRegistered();
 		std::string	getPrefix();
-		std::string	getHost();
 		std::string	getUsername();
 		std::string	getNick();
 		std::string	getRealname();

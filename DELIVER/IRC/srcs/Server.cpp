@@ -72,36 +72,41 @@ int		Server::acceptClient()
 	return (tempSocket);
 }
 
-//todo skip all whitespaces
-//can use istringstream to skip
-std::string parseLine(std::string line)
+void	setCommand(std::string line, std::string *command, std::string *args)
 {
-	size_t pos = line.find(' ');
-	if (pos == std::string::npos)
-		return ("");
-	std::string arguments = line.substr(pos + 1);
-	return (arguments);
+	std::istringstream iss(line);
+	std::string temp;
+	int i = 0;
+	while (iss >> temp) {
+		if (i == 0)
+			*command = temp;
+		else
+			*args += temp + ' ';
+		i++;
+	}	
+	*args = (*args).substr(0, (*args).length() - 1);
+	std::transform((*command).begin(), (*command).end(), (*command).begin(), ::toupper);
+	std::cout << "command input [" + *command + "], arguments: [" + *args + "]\n";
 }
 
 void	Server::processCommand(int i, std::string line)
 {
 	std::cout << RED("--------------------------------------------------------------------------------\n");
 	std::cout << _clients[i].getNick() << " said: [" + line + "]\n";
-	if (line.compare(0, 6, "CAP LS") == 0)
+	if (line.compare(0, 6, "CAP LS") == 0)//what to do
 		return ;
-	else if (line.compare(0, 3, "WHO") == 0)
+	else if (line.compare(0, 3, "WHO") == 0)//what to do
 		return ;
-	else if (line.compare(0, 4, "exit") == 0)
-		throw (0);
 
 	typedef void (Server::*funcs)(int, std::string);
 	std::string commands[] = {"QUIT", "PASS", "USER", "NICK", "JOIN",  "PART", "PRIVMSG", "KICK", "MODE", "TOPIC", "INVITE" };
 	funcs function[] = {&Server::commandQuit, &Server::commandPass, &Server::commandUser, &Server::commandNick, &Server::commandJoin,  &Server::commandPart ,
 		&Server::commandPrivmsg, &Server::commandKick, &Server::commandMode, &Server::commandTopic, &Server::commandInvite};
-	std::string temp = line.substr(0, line.find(' '));
-	std::string args = parseLine(line);
+
+	std::string userCommand, args;
+	setCommand(line, &userCommand, &args);
 	for (int j = 0; j < 11; j++) {
-		if (commands[j] == temp) {
+		if (commands[j] == userCommand) {
 			(this->*function[j])(i, args);
 			return ;
 		}
@@ -111,29 +116,24 @@ void	Server::processCommand(int i, std::string line)
 
 bool	Server::handleClientPoll(int i)
 {
+	static std::map<int, std::string> partBuf;
 	char		buf[512];
-	std::string	recv_buffer;
-
-	memset(buf, 0, sizeof(buf));
 	int bytesRecv = myRecv(i, buf, sizeof(buf), 0);
 	if (bytesRecv == 0) {
 		commandQuit(i, "");
 		return (false);
 	}
-	buf[bytesRecv] = 0;
-	recv_buffer += buf;
+	buf[bytesRecv] = '\0';
+	partBuf[i] += buf;
 
 	size_t pos;
-	while ((pos = recv_buffer.find("\r\n")) != std::string::npos) {
-		std::string line = recv_buffer.substr(0, pos);
-		recv_buffer.erase(0, pos + 2);
-
-		if (!line.empty())
-			processCommand(i, line);
+	while ((pos = partBuf[i].find("\r\n")) != std::string::npos) {
+		std::string line = partBuf[i].substr(0, pos);
+		partBuf[i].erase(0, pos + 2);
+		processCommand(i, line);
 	}
 	return (true);
 }
-
 
 void	Server::test()
 {

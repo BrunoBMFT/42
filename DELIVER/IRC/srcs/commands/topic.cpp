@@ -19,6 +19,7 @@ void	setTopicArgs(std::string line, std::string *chName, std::string *newTopic)
 	}
 	else
 		*newTopic = "";
+	std::transform((*chName).begin(), (*chName).end(), (*chName).begin(), ::tolower);
 }
 
 void	Server::commandTopic(int i, std::string args)
