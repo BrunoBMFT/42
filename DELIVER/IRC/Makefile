@@ -16,11 +16,16 @@ SRCS = main.cpp Server.cpp Client.cpp Channel.cpp\
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
 CXX = c++
-CXXFLAGS = -std=c++98 -g #-Wall -Wextra -Werror 
+CXXFLAGS = -std=c++98 -g -Wall -Wextra -Werror 
 INCLUDES = -I includes
 RM = rm -f
 
 all: $(NAME)
+
+debug:
+	@echo "$(NAME) compiling, debugging mode..."
+	@$(CXX) $(CXXFLAGS) -D DEBUG=1 -o $(NAME) $(OBJS) $(INCLUDES)
+	@echo "$(NAME) ready for debugging"
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
 	@mkdir -p $(dir $@)

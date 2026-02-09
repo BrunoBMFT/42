@@ -31,7 +31,7 @@ bool	Server::isValidUser(int i, std::string args)
 	}
 	if (params.size() >= 4 && params[1][0] == '0' && params[2][0] == '*')	
 		return (true);
-	sendToClient(i, "WHAT SHOULD I PUT HERE");
+	sendToClient(i, ERR_INVUSERNAME(_clients[i].getNick()));
 	return (false);
 }
 

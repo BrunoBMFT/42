@@ -43,4 +43,6 @@
 #define NICK(oldNick, newNick) (":" + oldNick + " NICK " + newNick)
 #define TOPIC(client, channel, topic) (":" + client + " TOPIC " + channel + " :" + topic)
 
+#define ERR_INVUSERNAME(client) (":" + SERVERNAME + " " + client + " :Invalid Username ")
+
 #endif
