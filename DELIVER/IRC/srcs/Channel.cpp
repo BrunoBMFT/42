@@ -50,6 +50,12 @@ size_t			Channel::getLimit() {
 std::string		Channel::getTopic() {
 	return (_topic);
 }
+std::string		Channel::getTopicTimeSet() {
+	return (_topicTimeSet);
+}
+std::string		Channel::getTopicAuthor() {
+	return (_topicAuthor);
+}
 bool			Channel::isInviteOnly() {
 	return (_isInviteOnly);
 }
@@ -59,12 +65,7 @@ bool 			Channel::isTopicRestricted() {
 std::vector<int>&Channel::getClientsInChannel() {
 	return (_clientsInChannel);
 }
-std::string		Channel::getTopicTimeSet() {
-	return (_topicTimeSet);
-}
-std::string		Channel::getTopicAuthor() {
-	return (_topicAuthor);
-}
+
 
 //*SETTERS
 void	Channel::setId(int id) {
@@ -82,12 +83,6 @@ void	Channel::setLimit(int limit) {
 void	Channel::setTopic(std::string topic) {
 	_topic = topic;
 }
-void	Channel::setInviteMode(bool value) {
-	_isInviteOnly = value;
-}
-void	Channel::setTopicRestriction(bool value) {
-	_isTopicRestricted = value;
-}
 void	Channel::setTopicTimeSet() {
 	time_t timestamp = time(&timestamp);
 	std::stringstream ss;
@@ -99,6 +94,13 @@ void	Channel::setTopicTimeSet() {
 void	Channel::setTopicAuthor(std::string setter) {
 	_topicAuthor = setter;
 }
+void	Channel::setInviteMode(bool value) {
+	_isInviteOnly = value;
+}
+void	Channel::setTopicRestriction(bool value) {
+	_isTopicRestricted = value;
+}
+
 
 //*OTHERS
 bool	Channel::isOp(int id) {

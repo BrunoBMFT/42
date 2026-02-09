@@ -23,13 +23,11 @@ Server& Server::operator=(const Server& other) {
 	}
 	return (*this);
 }
-
 Server::~Server()
 {
 	serverLog("Server", "closing");
-	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++) {
+	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++)
 		close(it->second.getSocket());
-	}
 	close(_socket);
 }
 
@@ -136,14 +134,12 @@ bool	Server::handleClientPoll(int i)
 	return (true);
 }
 
-
 void	Server::srvRun()
 {
 	while (1)
 	{
 		setPfds();
 		myPoll(_pfds.data(), _pfds.size(), -1);
-		
 		if (_pfds[0].revents & POLLIN)
 		{
 			int temp = acceptClient();

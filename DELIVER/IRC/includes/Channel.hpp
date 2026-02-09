@@ -33,23 +33,23 @@ class Channel
 		std::string		getName();
 		std::string		getChannelKey();
 		std::string		getTopic();
+		std::string		getTopicTimeSet();
+		std::string		getTopicAuthor();
 		bool			isInviteOnly();
 		bool 			isTopicRestricted();
 		size_t			getLimit();
 		std::vector<int> &getClientsInChannel();
-		std::string		getTopicTimeSet();
-		std::string		getTopicAuthor();
 		
 		//*SETTERS
 		void	setId(int);
 		void	setName(std::string);
 		void	setChannelKey(std::string);
 		void	setTopic(std::string);
+		void	setTopicTimeSet();
+		void	setTopicAuthor(std::string);
 		void	setInviteMode(bool);
 		void	setTopicRestriction(bool);
 		void	setLimit(int);
-		void	setTopicTimeSet();
-		void	setTopicAuthor(std::string);
 		
 		//*OTHERS
 		bool	isOp(int);

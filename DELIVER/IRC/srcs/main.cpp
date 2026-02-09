@@ -27,7 +27,6 @@ int		main(int ac, char **av)
 	}
 	if (srv)
 		delete (srv);
-	
 
 	return (0);
 }

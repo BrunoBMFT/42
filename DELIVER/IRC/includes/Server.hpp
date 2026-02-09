@@ -23,10 +23,10 @@ class Server
 		std::map<int, Client> 	_clients;
 		std::vector<Channel>	_channels;
 
-		int				acceptClient();
-		void			setPfds();
-		bool			handleClientPoll(int i);
-		void			processCommand(int i, std::string line);
+		int		acceptClient();
+		void	setPfds();
+		bool	handleClientPoll(int i);
+		void	processCommand(int i, std::string line);
 		
 		
 		void	serverBroadcast(std::string str);
