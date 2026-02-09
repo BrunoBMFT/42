@@ -4,7 +4,6 @@
 #define RPL_WELCOME(nick, network) (":" + SERVERNAME + " 001 " + nick + " :Welcome to "+ network + ", " + nick)
 #define RPL_YOURHOST (":" + SERVERNAME + " 002 :Your host is " + SERVERNAME + ", running version 1.0")
 #define RPL_MYINFO(nick) (":" + SERVERNAME + " 004 " + nick + " 1.0 :Available user modes: io, channel modes: tkl")
-
 #define RPL_CHANNELMODEIS(client, channel) (":" + SERVERNAME + " 324 " + client + " " + channel + " :Available user modes: io, channel modes: tkl")
 #define RPL_TOPICWHOTIME(client, channel, author, setat) (":" + SERVERNAME + " 333 " + client + " " + channel + " " + author + " " + setat)
 #define RPL_NOTOPIC(client, channel) (":" + SERVERNAME + " 331 " + client + " " + channel + " :No topic is set")
@@ -14,7 +13,6 @@
 #define RPL_MOTD(nick, motd) (":" + SERVERNAME + " 372 " + nick + ":- " + motd)
 #define RPL_MOTDSTART(nick, server) (":" + SERVERNAME + " 375 " + nick + " :- " + server + " Message of the day - ")
 #define RPL_ENDOFMOTD(nick) (":" + SERVERNAME + " 376 " + nick + ":End of /MOTD command.")
-
 
 #define ERR_NOSUCHNICK(client, nick) (":" + SERVERNAME + " 401 " + client + " " + nick + " :No such nick")
 #define ERR_NOSUCHCHANNEL(channel) (":" + SERVERNAME + " 403 "  + channel + " :No such channel")

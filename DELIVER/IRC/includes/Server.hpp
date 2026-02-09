@@ -67,7 +67,7 @@ class Server
 		void	modeLim(int, int, std::vector<std::string>, bool *, int *);
 	
 		void	commandInvite(int, std::string);
-		
+
 		void	commandTopic(int, std::string);
 		bool	isValidTopic(int, std::string);
 
@@ -86,19 +86,8 @@ class Server
 		Server& operator=(const Server& other);
 		~Server();
 
-		void	srvRun();	
+		//*OTHERS
+		void	srvRun();
 };
-
-void	serverLog(std::string nick, std::string str);
-
-int		mySocket(int __domain, int __type, int __protocol);
-void	myBind(int __fd, const sockaddr *__addr, socklen_t __len);
-void	myListen(int __fd, int __n);
-void	myPoll(pollfd *__fds, nfds_t __nfds, int __timeout);
-size_t	myRecv(int __fd, char *__buf, size_t __n, int __flags);
-
-bool	parseMain(int ac, char **av);
-bool	isNum(std::string str);
-std::vector<std::string> getArgs(std::string line);
 
 #endif

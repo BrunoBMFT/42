@@ -16,7 +16,6 @@ class Channel
 		std::string			_topicAuthor;
 		bool				_isInviteOnly;
 		bool				_isTopicRestricted;
-
 		std::vector<int>	_clientsInChannel;
 		std::vector<int>	_ops;
 		std::vector<int>	_invited;
@@ -29,7 +28,7 @@ class Channel
 		Channel& operator=(const Channel& other);
 		~Channel();
 		
-
+		//*GETTERS
 		int				getId();
 		std::string		getName();
 		std::string		getChannelKey();
@@ -41,6 +40,7 @@ class Channel
 		std::string		getTopicTimeSet();
 		std::string		getTopicAuthor();
 		
+		//*SETTERS
 		void	setId(int);
 		void	setName(std::string);
 		void	setChannelKey(std::string);
@@ -51,7 +51,7 @@ class Channel
 		void	setTopicTimeSet();
 		void	setTopicAuthor(std::string);
 		
-		
+		//*OTHERS
 		bool	isOp(int);
 		void	setOp(int, bool);
 		bool	isInvited(int);

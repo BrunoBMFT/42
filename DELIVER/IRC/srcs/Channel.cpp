@@ -44,7 +44,7 @@ std::string		Channel::getName() {
 std::string		Channel::getChannelKey() {
 	return (_channelKey);
 }
-size_t				Channel::getLimit() {
+size_t			Channel::getLimit() {
 	return (_limit);
 }
 std::string		Channel::getTopic() {
@@ -56,13 +56,13 @@ bool			Channel::isInviteOnly() {
 bool 			Channel::isTopicRestricted() {
 	return (_isTopicRestricted);
 }
-std::vector<int>	&Channel::getClientsInChannel() {
+std::vector<int>&Channel::getClientsInChannel() {
 	return (_clientsInChannel);
 }
 std::string		Channel::getTopicTimeSet() {
 	return (_topicTimeSet);
 }
-std::string	Channel::getTopicAuthor() {
+std::string		Channel::getTopicAuthor() {
 	return (_topicAuthor);
 }
 
@@ -100,14 +100,7 @@ void	Channel::setTopicAuthor(std::string setter) {
 	_topicAuthor = setter;
 }
 
-
 //*OTHERS
-
-		bool			isOp(int id);
-		bool			isInvited(int id);
-		void			setOp(int id, bool opOrNot);
-		void			addInvited(int id);
-
 bool	Channel::isOp(int id) {
 	if (find(_ops.begin(), _ops.end(), id) != _ops.end())
 		return (true);
@@ -129,10 +122,7 @@ bool	Channel::isInvited(int id) {
 void	Channel::addInvited(int id) {
 	_invited.push_back(id);
 }
-
-
-
-void		Channel::decrementId() {
+void	Channel::decrementId() {
 	_globalChannelId--;
 }
 void	Channel::addClient(int id) {

@@ -45,32 +45,31 @@ Client::~Client() {
 
 
 //*GETTERS
-int			Client::getId() {
+int						Client::getId() {
 	return (_id);
 }
-int			Client::getSocket() {
+int						Client::getSocket() {
 	return (_socket);
 }
-pollfd		&Client::getPfd() {
+pollfd					&Client::getPfd() {
 	return (_pfd);
 }
-
-bool		Client::isAuthenticated() {
+bool					Client::isAuthenticated() {
 	return (_authenticated);
 }
-bool		Client::isRegistered() {
+bool					Client::isRegistered() {
 	return (_registered);
 }
-std::string	Client::getUsername() {
+std::string				Client::getUsername() {
 	return (_username);
 }
-std::string	Client::getNick() {
+std::string				Client::getNick() {
 	return (_nick);
 }
-std::string	Client::getRealname() {
+std::string				Client::getRealname() {
 	return (_realname);
 }
-std::string	Client::getPrefix() {
+std::string				Client::getPrefix() {
 	return (_prefix);
 }
 std::map<int, std::string>	&Client::getChannels() {

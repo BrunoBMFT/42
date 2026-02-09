@@ -1,5 +1,6 @@
 #include "../includes/Server.hpp"
 
+//*CONSTRUCTORS
 Server::Server() {
 	_name = "just why did you try";
 	throw (std::runtime_error(_name));
@@ -135,46 +136,11 @@ bool	Server::handleClientPoll(int i)
 	return (true);
 }
 
-void	Server::test()
-{
-	std::cout << RED("--------------------------------------------------------------------------------\n");
-	serverLog("TESTING", "");
-/* 	serverLog("Existing channels", "");
-	for (int i = 0; i < _channels.size(); i++) {
-		std::cout << i << ": [" << _channels[i].getName() << "], ";
-	}
-	std::cout << std::endl;
-	serverLog("Existing clients", "");
-	for (std::map<int, Client>::iterator it = _clients.begin(); it != _clients.end(); it++)	{
-		std::cout << it->first << ": [" << it->second.getNick() << "], ";
-	}
-	std::cout << std::endl; */
-	serverLog("Each client info:", "");
-	for (std::map<int, Client>::iterator it1 = _clients.begin(); it1 != _clients.end(); it1++)	{
-		std::cout << _clients[it1->first].getId() << ": [" << _clients[it1->first].getNick() << "] is connected to channels: ";
-		
-		for (std::map<int, std::string>::iterator it2 = _clients[it1->first].getChannels().begin(); 
-		it2 != _clients[it1->first].getChannels().end(); it2++) {
-			std::cout << it2->first << ": [" << it2->second << "], ";
-		}
-		std::cout << std::endl;
-	}
-/* 	serverLog("Each channel info:", "");
-	for (size_t i = 0; i < _channels.size(); i++) {
-		std::cout << i << ": [" << _channels[i].getName() << "] has these clients connected: ";
-		for (std::vector<int>::iterator it = _channels[i].getClientsInChannel().begin(); 
-			it != _channels[i].getClientsInChannel().end(); it++) {
-				std::cout << "[" << _clients[*it].getNick() << "], ";
-		}
-		std::cout << std::endl;
-	} */
-}
 
 void	Server::srvRun()
 {
 	while (1)
 	{
-		// test();
 		setPfds();
 		myPoll(_pfds.data(), _pfds.size(), -1);
 		
@@ -182,9 +148,7 @@ void	Server::srvRun()
 		{
 			int temp = acceptClient();
 			_clients.insert(std::make_pair(temp, Client(temp)));
-
 		}
-	
 		for (size_t i = 1; i < _pfds.size(); i++)
 		{
 			if (_pfds[i].revents & POLLIN) {

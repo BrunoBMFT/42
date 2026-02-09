@@ -10,7 +10,6 @@ class Client
 		int			_id;
 		int			_socket;
 		pollfd		_pfd;
-
 		bool		_authenticated;
 		bool		_registered;
 		std::string	_username;
@@ -28,6 +27,7 @@ class Client
 		Client& operator=(const Client& other);
 		~Client();
 
+		//*GETTERS
 		int			getId();
 		int			getSocket();
 		pollfd		&getPfd();
@@ -39,6 +39,7 @@ class Client
 		std::string	getRealname();
 		std::map<int, std::string>	&getChannels();
 
+		//*SETTERS
 		void	setId(int id);
 		void	setAuthenticated(bool auth);
 		void	setRegistered(bool auth);
