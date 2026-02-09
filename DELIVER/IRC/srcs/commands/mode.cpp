@@ -87,8 +87,8 @@ void	Server::commandMode(int i, std::string line)
 	if (args.size() < 2)
 		return (sendToClient(i, RPL_CHANNELMODEIS(_clients[i].getNick(), args[0])));
 	if (!_channels[chId].isOp(i))
-		return (sendToClient(i, ERR_NOPRIVILEGES(_clients[i].getNick())));
-	
+		return (sendToClient(i, ERR_CHANOPRIVSNEEDED(_clients[i].getNick(), args[0])));
+
 	size_t j = 0;
 	int		argIdx = 2;
 	bool	enableMode = (args[1][0] != '-');

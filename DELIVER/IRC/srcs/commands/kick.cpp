@@ -23,7 +23,7 @@ void	Server::commandKick(int i, std::string args)
 	if (!isUserInChannel(i, chId))
 		return (sendToClient(i, ERR_NOTONCHANNEL(_clients[i].getNick(), chName)));
 	if (!_channels[chId].isOp(i))
-		return (sendToClient(i, ERR_NOPRIVILEGES(_clients[i].getNick())));
+		return (sendToClient(i, ERR_CHANOPRIVSNEEDED(_clients[i].getNick(), chName)));
 	
 	int toKickId = getClientId(toKickName);
 	if (toKickId == -1)

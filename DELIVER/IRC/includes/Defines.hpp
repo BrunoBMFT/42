@@ -15,7 +15,6 @@
 #define RPL_ENDOFMOTD(nick) (":" + SERVERNAME + " 376 " + nick + ":End of /MOTD command.")
 
 #define ERR_NOSUCHNICK(client, nick) (":" + SERVERNAME + " 401 " + client + " " + nick + " :No such nick")
-#define ERR_NOSUCHCHANNEL(channel) (":" + SERVERNAME + " 403 "  + channel + " :No such channel")
 #define ERR_UNKNOWNCOMMAND(client, command) (":" + SERVERNAME + " 421 " + client + " "  + command + " :Unknown command")
 #define ERR_NONICKNAMEGIVEN() (":" + SERVERNAME + " 431 :No nickname given")
 #define ERR_ERRONEUSNICKNAME(client, nick) (":" + SERVERNAME + " 432 " + client + " " + nick + " :Erroneus nickname")
@@ -31,18 +30,17 @@
 #define ERR_INVITEONLYCHAN(client, channel) (":" + SERVERNAME + " 473 " + client + " " + channel + " :Cannot join channel (+i)")
 #define ERR_BADCHANNELKEY(client, channel) (":" + SERVERNAME + " 475 " + client + " " + channel + " :Cannot join channel (+k)")
 #define ERR_BADCHANMASK(client, channel) (":" + SERVERNAME + " 476 " + client + " #" + channel + " :Bad Channel Mask")
-#define ERR_NOPRIVILEGES(client) (":" + SERVERNAME + " 481 " + client + " :Permission Denied- You're not an IRC operator")
 #define ERR_CHANOPRIVSNEEDED(client, channel) (":" + SERVERNAME + " 482 " + client + " " + channel + " :You're not channel operator")
 #define ERR_UMODEWUNKNOWNFLAG(flag) (":" + SERVERNAME + " 501 :Unknown MODE flag: " + flag)
 
-#define NICK(oldNick, newNick) (":" + oldNick + " NICK " + newNick)
-#define JOIN(client, channel) (":" + client + " JOIN " + channel)
-#define PART(client, channel) (":" + client + " PART " + channel)
 #define INVITE(client, invited, channel) (":" + client + " INVITE " + invited + " " + channel)
+#define JOIN(client, channel) (":" + client + " JOIN " + channel)
 #define KICK(client, channel, kicked) (":" + client + " KICK " + channel + " " + kicked)
-#define PRIVMSG(client, channel, message) (":" + client + " PRIVMSG " + channel + " " + message)
 #define MODE1(client, channel, flag) (":" + client + " MODE " + channel + " " + flag)
 #define MODE2(client, channel, flag, args) (":" + client + " MODE " + channel + " " + flag + " " + args)
+#define PART(client, channel) (":" + client + " PART " + channel)
+#define PRIVMSG(client, channel, message) (":" + client + " PRIVMSG " + channel + " " + message)
+#define NICK(oldNick, newNick) (":" + oldNick + " NICK " + newNick)
 #define TOPIC(client, channel, topic) (":" + client + " TOPIC " + channel + " :" + topic)
 
 #endif
