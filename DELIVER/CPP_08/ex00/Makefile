@@ -17,15 +17,15 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
 $(NAME): $(OBJS)
 	@echo "$(NAME) compiling..."
 	@$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS) $(INCLUDES)
-	@echo "$(NAME) ready!"
+	@echo "$(NAME) ready"
 
 clean:
 	@$(RM) -r $(OBJS_DIR)
-	@echo "$(NAME) OBJS cleaned!"
+	@echo "$(NAME) OBJS cleaned"
 
 fclean: clean
 	@$(RM) $(NAME)
-	@echo "$(NAME) cleaned!"
+	@echo "$(NAME) cleaned"
 
 re: fclean all
 

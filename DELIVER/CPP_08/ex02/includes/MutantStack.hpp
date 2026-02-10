@@ -7,17 +7,19 @@ template <typename var>
 class MutantStack : public std::stack<var>
 {
 	public:
+		//*CONSTRUCTORS
 		MutantStack();
 		MutantStack(const MutantStack &oth);
 		MutantStack &operator=(const MutantStack &oth);
 		~MutantStack();
 
-		//typedef
+		//*TYPEDEF
 		typedef typename std::stack<var>::container_type::iterator iterator;
 		typedef typename std::stack<var>::container_type::const_iterator const_iterator;
 		typedef typename std::stack<var>::container_type::reverse_iterator reverse_iterator;
 		typedef typename std::stack<var>::container_type::const_reverse_iterator const_reverse_iterator;
 
+		//*ITERATORS
 		iterator begin();
 		iterator end();
 		const_iterator begin() const;

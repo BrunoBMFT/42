@@ -10,32 +10,31 @@ class Span
 		unsigned int		maxSize;
 		std::vector<int>	vect;
 	public:
+		//*CONSTRUCTORS
 		Span();
 		Span(unsigned int n);
 		Span(const Span &oth);
 		Span &operator=(const Span &oth);
 		~Span();
 
-		
+		//*FUNCTIONS
 		void addNumber(int num);
 		void addNumber(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 		int shortestSpan();
 		int longestSpan();
 
-		//TODO remove
-		void print();
+		//*EXCEPTIONS
+		class FullContainer : public std::exception
+		{
+			public:
+				virtual const char *what() const throw();
+		};
 
-	class FullContainer : public std::exception
-	{
-		public:
-			virtual const char *what() const throw();
-	};
-
-	class NotEnoughNumbers : public std::exception
-	{
-		public:
-			virtual const char *what() const throw();
-	};
+		class NotEnoughNumbers : public std::exception
+		{
+			public:
+				virtual const char *what() const throw();
+		};
 };
 
 #endif

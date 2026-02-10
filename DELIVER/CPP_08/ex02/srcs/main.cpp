@@ -1,8 +1,6 @@
 #include "../includes/MutantStack.hpp"
 #include <list>
 
-//have a cpp instead of a tpp
-
 //running with a std::list instead of MutantStack should be the same
 int main()
 {

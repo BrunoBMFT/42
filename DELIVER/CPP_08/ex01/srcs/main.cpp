@@ -3,7 +3,7 @@
 int	main(void){
 	std::srand(time(NULL));
 	{
-		std::cout << "test 1:" << std::endl;
+		std::cout << "TEST 1:" << std::endl;
 		Span sp = Span(5);
 		sp.addNumber(1);
 		sp.addNumber(2);
@@ -24,14 +24,12 @@ int	main(void){
 		}
 	}
 	{
-		std::cout << "test 2:" << std::endl;
+		std::cout << "\nTEST 2:" << std::endl;
 		Span sp = Span(100);
 		std::vector<int> temp;
-		//! STUDY
 		for (int i = 0; i < 100; i++)
 			temp.push_back(rand() % 1000000);
 		try {
-			//! STUDY
 			sp.addNumber(temp.begin(), temp.end());
 			std::cout << "shortest: " << sp.shortestSpan() << std::endl;
 			std::cout << "longest: " << sp.longestSpan() << std::endl;

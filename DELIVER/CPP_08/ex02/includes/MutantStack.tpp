@@ -1,5 +1,6 @@
 #include "MutantStack.hpp"
 
+//*CONSTRUCTORS
 template <typename var>
 MutantStack<var>::MutantStack() : std::stack<var>() {}
 
@@ -18,7 +19,7 @@ template <typename var>
 MutantStack<var>::~MutantStack() {}
 
 
-//ITERATORS
+//*ITERATORS
 template <typename var>
 typename MutantStack<var>::iterator MutantStack<var>::begin() {
 	return (std::stack<var>::c.begin());

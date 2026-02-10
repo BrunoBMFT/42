@@ -22,11 +22,6 @@ RM = rm -f
 
 all: $(NAME)
 
-debug:
-	@echo "$(NAME) compiling, debugging mode..."
-	@$(CXX) $(CXXFLAGS) -D DEBUG=1 -o $(NAME) $(OBJS) $(INCLUDES)
-	@echo "$(NAME) ready for debugging"
-
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@

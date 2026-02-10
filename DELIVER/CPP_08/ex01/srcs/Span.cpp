@@ -1,5 +1,6 @@
 #include "../includes/Span.hpp"
 
+//*CONSTRUCTORS
 Span::Span() : maxSize(0) {}
 Span::Span(unsigned int n) : maxSize(n) {}
 
@@ -7,7 +8,6 @@ Span::Span(const Span &oth) {
 	*this = oth;
 }
 
-//! check with previous exercises
 Span &Span::operator=(const Span &oth) {
 	if (this != &oth) {
 		maxSize = oth.maxSize;
@@ -16,24 +16,20 @@ Span &Span::operator=(const Span &oth) {
 	return (*this);
 }
 
-
-
 Span::~Span() {}
 
-
+//*FUNCTIONS
 void Span::addNumber(int num) {
 	if (vect.size() >= maxSize)
 		throw FullContainer();
 	vect.push_back(num);
 }
 
-//! STUDY
 void	Span::addNumber(std::vector<int>::iterator begin, std::vector<int>::iterator end) {
 	if (vect.size() + std::distance(begin, end) > maxSize)
 		throw FullContainer();
 	vect.insert(vect.end(), begin, end);
 }
-
 
 int Span::shortestSpan() {
 	if (vect.size() <= 1)
@@ -48,7 +44,6 @@ int Span::shortestSpan() {
 	return (min);
 }
 
-
 int Span::longestSpan() {
 	if (vect.size() <= 1)
 		throw NotEnoughNumbers();
@@ -62,12 +57,7 @@ int Span::longestSpan() {
 	return (biggest - smallest);
 }
 
-void	Span::print() {
-	for (unsigned int i = 0; i < vect.size(); i++)
-		std::cout << vect[i] << std::endl;
-}
-
-
+//*EXCEPTIONS
 const char *Span::FullContainer::what() const throw()
 { return ("Container is full"); }
 
