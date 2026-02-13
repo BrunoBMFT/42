@@ -6,7 +6,7 @@
 /*   By: bruno <bruno@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 20:00:26 by cgodecke          #+#    #+#             */
-/*   Updated: 2026/02/13 02:59:42 by bruno            ###   ########.fr       */
+/*   Updated: 2026/02/13 20:18:47 by bruno            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,17 +133,20 @@ void insert_into_main_chain(std::list<std::pair<int, int> > listy, std::list<int
 
 	while (Jacobsthal[jacobsthal_idx] <= listy.size())
 	{
-		testMainAndPend(listy, *main_chain);
 		pair_it = listy.begin();
+		//pair_it will be the one we will be adding from pend to the main
 		std::advance(pair_it, Jacobsthal[jacobsthal_idx] - 1);
+		//advance the pair it to the pend index chosen by jacobsthal
 		last_jacob_it = pair_it;
 
 		// how many pend elements have been inserted
 		int insertion_counter = 0;
 		while (Jacobsthal[jacobsthal_idx] - insertion_counter > Jacobsthal[jacobsthal_idx - 1])
+		//while going from one jcb to the previous one, going backwards (going from like 11 to 5)
 		{
+			//it->first is pend
 			slice_delim_it = std::find(main_chain->begin(), main_chain->end(), pair_it->second);
-			binary_search_insertion(main_chain, slice_delim_it, pair_it->first);
+			binary_search_insertion(main_chain, slice_delim_it, pair_it->first);//inserts using the next smaller than the it we are in
 			pair_it--;
 			insertion_counter++;
 		}
@@ -158,7 +161,6 @@ void insert_into_main_chain(std::list<std::pair<int, int> > listy, std::list<int
 			pair_it--;
 		while (pair_it != last_jacob_it)
 		{
-			testMainAndPend(listy, *main_chain);
 			slice_delim_it = std::find(main_chain->begin(), main_chain->end(), pair_it->second);
 			binary_search_insertion(main_chain, slice_delim_it, pair_it->first);
 			pair_it--;
@@ -166,10 +168,7 @@ void insert_into_main_chain(std::list<std::pair<int, int> > listy, std::list<int
 	}
 
 	if (additional_value != -1)
-	{
-		testMainAndPend(listy, *main_chain);
 		binary_search_insertion(main_chain, main_chain->end(), additional_value);
-	}
 }
 
 void print_after(std::list<int> main_chain)
