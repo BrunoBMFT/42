@@ -19,7 +19,7 @@ int	main(void)
 {
 	int fd = open("lol.c",  O_CREAT | O_RDWR, 0777);
 	write(fd, "char *even_or_odd(int number)\n{\n", 32);
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 100000; i++)
 		new_condition(fd, i);
 	write(fd, "}\n", 2);
 	//write a main for this?
