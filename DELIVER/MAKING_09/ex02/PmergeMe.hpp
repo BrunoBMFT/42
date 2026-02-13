@@ -7,8 +7,8 @@
 // # include <string>
 // # include <utility>
 # include <algorithm>
-// # include <climits>
-// # include <ctime>
+# include <climits>
+# include <ctime>
 
 
 typedef std::pair<int, int> Pair;
@@ -24,7 +24,7 @@ typedef std::deque<std::pair<int, int> > pairDeque;
 typedef std::deque<std::pair<int, int> >::iterator pairDequeIt;
 
 
-
+int		printBefore(char **av);
 void	PmergeMeList(char **av);
 void	PmergeMeDeque(char **av);
 
