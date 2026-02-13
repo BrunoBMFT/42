@@ -9,11 +9,11 @@ void tester()
     std::cout << "this tester will create 10 random sequences and organize" << std::endl;
     std::cout << "it with the algorithm of ford jonson:\n" << std::endl;
     
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 10; i++)
     {
         std::cout << ORANGE << "Case " << i + 1 << ":" << END  << std::endl;
         PmergeMe(1, NULL);
-        sleep(2);
+        sleep(1);
     }   
 }
 
