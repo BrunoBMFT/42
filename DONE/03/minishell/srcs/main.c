@@ -24,8 +24,10 @@ void	minishell(char **envp)
 	{
 		setup_signal(ROOT_SIG);
 		line = readline("Minishell$ ");
-		if (!line)
+		if (!line) {
+			printf("i am here bitches\n");
 			eof_sig(line, &env);
+		}
 		if (line && line[0])
 			add_history(line);
 		if (secondquote(line) == 1)
