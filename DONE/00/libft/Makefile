@@ -1,42 +1,38 @@
 NAME = libft.a
 
-SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
-ft_isdigit.c ft_isprint.c ft_itoa.c ft_memchr.c ft_memcmp.c ft_memcpy.c \
-ft_memmove.c ft_memset.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
-ft_putstr_fd.c ft_split.c ft_strchr.c ft_strdup.c ft_strjoin.c ft_strlcat.c \
-ft_strlcpy.c ft_strlen.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c \
-ft_substr.c ft_tolower.c ft_toupper.c ft_strmapi.c ft_striteri.c
+SRCS = $(addprefix srcs/, $(addsuffix .c, $(SRCDIR)))
+SRCDIR =	ft_is_even ft_isalnum ft_isalpha ft_isascii ft_isdigit \
+			ft_isprint ft_lstadd_back ft_lstadd_front ft_lstclear \
+			ft_lstdelone ft_lstiter ft_lstlast ft_lstmap ft_lstnew \
+			ft_lstsize ft_bzero ft_calloc ft_itoa \
+			ft_split ft_strdup ft_strjoin ft_strmapi ft_strtrim \
+			ft_substr ft_memchr ft_memcmp ft_memcpy ft_memmove \
+			ft_memset ft_putchar ft_putendl ft_putnbr \
+			ft_putstr ft_tolower ft_toupper ft_atoi \
+			ft_strcat ft_strchr ft_striteri ft_strlcat ft_strlcpy \
+			ft_strlen ft_strncmp ft_strnstr ft_strrchr ft_strcmp \
+			ft_printf ft_printf_functions get_next_line get_next_line_utils
 
-SRCS_BONUS = ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstiter.c \
-ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c ft_lstdelone.c
-
-OBJS = $(SRCS:.c=.o)
-BONUS_OBJS = $(SRCS_BONUS:.c=.o)
+OBJDIR = ./objs
+OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 COMPRESS = ar rcs
-
 CFLAGS = -Wall -Wextra -Werror
-
 RM = rm -f
-
-%.o: %.c
-	$(CC) -c $(CFLAGS) $?
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(COMPRESS) $(NAME) $(OBJS)
+	@$(COMPRESS) $(NAME) $(OBJS)
 
-bonus: $(OBJS) $(BONUS_OBJS)
-	$(COMPRESS) $(NAME) $(OBJS) $(BONUS_OBJS)
-
-	touch bonus
-	
 clean:
-	$(RM) $(OBJS) $(BONUS_OBJS) bonus
+	@$(RM) -r $(OBJDIR)
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re:  fclean $(NAME)
 
