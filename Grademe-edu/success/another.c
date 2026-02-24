@@ -15,6 +15,7 @@ void	fatal() {
 	exit(1);
 }
 
+
 void broadcast(int fd, int maxfd, fd_set write_set, char *m) {
 	for (int i = 0; i <= maxfd; i++) {
 		if (FD_ISSET(i, &write_set) && i != fd)
@@ -57,6 +58,8 @@ int extract(char **buf, char **msg) {
 	return 0;
 }
 
+
+
 char *strjoin(char *buf, char *add) {
 	char *new;
 	int len;
@@ -75,6 +78,8 @@ char *strjoin(char *buf, char *add) {
 	strcat(new, add);
 	return (new);
 }
+
+
 
 int main(int ac, char **av) {
 	if (ac != 2) {
@@ -126,7 +131,6 @@ int main(int ac, char **av) {
 		}
 		else {
 			for (connfd = 0; connfd <= maxfd; connfd++) {
-				printf("here\n");
 				if (FD_ISSET(connfd, &read_set)) {
 					char buf[BSIZE];
 					bzero(buf, BSIZE);
@@ -148,12 +152,12 @@ int main(int ac, char **av) {
 						while (extract(&(cls[connfd].m), &line)) {
 							char m[MSIZE + strlen(line)];
 							bzero(m, MSIZE + strlen(line));
-							sprintf(m, "client %d : %s", cls[connfd].id, line);
+							sprintf(m, "client %d: %s", cls[connfd].id, line);
 							broadcast(connfd, maxfd, write_set, m);
 							free(line);
 							line = NULL;
 						}
-						if (cls[connfd].m[0]) {
+						if (!cls[connfd].m[0]) {
 							free(cls[connfd].m);
 							cls[connfd].m = NULL;
 						}
