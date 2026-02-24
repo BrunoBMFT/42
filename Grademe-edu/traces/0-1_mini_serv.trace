@@ -1,0 +1,31 @@
+----------------8<-------------[ START TEST 
+        🔎 YOUR OUTPUT:
+../../rendu/mini_serv/mini_serv.c:21:13: error: call to undeclared library function 'calloc' with type 'void *(unsigned long, unsigned long)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   21 |                         newbuf = calloc(1, sizeof(*newbuf) * (strlen(*buf + i + 1) + 1));
+      |                                  ^
+../../rendu/mini_serv/mini_serv.c:21:13: note: include the header <stdlib.h> or explicitly provide a declaration for 'calloc'
+../../rendu/mini_serv/mini_serv.c:44:11: error: call to undeclared library function 'malloc' with type 'void *(unsigned long)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   44 |         newbuf = malloc(sizeof(*newbuf) * (len + strlen(add) + 1));
+      |                  ^
+../../rendu/mini_serv/mini_serv.c:44:11: note: include the header <stdlib.h> or explicitly provide a declaration for 'malloc'
+../../rendu/mini_serv/mini_serv.c:50:2: error: call to undeclared library function 'free' with type 'void (void *)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   50 |         free(buf);
+      |         ^
+../../rendu/mini_serv/mini_serv.c:50:2: note: include the header <stdlib.h> or explicitly provide a declaration for 'free'
+../../rendu/mini_serv/mini_serv.c:63:3: error: call to undeclared library function 'printf' with type 'int (const char *, ...)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   63 |                 printf("socket creation failed...\n"); 
+      |                 ^
+../../rendu/mini_serv/mini_serv.c:63:3: note: include the header <stdio.h> or explicitly provide a declaration for 'printf'
+../../rendu/mini_serv/mini_serv.c:64:3: error: call to undeclared library function 'exit' with type 'void (int) __attribute__((noreturn))'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   64 |                 exit(0); 
+      |                 ^
+../../rendu/mini_serv/mini_serv.c:64:3: note: include the header <stdlib.h> or explicitly provide a declaration for 'exit'
+../../rendu/mini_serv/mini_serv.c:87:51: warning: passing 'int *' to parameter of type 'socklen_t *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   87 |         connfd = accept(sockfd, (struct sockaddr *)&cli, &len);
+      |                                                          ^~~~
+/usr/include/x86_64-linux-gnu/sys/socket.h:307:28: note: passing argument to parameter '__addr_len' here
+  307 |                    socklen_t *__restrict __addr_len);
+      |                                          ^
+1 warning and 5 errors generated.
+        ❌ COMPILATION ERROR
+----------------8<------------- END TEST ]
