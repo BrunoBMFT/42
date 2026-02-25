@@ -1,0 +1,7 @@
+../../rendu/mini_serv/mini_serv.c:120:57: warning: passing 'int *' to parameter of type 'socklen_t *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+            i = accept(sockfd, (struct sockaddr *)&cli, &len);
+                                                        ^~~~
+/usr/include/x86_64-linux-gnu/sys/socket.h:307:28: note: passing argument to parameter '__addr_len' here
+                   socklen_t *__restrict __addr_len);
+                                         ^
+1 warning generated.
