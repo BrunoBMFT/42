@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 00:43:02 by brfernan          #+#    #+#             */
-/*   Updated: 2025/05/12 15:03:01 by brfernan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -42,6 +30,7 @@ float	rad(float deg);
 
 //utils
 void	create_frame(t_data *data);
+void	create_map(t_data *data);
 void	put_pixel(t_data *data, int y, int x, int color);
 int		get_pixel(t_img *img, int x, int y);
 int		input(int keysym, t_data *data);

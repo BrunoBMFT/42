@@ -1,19 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   values.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 00:43:02 by brfernan          #+#    #+#             */
-/*   Updated: 2025/05/12 14:36:57 by brfernan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef VALUES_H
 # define VALUES_H
 
-# define POSSIBLE "01NESWD"
+# define POSSIBLE "01NESW"
 # define WHITESPACE " \t\r\v\f"
 # define SCALE 16
 # define W_STEP 0.25

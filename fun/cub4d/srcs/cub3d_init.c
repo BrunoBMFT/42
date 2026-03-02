@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d_init.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 17:04:14 by brfernan          #+#    #+#             */
-/*   Updated: 2025/05/12 15:01:51 by brfernan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/cub3d.h"
 
 void	init_variables(t_data *data)
@@ -39,6 +27,7 @@ bool	init(int ac, char **av, t_data *data)
 		return (false);
 	if (!player_init(data))
 		return (false);
+	data->map_active = true;
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		return (error("Failed to initialize mlx"));

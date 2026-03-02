@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   structs.h                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/07 04:57:39 by brfernan          #+#    #+#             */
-/*   Updated: 2025/05/12 15:03:16 by brfernan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
@@ -55,6 +43,7 @@ typedef struct s_data
 	t_img		west;
 	int			color_floor;
 	int			color_ceiling;
+	int			map_active;
 	char		**map;
 	size_t		map_height;
 	size_t		map_width;

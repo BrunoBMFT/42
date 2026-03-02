@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser_map.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 17:35:48 by brfernan          #+#    #+#             */
-/*   Updated: 2025/05/12 15:01:57 by brfernan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/cub3d.h"
 
 char	*remove_spaces(char *str)
@@ -44,7 +32,7 @@ bool	is_allowed(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_strchr("01NESW ", str[i]))
+		if (!ft_strchr("01NESWD ", str[i]))
 			return (false);
 		i++;
 	}
@@ -79,7 +67,7 @@ bool	map_check(t_data *data)
 		x = 0;
 		while (data->map[y][x])
 		{
-			if (ft_strchr("0NESW", data->map[y][x]))
+			if (ft_strchr("0NESWD", data->map[y][x]))
 			{
 				if (!is_enclosed(data->map, y, x))
 					return (error("Map not enclosed"));

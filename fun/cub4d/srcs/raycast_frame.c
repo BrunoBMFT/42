@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycast_frame.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/07 04:49:30 by brfernan          #+#    #+#             */
-/*   Updated: 2025/05/12 15:02:20 by brfernan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/cub3d.h"
 
 int	get_pixel(t_img *img, int x, int y)
@@ -56,5 +44,7 @@ void	create_frame(t_data *data)
 {
 	create_background(data);
 	raycast(data);
+	if (!ft_is_even(data->map_active))
+		create_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 }

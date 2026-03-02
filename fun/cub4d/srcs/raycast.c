@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycast.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: brfernan <brfernan@student.42porto.com     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/07 04:46:55 by brfernan          #+#    #+#             */
-/*   Updated: 2025/05/12 15:01:58 by brfernan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/cub3d.h"
 
 bool	hit_inter(t_data *data, float y, float x)
@@ -19,8 +7,7 @@ bool	hit_inter(t_data *data, float y, float x)
 
 	map_x = floor(x / SCALE);
 	map_y = floor(y / SCALE);
-	if (map_y < 0 || map_x < 0
-		|| map_y >= data->map_height
+	if (map_y >= data->map_height
 		|| map_x >= ft_strlen(data->map[map_y]))
 		return (false);
 	if (data->map[map_y][map_x] == '1')
