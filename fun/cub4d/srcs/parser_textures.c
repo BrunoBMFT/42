@@ -2,12 +2,12 @@
 
 bool	path_already_saved(t_data *data, char *temp)
 {
-	if ((!ft_strncmp("NO", temp, 2) && data->path_north)
-		|| (!ft_strncmp("EA", temp, 2) && data->path_east)
-		|| (!ft_strncmp("SO", temp, 2) && data->path_south)
-		|| (!ft_strncmp("WE", temp, 2) && data->path_west)
-		|| (!ft_strncmp("F", temp, 1) && data->path_floor)
-		|| (!ft_strncmp("C", temp, 1) && data->path_ceiling))
+	if ((!ft_strncmp("NO", temp, 2) && data->paths[NORTH])
+		|| (!ft_strncmp("EA", temp, 2) && data->paths[EAST])
+		|| (!ft_strncmp("SO", temp, 2) && data->paths[SOUTH])
+		|| (!ft_strncmp("WE", temp, 2) && data->paths[WEST])
+		|| (!ft_strncmp("F", temp, 1) && data->paths[FLOOR])
+		|| (!ft_strncmp("C", temp, 1) && data->paths[CEILING]))
 		return (true);
 	return (false);
 }
@@ -24,18 +24,17 @@ bool	save_texture_path(t_data *data)
 		if (path_already_saved(data, line))
 			return (error("Duplicate paths"));
 		if (!ft_strncmp("NO", line, 2))
-			data->path_north = ft_strtrim(line + 2, WHITESPACE);
+			data->paths[NORTH] = ft_strtrim(line + 2, WHITESPACE);
 		else if (!ft_strncmp("EA", line, 2))
-			data->path_east = ft_strtrim(line + 2, WHITESPACE);
+			data->paths[EAST] = ft_strtrim(line + 2, WHITESPACE);
 		else if (!ft_strncmp("SO", line, 2))
-			data->path_south = ft_strtrim(line + 2, WHITESPACE);
+			data->paths[SOUTH] = ft_strtrim(line + 2, WHITESPACE);
 		else if (!ft_strncmp("WE", line, 2))
-			data->path_west = ft_strtrim(line + 2, WHITESPACE);
+			data->paths[WEST] = ft_strtrim(line + 2, WHITESPACE);
 		else if (!ft_strncmp("F", line, 1))
-			data->path_floor = remove_spaces(ft_strtrim(line + 1, WHITESPACE));
+			data->paths[FLOOR] = remove_spaces(ft_strtrim(line + 1, WHITESPACE));
 		else if (!ft_strncmp("C", line, 1))
-			data->path_ceiling = remove_spaces(
-					ft_strtrim(line + 1, WHITESPACE));
+			data->paths[CEILING] = remove_spaces(ft_strtrim(line + 1, WHITESPACE));
 		i++;
 	}
 	return (true);
@@ -94,18 +93,21 @@ bool	color_char_check(char *color)
 
 bool	texture_check(t_data *data)
 {
-	if (!data->path_north || !data->path_east || !data->path_south
-		|| !data->path_west || !data->path_floor || !data->path_ceiling)
+	if (!data->paths[NORTH] || !data->paths[EAST] || !data->paths[SOUTH]
+		|| !data->paths[WEST] || !data->paths[FLOOR] || !data->paths[CEILING])
 		return (error("Missing info"));
-	if (!*data->path_ceiling || !*data->path_floor)
-		return (error("Missing info"));
-	if (!color_char_check(data->path_floor)
-		|| !color_char_check(data->path_ceiling))
+	if (!color_char_check(data->paths[FLOOR]) || !color_char_check(data->paths[CEILING]))
 		return (error("Invalid colors"));
-	data->color_floor = parse_rgb(data->path_floor);
-	data->color_ceiling = parse_rgb(data->path_ceiling);
-	if (access(data->path_north, R_OK) || access(data->path_east, R_OK)
-		|| access(data->path_south, R_OK) || access(data->path_west, R_OK))
+	data->color_floor = parse_rgb(data->paths[FLOOR]);
+	data->color_ceiling = parse_rgb(data->paths[CEILING]);
+	printf("1, %s\n", data->paths[NORTH]);
+	printf("2, %s\n", data->paths[EAST]);
+	printf("3, %s\n", data->paths[SOUTH]);
+	printf("4, %s\n", data->paths[WEST]);
+	printf("5, %s\n", data->paths[FLOOR]);
+	printf("6, %s\n", data->paths[CEILING]);
+	if (access(data->paths[NORTH], R_OK) || access(data->paths[EAST], R_OK)
+		|| access(data->paths[SOUTH], R_OK) || access(data->paths[WEST], R_OK))
 		return (error("Missing texture"));
 	return (true);
 }

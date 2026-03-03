@@ -1,7 +1,7 @@
 NO ./includes/sprites/north.xpm
 SO ./includes/sprites/south.xpm
- WE   ./includes/sprites/west.xpm
-	EA	./includes/sprites/east.xpm
+WE ./includes/sprites/west.xpm
+EA ./includes/sprites/east.xpm
 
 
 

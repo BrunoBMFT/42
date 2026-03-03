@@ -6,58 +6,46 @@ int	get_wall_height(t_data *data, float hyp, float angle)
 		/ (hyp * cos(rad(angle - data->p_angle))));
 }
 
-void	limit_check(t_data *data, int *top, int *bot)
-{
-	if (*top < 0)
-		*top = 0;
-	if (*bot > data->win_height)
-		*bot = data->win_height;
-}
-
-int	get_text_x(t_data *data, t_coord coord, bool vert)
+int	get_slice_texture(float x, float y, bool vert)
 {
 	if (vert)
-		return (fmodf(coord.y, SCALE) * data->north.width / SCALE);
-	return (fmodf(coord.x, SCALE) * data->north.width / SCALE);
+		return (fmodf(y, SCALE) * TEXTURE_SIZE / SCALE);
+	return (fmodf(x, SCALE) * TEXTURE_SIZE / SCALE);
 }
 
-int	get_color(t_data *data, t_coord coord, t_coord texture, bool vert)
-{
-	if (vert)
-	{
-		if (coord.x > data->p_x)
-			return (get_pixel(&data->east, texture.x, texture.y));
-		else
-			return (get_pixel(&data->west, texture.x, texture.y));
+int get_sprite_num(float player_x, float player_y, int x, int y, bool vert) {
+	if (vert) {
+		if (x > player_x)
+			return (EAST);
+		return (WEST);
 	}
-	if (coord.y > data->p_y)
-		return (get_pixel(&data->south, texture.x, texture.y));
-	return (get_pixel(&data->north, texture.x, texture.y));
+	if (y > player_y)
+		return (SOUTH);
+	return (NORTH);
 }
 
-void	draw_wall_section(t_data *data, t_draw *info)
+void	draw_wall_section(t_data *data, int section, float angle, float hyp, float x, float y, bool vert)
 {
 	int		height;
-	int		top;
-	int		bot;
+	int		top, bot;
 	float	tex_pos;
-	t_coord	texture;
+	int		tx, ty;
 
-	height = get_wall_height(data, info->hyp, info->angle);
+	height = get_wall_height(data, hyp, angle);
 	top = (data->win_height / 2) - (height / 2);
 	bot = (data->win_height / 2) + (height / 2);
-	limit_check(data, &top, &bot);
-	texture.x = get_text_x(data, info->coord, info->vert);
+	tx = get_slice_texture(x, y, vert);
 	tex_pos = (top - data->win_height / 2 + height / 2)
-		* (float)data->north.height / height;
+		* (float)TEXTURE_SIZE / height;
 	while (top < bot)
 	{
-		texture.y = tex_pos;
-		if (texture.y >= data->north.height)
-			texture.y = data->north.height - 1;
-		put_pixel(data, top, info->section,
-			get_color(data, info->coord, texture, info->vert));
-		tex_pos += (float)data->north.height / height;
+		ty = tex_pos;
+		if (ty >= TEXTURE_SIZE)
+			ty = TEXTURE_SIZE - 1;
+		int sprite_num = get_sprite_num(data->p_x, data->p_y, x, y, vert);
+		int color = get_pixel(&data->sprites[sprite_num], tx, ty);
+		put_pixel(data, top, section, color);
+		tex_pos += (float)TEXTURE_SIZE / height;
 		top++;
 	}
 }

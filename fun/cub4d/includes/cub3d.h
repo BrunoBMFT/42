@@ -21,9 +21,17 @@ bool	texture_check(t_data *data);
 bool	init_imgs(t_data *data);
 bool	player_init(t_data *data);
 
+
+/*
+	float	hyp;
+	float	angle;
+	int		section;
+	t_coord	coord;
+	bool	vert;
+*/
 //raycast
 void	raycast(t_data *data);
-void	draw_wall_section(t_data *data, t_draw *info);
+void	draw_wall_section(t_data *data, int section, float angle, float hyp, float x, float y, bool vert);
 void	create_background(t_data *data);
 void	angle_correct(float *angle, int *dir, bool is_h);
 float	rad(float deg);

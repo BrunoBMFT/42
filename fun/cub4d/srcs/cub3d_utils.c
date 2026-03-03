@@ -6,32 +6,33 @@ bool	error(char *str)
 	return (false);
 }
 
+void	my_free(void *ptr) {
+	if (ptr)
+		free (ptr);
+}
+
+void	my_destroy_image(void *mlx_ptr, void *img_ptr)
+{
+	if (img_ptr)
+		mlx_destroy_image(mlx_ptr, img_ptr);
+}
+
 void	clean_texture_path(t_data *data)
 {
-	if (data->path_north)
-		free(data->path_north);
-	if (data->path_east)
-		free(data->path_east);
-	if (data->path_south)
-		free(data->path_south);
-	if (data->path_west)
-		free(data->path_west);
-	if (data->path_floor)
-		free(data->path_floor);
-	if (data->path_ceiling)
-		free(data->path_ceiling);
+	my_free(data->paths[NORTH]);
+	my_free(data->paths[EAST]);
+	my_free(data->paths[SOUTH]);
+	my_free(data->paths[WEST]);
+	my_free(data->paths[FLOOR]);
+	my_free(data->paths[CEILING]);
 }
 
 void	clean_imgs(t_data *data)
 {
-	if (data->north.img)
-		mlx_destroy_image(data->mlx, data->north.img);
-	if (data->east.img)
-		mlx_destroy_image(data->mlx, data->east.img);
-	if (data->south.img)
-		mlx_destroy_image(data->mlx, data->south.img);
-	if (data->west.img)
-		mlx_destroy_image(data->mlx, data->west.img);
+	my_destroy_image(data->mlx, data->sprites[NORTH].img);
+	my_destroy_image(data->mlx, data->sprites[EAST].img);
+	my_destroy_image(data->mlx, data->sprites[SOUTH].img);
+	my_destroy_image(data->mlx, data->sprites[WEST].img);
 }
 
 int	clean_everything(t_data *data)
@@ -43,8 +44,7 @@ int	clean_everything(t_data *data)
 	if (data->map)
 		free_array(data->map);
 	clean_imgs(data);
-	if (data->frame.img)
-		mlx_destroy_image(data->mlx, data->frame.img);
+	my_destroy_image(data->mlx, data->frame.img);
 	if (data->win)
 		mlx_destroy_window(data->mlx, data->win);
 	if (data->mlx)

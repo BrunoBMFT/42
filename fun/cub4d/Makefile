@@ -39,7 +39,7 @@ clean:
 fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIBFT_DIR) fclean --no-print-directory
-	@make -C $(MLX_DIR) clean --no-print-directory
+#	@make -C $(MLX_DIR) clean --no-print-directory
 	@echo $(NAME) fclean
 
 re: fclean all

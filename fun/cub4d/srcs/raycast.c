@@ -15,88 +15,76 @@ bool	hit_inter(t_data *data, float y, float x)
 	return (true);
 }
 
-float	inter_h_step(t_data *data, float angle, t_coord *coord)
+float	inter_h_step(t_data *data, float angle, float *x, float *y)
 {
 	int		x_dir;
-	float	y;
-	float	x;
 	float	y_step;
 	float	x_step;
 
 	angle_correct(&angle, &x_dir, true);
-	x = floor(data->p_x / SCALE) * SCALE;
+	*x = floor(data->p_x / SCALE) * SCALE;
 	if (x_dir == 1)
-		x += SCALE;
+		*x += SCALE;
 	else
-		x -= 0.0001f;
-	y = data->p_y + (x - data->p_x) / tan(rad(angle));
+		*x -= 0.0001f;
+	*y = data->p_y + (*x - data->p_x) / tan(rad(angle));
 	x_step = SCALE * x_dir;
 	y_step = x_step / tan(rad(angle));
-	while (hit_inter(data, y, x))
+	while (hit_inter(data, *y, *x))
 	{
-		y += y_step;
-		x += x_step;
+		*y += y_step;
+		*x += x_step;
 	}
-	coord->y = y;
-	coord->x = x;
-	return (sqrt(pow(data->p_y - y, 2) + pow(data->p_x - x, 2)));
+	return (sqrt(pow(data->p_y - *y, 2) + pow(data->p_x - *x, 2)));
 }
 
-float	inter_v_step(t_data *data, float angle, t_coord *coord)
+float	inter_v_step(t_data *data, float angle, float *x, float *y)
 {
 	int		y_dir;
-	float	y;
-	float	x;
 	float	y_step;
 	float	x_step;
 
 	angle_correct(&angle, &y_dir, false);
-	y = floor(data->p_y / SCALE) * SCALE;
+	*y = floor(data->p_y / SCALE) * SCALE;
 	if (y_dir == 1)
-		y += SCALE;
+		*y += SCALE;
 	else
-		y -= 0.0001f;
-	x = data->p_x + (y - data->p_y) * tan(rad(angle));
+		*y -= 0.0001f;
+	*x = data->p_x + (*y - data->p_y) * tan(rad(angle));
 	y_step = SCALE * y_dir;
 	x_step = y_step * tan(rad(angle));
-	while (hit_inter(data, y, x))
+	while (hit_inter(data, *y, *x))
 	{
-		y += y_step;
-		x += x_step;
+		*y += y_step;
+		*x += x_step;
 	}
-	coord->y = y;
-	coord->x = x;
-	return (sqrt(pow(data->p_y - y, 2) + pow(data->p_x - x, 2)));
+	return (sqrt(pow(data->p_y - *y, 2) + pow(data->p_x - *x, 2)));
 }
 
-void	decide_dist(t_draw *info, bool which, float *dist, t_coord *coord)
-{
-	info->hyp = dist[which];
-	info->coord = coord[which];
-	info->vert = which;
+int		get_smallest_distance(float hyp1, float hyp2) {
+	if (hyp1 < hyp2)
+		return (0);
+	return (1);
 }
 
 void	raycast(t_data *data)
 {
 	int		section;
 	float	angle;
-	t_coord	coord[2];
-	float	dist[2];
-	t_draw	info;
+	float	hyp[2];
+
+	int		flag;//horrible name
+	float	x[2], y[2];
 
 	angle = data->p_angle - FOV / 2;
 	section = 0;
 	while (section < data->win_width)
 	{
-		dist[0] = inter_v_step(data, angle, &coord[0]);
-		dist[1] = inter_h_step(data, angle, &coord[1]);
-		info.angle = angle;
-		info.section = section;
-		if (dist[0] < dist[1])
-			decide_dist(&info, 0, dist, coord);
-		else
-			decide_dist(&info, 1, dist, coord);
-		draw_wall_section(data, &info);
+		hyp[0] = inter_v_step(data, angle, &x[0], &y[0]);
+		hyp[1] = inter_h_step(data, angle, &x[1], &y[1]);
+		flag = get_smallest_distance(hyp[0], hyp[1]);
+		draw_wall_section(data, section, angle, hyp[flag], 
+			x[flag], y[flag], flag);
 		angle = angle + (FOV * 0.00078125);
 		section++;
 	}

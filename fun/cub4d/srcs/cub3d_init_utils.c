@@ -16,13 +16,10 @@ bool	init_texture_img(t_data *data, t_img *texture, char *img_src)
 
 bool	init_imgs(t_data *data)
 {
-	if (!init_texture_img(data, &data->north, data->path_north))
-		return (false);
-	if (!init_texture_img(data, &data->east, data->path_east))
-		return (false);
-	if (!init_texture_img(data, &data->south, data->path_south))
-		return (false);
-	if (!init_texture_img(data, &data->west, data->path_west))
+	if (!init_texture_img(data, &data->sprites[NORTH], data->paths[NORTH])
+		|| !init_texture_img(data, &data->sprites[EAST], data->paths[EAST])
+		|| !init_texture_img(data, &data->sprites[SOUTH], data->paths[SOUTH])
+		|| !init_texture_img(data, &data->sprites[WEST], data->paths[WEST]))
 		return (false);
 	data->frame.img = mlx_new_image(data->mlx,
 			data->win_width, data->win_height);
