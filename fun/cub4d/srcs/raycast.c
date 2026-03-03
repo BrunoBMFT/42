@@ -72,7 +72,6 @@ void	raycast(t_data *data)
 	int		section;
 	float	angle;
 	float	hyp[2];
-
 	int		flag;//horrible name
 	float	x[2], y[2];
 
