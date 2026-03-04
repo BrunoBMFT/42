@@ -52,8 +52,6 @@ int	input(int keysym, t_data *data)
 			data->p_angle -= A_STEP;
 		else if (ft_strchr("wasd", keysym))
 			walk(data, keysym);
-		if (keysym == 'm')
-			data->map_active++;
 		create_frame(data);
 	}
 	return (0);

@@ -44,7 +44,7 @@ void	create_frame(t_data *data)
 {
 	create_background(data);
 	raycast(data);
-	if (!ft_is_even(data->map_active))
+	if (data->map_active)
 		create_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 }

@@ -11,12 +11,7 @@
 // 		data->p_angle-= dif / 200;
 // 	mlx_mouse_move(data->mlx, data->win, data->win_width / 2,
 // 		data->win_height / 2);
-// 	create_background(data);
-// 	raycast(data);
-// 	if (!ft_is_even(data->map_active))
-// 		create_map(data);
-// 	mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
-// 	return (0);
+// 		create_frame(data);
 // }
 
 int	main(int ac, char **av)

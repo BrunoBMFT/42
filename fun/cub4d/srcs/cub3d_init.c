@@ -20,7 +20,7 @@ bool	init(int ac, char **av, t_data *data)
 		return (false);
 	if (!player_init(data))
 		return (false);
-	data->map_active = true;
+	data->map_active = false;
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		return (error("Failed to initialize mlx"));
