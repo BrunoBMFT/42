@@ -1,6 +1,7 @@
 #include "../includes/cub3d.h"
 void	walk_aux(t_data *data, float y_temp, float x_temp)
 {
+	data->function_calls++;
 	int	map_y;
 	int	map_x;
 
@@ -16,6 +17,7 @@ void	walk_aux(t_data *data, float y_temp, float x_temp)
 
 void	walk(t_data *data, int keysym)//remake to copy goncalo
 {
+	data->function_calls++;
 	float	cos_value;
 	float	sin_value;
 

@@ -2,6 +2,7 @@
 
 bool	hit_inter(t_data *data, float y, float x)
 {
+	data->function_calls++;
 	size_t	map_y;
 	size_t	map_x;
 
@@ -17,10 +18,12 @@ bool	hit_inter(t_data *data, float y, float x)
 
 float	inter_h_step(t_data *data, float angle, float *x, float *y)
 {
+	data->function_calls++;
 	int		x_dir;
 	float	y_step;
 	float	x_step;
 
+	data->function_calls++;
 	angle_correct(&angle, &x_dir, true);
 	*x = floor(data->p_x / SCALE) * SCALE;
 	if (x_dir == 1)
@@ -40,10 +43,12 @@ float	inter_h_step(t_data *data, float angle, float *x, float *y)
 
 float	inter_v_step(t_data *data, float angle, float *x, float *y)
 {
+	data->function_calls++;
 	int		y_dir;
 	float	y_step;
 	float	x_step;
 
+	data->function_calls++;
 	angle_correct(&angle, &y_dir, false);
 	*y = floor(data->p_y / SCALE) * SCALE;
 	if (y_dir == 1)
@@ -69,6 +74,7 @@ int		get_smallest_distance(float hyp1, float hyp2) {
 
 void	raycast(t_data *data)
 {
+	data->function_calls++;
 	int		section;
 	float	angle;
 	float	hyp[2];
@@ -81,6 +87,7 @@ void	raycast(t_data *data)
 	{
 		hyp[0] = inter_v_step(data, angle, &x[0], &y[0]);
 		hyp[1] = inter_h_step(data, angle, &x[1], &y[1]);
+		data->function_calls++;
 		flag = get_smallest_distance(hyp[0], hyp[1]);
 		draw_wall_section(data, section, angle, hyp[flag], 
 			x[flag], y[flag], flag);

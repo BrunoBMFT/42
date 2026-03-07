@@ -20,6 +20,8 @@ bool	save_texture_path(t_data *data);
 bool	texture_check(t_data *data);
 bool	init_imgs(t_data *data);
 bool	player_init(t_data *data);
+#include <sys/time.h>
+int		get_time(void);
 
 
 /*

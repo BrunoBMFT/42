@@ -67,6 +67,8 @@ typedef struct s_data
 	bool		in_d;
 	//frames
 	int			frame_count;
+	size_t		function_calls;
+	int			start;//time
 }				t_data;
 
 #endif

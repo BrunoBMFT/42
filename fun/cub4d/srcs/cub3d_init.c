@@ -1,5 +1,13 @@
 #include "../includes/cub3d.h"
 
+int	get_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, 0);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
 void	init_variables(t_data *data)
 {
 	data->file = NULL;
@@ -15,6 +23,8 @@ void	init_variables(t_data *data)
 	data->in_s = false;
 	data->in_d = false;
 	data->frame_count = 0;
+	data->function_calls = 0;
+	data->start = get_time();
 }
 
 bool	init(int ac, char **av, t_data *data)
