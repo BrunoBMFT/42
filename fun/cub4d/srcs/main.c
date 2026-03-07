@@ -14,7 +14,7 @@ void	walk_aux(t_data *data, float y_temp, float x_temp)
 	}
 }
 
-void	walk(t_data *data, int keysym)
+void	walk(t_data *data, int keysym)//remake to copy goncalo
 {
 	float	cos_value;
 	float	sin_value;
