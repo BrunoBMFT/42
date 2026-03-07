@@ -35,10 +35,10 @@ void	clean_imgs(t_data *data)
 	my_destroy_image(data->mlx, data->sprites[WEST].img);
 }
 
-int	clean_everything(t_data *data)
+void	clean_exit(t_data *data, int exit_code)
 {
 	if (!data)
-		return (0);
+		return ;
 	if (data->file)
 		free_array(data->file);
 	if (data->map)
@@ -53,12 +53,11 @@ int	clean_everything(t_data *data)
 		free(data->mlx);
 	}
 	clean_texture_path(data);
-	return (0);
+	exit(exit_code);
 }
 
-int	clean_exit(t_data *data)
+int	mlx_clean_exit(t_data *data)
 {
-	clean_everything(data);
-	exit(0);
+	clean_exit(data, 0);
 	return (0);
 }

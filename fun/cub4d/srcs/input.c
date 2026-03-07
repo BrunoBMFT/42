@@ -1,58 +1,37 @@
 #include "../includes/cub3d.h"
 
-void	walk_aux(t_data *data, float y_temp, float x_temp)
-{
-	int	map_y;
-	int	map_x;
+// int	input(int keysym, t_data *data)
+// {
+// 	if (keysym == XK_Escape)
+// 		clean_exit(data, 0);
+// 	else if (ft_strchr("wasdfm", keysym)
+// 		|| keysym == XK_Left || keysym == XK_Right)
+// 	{
+// 		if (keysym == XK_Right)
+// 			data->p_angle += A_STEP;
+// 		else if (keysym == XK_Left)
+// 			data->p_angle -= A_STEP;
+// 		else if (ft_strchr("wasd", keysym))
+// 			walk(data, keysym);
+// 		create_frame(data);
+// 	}
+// 	return (0);
+// }
 
-	map_y = floor (y_temp);
-	map_x = floor (x_temp);
-	if ((data->map[map_y] && data->map[map_y][map_x]) &&
-		data->map[map_y][map_x] != '1')
-	{
-		data->p_y = y_temp * SCALE;
-		data->p_x = x_temp * SCALE;
-	}
-}
 
-void	walk(t_data *data, int keysym)
-{
-	float	cos_value;
-	float	sin_value;
 
-	cos_value = W_STEP * cos(rad(data->p_angle));
-	sin_value = W_STEP * sin(rad(data->p_angle));
-	if (keysym == 'w')
-		walk_aux(data, data->p_y / SCALE - cos_value,
-			data->p_x / SCALE + sin_value);
-	if (keysym == 's')
-		walk_aux(data, data->p_y / SCALE + cos_value,
-			data->p_x / SCALE - sin_value);
-	if (keysym == 'a')
-		walk_aux(data, data->p_y / SCALE - sin_value,
-			data->p_x / SCALE - cos_value);
-	if (keysym == 'd')
-		walk_aux(data, data->p_y / SCALE + sin_value,
-			data->p_x / SCALE + cos_value);
-}
-
-int	input(int keysym, t_data *data)
-{
-	if (keysym == XK_Escape)
-	{
-		clean_everything(data);
-		exit(0);
-	}
-	else if (ft_strchr("wasdfm", keysym)
-		|| keysym == XK_Left || keysym == XK_Right)
-	{
-		if (keysym == XK_Right)
-			data->p_angle += A_STEP;
-		else if (keysym == XK_Left)
-			data->p_angle -= A_STEP;
-		else if (ft_strchr("wasd", keysym))
-			walk(data, keysym);
-		create_frame(data);
-	}
-	return (0);
-}
+// int	mouse_movement(int x, int y, t_data	*data)
+// {
+// 	int	dif;
+// 	(void)y;
+// 	dif = abs(data->win_width- x);
+// 	if (x > (data->win_width / 2))
+// 		data->p_angle += (dif / 200);
+// 	else if (x < (data->win_width / 2))
+// 		data->p_angle-= dif / 200;
+// 	mlx_mouse_move(data->mlx, data->win, data->win_width / 2,
+// 		data->win_height / 2);
+// 		create_frame(data);
+// }
+// mlx_hook(data.win, MotionNotify, PointerMotionMask,
+// 	mouse_movement, &data);

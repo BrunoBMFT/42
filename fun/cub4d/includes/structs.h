@@ -46,22 +46,27 @@ typedef struct s_data
 	float		p_x;
 	int			p_angle;
 	t_img		frame;
-	//sprites
 	t_img		sprites[4];
 	int			color_floor;
 	int			color_ceiling;
-	//sprites
 	int			map_active;
 	char		**map;
 	size_t		map_height;
 	size_t		map_width;
 	char		**file;
 	bool		is_map;
-	//paths
 	bool		has_textures;
 	bool		has_colors;
 	char		*paths[6];
-	//paths
+	//do some other way
+	bool		in_right;
+	bool		in_left;
+	bool		in_w;
+	bool		in_a;
+	bool		in_s;
+	bool		in_d;
+	//frames
+	int			frame_count;
 }				t_data;
 
 #endif

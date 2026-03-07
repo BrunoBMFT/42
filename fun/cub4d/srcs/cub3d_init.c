@@ -8,6 +8,13 @@ void	init_variables(t_data *data)
 	data->win = NULL;
 	data->frame.img = NULL;
 	data->is_map = false;
+	data->in_right = false;
+	data->in_left = false;
+	data->in_w = false;
+	data->in_a = false;
+	data->in_s = false;
+	data->in_d = false;
+	data->frame_count = 0;
 }
 
 bool	init(int ac, char **av, t_data *data)

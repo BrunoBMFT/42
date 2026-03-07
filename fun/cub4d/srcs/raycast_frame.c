@@ -42,6 +42,7 @@ void	create_background(t_data *data)
 
 void	create_frame(t_data *data)
 {
+	ft_printf("frame %d\n", ++data->frame_count);
 	create_background(data);
 	raycast(data);
 	if (data->map_active)
