@@ -1,81 +1,44 @@
 #include "../includes/cub3d.h"
 
 
-// void	walk_aux(t_data *data, float y_temp, float x_temp)
-// {
-// 	data->function_calls++;
-// 	int	map_y;
-// 	int	map_x;
-// 	map_y = floor (y_temp);
-// 	map_x = floor (x_temp);
-// 	if ((data->map[map_y] && data->map[map_y][map_x]) &&
-// 		data->map[map_y][map_x] != '1')
-// 	{
-// 		data->p_y = y_temp * SCALE;
-// 		data->p_x = x_temp * SCALE;
-// 	}
-// }
-
-// void	walk(t_data *data, int key_pressed)//remake to copy goncalo, rename key_pressed
-// {
-// 	//from parameters, get angle, which will be sent as WKEY, AKEY whatever
-// 	//then do     angle_calc = (KEY - 1) * 90
-// 	data->function_calls++;
-// 	float	cos_value;
-// 	float	sin_value;
-// 	cos_value = W_STEP * cos(rad(data->p_angle));
-// 	sin_value = W_STEP * sin(rad(data->p_angle));
-// 	if (key_pressed == W_KEY)
-// 		walk_aux(data, data->p_y / SCALE - cos_value,
-// 			data->p_x / SCALE + sin_value);
-// 	if (key_pressed == A_KEY)
-// 		walk_aux(data, data->p_y / SCALE - sin_value,
-// 			data->p_x / SCALE - cos_value);
-// 	if (key_pressed == S_KEY)
-// 		walk_aux(data, data->p_y / SCALE + cos_value,
-// 			data->p_x / SCALE - sin_value);
-// 	if (key_pressed == D_KEY)
-// 		walk_aux(data, data->p_y / SCALE + sin_value,
-// 			data->p_x / SCALE + cos_value);
-// }
-
-void	walk(t_data *data, int dir)//remake to copy goncalo, rename key_pressed
+void	walk_aux(t_data *data, float y_temp, float x_temp)//try to incorporate this into walk()
 {
 	data->function_calls++;
-
-	float angle = data->p_angle + ((dir - 1) * 90);
-	if (angle >= 360) angle -= 360;
-	if (angle < 0) angle += 360;
-
-	float x = data->p_x * cos(rad(angle)) / SCALE;
-	float y = data->p_y * sin(rad(angle)) / SCALE;
-	int	map_y = floor(x);
-	int	map_x = floor(y);
-	ft_printf("%d, %d, angle: %d\n", map_x, map_y, data->p_angle);
+	int	map_y;
+	int	map_x;
+	map_y = floor (y_temp);
+	map_x = floor (x_temp);
+	//map_y >= 0 && map_y < map_height
+	// map_x >= 0 && map_x < map_width instead of (data->map[map_y] && data->map[map_y][map_x])
 	if ((data->map[map_y] && data->map[map_y][map_x]) &&
-		data->map[map_y][map_x] != '1') 
+		data->map[map_y][map_x] != '1')
 	{
-		data->p_x = x * SCALE;
-		data->p_y = y * SCALE;
+		data->p_y = y_temp * SCALE;
+		data->p_x = x_temp * SCALE;
 	}
-
-//aaaaaaa
-	// float	cos_value;
-	// float	sin_value;
-	// cos_value = W_STEP * cos(rad(data->p_angle));
-	// sin_value = W_STEP * sin(rad(data->p_angle));
-	// if (key_pressed == W_KEY)
-	// 	walk_aux(data, data->p_y / SCALE - cos_value,
-	// 		data->p_x / SCALE + sin_value);
-	// if (key_pressed == A_KEY)
-	// 	walk_aux(data, data->p_y / SCALE - sin_value,
-	// 		data->p_x / SCALE - cos_value);
-	// if (key_pressed == S_KEY)
-	// 	walk_aux(data, data->p_y / SCALE + cos_value,
-	// 		data->p_x / SCALE - sin_value);
-	// if (key_pressed == D_KEY)
-	// 	walk_aux(data, data->p_y / SCALE + sin_value,
-	// 		data->p_x / SCALE + cos_value);
+}
+//remove rad() calls
+void	walk(t_data *data, int key_pressed)//remake to copy goncalo, rename key_pressed
+{
+	//from parameters, get angle, which will be sent as WKEY, AKEY whatever
+	//then do     angle_calc = (KEY - 1) * 90
+	data->function_calls++;
+	float	cos_value;
+	float	sin_value;
+	cos_value = W_STEP * cos(rad(data->p_angle));
+	sin_value = W_STEP * sin(rad(data->p_angle));
+	if (key_pressed == W_KEY)
+		walk_aux(data, data->p_y / SCALE - cos_value,
+			data->p_x / SCALE + sin_value);
+	if (key_pressed == A_KEY)
+		walk_aux(data, data->p_y / SCALE - sin_value,
+			data->p_x / SCALE - cos_value);
+	if (key_pressed == S_KEY)
+		walk_aux(data, data->p_y / SCALE + cos_value,
+			data->p_x / SCALE - sin_value);
+	if (key_pressed == D_KEY)
+		walk_aux(data, data->p_y / SCALE + sin_value,
+			data->p_x / SCALE + cos_value);
 }
 
 void	pause_game(t_data *data)
@@ -141,9 +104,13 @@ void	fps_count(t_data *data)
 {
 	float elapsed = get_time() - data->start;
 	if (elapsed > 50) {
-		printf("fps %.2f\n", (float)data->frame_count / elapsed * 1000);
+		float fps = (float)data->frame_count / elapsed * 1000;
+		printf("fps %.2f\n", fps);
 		data->frame_count = 0;
 		data->start = get_time();
+		char *fps_str = ft_itoa((int)fps);
+		mlx_string_put(data->mlx, data->win, 25, 15, RED, fps_str);
+		free (fps_str);
 	}
 }
 
@@ -172,12 +139,10 @@ int	game_frame(t_data *data)//rename and put in a different folder
 
 int	mouse_movement(int x, int y, t_data	*data)//make this a triggerable thing
 {
-	int	dif;
-
 	(void)y;
 	if (data->paused)
 		return (0);
-	dif = abs(data->win_width- x);
+	mlx_mouse_hide(data->mlx, data->win);
 	if (x > (data->win_width / 2))
 		data->p_angle += A_STEP;
 	else if (x < (data->win_width / 2))

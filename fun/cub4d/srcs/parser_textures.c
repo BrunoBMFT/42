@@ -100,12 +100,6 @@ bool	texture_check(t_data *data)
 		return (error("Invalid colors"));
 	data->color_floor = parse_rgb(data->paths[FLOOR]);
 	data->color_ceiling = parse_rgb(data->paths[CEILING]);
-	printf("1, %s\n", data->paths[NORTH]);
-	printf("2, %s\n", data->paths[EAST]);
-	printf("3, %s\n", data->paths[SOUTH]);
-	printf("4, %s\n", data->paths[WEST]);
-	printf("5, %s\n", data->paths[FLOOR]);
-	printf("6, %s\n", data->paths[CEILING]);
 	if (access(data->paths[NORTH], R_OK) || access(data->paths[EAST], R_OK)
 		|| access(data->paths[SOUTH], R_OK) || access(data->paths[WEST], R_OK))
 		return (error("Missing texture"));

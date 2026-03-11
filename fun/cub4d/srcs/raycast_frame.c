@@ -4,19 +4,18 @@ int	get_pixel(t_img *img, int x, int y)
 {
 	char	*dst;
 
-	dst = img->addr + (y * img->line_len + x * (img->bits_per_pixel / 8));
+	dst = img->addr + (y * img->line_len + x * img->bits_per_pixel);
 	return (*(unsigned int *)dst);
 }
 
 void	put_pixel(t_data *data, int y, int x, int color)
 {
-	// data->function_calls++;
 	char	*offset;
 
-	if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)
-		return ;
+	// if (y < 0 || x < 0 || y > data->win_height || x > data->win_width)
+	// 	return ;
 	offset = data->frame.addr + (y * data->frame.line_len + x
-			* (data->frame.bits_per_pixel / 8));
+			* data->frame.bits_per_pixel);
 	*(unsigned int *)offset = color;
 }
 
@@ -48,7 +47,7 @@ void	create_frame(t_data *data)
 	// ft_printf("%d, function calls %zu\n", data->frame_count, data->function_calls);
 	create_background(data);
 	raycast(data);
-	if (data->map_active)
-		create_map(data);
+	// if (data->map_active)
+	// 	create_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->frame.img, 0, 0);
 }

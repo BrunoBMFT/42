@@ -6,11 +6,12 @@ bool	init_texture_img(t_data *data, t_img *texture, char *img_src)
 	texture->img = mlx_xpm_file_to_image(data->mlx,
 			img_src, &texture->width, &texture->height);
 	if (!texture->img)
-		return (error("A image failed to init"));
+		return (error("A image failed to initialize"));
 	texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel,
 			&texture->line_len, &texture->endian);
+	texture->bits_per_pixel /= 8;
 	if (!texture->addr)
-		return (error("An image address failed init"));
+		return (error("An image address failed to initialize"));
 	return (true);
 }
 
@@ -24,12 +25,13 @@ bool	init_imgs(t_data *data)
 	data->frame.img = mlx_new_image(data->mlx,
 			data->win_width, data->win_height);
 	if (!data->frame.img)
-		return (error("Frame failed initializing"));
+		return (error("Frame failed to initialize"));
 	data->frame.addr = mlx_get_data_addr(data->frame.img,
 			&data->frame.bits_per_pixel,
 			&data->frame.line_len, &data->frame.endian);
+	data->frame.bits_per_pixel /= 8;
 	if (!data->frame.addr)
-		return (error("Frame address failed initializing"));
+		return (error("Frame address failed to initialize"));
 	return (true);
 }
 

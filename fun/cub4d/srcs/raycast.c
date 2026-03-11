@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-bool	hit_inter(t_data *data, float y, float x)
+bool	hit_inter(t_data *data, float y, float x)//rename, cause it should return true if it hits
 {
 	data->function_calls++;
 	size_t	map_y;

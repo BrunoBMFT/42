@@ -49,6 +49,5 @@ bool	init(int ac, char **av, t_data *data)
 		return (false);
 	data->win = mlx_new_window(data->mlx,
 			data->win_width, data->win_height, "cub3d");
-	mlx_mouse_hide(data->mlx, data->win);
 	return (true);
 }

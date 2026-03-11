@@ -16,9 +16,7 @@ enum sprites {
 	NORTH,
 	EAST,
 	SOUTH,
-	WEST,
-	FLOOR,
-	CEILING
+	WEST
 };
 
 enum key_presses {
