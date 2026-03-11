@@ -60,8 +60,7 @@ void	meve_door(t_player *player, t_session *instance, double x, double y)
 		wall_slide(player, instance, x, y);
 }
 
-bool	check_collision_door(t_player *player, t_session *instance, int x,
-		int y)
+bool	check_collision_door(t_player *player, t_session *instance, int x, int y)
 {
 	int	ctd;
 

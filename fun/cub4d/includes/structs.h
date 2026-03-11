@@ -1,21 +1,6 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-// typedef struct s_coord
-// {
-// 	float	y;
-// 	float	x;
-// }				t_coord;
-
-// typedef struct s_draw
-// {
-// 	float	hyp;
-// 	float	angle;
-// 	int		section;
-// 	t_coord	coord;
-// 	bool	vert;
-// }			t_draw;
-
 typedef struct s_img
 {
 	void	*img;
@@ -36,20 +21,42 @@ enum sprites {
 	CEILING
 };
 
+enum key_presses {
+	RIGHT_KEY,
+	LEFT_KEY,
+	W_KEY,
+	A_KEY,
+	S_KEY,
+	D_KEY
+};
+
 typedef struct s_data
 {
+	//MLX
 	void		*mlx;
 	void		*win;
 	int			win_height;
 	int			win_width;
+
+	//PLAYER
 	float		p_y;
 	float		p_x;
 	int			p_angle;
+	
+	//FRAME
 	t_img		frame;
 	t_img		sprites[4];
 	int			color_floor;
 	int			color_ceiling;
+	int			frame_count;
+	int			start;//rename cause im not using it as start
+	
+	//INPUTS
+	bool		inputs[6];
 	int			map_active;
+	bool		paused;
+
+	//PARSING
 	char		**map;
 	size_t		map_height;
 	size_t		map_width;
@@ -58,17 +65,9 @@ typedef struct s_data
 	bool		has_textures;
 	bool		has_colors;
 	char		*paths[6];
-	//do some other way
-	bool		in_right;
-	bool		in_left;
-	bool		in_w;
-	bool		in_a;
-	bool		in_s;
-	bool		in_d;
-	//frames
-	int			frame_count;
-	size_t		function_calls;
-	int			start;//time
+	
+	size_t		function_calls;//DEBUGGING
 }				t_data;
+
 
 #endif

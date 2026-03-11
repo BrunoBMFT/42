@@ -16,15 +16,17 @@ void	init_variables(t_data *data)
 	data->win = NULL;
 	data->frame.img = NULL;
 	data->is_map = false;
-	data->in_right = false;
-	data->in_left = false;
-	data->in_w = false;
-	data->in_a = false;
-	data->in_s = false;
-	data->in_d = false;
+	ft_bzero(data->inputs, sizeof(data->inputs));
+	// data->in_right = false;
+	// data->in_left = false;
+	// data->in_w = false;
+	// data->in_a = false;
+	// data->in_s = false;
+	// data->in_d = false;
 	data->frame_count = 0;
 	data->function_calls = 0;
 	data->start = get_time();
+	data->paused = false;
 }
 
 bool	init(int ac, char **av, t_data *data)
@@ -47,5 +49,6 @@ bool	init(int ac, char **av, t_data *data)
 		return (false);
 	data->win = mlx_new_window(data->mlx,
 			data->win_width, data->win_height, "cub3d");
+	mlx_mouse_hide(data->mlx, data->win);
 	return (true);
 }

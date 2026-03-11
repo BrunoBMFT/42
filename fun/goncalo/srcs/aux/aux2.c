@@ -35,16 +35,9 @@ bool	is_in_colision(int x, int y, t_session *instane, char type)
 	ctd = 0;
 	if (type == 'D' && instane->player.door == true)
 		return (false);
-	while (ctd <= PLAYER_SIZE)
-	{
-		if (map->grid[y][x + ctd] == type || map->grid[y + ctd][x] == type
-			|| map->grid[y + ctd][x + ctd] == type)
-			return (true);
-		if (map->grid[y - ctd][x] == type || map->grid[y][x - ctd] == type
-			|| map->grid[y - ctd][x - ctd] == type)
-			return (true);
-		ctd++;
-	}
+	if (map->grid[y][x] == type || map->grid[y][x] == type
+		|| map->grid[y][x] == type)
+		return (true);
 	return (false);
 }
 

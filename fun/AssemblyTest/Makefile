@@ -16,7 +16,6 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) -o $@ $(OBJS)
 
-
 $(OBJS_DIR)/%.o: %.c
 	mkdir -p $(OBJS_DIR)
 	$(CC) -c $< -o $@
