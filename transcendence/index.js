@@ -5,7 +5,7 @@ const app = express();
 app.get('/api/aaa', (req, res) => {
 	res.statusCode = 200;
 	res.setHeader('Content-Type', 'text/plain');
-	res.end('Hello retard')
+	res.end('Hello')
 	// res.send("ahahaha");
 });
 
