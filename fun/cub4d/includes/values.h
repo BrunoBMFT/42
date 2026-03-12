@@ -4,8 +4,8 @@
 # define POSSIBLE "01NESW"
 # define WHITESPACE " \t\r\v\f"
 # define SCALE 16
-# define W_STEP 0.06125
-# define A_STEP 2
+# define W_STEP 0.030125
+# define A_STEP 1
 # define FOV 64
 # define WIN_WIDTH 1280
 # define WIN_HEIGHT 720

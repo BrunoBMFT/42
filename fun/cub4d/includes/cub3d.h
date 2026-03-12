@@ -26,9 +26,9 @@ int		get_time(void);
 
 //raycast
 void	raycast(t_data *data);
-void	draw_wall_section(t_data *data, int section, float angle, float hyp, float x, float y, bool vert);
+void	draw_wall_section(t_data *data, int section, double angle, double hyp, double x, double y, bool vert);
 void	create_background(t_data *data);
-void	angle_correct(float *angle, int *dir, bool is_h);
+void	angle_correct(double *angle, int *dir, bool is_h);
 float	rad(float deg);
 
 //movement

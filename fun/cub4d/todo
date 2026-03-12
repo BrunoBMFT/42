@@ -1,0 +1,65 @@
+1. recomputing trig is bad
+float angle = data->p_angle + ((dir - 1) * 90);
+float x = data->p_x * cos(rad(angle)) / SCALE;
+float y = data->p_y * sin(rad(angle)) / SCALE;
+cos and sin are expensive, if i can save player_dir_x and player_dir_y is better, update this onle when angle changes.
+dir_x = cos(angle)
+dir_y = sin(angle): is good
+
+
+7. mouse_event every small movement, maybe make a threshold region
+
+8. fps_count using printf
+
+9. improve walk
+
+10. floor() inside movement, just use typecasting
+
+11. if (angle >- 360) angle -= 360 and the other, angle = fmod(angle, 360)
+
+14. remove fields not used in rendering in img struct (i think i wont do this)
+
+15. seperate the data struct
+t_game, t_render, t_player, t_map, t_input
+
+16. multiple booleans in struct cause padding, use uint8_t flags
+
+19. too many floats, raycasters use doubles for precision (wont fix)
+
+20. expensive inter_step, remove the sqrt, use dx*dx + dy*dy, only find true distance after (will have to check
+
+21. remove pow(), just do dy*dy
+
+22. tan() called many times, just do float tan_a = tan(rad(angle)) and use that for the entire ray
+
+23. rad() called many times
+
+24. floor() bad, use typecast to (int)
+
+25. ft_strlen() in hit_inter is bad, size_t row_len[map_height]
+
+26. avoid sqrt(), only use actual distance in get_wall_height()
+
+27. hyp[2] is bad, compare it inline, use if (hyp0 < hyp1)
+
+28. avoid angle increment hardcode (angle += FOV / data->win_width)
+
+29. the player doesnt move every frame, dont need to always do floor(p_y) etc.
+
+31. in hit_inter, checking map_y and shit shouldnt be needed
+
+33. cache locality, dont be accessing data unnecessarily
+float px = data->p_x;
+float py = data->p_y;
+
+35. every walk is calculating player_dir with sin and cos, instead, save a player_dir_x and player_dir_y and only change it every time player rotates
+
+36. floor() inside movement, just cast it
+
+37. data->p_y / SCALE (division is costly try not dividing much)
+
+38. collision is weak, test each axis by itself
+test x movement
+test y movement
+
+39. cache locality, save data vars into their own vars

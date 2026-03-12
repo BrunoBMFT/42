@@ -1,5 +1,6 @@
 #include "../includes/cub3d.h"
 
+//add button(x, y, size_x, size_y, function)
 
 int	main(int ac, char **av)
 {

@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-void	angle_correct(float *angle, int *dir, bool is_h)
+void	angle_correct(double *angle, int *dir, bool is_h)
 {
 	while (*angle < 0)
 		*angle += 360;

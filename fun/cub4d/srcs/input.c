@@ -3,7 +3,6 @@
 
 void	walk_aux(t_data *data, float y_temp, float x_temp)//try to incorporate this into walk()
 {
-	data->function_calls++;
 	int	map_y;
 	int	map_x;
 	map_y = floor (y_temp);
@@ -22,7 +21,6 @@ void	walk(t_data *data, int key_pressed)//remake to copy goncalo, rename key_pre
 {
 	//from parameters, get angle, which will be sent as WKEY, AKEY whatever
 	//then do     angle_calc = (KEY - 1) * 90
-	data->function_calls++;
 	float	cos_value;
 	float	sin_value;
 	cos_value = W_STEP * cos(rad(data->p_angle));
@@ -125,7 +123,7 @@ int	game_frame(t_data *data)//rename and put in a different folder
 	fps_count(data);
 	if (data->paused)
 		return (0);
-	if (data->inputs[RIGHT_KEY])//make modular
+	if (data->inputs[RIGHT_KEY])//make modular, and also save player_dir
 		data->p_angle += A_STEP;
 	if (data->inputs[LEFT_KEY])
 		data->p_angle -= A_STEP;

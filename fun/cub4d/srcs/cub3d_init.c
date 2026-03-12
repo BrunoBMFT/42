@@ -17,14 +17,7 @@ void	init_variables(t_data *data)
 	data->frame.img = NULL;
 	data->is_map = false;
 	ft_bzero(data->inputs, sizeof(data->inputs));
-	// data->in_right = false;
-	// data->in_left = false;
-	// data->in_w = false;
-	// data->in_a = false;
-	// data->in_s = false;
-	// data->in_d = false;
 	data->frame_count = 0;
-	data->function_calls = 0;
 	data->start = get_time();
 	data->paused = false;
 }

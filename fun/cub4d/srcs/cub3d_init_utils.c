@@ -15,6 +15,21 @@ bool	init_texture_img(t_data *data, t_img *texture, char *img_src)
 	return (true);
 }
 
+bool	init_new_img(t_data *data, t_img *frame)
+{
+	frame->img = mlx_new_image(data->mlx,
+			data->win_width, data->win_height);
+	if (!frame->img)
+		return (error("Frame failed to initialize"));
+	frame->addr = mlx_get_data_addr(frame->img,
+			&frame->bits_per_pixel,
+			&frame->line_len, &frame->endian);
+	frame->bits_per_pixel /= 8;
+	if (!frame->addr)
+		return (error("Frame address failed to initialize"));
+	return (true);
+}
+
 bool	init_imgs(t_data *data)
 {
 	if (!init_texture_img(data, &data->sprites[NORTH], data->paths[NORTH])
@@ -22,16 +37,8 @@ bool	init_imgs(t_data *data)
 		|| !init_texture_img(data, &data->sprites[SOUTH], data->paths[SOUTH])
 		|| !init_texture_img(data, &data->sprites[WEST], data->paths[WEST]))
 		return (false);
-	data->frame.img = mlx_new_image(data->mlx,
-			data->win_width, data->win_height);
-	if (!data->frame.img)
-		return (error("Frame failed to initialize"));
-	data->frame.addr = mlx_get_data_addr(data->frame.img,
-			&data->frame.bits_per_pixel,
-			&data->frame.line_len, &data->frame.endian);
-	data->frame.bits_per_pixel /= 8;
-	if (!data->frame.addr)
-		return (error("Frame address failed to initialize"));
+	if (!init_new_img(data, &data->frame))
+		return (false);
 	return (true);
 }
 
