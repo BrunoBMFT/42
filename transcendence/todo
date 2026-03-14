@@ -9,4 +9,7 @@ o prisma é só uma library que tem sql instructions
 
 
 
-criar tabela de amigos,  
+criar tabela de amigos
+
+
+also quando estiver a criar as tebelas, para testar tambem aggregation, ir dando o total de usuarios como output
