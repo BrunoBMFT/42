@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model my_users {
+  id               String          @id @default(uuid())
+  age              Int
+  name             String
+  email            String          @unique
+  role             Role            @default(BASIC)
+  writtenPosts     Post[]          @relation("WrittenPosts")
+  favoritedPosts   Post[]          @relation("FavoritedPosts")
+  userPreference   UserPreference? @relation(fields: [userPreferenceId], references: [id])
+  userPreferenceId String?         @unique
+
+  @@unique([age, name]) //cant be same name AND same age
+  @@index([email]) //indexing for performance? for queries according to vid (29:03)
+}
+
+model UserPreference {
+  id           String    @id @default(uuid())
+  emailUpdates Boolean
+  user         my_users?
+}
+
+model Post {
+  id            String     @id @default(uuid())
+  title         String
+  averageRating Float
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  author        my_users   @relation("WrittenPosts", fields: [authorId], references: [id]) //the stirng is just a label, can be whatever i want it to be
+  authorId      String
+  favoritedBy   my_users?  @relation("FavoritedPosts", fields: [favoritedById], references: [id])
+  favoritedById String?
+  categories    Category[]
+}
+
+model Category {
+  id    String @id @default(uuid())
+  name  String @unique
+  posts Post[]
+}
+
+enum Role {
+  BASIC
+  ADMIN
+}
+
+//FIELDS OF THE MODELS
+//1st field is the column name    -> Int, String, Boolean, BigInt, Float, Decimal(more accurate), DateTime, Json, Bytes
+//2nd is the type of the field
+//3rd field modifier (opt)        ->      "String?": the field is optional, "[]": array
+//4th attributes                  -> anything with [@]. 
+//@unique can only have 1 in table. @updatedAt will place in the current timestamp, 
+//@default(now()) for now timestamp, @default(uuid()) for unique id, @default(autoincrement()) for int id incrementation (less safe)
+
+//writtenPosts and favoritedPosts are examples of One to Many Relationship, and disambiguating multiple One to Many relationships
+//baiscally, author my_users will have a relationship linked to an Id in Post, referencing the id of my_users
+//the @relation("whatever") is what disambiguates every relation
+
+//Category is for Many to Many relationship, as long as i have array of Posts in category and array of categories in Posts, its all set
+
+//UserPreferences is an example of One to One relationship, where UserPreferences in my_users isnt an array, its a single userPreference table
+//also the userId has to be @unique, cause only one Preference per User, aka one to one
+
+//in post:   // @@id([title, authorId])//instead of specific postId, the id will be a unique combination of title and authorId
