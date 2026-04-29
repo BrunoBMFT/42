@@ -1,0 +1,12 @@
+let a = 1
+let b = 2
+
+//settimeout runs async, meaning everything else can run while this one runs
+setTimeout(function() {
+	console.log('Async')
+}, 100)
+
+console.log('Synchronous')
+
+console.log(a)
+console.log(b)
