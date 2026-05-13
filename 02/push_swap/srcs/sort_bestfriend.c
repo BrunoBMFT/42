@@ -102,7 +102,7 @@ void	sort_bestfriend(t_ht ht_a, t_ht ht_b)
 		push(&ht_b, &ht_a, 'a');
 	}
 	rotate_to_first(&ht_a);
-	ft_lstclear(&ht_a);
-	ft_lstclear(&ht_b);
+	ft_lstclear_ps(&ht_a);
+	ft_lstclear_ps(&ht_b);
 	exit (0);
 }

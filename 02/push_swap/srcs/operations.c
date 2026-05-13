@@ -21,8 +21,8 @@ void	swap(t_ht *lst, char a_or_b)
 		return ;
 	node1 = ft_lstrem_front(lst);
 	node2 = ft_lstrem_front(lst);
-	ft_lstadd_front(lst, node1);
-	ft_lstadd_front(lst, node2);
+	ft_lstadd_front_ps(lst, node1);
+	ft_lstadd_front_ps(lst, node2);
 	if (a_or_b == 'a')
 		ft_printf("sa\n");
 	else if (a_or_b == 'b')
@@ -36,7 +36,7 @@ void	push(t_ht *from, t_ht *to, char a_or_b)
 	if (!from || !to || !from->head)
 		return ;
 	node = ft_lstrem_front(from);
-	ft_lstadd_front(to, node);
+	ft_lstadd_front_ps(to, node);
 	from->size--;
 	to->size++;
 	if (a_or_b == 'a')
@@ -52,7 +52,7 @@ void	rotate(t_ht *lst, char a_or_b)
 	if (!lst || !lst->head)
 		return ;
 	node = ft_lstrem_front(lst);
-	ft_lstadd_back(lst, node);
+	ft_lstadd_back_ps(lst, node);
 	if (a_or_b == 'a')
 		ft_printf("ra\n");
 	else if (a_or_b == 'b')
@@ -66,7 +66,7 @@ void	revrotate(t_ht *lst, char a_or_b)
 	if (!lst || !lst->head)
 		return ;
 	node = ft_lstrem_back(lst);
-	ft_lstadd_front(lst, node);
+	ft_lstadd_front_ps(lst, node);
 	if (a_or_b == 'a')
 		ft_printf("rra\n");
 	else if (a_or_b == 'b')

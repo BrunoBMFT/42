@@ -88,6 +88,6 @@ int	find_median(t_dlist *head_a)
 	sort_list(&lst);
 	i = 0;
 	value = find_median_aux(i, temp, &lst);
-	ft_lstclear(&lst);
+	ft_lstclear_ps(&lst);
 	return (value);
 }

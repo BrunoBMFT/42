@@ -52,11 +52,11 @@ void	normalizer(t_dlist *head_a);
 //lists
 void	initiate(t_ht *ht_a, t_ht *ht_b);
 void	new_node(t_ht *lst, int content);
-void	ft_lstadd_front(t_ht *lst, t_dlist *new);
-void	ft_lstadd_back(t_ht *lst, t_dlist *new);
+void	ft_lstadd_front_ps(t_ht *lst, t_dlist *new);
+void	ft_lstadd_back_ps(t_ht *lst, t_dlist *new);
 t_dlist	*ft_lstrem_front(t_ht *lst);
 t_dlist	*ft_lstrem_back(t_ht *lst);
-void	ft_lstclear(t_ht *stack);
+void	ft_lstclear_ps(t_ht *stack);
 //operations
 void	push(t_ht *from, t_ht *to, char a_or_b);
 void	rotate(t_ht *lst, char a_or_b);

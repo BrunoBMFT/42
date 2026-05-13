@@ -1,23 +1,7 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: brfernan <brfernan@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/06/23 16:39:56 by ycantin           #+#    #+#              #
-#    Updated: 2024/12/03 22:29:01 by brfernan         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME =	minishell
 
 SRCS_DIR = ./srcs
 SRCS = main.c $(addprefix aux/, $(AUX_SRCS)) $(addprefix lexer/, $(LEXER_SRCS)) $(addprefix expand/, $(EXPAND_SRCS)) $(addprefix executor/, $(EXECUTOR_SRCS)) $(addprefix builtins/, $(BUILTINS_SRCS))
-
-CFLAGS = -Wall -Werror -Wextra -g
-DEPS = -lreadline
-RM = rm -f
 
 AUX_SRCS = aux.c frees.c signal.c signals_utils.c
 EXPAND_SRCS = expansion.c expansion_utils.c expansion_utils_2.c error_correction.c error_correction_utils.c 
@@ -31,13 +15,16 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@cc $(CFLAGS) -c $< -o $@
 
+CFLAGS = -Wall -Werror -Wextra -g -lreadline
+RM = rm -f
+
 LIBFT_DIR = ./includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(DEPS)
+	@cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
 	@echo $(NAME) ready
 
 $(LIBFT):
@@ -47,12 +34,11 @@ $(LIBFT):
 clean:
 	@rm -rf $(OBJS_DIR)
 	@make -C $(LIBFT_DIR) clean --no-print-directory
-	@echo clean
 
 fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIBFT_DIR) fclean --no-print-directory
-	@echo clean
+	@echo $(NAME) "fclean"
 
 re: fclean all
 

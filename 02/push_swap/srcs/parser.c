@@ -74,7 +74,7 @@ bool	parser(int ac, char **av, t_ht *ht_a)
 			if (!parse_digit(av[i])
 				|| !parse_doubles(av, ft_atol(av[i]), ht_a)
 				|| ft_atol(av[i]) > INT_MAX || ft_atol(av[i]) < INT_MIN)
-				return (ft_lstclear(ht_a), ft_printf("Error\n"), false);
+				return (ft_lstclear_ps(ht_a), ft_printf("Error\n"), false);
 			new_node(ht_a, ft_atol(av[i]));
 			i++;
 		}

@@ -20,9 +20,9 @@ bool	execute(char *arg, char **envp)
 	com = ft_split(arg, ' ');
 	path = find_path(envp, com[0]);
 	if (!path)
-		return (free_array(com), false);
+		return (ft_free_array(com), false);
 	execve(path, com, envp);
-	free_array(com);
+	ft_free_array(com);
 	return (false);
 }
 

@@ -35,6 +35,6 @@ char	*find_path(char **envp, char *com)
 			return (path);
 		free (path);
 	}
-	free_array(paths);
+	ft_free_array(paths);
 	return (NULL);
 }

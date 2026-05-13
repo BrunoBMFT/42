@@ -12,7 +12,7 @@
 
 #include "../includes/push_swap.h"
 
-void	ft_lstadd_front(t_ht *lst, t_dlist *new)
+void	ft_lstadd_front_ps(t_ht *lst, t_dlist *new)
 {
 	if (!lst->head)
 	{
@@ -25,7 +25,7 @@ void	ft_lstadd_front(t_ht *lst, t_dlist *new)
 	lst->head = new;
 }
 
-void	ft_lstadd_back(t_ht *lst, t_dlist *new)
+void	ft_lstadd_back_ps(t_ht *lst, t_dlist *new)
 {
 	new->next = NULL;
 	if (!lst->tail)

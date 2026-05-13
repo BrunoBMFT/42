@@ -12,7 +12,7 @@
 
 #include "../includes/push_swap.h"
 
-t_dlist	*ft_lstnew(int value)
+t_dlist	*ft_lstnew_ps(int value)
 {
 	t_dlist	*current;
 
@@ -30,11 +30,11 @@ void	new_node(t_ht *lst, int value)
 	t_dlist	*toadd;
 
 	lst->size++;
-	toadd = ft_lstnew(value);
-	ft_lstadd_back(lst, toadd);
+	toadd = ft_lstnew_ps(value);
+	ft_lstadd_back_ps(lst, toadd);
 }
 
-void	ft_lstclear(t_ht *stack)
+void	ft_lstclear_ps(t_ht *stack)
 {
 	t_dlist	*temp;
 
@@ -86,5 +86,5 @@ void	normalizer(t_dlist *head_a)
 	t1 = lst.head;
 	t2 = lst.head->next;
 	normalizer_aux(t1, t2, &lst, count);
-	ft_lstclear(&lst);
+	ft_lstclear_ps(&lst);
 }

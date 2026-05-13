@@ -63,7 +63,7 @@ void	sort(t_ht *ht_a, t_ht *ht_b)
 		else
 			sort_bestfriend(*ht_a, *ht_b);
 	}
-	ft_lstclear(ht_a);
-	ft_lstclear(ht_b);
+	ft_lstclear_ps(ht_a);
+	ft_lstclear_ps(ht_b);
 	return ;
 }

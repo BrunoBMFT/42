@@ -1,40 +1,51 @@
 NAME = push_swap
+
 SRCS_DIR = ./srcs
-SRCS = main.c lists.c operations.c lists2.c sort.c sort_bestfriend.c parser.c \
-sort_cost.c sort_aux.c median.c
-OBJDIR = ./objs
-OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
+SRCS = main.c lists.c operations.c lists2.c sort.c \
+		sort_bestfriend.c parser.c sort_cost.c sort_aux.c median.c
+
+LIBFT_URL = https://github.com/BrunoBMFT/libft_usable.git
 LIBFT_DIR = ./includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-$(OBJDIR)/%.o: $(SRCS_DIR)/%.c
-	@mkdir -p $(OBJDIR)
+CFLAGS = -Wall -Wextra -Werror -g
+RM = rm -rf
+
+OBJS_DIR = ./objs
+OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-CC = cc
-COMPRESS = ar rcs
-CFLAGS = -Wall -Wextra -Werror -g
-RM = rm -f
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME):  $(LIBFT) $(OBJS)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
-	@echo $(NAME) ready!
+	@echo $(NAME) ready.
 
 $(LIBFT):
+	@if [ ! -d "$(LIBFT_DIR)" ]; then \
+		git clone $(LIBFT_URL) $(LIBFT_DIR); \
+	fi
 	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
-	@echo libft compiled and ready!
 
 clean:
-	@$(RM) -r $(OBJDIR)
-	@$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory
-	@echo objects clean
+	@$(RM) $(OBJS_DIR)
+	@if [ -d "$(LIBFT_DIR)" ]; then \
+		$(MAKE) -C $(LIBFT_DIR) clean --no-print-directory; \
+	fi
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
-	@echo push_swap fclean
+	@if [ -d "$(LIBFT_DIR)" ]; then \
+		$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory; \
+	fi
+	@echo $(NAME) "fclean"
+
+uninstall:
+	@$(RM) $(LIBFT_DIR);
+	@echo "libft uninstalled"
 
 re:		fclean all
 
-.PHONY:			all clean fclean re
+.PHONY:	all uninstall clean fclean re

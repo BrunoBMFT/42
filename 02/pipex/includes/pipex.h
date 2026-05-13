@@ -32,16 +32,10 @@ typedef struct s_pipex
 	pid_t	*pids;
 }				t_pipex;
 
-
 char	*find_path(char **envp, char *com);
 void	error(int code);
 void	error2(char *str, int code, int *fd);
 bool	execute(char *arg, char **envp);
 void	close_fds_exit(int *fd);
-
-int		new_fork(t_pipex *pipex);
-void	*ft_calloc_pids(int size);
-int		run_waitpids(t_pipex *pipex);
-
 
 #endif
