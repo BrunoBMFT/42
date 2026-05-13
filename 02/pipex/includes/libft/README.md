@@ -1,2 +1,0 @@
-# libft_
-priv
