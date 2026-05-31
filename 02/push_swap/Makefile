@@ -29,6 +29,7 @@ $(LIBFT):
 	fi
 	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 
+
 clean:
 	@$(RM) $(OBJS_DIR)
 	@if [ -d "$(LIBFT_DIR)" ]; then \
@@ -42,10 +43,10 @@ fclean: clean
 	fi
 	@echo $(NAME) "fclean"
 
+re: fclean all
+
 uninstall:
 	@$(RM) $(LIBFT_DIR);
 	@echo "libft uninstalled"
 
-re:		fclean all
-
-.PHONY:	all uninstall clean fclean re
+.PHONY:	all clean fclean re uninstall
