@@ -66,8 +66,11 @@ void	move_player(t_vars *vars)
 	check_moves(vars, x, y);
 }
 
-int	handle_input(int keysym, t_vars *vars)
+int	handle_input(int keysym, void *void_vars)
 {
+	t_vars	*vars;
+
+	vars = void_vars;
 	if (keysym == XK_Escape)
 		clean(vars);
 	if (keysym == 'w' || keysym == 'd'

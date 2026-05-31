@@ -118,7 +118,7 @@ int		get_pixel(t_img *img, int x, int y);
 void	put_pixel(t_img *img, int x, int y, int color);
 
 int		handle_move(t_vars *vars);
-int		handle_input(int keysym, t_vars *vars);
+int		handle_input(int keysym, void *void_vars);
 void	move_player(t_vars *vars);
 void	check_moves(t_vars *vars, int x, int y);
 
