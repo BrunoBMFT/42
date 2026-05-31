@@ -75,14 +75,10 @@ int	main(int ac, char **av, char **envp)
 	if (pipe(fd) == -1)
 		error(1);
 	pid1 = fork();
-	if (pid1 < 0)
-		error(1);
-	else if (pid1 == 0)
+	if (pid1 == 0)
 		child1_process(fd, av, envp);
 	pid2 = fork();
-	if (pid2 < 0)
-		error(1);
-	else if (pid2 == 0)
+	if (pid2 == 0)
 		child2_process(fd, av, envp);
 	close(fd[WRITE]);
 	close(fd[READ]);
