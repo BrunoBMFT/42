@@ -12,6 +12,7 @@
 
 #ifndef STRUCTS_BONUS_H
 # define STRUCTS_BONUS_H
+# include <stdbool.h>
 
 typedef struct s_coord
 {

@@ -13,7 +13,7 @@
 #ifndef VALUES_H
 # define VALUES_H
 
-# define POSSIBLE "01NESWD"
+# define POSSIBLE_CHARS "01NESWD"
 # define WHITESPACE " \t\r\v\f"
 # define SCALE 16
 # define W_STEP 0.25

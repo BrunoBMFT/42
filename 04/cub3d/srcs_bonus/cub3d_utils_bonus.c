@@ -14,7 +14,8 @@
 
 bool	error(char *str)
 {
-	ft_printf_fd(2, "Error!\n%s\n", str);
+	ft_putendl_fd("Error!", 2);
+	ft_putendl_fd(str, 2);
 	return (false);
 }
 
@@ -51,9 +52,9 @@ int	clean_everything(t_data *data)
 	if (!data)
 		return (0);
 	if (data->file)
-		free_array(data->file);
+		ft_free_array(data->file);
 	if (data->map)
-		free_array(data->map);
+		ft_free_array(data->map);
 	clean_imgs(data);
 	if (data->frame.img)
 		mlx_destroy_image(data->mlx, data->frame.img);

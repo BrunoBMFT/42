@@ -22,7 +22,7 @@ void	walk_aux(t_data *data, float y_temp, float x_temp)
 	if ((data->map[map_y] && data->map[map_y][map_x]) &&
 		(data->map[map_y][map_x] != '1' &&
 		!(data->map[map_y][map_x] == 'D'
-		&& ft_is_even(data->door_opened))))
+		&& data->door_opened % 2 == 0)))
 	{
 		data->p_y = y_temp * SCALE;
 		data->p_x = x_temp * SCALE;
@@ -50,8 +50,11 @@ void	walk(t_data *data, int keysym)
 			data->p_x / SCALE + cos_value);
 }
 
-int	input(int keysym, t_data *data)
+int	input(int keysym, void *void_data)
 {
+	t_data *data;
+
+	data = void_data;
 	if (keysym == XK_Escape)
 	{
 		clean_everything(data);

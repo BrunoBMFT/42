@@ -48,8 +48,11 @@ void	walk(t_data *data, int keysym)
 			data->p_x / SCALE + cos_value);
 }
 
-int	input(int keysym, t_data *data)
+int	input(int keysym, void *void_data)
 {
+	t_data *data;
+
+	data = void_data;
 	if (keysym == XK_Escape)
 	{
 		clean_everything(data);

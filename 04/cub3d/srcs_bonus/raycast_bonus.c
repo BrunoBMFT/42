@@ -19,13 +19,12 @@ bool	hit_inter(t_data *data, float y, float x)
 
 	map_x = floor(x / SCALE);
 	map_y = floor(y / SCALE);
-	if (map_y < 0 || map_x < 0
-		|| map_y >= data->map_height
+	if (map_y >= data->map_height
 		|| map_x >= ft_strlen(data->map[map_y]))
 		return (false);
 	if (data->map[map_y][map_x] == '1'
 		|| (data->map[map_y][map_x] == 'D'
-		&& ft_is_even(data->door_opened)))
+		&& data->door_opened % 2 == 0))
 		return (false);
 	return (true);
 }

@@ -44,7 +44,7 @@ float	rad(float deg);
 void	create_frame(t_data *data);
 void	put_pixel(t_data *data, int y, int x, int color);
 int		get_pixel(t_img *img, int x, int y);
-int		input(int keysym, t_data *data);
+int		input(int keysym, void *void_data);
 bool	error(char *str);
 int		clean_everything(t_data *data);
 int		clean_exit(t_data *data);

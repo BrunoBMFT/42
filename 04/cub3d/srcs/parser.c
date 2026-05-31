@@ -21,7 +21,7 @@ bool	name_check(int ac, char **av)
 		return (error("Wrong number of arguments"));
 	len = ft_strlen(av[1]);
 	temp = av[1] + len - 4;
-	if (len < 5 || ft_strcmp(temp, ".cub"))
+	if (len < 5 || ft_strncmp(temp, ".cub", 4))
 		return (error("Name is wrong"));
 	return (true);
 }

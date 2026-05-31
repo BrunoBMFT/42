@@ -57,10 +57,10 @@ bool	is_enclosed(char **map, size_t y, size_t x)
 		|| x >= ft_strlen(map[y]) - 1
 		|| x >= ft_strlen(map[y - 1])
 		|| x >= ft_strlen(map[y + 1])
-		|| !ft_strchr(POSSIBLE, map[y - 1][x])
-		|| !ft_strchr(POSSIBLE, map[y + 1][x])
-		|| !ft_strchr(POSSIBLE, map[y][x + 1])
-		|| !ft_strchr(POSSIBLE, map[y][x - 1]))
+		|| !ft_strchr(POSSIBLE_CHARS, map[y - 1][x])
+		|| !ft_strchr(POSSIBLE_CHARS, map[y + 1][x])
+		|| !ft_strchr(POSSIBLE_CHARS, map[y][x + 1])
+		|| !ft_strchr(POSSIBLE_CHARS, map[y][x - 1]))
 		return (false);
 	return (true);
 }
