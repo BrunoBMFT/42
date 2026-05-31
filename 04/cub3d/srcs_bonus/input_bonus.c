@@ -52,7 +52,7 @@ void	walk(t_data *data, int keysym)
 
 int	input(int keysym, void *void_data)
 {
-	t_data *data;
+	t_data	*data;
 
 	data = void_data;
 	if (keysym == XK_Escape)
